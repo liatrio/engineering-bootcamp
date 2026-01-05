@@ -7,7 +7,8 @@ import (
 )
 
 func main() {
-	fmt.Println("=== Factory Pattern Demo: Database Connections ===\n")
+	fmt.Println("=== Factory Pattern Demo: Database Connections ===")
+	fmt.Println()
 
 	// Configuration
 	config := DatabaseConfig{

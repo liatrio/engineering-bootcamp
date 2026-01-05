@@ -2,9 +2,7 @@ module github.com/liatrio/devops-bootcamp/examples/ch11/classical-patterns/facto
 
 go 1.21
 
-require (
-	github.com/stretchr/testify v1.10.0
-)
+require github.com/stretchr/testify v1.10.0
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
