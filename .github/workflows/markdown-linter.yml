@@ -16,3 +16,4 @@ jobs:
           globs: |
             *.md
             **/*.md
+            !**/specs/**
