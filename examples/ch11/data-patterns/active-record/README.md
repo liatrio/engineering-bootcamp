@@ -88,7 +88,7 @@ The tests verify all CRUD operations and validation logic.
 ## Active Record vs Repository Pattern
 
 | Aspect | Active Record | Repository |
-|--------|--------------|------------|
+|--------|---------------|------------|
 | **Where is persistence logic?** | In the domain object | In a separate repository class |
 | **Testability** | Harder - objects coupled to database | Easier - can mock repository interface |
 | **Simplicity** | Simpler for CRUD operations | More abstraction overhead |

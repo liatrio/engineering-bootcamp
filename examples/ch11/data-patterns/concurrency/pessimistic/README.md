@@ -90,7 +90,7 @@ The tests verify transaction atomicity, rollback behavior, and deadlock preventi
 
 **The Problem**: Without locking, concurrent transfers can corrupt data:
 
-```
+```text
 Alice: $1000, Bob: $500
 
 Transaction 1: Transfer $300 from Alice to Bob
@@ -109,7 +109,7 @@ Result: Lost $300! 💸
 
 **The Solution**: Pessimistic locking prevents this:
 
-```
+```text
 Transaction 1: Acquires lock on Alice and Bob
   - Lock acquired
   - Read Alice: $1000
@@ -179,7 +179,7 @@ Our `Transfer()` method implements this by always locking accounts in ID order.
 ## Comparison: Optimistic vs Pessimistic
 
 | Aspect | Optimistic | Pessimistic |
-|--------|-----------|-------------|
+|--------|------------|-------------|
 | **Assumption** | Conflicts are rare | Conflicts are common |
 | **Lock timing** | No lock until write | Lock on read |
 | **Concurrency** | High (no blocking) | Lower (blocking) |

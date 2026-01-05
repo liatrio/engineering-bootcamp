@@ -273,6 +273,20 @@ docs/11-application-development/11.2.1-solid-principles.md:
       estMinutes: 45
       technologies:
         - Python
+docs/11-application-development/11.2.2-data-layer-patterns.md:
+  category: Software Development
+  estReadingMinutes: 45
+  exercises:
+    - name: Refactor Direct Data Access to Repository Pattern
+      description: >-
+        Convert a tightly coupled application with direct database access
+        scattered throughout the codebase to use the Repository Pattern with
+        proper abstraction.
+      estMinutes: 90
+      technologies:
+        - Go
+        - SQLite
+        - Design Patterns
 docs/2-Github/2.2-Actions.md:
   category: CI/CD
   estReadingMinutes: 20
