@@ -160,7 +160,8 @@
     "examples/**",
     "fontawesome/**",
     "img/**",
-    "node_modules/**"
+    "node_modules/**",
+    "docs/specs/**"
   ],
   "ignoreRegExpList": ["\\S+[gG]ithub\\S*"],
   "features": {
