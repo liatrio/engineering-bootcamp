@@ -106,35 +106,62 @@ Implement comprehensive documentation for Strategy, Factory, Observer, and Decor
 
 ### [ ] 4.0 Create Integrated Refactoring Exercise (11.2.5)
 
-Implement comprehensive refactoring exercise with starter application containing deliberate design flaws, guided analysis, reference solution, and passing test suite.
+Implement comprehensive refactoring exercise with TypeScript e-commerce starter application containing deliberate design flaws (God Object, if/else chains, tight coupling), comprehensive behavior-based test suite, guided analysis, and reference solution demonstrating Strategy, Repository, and Service Layer patterns.
 
 #### 4.0 Proof Artifact(s)
 
-- Documentation: `docs/11-application-development/11.2.5-refactoring-exercise.md` exists with complete instructions, setup steps, and guided workflow
-- Research Notes: `examples/ch11/refactoring-exercise/research-notes.md` documents evaluated OSS projects and selection rationale (or justification for building from scratch)
-- Starter Application: `examples/ch11/refactoring-exercise/starter/` contains deliberately flawed code with passing tests, README, and appropriate structure (src/, tests/, pyproject.toml or equivalent)
-- Analysis Guide: `examples/ch11/refactoring-exercise/analysis-guide.md` documents specific anti-patterns and SOLID violations for students to identify
-- Reference Solution: `examples/ch11/refactoring-exercise/solution/` contains refactored implementation with passing tests and README explaining pattern applications
-- CLI: Test suite passes on starter code demonstrates baseline functionality
-- CLI: Test suite passes on solution code with same business behavior demonstrates successful refactoring
-- Diff: Comparison between starter and solution clearly shows Repository, Service Layer, and Strategy/Factory pattern applications demonstrates pedagogical value
+- Documentation: `docs/11-application-development/11.2.5-refactoring-exercise.md` exists with 5-phase structure (Analysis/Planning/Implementation/Verification/Comparison), front-matter, setup steps, and 180-minute exercise estimate
+- Research Notes: `examples/ch11/refactoring-exercise/research-notes.md` documents OSS project evaluation and justification for custom TypeScript build based on pedagogical control and licensing freedom
+- Starter Application: `examples/ch11/refactoring-exercise/starter/` contains TypeScript application with package.json, tsconfig.json, jest.config.js, src/routes.ts (450-line God Object), behavior-based tests, and README
+- Analysis Guide: `examples/ch11/refactoring-exercise/analysis-guide.md` includes metrics collection, SOLID violations with specific line numbers, code smell checklist, and phase-by-phase refactoring roadmap
+- Starter Tests Pass: `cd starter && npm test` passes all tests demonstrating baseline functionality with order creation, payment processing (CreditCard/PayPal/Bitcoin), and inventory management
+- Solution Application: `examples/ch11/refactoring-exercise/solution/` contains refactored implementation with strategies/, repositories/, services/, factories/, routes/ directories and same test suite
+- Solution Tests Pass: `cd solution && npm test` passes all tests with SAME test files demonstrating behavior preservation
+- Extension Test: Adding ApplePayPayment.ts in solution requires zero modifications to existing files demonstrating Open/Closed Principle
+- Metrics Documented: Solution README includes before/after metrics (routes.ts: 450 lines → 20 lines, files: 4 → 20+, to add Apple Pay: modify 3 files → create 1 file)
+- CLI: `npm start` serves documentation with 11.2.5 accessible and properly formatted
 
 #### 4.0 Tasks
 
-- [ ] 4.1 Research open-source e-commerce or similar applications with known design issues, evaluating 3-5 candidates for complexity, anti-patterns, existing tests, and pedagogical value
-- [ ] 4.2 Create `examples/ch11/refactoring-exercise/research-notes.md` documenting evaluated projects, selection criteria, decision rationale, or justification for building from scratch if no suitable project found
-- [ ] 4.3 Create or adapt starter application in `examples/ch11/refactoring-exercise/starter/` with realistic domain (e.g., e-commerce order processing), deliberately introduced design issues (mixed concerns, tight coupling, SOLID violations), and appropriate language structure (Python with pyproject.toml recommended)
-- [ ] 4.4 Create comprehensive test suite for starter application covering business behavior (order creation, payment processing, inventory management, etc.) that must pass before refactoring begins
-- [ ] 4.5 Create `examples/ch11/refactoring-exercise/starter/README.md` with setup instructions, how to run the application, how to run tests, and clear description of what the application does
-- [ ] 4.6 Create `examples/ch11/refactoring-exercise/analysis-guide.md` documenting specific anti-patterns to identify (direct database access, god objects, no interfaces), SOLID violations (SRP, OCP, DIP), and guiding questions for students
-- [ ] 4.7 Create reference solution in `examples/ch11/refactoring-exercise/solution/` applying Repository pattern (data access), Service Layer (orchestration), and Strategy or Factory pattern (flexibility) with same test suite
-- [ ] 4.8 Create `examples/ch11/refactoring-exercise/solution/README.md` explaining refactoring decisions, which patterns were applied where, and how the design improved (testability, maintainability, flexibility)
-- [ ] 4.9 Create documentation file `docs/11-application-development/11.2.5-refactoring-exercise.md` with front-matter (category: Application Development, technologies: Python/Git/Design Patterns, estReadingMinutes: 20, exercise: 120 minutes)
-- [ ] 4.10 Write exercise instructions including objectives, setup steps, analysis workflow (identify issues → plan refactoring → apply patterns → verify tests), and git commit message guidelines
-- [ ] 4.11 Write section on how to approach the refactoring (start with data layer, then service layer, then flexibility patterns) with incremental verification
-- [ ] 4.12 Verify starter application tests pass with appropriate test command (e.g., `uv run pytest`)
-- [ ] 4.13 Verify solution application tests pass with same test command demonstrating preserved business behavior
-- [ ] 4.14 Compare starter and solution codebases to verify clear application of Repository, Service Layer, and Strategy/Factory patterns and document differences
+**Research and Decision (2 tasks)**
+- [ ] 4.1 Research open-source e-commerce TypeScript/Node.js applications evaluating 3-5 candidates using scoring rubric: Technical Fit (40pts), Educational Fit (30pts), Practical (30pts), threshold 70+ for OSS use
+- [ ] 4.2 Create `research-notes.md` documenting evaluated projects, scoring, and decision rationale (recommended: build custom for pedagogical control, licensing, bootcamp integration)
+
+**Starter Application (6 tasks)**
+- [ ] 4.3 Create starter structure with package.json (express, sqlite3, typescript, jest, supertest), tsconfig.json (strict), jest.config.js, schema.sql (products, customers, orders, order_items with seed data)
+- [ ] 4.4 Create `starter/src/` with index.ts, routes.ts (450-line God Object with POST /orders), database.ts, types.ts (Product, Customer, Order, OrderItem, CreateOrderRequest interfaces)
+- [ ] 4.5 Implement anti-patterns in routes.ts: direct validation (lines 15-25), if/else chains for payment types - credit_card (3%), paypal (3.5%), bitcoin ($1.50) (lines 50-70), if/else chains for shipping - standard ($5.99, 7d), express ($12.99, 3d), overnight ($24.99, 1d) (lines 75-90), direct SQLite queries (lines 30-110)
+- [ ] 4.6 Create behavior-based test suite in `starter/tests/` with order-creation.test.ts, payment.test.ts (3 payment types), inventory.test.ts validating outcomes not implementation
+- [ ] 4.7 Create `starter/README.md` with sections: Overview, Setup (npm install/db:init/dev), Running Tests, Testing API (curl example), Your Task (reference analysis-guide.md), Success Criteria
+- [ ] 4.8 Create `analysis-guide.md` with Step 1: Metrics (LOC/function count commands), Step 2: SOLID Violations (SRP/OCP/DIP with line numbers), Step 3: Code Smells (God Object, if/else chains), Step 4: Testability, Step 5: Refactoring Roadmap (5 phases), Step 6: Verification checklist
+
+**Reference Solution (8 tasks)**
+- [ ] 4.9 Create solution structure with src/strategies/payment/ (IPaymentStrategy.ts, CreditCardPayment.ts, PayPalPayment.ts, BitcoinPayment.ts) and src/strategies/shipping/ (IShippingStrategy.ts, StandardShipping.ts, ExpressShipping.ts, OvernightShipping.ts)
+- [ ] 4.10 Create Repository Pattern in solution/src/repositories/ with IOrderRepository.ts, OrderRepository.ts (SQLite impl), IProductRepository.ts, ProductRepository.ts
+- [ ] 4.11 Create Service Layer in solution/src/services/ with ValidationService.ts, InventoryService.ts (uses ProductRepository), OrderService.ts (orchestrates validation, inventory, payment strategy, shipping strategy, repositories)
+- [ ] 4.12 Create Factory Pattern in solution/src/factories/ with PaymentStrategyFactory.ts (getStrategy, registerStrategy), ShippingStrategyFactory.ts
+- [ ] 4.13 Create thin HTTP layer in solution/src/routes/orderRoutes.ts (20 lines: parse request, call orderService.createOrder(), format response, handle errors)
+- [ ] 4.14 Create dependency injection wiring in solution/src/index.ts (instantiate Database, repositories, factories, services, routes with injection)
+- [ ] 4.15 Copy test suite from starter to solution/tests/ (SAME files: order-creation.test.ts, payment.test.ts, inventory.test.ts with NO modifications)
+- [ ] 4.16 Create `solution/README.md` with Architecture Overview (before/after diagrams), Pattern Applications (Strategy: OCP with Apple Pay, Repository: DIP with PostgreSQL swap, Service Layer: SRP with testability), Before/After Metrics (450 lines → 20 lines)
+
+**Documentation (11 tasks)**
+- [ ] 4.17 Create `docs/11-application-development/11.2.5-refactoring-exercise.md` with front-matter (category: Software Development, estReadingMinutes: 20, exercises: 180 minutes, technologies: TypeScript/Design Patterns)
+- [ ] 4.18 Write Overview, Learning Objectives (identify SOLID violations, apply patterns, verify behavior, measure success), Prerequisites (links to 11.2.1-11.2.4), Domain Description (e-commerce features, starter architecture diagram)
+- [ ] 4.19 Write Phase 1: Code Analysis (Task 1.1: Complete analysis-guide.md, Task 1.2: Draw architecture diagram, Task 1.3: Document Apple Pay changes required)
+- [ ] 4.20 Write Phase 2: Planning (Task 2.1: Define IPaymentStrategy/IShippingStrategy/IOrderRepository/IProductRepository, Task 2.2: Plan refactoring order, Task 2.3: Set up directories)
+- [ ] 4.21 Write Phase 3: Implementation (Tasks 3.1-3.6: Strategy Pattern for payments/shipping, Repository Pattern, Service Layer, thin routes, DI wiring with test-your-progress checkpoints)
+- [ ] 4.22 Write Phase 4: Verification (Task 4.1: Run tests, Task 4.2: Compare metrics, Task 4.3: Extension Test for Apple Pay, Task 4.4: Testability Assessment)
+- [ ] 4.23 Write Phase 5: Comparing Solutions (Task 5.1: Review reference, Task 5.2: Compare architectures, Task 5.3: Diff key files)
+- [ ] 4.24 Add Git Workflow (8-commit strategy, refactor: prefix templates with SOLID principles/patterns/benefits/tests)
+- [ ] 4.25 Add Success Criteria checklist (tests pass, routes.ts <50 lines, Apple Pay one file, test OrderService without database, no if/else chains)
+- [ ] 4.26 Add Reflection Questions (5 questions: improvements, complexity trade-offs, real-world, pattern selection, testing impact)
+- [ ] 4.27 Add Additional Challenges (Challenge 1: Apple Pay 4% fee, Challenge 2: Discount strategy, Challenge 3: PostgreSQL swap, Challenge 4: API v2 versioning)
+
+**Verification (3 tasks)**
+- [ ] 4.28 Verify starter: Run `cd starter && npm install && npm test` confirming all tests pass (exit 0) with order creation, payment calculations, inventory management
+- [ ] 4.29 Verify solution: Run `cd solution && npm install && npm test` confirming all tests pass with SAME test files demonstrating behavior preservation
+- [ ] 4.30 Verify extension: Create `solution/src/strategies/payment/ApplePayPayment.ts` with 4% fee, register in factory, run tests confirming zero modifications to existing files (OCP demonstrated)
 
 ### [ ] 5.0 Update Navigation and Integration
 
