@@ -36,5 +36,8 @@
     "code-block-style": false,
     "no-emphasis-as-heading": false,
     "no-duplicate-heading": false,
-    "heading-increment": false
+    "heading-increment": false,
+    "MD022": false,
+    "MD040": false,
+    "MD060": false
 }

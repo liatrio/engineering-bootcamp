@@ -273,6 +273,20 @@ docs/11-application-development/11.2.1-solid-principles.md:
       estMinutes: 45
       technologies:
         - Python
+docs/11-application-development/11.2.5-refactoring-exercise.md:
+  category: Software Development
+  estReadingMinutes: 20
+  exercises:
+    - name: Integrated Refactoring Exercise
+      description: >-
+        Refactor an e-commerce application using Repository Pattern, Service
+        Layer, and Strategy Pattern while preserving all business behavior
+        through comprehensive testing.
+      estMinutes: 180
+      technologies:
+        - TypeScript
+        - Design Patterns
+        - SQLite
 docs/2-Github/2.2-Actions.md:
   category: CI/CD
   estReadingMinutes: 20
