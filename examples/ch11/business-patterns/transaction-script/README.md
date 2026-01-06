@@ -26,7 +26,7 @@ This example demonstrates the **Transaction Script** pattern for organizing busi
 
 ## Project Structure
 
-```
+```text
 transaction-script/
 ├── src/
 │   ├── order-processing.ts    # Transaction scripts for orders
@@ -143,7 +143,8 @@ npm start
 ```
 
 Expected output:
-```
+
+```text
 ============================================================
 Transaction Script Pattern - Order Processing Demo
 ============================================================
@@ -172,7 +173,7 @@ Tests cover:
 ## Comparison with Domain Model
 
 | Aspect | Transaction Script | Domain Model |
-|--------|-------------------|--------------|
+| ------ | ------------------ | ------------ |
 | Complexity | Low | Higher |
 | Code Organization | Procedural functions | Object-oriented classes |
 | Reusability | Limited | High |

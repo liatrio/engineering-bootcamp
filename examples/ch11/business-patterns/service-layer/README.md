@@ -27,7 +27,7 @@ This example demonstrates the **Service Layer** pattern for organizing applicati
 
 ## Project Structure
 
-```
+```text
 service-layer/
 ├── src/
 │   ├── domain/
@@ -46,7 +46,7 @@ service-layer/
 
 ## Architecture Layers
 
-```
+```text
 ┌─────────────────────────────────────┐
 │     Presentation Layer (API/UI)     │
 ├─────────────────────────────────────┤
@@ -199,7 +199,7 @@ The demo shows:
 
 Expected output:
 
-```
+```text
 ======================================================================
 Service Layer Pattern - Order Processing Demo
 ======================================================================
@@ -239,7 +239,7 @@ Tests demonstrate:
 ## Service Layer vs Other Patterns
 
 | Aspect | Service Layer | Transaction Script | Domain Model |
-|--------|--------------|-------------------|--------------|
+| ------ | ------------- | ------------------ | ------------ |
 | **Purpose** | Orchestration | Business logic | Business logic |
 | **Scope** | Application operations | Single transactions | Domain concepts |
 | **Coordinates** | Multiple objects | Procedural flow | Rich objects |

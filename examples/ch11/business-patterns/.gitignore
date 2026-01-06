@@ -1,0 +1,9 @@
+# Dependencies
+*/node_modules/
+*/dist/
+
+# Test coverage
+*/coverage/
+
+# Build artifacts
+*.log

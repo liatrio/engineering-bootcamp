@@ -27,7 +27,7 @@ This example demonstrates **the same business problem solved with both Transacti
 
 ## Project Structure
 
-```
+```text
 comparison/
 ├── src/
 │   ├── transaction-script/
@@ -155,7 +155,7 @@ The demo shows both approaches side-by-side for multiple test cases:
 
 Example output:
 
-```
+```text
 ======================================================================
 Transaction Script vs Domain Model - Discount Calculation
 ======================================================================
@@ -194,7 +194,7 @@ Tests verify that:
 ### Code Organization
 
 | Aspect | Transaction Script | Domain Model |
-|--------|-------------------|--------------|
+| ------ | ------------------ | ------------ |
 | **Structure** | Functions | Classes + Interfaces |
 | **Coupling** | Functions call each other | Objects collaborate |
 | **Extensibility** | Modify functions | Add new strategies |

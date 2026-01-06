@@ -27,7 +27,7 @@ This example demonstrates the **Domain Model** pattern for organizing business l
 
 ## Project Structure
 
-```
+```text
 domain-model/
 ├── src/
 │   ├── customer.ts    # Customer domain object
@@ -205,7 +205,8 @@ npm start
 ```
 
 Expected output:
-```
+
+```text
 ============================================================
 Domain Model Pattern - Order Processing Demo
 ============================================================
@@ -241,7 +242,7 @@ Tests cover:
 ## Comparison with Transaction Script
 
 | Aspect | Domain Model | Transaction Script |
-|--------|--------------|-------------------|
+| ------ | ------------ | ------------------ |
 | Organization | Objects with behavior | Procedural functions |
 | Complexity | Higher | Lower |
 | Reusability | Excellent | Limited |
