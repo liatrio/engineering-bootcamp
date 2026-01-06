@@ -1,5 +1,5 @@
-import express, { Request, Response, Router } from 'express';
-import { db, dbRun, dbGet, dbAll } from './database';
+import { Request, Response, Router } from 'express';
+import { dbRun, dbGet, dbAll } from './database';
 import { 
   CreateOrderRequest, 
   CreateOrderResponse, 
@@ -334,7 +334,7 @@ router.get('/orders/:id', async (req: Request, res: Response) => {
 // GET /products - List all products
 // Anti-pattern: Direct database query in route handler
 // ============================================================================
-router.get('/products', async (req: Request, res: Response) => {
+router.get('/products', async (_req: Request, res: Response) => {
   try {
     const products = await dbAll<Product>(
       'SELECT * FROM products WHERE stock_quantity > 0 ORDER BY name'

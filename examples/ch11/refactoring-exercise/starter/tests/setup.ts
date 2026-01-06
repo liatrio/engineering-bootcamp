@@ -4,6 +4,36 @@ import path from 'path';
 
 // Setup function to reset database before each test
 export async function setupDatabase(): Promise<void> {
+  // Drop tables if they exist
+  await new Promise<void>((resolve, reject) => {
+    db.run('DROP TABLE IF EXISTS order_items', (err) => {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
+  
+  await new Promise<void>((resolve, reject) => {
+    db.run('DROP TABLE IF EXISTS orders', (err) => {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
+  
+  await new Promise<void>((resolve, reject) => {
+    db.run('DROP TABLE IF EXISTS customers', (err) => {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
+  
+  await new Promise<void>((resolve, reject) => {
+    db.run('DROP TABLE IF EXISTS products', (err) => {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
+
+  // Read and execute schema
   const schemaPath = path.join(__dirname, '..', 'schema.sql');
   const schema = fs.readFileSync(schemaPath, 'utf-8');
   

@@ -10,4 +10,5 @@ module.exports = {
   coverageDirectory: 'coverage',
   verbose: true,
   setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
+  maxWorkers: 1,  // Run tests serially to avoid database conflicts
 };
