@@ -66,6 +66,18 @@ The bootcamp uses a sophisticated front-matter system to track learning metrics:
 - Front-matter must follow the specified YAML template for exercises
 - Multi-column layouts available using `grid2`, `grid3`, `grid4` CSS classes
 
+### Adding Quizzes
+
+Quiz files go in `src/quizzes/chapter-N/N.X/quiz-name.js`. To embed a quiz in markdown:
+
+```html
+<div class="quizdown">
+  <div id="chapter-N/N.X/quiz-name.js"></div>
+</div>
+```
+
+The `id` attribute should match the path relative to `src/quizzes/`. Do NOT use inline scripts or import statements.
+
 ## Pre-commit Hooks
 
 - Husky is configured to run front-matter validation before commits
