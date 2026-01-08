@@ -26,72 +26,86 @@ func TestSQLiteUserRepository(t *testing.T) {
 }
 
 func testUserRepository(t *testing.T, repo UserRepository) {
-	// Test Create
-	user := &User{Name: "Test User", Email: "test@example.com"}
-	err := repo.Create(user)
+	// Test Create - returns new user with ID set
+	created, err := repo.Create(&User{Name: "Test User", Email: "test@example.com"})
 	if err != nil {
 		t.Fatalf("Create failed: %v", err)
 	}
-	if user.ID == 0 {
+	if created.ID == 0 {
 		t.Error("Expected user ID to be set after create")
 	}
-	
+
+	// Test that input wasn't mutated
+	input := &User{Name: "Test Input", Email: "testinput@example.com"}
+	result, err := repo.Create(input)
+	if err != nil {
+		t.Fatalf("Create failed: %v", err)
+	}
+	if input.ID != 0 {
+		t.Error("Expected input to remain unchanged (ID should be 0)")
+	}
+	if result.ID == 0 {
+		t.Error("Expected returned user to have ID set")
+	}
+
 	// Test FindByID
-	found, err := repo.FindByID(user.ID)
+	found, err := repo.FindByID(created.ID)
 	if err != nil {
 		t.Fatalf("FindByID failed: %v", err)
 	}
-	if found.Name != user.Name || found.Email != user.Email {
-		t.Errorf("Expected %+v, got %+v", user, found)
+	if found.Name != created.Name || found.Email != created.Email {
+		t.Errorf("Expected %+v, got %+v", created, found)
 	}
-	
-	// Test Update
-	user.Name = "Updated User"
-	err = repo.Update(user)
+
+	// Test Update - returns updated user
+	updated, err := repo.Update(&User{ID: created.ID, Name: "Updated User", Email: created.Email})
 	if err != nil {
 		t.Fatalf("Update failed: %v", err)
 	}
-	
-	updated, err := repo.FindByID(user.ID)
+	if updated.Name != "Updated User" {
+		t.Errorf("Expected returned user name to be 'Updated User', got '%s'", updated.Name)
+	}
+
+	// Verify update persisted
+	fetched, err := repo.FindByID(created.ID)
 	if err != nil {
 		t.Fatalf("FindByID after update failed: %v", err)
 	}
-	if updated.Name != "Updated User" {
-		t.Errorf("Expected name to be 'Updated User', got '%s'", updated.Name)
+	if fetched.Name != "Updated User" {
+		t.Errorf("Expected name to be 'Updated User', got '%s'", fetched.Name)
 	}
-	
+
 	// Test FindAll
-	user2 := &User{Name: "Second User", Email: "second@example.com"}
-	err = repo.Create(user2)
+	_, err = repo.Create(&User{Name: "Second User", Email: "second@example.com"})
 	if err != nil {
 		t.Fatalf("Create second user failed: %v", err)
 	}
-	
+
 	users, err := repo.FindAll()
 	if err != nil {
 		t.Fatalf("FindAll failed: %v", err)
 	}
-	if len(users) != 2 {
-		t.Errorf("Expected 2 users, got %d", len(users))
+	if len(users) != 3 { // created, result, user2
+		t.Errorf("Expected 3 users, got %d", len(users))
 	}
-	
+
 	// Test Delete
-	err = repo.Delete(user.ID)
+	err = repo.Delete(created.ID)
 	if err != nil {
 		t.Fatalf("Delete failed: %v", err)
 	}
-	
-	_, err = repo.FindByID(user.ID)
+
+	_, err = repo.FindByID(created.ID)
 	if err == nil {
 		t.Error("Expected error when finding deleted user")
 	}
-	
+
 	// Test error cases
-	err = repo.Update(&User{ID: 999, Name: "Non-existent", Email: "none@example.com"})
+	_, err = repo.Update(&User{ID: 999, Name: "Non-existent", Email: "none@example.com"})
 	if err == nil {
 		t.Error("Expected error when updating non-existent user")
 	}
-	
+
 	err = repo.Delete(999)
 	if err == nil {
 		t.Error("Expected error when deleting non-existent user")

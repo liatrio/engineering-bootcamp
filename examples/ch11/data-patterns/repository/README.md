@@ -13,27 +13,61 @@ The Repository Pattern provides an abstraction layer between the business logic 
 
 ## Structure
 
-- `repository.go`: Defines the `UserRepository` interface and two implementations:
-  - `SQLiteUserRepository`: Uses SQLite database for persistence
-  - `InMemoryUserRepository`: Uses in-memory map for storage
-- `main.go`: Demonstrates using both implementations interchangeably
+This example follows Go best practices with a clear file structure:
+
+- `models.go`: Defines the `User` domain model
+- `service.go`: Defines the `UserRepository` interface and `UserService` business logic
+  - **Important**: The interface is defined where it's USED (in the service), not where it's implemented
+  - This follows Go's convention: "Accept interfaces, return structs"
+- `impl_sqlite.go`: SQLite implementation of UserRepository
+  - Uses SQLite database for persistence
+  - Implicitly satisfies the UserRepository interface
+- `impl_memory.go`: In-memory implementation of UserRepository
+  - Uses in-memory map for storage
+  - Implicitly satisfies the UserRepository interface
+- `main.go`: Demo code showing both implementations in action
 - `repository_test.go`: Tests both implementations through the same interface
 
+**Why this structure?** The `impl_` prefix makes implementations explicit and easy to identify. Each implementation is in its own file, making it clear that these are separate, interchangeable components that satisfy the same interface contract.
+
 ## Key Concepts
+
+### Immutability Over Mutation
+
+This implementation follows immutability principles: **Create and Update return new User objects instead of mutating inputs**.
+
+```go
+// Good: Returns new object, input unchanged
+created, err := repo.Create(&User{Name: "Alice", Email: "alice@example.com"})
+fmt.Println(created.ID)  // Has ID set
+
+// Bad alternative (not used here): Mutates input
+user := &User{Name: "Alice", Email: "alice@example.com"}
+repo.Create(user)  // user.ID now set (surprising side effect!)
+```
+
+**Why this approach?**
+
+1. **Principle of Least Surprise**: Callers don't expect their inputs to change
+2. **Concurrency Safety**: Immutability makes concurrent code safer
+3. **Testability**: Side effects complicate tests
+4. **Functional Programming**: Aligns with modern Go practices
+
+**Performance concerns?** For small structs like User (~24 bytes), the overhead is negligible (nanoseconds) compared to database I/O (milliseconds). Only consider mutation for truly large objects (megabytes) or extreme performance scenarios.
 
 ### Interface Abstraction
 
 ```go
 type UserRepository interface {
-    Create(user *User) error
+    Create(user *User) (*User, error)  // Returns new user with ID
     FindByID(id int) (*User, error)
     FindAll() ([]*User, error)
-    Update(user *User) error
+    Update(user *User) (*User, error)  // Returns updated user
     Delete(id int) error
 }
 ```
 
-The interface defines **what** operations are available, not **how** they're implemented.
+The interface defines **what** operations are available, not **how** they're implemented. Notice that Create and Update return new User objects, following immutability principles.
 
 ### Multiple Implementations
 
@@ -44,6 +78,23 @@ var repo UserRepository
 repo = NewInMemoryUserRepository()        // or
 repo = NewSQLiteUserRepository(db)        // Business logic doesn't care!
 ```
+
+### Implicit Interface Satisfaction (Go Convention)
+
+Unlike languages like C# or Java, Go uses **implicit interface satisfaction**. A type automatically satisfies an interface if it implements all required methods - no explicit declaration needed:
+
+```go
+// No "implements" keyword needed!
+// SQLiteUserRepository satisfies UserRepository because it has all the methods
+
+type SQLiteUserRepository struct { db *sql.DB }
+
+func (r *SQLiteUserRepository) Create(user *User) error { /* ... */ }
+func (r *SQLiteUserRepository) FindByID(id int) (*User, error) { /* ... */ }
+// ... etc
+```
+
+This is why we separate implementations into their own files with the `impl_` prefix - it makes the implicit relationship more explicit and easier to understand.
 
 ### Service Layer Integration
 
