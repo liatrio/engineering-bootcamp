@@ -22,7 +22,7 @@
 
 ## Tasks
 
-### [~] 1.0 Expand Context Engineering Coverage in Best Practices
+### [x] 1.0 Expand Context Engineering Coverage in Best Practices
 
 **Purpose:** Establish foundational understanding of context engineering by significantly expanding 3.1.4-ai-best-practices.md with comprehensive coverage of context windows, context rot, intentional compaction, and progressive disclosure techniques.
 
@@ -51,7 +51,7 @@
 - [x] 1.12 Run `npm run refresh-front-matter` and verify front-matter validation passes
 - [x] 1.13 Review updated file for clarity, beginner-appropriateness, and consistency with repository standards
 
-### [ ] 2.0 Replace Harper Reed Workflow with SDD Methodology
+### [x] 2.0 Replace Harper Reed Workflow with SDD Methodology
 
 **Purpose:** Transform 3.3.1-agentic-best-practices.md by replacing the existing Harper Reed workflow with Liatrio's complete four-stage SDD workflow, establishing structured AI-assisted development practices for beginners.
 
@@ -66,22 +66,22 @@
 
 #### 2.0 Tasks
 
-- [ ] 2.1 Read and analyze current 3.3.1-agentic-best-practices.md to identify sections to replace (lines ~21-91 containing Brainstorm Spec, Planning, Execution sections)
-- [ ] 2.2 Update the "Thoughtful AI Development" introduction section (lines ~13-19) to reference SDD methodology instead of Harper Reed workflow
-- [ ] 2.3 Replace "### 1. Brainstorm Spec" section (lines ~21-46) with "### 1. Generate Specification (SDD Stage 1)" covering: purpose of spec generation, clarifying questions process, creating developer-ready specifications, and link to Liatrio spec-driven-workflow repo (https://github.com/liatrio-labs/spec-driven-workflow)
-- [ ] 2.4 Add example spec generation prompt adapted for DevOps Bootcamp context (similar structure to existing example but emphasizing SDD principles)
-- [ ] 2.5 Replace "### 2. Planning" section (lines ~48-73) with "### 2. Task Breakdown (SDD Stage 2)" covering: breaking specs into demoable units, creating parent tasks with proof artifacts, identifying relevant files, and generating actionable sub-tasks
-- [ ] 2.6 Add example task breakdown showing parent task → sub-tasks → proof artifacts structure
-- [ ] 2.7 Replace "### 3. Execution" section (lines ~75-91) with "### 3. Execute with Management (SDD Stage 3)" covering: single-threaded execution, verification checkpoints, compaction triggers (reference 3.1.4), committing after each task, and maintaining proof artifacts
-- [ ] 2.8 Add new "### 4. Validate Implementation (SDD Stage 4)" section covering: validating against spec, reviewing proof artifacts, coverage matrix, and ensuring all requirements met
-- [ ] 2.9 Add new subsection under the SDD introduction embedding the "No Vibes Allowed" YouTube video (https://www.youtube.com/watch?v=IS_y40zY-hc) using Docsify syntax: `[video](https://www.youtube.com/watch?v=IS_y40zY-hc)` or iframe embed
-- [ ] 2.10 Add reference to alternative "No Vibes Allowed" recording (https://www.youtube.com/watch?v=rmvDxxNubIg) as additional viewing option
-- [ ] 2.11 Add cross-references to context engineering concepts from 3.1.4 in appropriate SDD stage descriptions (especially in Execute with Management section)
-- [ ] 2.12 Update front-matter estReadingMinutes to reflect restructured content (may increase from ~30 to ~35-40 minutes)
-- [ ] 2.13 Keep existing "Other Practical AI Techniques" section (lines ~93-236) unchanged as these complement the SDD workflow
-- [ ] 2.14 Update Deliverables section questions to reference SDD workflow stages instead of Harper Reed workflow
-- [ ] 2.15 Run `npm run lint docs/3-AI-Engineering/3.3.1-agentic-best-practices.md` and fix any linting errors
-- [ ] 2.16 Review for consistency with beginner audience, clarity of SDD concepts, and logical flow
+- [x] 2.1 Read and analyze current 3.3.1-agentic-best-practices.md to identify sections to replace (lines ~21-91 containing Brainstorm Spec, Planning, Execution sections)
+- [x] 2.2 Update the "Thoughtful AI Development" introduction section (lines ~13-19) to reference SDD methodology instead of Harper Reed workflow
+- [x] 2.3 Replace "### 1. Brainstorm Spec" section (lines ~21-46) with "### 1. Generate Specification (SDD Stage 1)" covering: purpose of spec generation, clarifying questions process, creating developer-ready specifications, and link to Liatrio spec-driven-workflow repo (https://github.com/liatrio-labs/spec-driven-workflow)
+- [x] 2.4 Add example spec generation prompt adapted for DevOps Bootcamp context (similar structure to existing example but emphasizing SDD principles)
+- [x] 2.5 Replace "### 2. Planning" section (lines ~48-73) with "### 2. Task Breakdown (SDD Stage 2)" covering: breaking specs into demoable units, creating parent tasks with proof artifacts, identifying relevant files, and generating actionable sub-tasks
+- [x] 2.6 Add example task breakdown showing parent task → sub-tasks → proof artifacts structure
+- [x] 2.7 Replace "### 3. Execution" section (lines ~75-91) with "### 3. Execute with Management (SDD Stage 3)" covering: single-threaded execution, verification checkpoints, compaction triggers (reference 3.1.4), committing after each task, and maintaining proof artifacts
+- [x] 2.8 Add new "### 4. Validate Implementation (SDD Stage 4)" section covering: validating against spec, reviewing proof artifacts, coverage matrix, and ensuring all requirements met
+- [x] 2.9 Add new subsection under the SDD introduction embedding the "No Vibes Allowed" YouTube video (https://www.youtube.com/watch?v=IS_y40zY-hc) using Docsify syntax: `[video](https://www.youtube.com/watch?v=IS_y40zY-hc)` or iframe embed
+- [x] 2.10 Add reference to alternative "No Vibes Allowed" recording (https://www.youtube.com/watch?v=rmvDxxNubIg) as additional viewing option
+- [x] 2.11 Add cross-references to context engineering concepts from 3.1.4 in appropriate SDD stage descriptions (especially in Execute with Management section)
+- [x] 2.12 Update front-matter estReadingMinutes to reflect restructured content (may increase from ~30 to ~35-40 minutes)
+- [x] 2.13 Keep existing "Other Practical AI Techniques" section (lines ~93-236) unchanged as these complement the SDD workflow
+- [x] 2.14 Update Deliverables section questions to reference SDD workflow stages instead of Harper Reed workflow
+- [x] 2.15 Run `npm run lint docs/3-AI-Engineering/3.3.1-agentic-best-practices.md` and fix any linting errors
+- [x] 2.16 Review for consistency with beginner audience, clarity of SDD concepts, and logical flow
 
 ### [ ] 3.0 Update Quiz Content for Modern Practices
 

@@ -386,7 +386,7 @@ docs/3-AI-Engineering/3.3-best-practices.md:
   estReadingMinutes: 5
 docs/3-AI-Engineering/3.3.1-agentic-best-practices.md:
   category: AI Engineering
-  estReadingMinutes: 30
+  estReadingMinutes: 40
 docs/3-AI-Engineering/3.3.2-agentic-ide.md:
   category: AI Engineering
   estReadingMinutes: 20
