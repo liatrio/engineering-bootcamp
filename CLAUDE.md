@@ -20,8 +20,8 @@ This is Liatrio's DevOps Bootcamp - a comprehensive educational resource built w
 
 ### Docker Development
 
-- `docker build . -t devops-bootcamp` - Build Docker image
-- `docker run -d -p 3000:3000 --name devops-bootcamp devops-bootcamp` - Run container
+- `docker build . -t engineering-bootcamp` - Build Docker image
+- `docker run -d -p 3000:3000 --name engineering-bootcamp engineering-bootcamp` - Run container
 - `docker compose up -d` - Start with Docker Compose
 - `docker compose down` - Stop Docker Compose
 

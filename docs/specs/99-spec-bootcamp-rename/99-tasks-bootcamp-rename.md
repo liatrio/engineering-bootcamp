@@ -24,7 +24,7 @@
 
 ## Tasks
 
-### [~] 1.0 Update User-Facing Branding in HTML and Configuration
+### [x] 1.0 Update User-Facing Branding in HTML and Configuration
 
 Update all user-visible branding elements in index.html from "DevOps Bootcamp" to "Engineering Bootcamp" while preserving "DevOps" terminology in technical contexts throughout documentation content.
 
@@ -49,7 +49,7 @@ Update all user-visible branding elements in index.html from "DevOps Bootcamp" t
 - [x] 1.11 Run `grep -ri "DevOps Bootcamp" docs/ --exclude-dir=specs` and verify remaining occurrences are only in appropriate technical contexts
 - [x] 1.12 Stop the local server (Ctrl+C)
 
-### [ ] 2.0 Update Technical Identifiers in Package Configuration
+### [~] 2.0 Update Technical Identifiers in Package Configuration
 
 Update package.json name and description fields, and update all Docker-related documentation from "devops-bootcamp" to "engineering-bootcamp".
 
@@ -61,16 +61,16 @@ Update package.json name and description fields, and update all Docker-related d
 
 #### 2.0 Tasks
 
-- [ ] 2.1 Read `package.json` to understand current name and description fields
-- [ ] 2.2 Update `package.json` "name" field from "devops-bootcamp" to "engineering-bootcamp"
-- [ ] 2.3 Update `package.json` "description" field from "Liatrio DevOps Bootcamp" to "Liatrio Engineering Bootcamp"
-- [ ] 2.4 Run `cat package.json | grep -E '(name|description)'` to verify updates
-- [ ] 2.5 Run `npm install` to verify package changes are valid and don't break dependencies
-- [ ] 2.6 Read `CLAUDE.md` to locate all Docker command examples
-- [ ] 2.7 Update Docker commands in CLAUDE.md from "devops-bootcamp" to "engineering-bootcamp" (e.g., `docker build . -t devops-bootcamp` becomes `docker build . -t engineering-bootcamp`)
-- [ ] 2.8 Update Docker run commands in CLAUDE.md from "devops-bootcamp" to "engineering-bootcamp" (e.g., `docker run -d -p 3000:3000 --name devops-bootcamp devops-bootcamp` becomes `docker run -d -p 3000:3000 --name engineering-bootcamp engineering-bootcamp`)
-- [ ] 2.9 Verify all Docker command references in CLAUDE.md have been updated by searching for "devops-bootcamp" in the file
-- [ ] 2.10 Read updated sections of CLAUDE.md to confirm Docker commands are accurate
+- [x] 2.1 Read `package.json` to understand current name and description fields
+- [x] 2.2 Update `package.json` "name" field from "devops-bootcamp" to "engineering-bootcamp"
+- [x] 2.3 Update `package.json` "description" field from "Liatrio DevOps Bootcamp" to "Liatrio Engineering Bootcamp"
+- [x] 2.4 Run `cat package.json | grep -E '(name|description)'` to verify updates
+- [x] 2.5 Run `npm install` to verify package changes are valid and don't break dependencies
+- [x] 2.6 Read `CLAUDE.md` to locate all Docker command examples
+- [x] 2.7 Update Docker commands in CLAUDE.md from "devops-bootcamp" to "engineering-bootcamp" (e.g., `docker build . -t devops-bootcamp` becomes `docker build . -t engineering-bootcamp`)
+- [x] 2.8 Update Docker run commands in CLAUDE.md from "devops-bootcamp" to "engineering-bootcamp" (e.g., `docker run -d -p 3000:3000 --name devops-bootcamp devops-bootcamp` becomes `docker run -d -p 3000:3000 --name engineering-bootcamp engineering-bootcamp`)
+- [x] 2.9 Verify all Docker command references in CLAUDE.md have been updated by searching for "devops-bootcamp" in the file
+- [x] 2.10 Read updated sections of CLAUDE.md to confirm Docker commands are accurate
 
 ### [ ] 3.0 Update Introductory and Project Documentation Content
 
