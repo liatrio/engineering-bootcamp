@@ -22,34 +22,42 @@ func setupTestRepo(t *testing.T) *ProductRepository {
 
 func TestCreate(t *testing.T) {
 	repo := setupTestRepo(t)
-	
+
 	product := &Product{Name: "Test Product", Quantity: 100}
-	err := repo.Create(product)
-	
+	createdProduct, err := repo.Create(product)
+
 	if err != nil {
 		t.Fatalf("Create failed: %v", err)
 	}
-	
-	if product.ID == 0 {
+
+	if createdProduct.ID == 0 {
 		t.Error("Expected product ID to be set")
 	}
-	
-	if product.Version != 1 {
-		t.Errorf("Expected initial version to be 1, got %d", product.Version)
+
+	if createdProduct.Version != 1 {
+		t.Errorf("Expected initial version to be 1, got %d", createdProduct.Version)
+	}
+
+	// Verify immutability: original product should not be modified
+	if product.ID != 0 {
+		t.Error("Expected original product ID to remain 0 (immutability)")
 	}
 }
 
 func TestFindByID(t *testing.T) {
 	repo := setupTestRepo(t)
-	
+
 	product := &Product{Name: "Test Product", Quantity: 100}
-	repo.Create(product)
-	
+	product, err := repo.Create(product)
+	if err != nil {
+		t.Fatalf("Create failed: %v", err)
+	}
+
 	found, err := repo.FindByID(product.ID)
 	if err != nil {
 		t.Fatalf("FindByID failed: %v", err)
 	}
-	
+
 	if found.Name != product.Name || found.Quantity != product.Quantity {
 		t.Errorf("Expected %+v, got %+v", product, found)
 	}
@@ -57,22 +65,26 @@ func TestFindByID(t *testing.T) {
 
 func TestUpdate_Success(t *testing.T) {
 	repo := setupTestRepo(t)
-	
+
 	product := &Product{Name: "Test Product", Quantity: 100}
-	repo.Create(product)
-	
+	var err error
+	product, err = repo.Create(product)
+	if err != nil {
+		t.Fatalf("Create failed: %v", err)
+	}
+
 	initialVersion := product.Version
 	product.Quantity = 90
-	
-	err := repo.Update(product)
+
+	product, err = repo.Update(product)
 	if err != nil {
 		t.Fatalf("Update failed: %v", err)
 	}
-	
+
 	if product.Version != initialVersion+1 {
 		t.Errorf("Expected version to increment to %d, got %d", initialVersion+1, product.Version)
 	}
-	
+
 	// Verify in database
 	updated, _ := repo.FindByID(product.ID)
 	if updated.Quantity != 90 {
@@ -82,24 +94,28 @@ func TestUpdate_Success(t *testing.T) {
 
 func TestUpdate_ConcurrentModificationDetection(t *testing.T) {
 	repo := setupTestRepo(t)
-	
+
 	product := &Product{Name: "Test Product", Quantity: 100}
-	repo.Create(product)
-	
+	var err error
+	product, err = repo.Create(product)
+	if err != nil {
+		t.Fatalf("Create failed: %v", err)
+	}
+
 	// Two users read the same product
 	user1, _ := repo.FindByID(product.ID)
 	user2, _ := repo.FindByID(product.ID)
-	
+
 	// User 1 updates successfully
 	user1.Quantity = 90
-	err := repo.Update(user1)
+	user1, err = repo.Update(user1)
 	if err != nil {
 		t.Fatalf("User 1 update should succeed: %v", err)
 	}
-	
+
 	// User 2 tries to update with old version - should fail
 	user2.Quantity = 85
-	err = repo.Update(user2)
+	_, err = repo.Update(user2)
 	if err == nil {
 		t.Error("User 2 update should fail due to concurrent modification")
 	}
@@ -113,19 +129,23 @@ func TestUpdate_ConcurrentModificationDetection(t *testing.T) {
 
 func TestSafeUpdate_Success(t *testing.T) {
 	repo := setupTestRepo(t)
-	
+
 	product := &Product{Name: "Test Product", Quantity: 100}
-	repo.Create(product)
-	
-	err := repo.SafeUpdate(product.ID, func(p *Product) error {
+	var err error
+	product, err = repo.Create(product)
+	if err != nil {
+		t.Fatalf("Create failed: %v", err)
+	}
+
+	_, err = repo.SafeUpdate(product.ID, func(p *Product) error {
 		p.Quantity -= 10
 		return nil
 	})
-	
+
 	if err != nil {
 		t.Fatalf("SafeUpdate failed: %v", err)
 	}
-	
+
 	updated, _ := repo.FindByID(product.ID)
 	if updated.Quantity != 90 {
 		t.Errorf("Expected quantity 90, got %d", updated.Quantity)
@@ -136,13 +156,17 @@ func TestSafeUpdate_WithRetry(t *testing.T) {
 	repo := setupTestRepo(t)
 	
 	product := &Product{Name: "Test Product", Quantity: 100}
-	repo.Create(product)
-	
+	var err error
+	product, err = repo.Create(product)
+	if err != nil {
+		t.Fatalf("Create failed: %v", err)
+	}
+
 	// Simulate concurrent updates sequentially to avoid race conditions in test
 	successCount := 0
-	
+
 	for i := 0; i < 5; i++ {
-		err := repo.SafeUpdate(product.ID, func(p *Product) error {
+		_, err := repo.SafeUpdate(product.ID, func(p *Product) error {
 			p.Quantity -= 10
 			return nil
 		})
@@ -169,16 +193,20 @@ func TestOptimisticLocking_VersionIncrement(t *testing.T) {
 	repo := setupTestRepo(t)
 	
 	product := &Product{Name: "Test Product", Quantity: 100}
-	repo.Create(product)
-	
+	var err error
+	product, err = repo.Create(product)
+	if err != nil {
+		t.Fatalf("Create failed: %v", err)
+	}
+
 	if product.Version != 1 {
 		t.Errorf("Initial version should be 1, got %d", product.Version)
 	}
-	
+
 	// Update 3 times
 	for i := 1; i <= 3; i++ {
 		product.Quantity -= 10
-		err := repo.Update(product)
+		product, err = repo.Update(product)
 		if err != nil {
 			t.Fatalf("Update %d failed: %v", i, err)
 		}

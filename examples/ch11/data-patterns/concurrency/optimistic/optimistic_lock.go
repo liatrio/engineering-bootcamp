@@ -3,6 +3,8 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"strings"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -43,21 +45,26 @@ func (r *ProductRepository) createTable() error {
 }
 
 // Create inserts a new product with version 1
-func (r *ProductRepository) Create(product *Product) error {
+// Returns a new Product with the ID and Version populated instead of mutating the input.
+func (r *ProductRepository) Create(product *Product) (*Product, error) {
 	query := "INSERT INTO products (name, quantity, version) VALUES (?, ?, 1)"
 	result, err := r.db.Exec(query, product.Name, product.Quantity)
 	if err != nil {
-		return fmt.Errorf("failed to create product: %w", err)
+		return nil, fmt.Errorf("failed to create product: %w", err)
 	}
-	
+
 	id, err := result.LastInsertId()
 	if err != nil {
-		return fmt.Errorf("failed to get last insert id: %w", err)
+		return nil, fmt.Errorf("failed to get last insert id: %w", err)
 	}
-	
-	product.ID = int(id)
-	product.Version = 1
-	return nil
+
+	// Return a new Product with ID and Version populated (immutability)
+	return &Product{
+		ID:       int(id),
+		Name:     product.Name,
+		Quantity: product.Quantity,
+		Version:  1,
+	}, nil
 }
 
 // FindByID retrieves a product by ID
@@ -78,33 +85,38 @@ func (r *ProductRepository) FindByID(id int) (*Product, error) {
 
 // Update uses optimistic locking to prevent conflicting updates
 // It only updates if the version in the database matches the product's version
+// Returns a new Product with the updated version instead of mutating the input.
 // Returns an error if the version doesn't match (indicating a concurrent modification)
-func (r *ProductRepository) Update(product *Product) error {
+func (r *ProductRepository) Update(product *Product) (*Product, error) {
 	// Update only if version matches (optimistic lock check)
 	query := `
-		UPDATE products 
+		UPDATE products
 		SET name = ?, quantity = ?, version = version + 1
 		WHERE id = ? AND version = ?
 	`
-	
+
 	result, err := r.db.Exec(query, product.Name, product.Quantity, product.ID, product.Version)
 	if err != nil {
-		return fmt.Errorf("failed to update product: %w", err)
+		return nil, fmt.Errorf("failed to update product: %w", err)
 	}
-	
+
 	rows, err := result.RowsAffected()
 	if err != nil {
-		return fmt.Errorf("failed to get rows affected: %w", err)
+		return nil, fmt.Errorf("failed to get rows affected: %w", err)
 	}
-	
+
 	// No rows affected means version didn't match - concurrent modification detected!
 	if rows == 0 {
-		return fmt.Errorf("concurrent modification detected - product has been modified by another transaction")
+		return nil, fmt.Errorf("concurrent modification detected - product has been modified by another transaction")
 	}
-	
-	// Increment version on successful update
-	product.Version++
-	return nil
+
+	// Return a new Product with incremented version (immutability)
+	return &Product{
+		ID:       product.ID,
+		Name:     product.Name,
+		Quantity: product.Quantity,
+		Version:  product.Version + 1,
+	}, nil
 }
 
 // ConflictError represents a concurrency conflict
@@ -117,42 +129,48 @@ func (e *ConflictError) Error() string {
 }
 
 // SafeUpdate attempts to update with retry logic for handling conflicts
-func (r *ProductRepository) SafeUpdate(productID int, updateFn func(*Product) error) error {
-	maxRetries := 3
-	
+// Returns the updated Product on success.
+func (r *ProductRepository) SafeUpdate(productID int, updateFn func(*Product) error) (*Product, error) {
+	maxRetries := 5
+
 	for attempt := 1; attempt <= maxRetries; attempt++ {
 		// Read the latest version
 		product, err := r.FindByID(productID)
 		if err != nil {
-			return err
+			return nil, err
 		}
-		
+
 		// Apply the update function (business logic)
 		if err := updateFn(product); err != nil {
-			return err
+			return nil, err
 		}
-		
+
 		// Try to save with optimistic lock
-		err = r.Update(product)
+		updatedProduct, err := r.Update(product)
 		if err == nil {
 			// Success!
-			return nil
+			return updatedProduct, nil
 		}
-		
-		// Check if it's a concurrency error
-		if err.Error() == "concurrent modification detected - product has been modified by another transaction" {
+
+		// Check if it's a retryable error (optimistic lock conflict or database locked)
+		errMsg := err.Error()
+		isOptimisticLockConflict := strings.Contains(errMsg, "concurrent modification detected")
+		isDatabaseLocked := strings.Contains(errMsg, "database") && strings.Contains(errMsg, "locked")
+
+		if isOptimisticLockConflict || isDatabaseLocked {
 			if attempt == maxRetries {
-				return &ConflictError{
+				return nil, &ConflictError{
 					Message: fmt.Sprintf("failed to update after %d retries due to concurrent modifications", maxRetries),
 				}
 			}
-			// Retry with fresh data
+			// Brief backoff before retry to reduce contention
+			time.Sleep(time.Millisecond * time.Duration(attempt))
 			continue
 		}
-		
+
 		// Other error - don't retry
-		return err
+		return nil, err
 	}
-	
-	return nil
+
+	return nil, nil
 }

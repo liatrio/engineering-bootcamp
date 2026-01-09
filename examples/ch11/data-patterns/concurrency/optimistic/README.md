@@ -142,6 +142,41 @@ func SafeUpdate(productID int, updateFn func(*Product) error) error {
 }
 ```
 
+## Immutability in Concurrent Code
+
+### Why Immutability Matters for Concurrency
+
+This implementation uses **immutable updates** - methods return new objects instead of mutating:
+
+```go
+// Good: Returns new Product with incremented version
+product, err := repo.Update(product)
+
+// Bad: Mutates input product
+repo.Update(product)  // modifies product.Version internally
+```
+
+**Critical for Concurrency:**
+1. **Race Condition Prevention**: Prevents multiple goroutines from modifying the same object
+2. **Predictable State**: Each goroutine works with its own immutable snapshot
+3. **Retry Safety**: Retries can safely start with fresh, unmodified data
+4. **Clear Ownership**: Return values make data flow explicit
+
+### Example: Safe Concurrent Updates
+
+```go
+// Each goroutine gets its own product instance
+go func() {
+    product, err := repo.SafeUpdate(productID, func(p *Product) error {
+        p.Quantity -= 10  // Modify local copy
+        return nil
+    })
+    // product is a NEW instance, not shared
+}()
+```
+
+Without immutability, multiple goroutines modifying the same `product` object would cause race conditions.
+
 ## Key Takeaways
 
 1. **No Locks Required**: Read without locking, detect conflicts on write
@@ -149,6 +184,7 @@ func SafeUpdate(productID int, updateFn func(*Product) error) error {
 3. **Conflict Detection**: Compare versions to detect concurrent modifications
 4. **Retry Logic**: Automatically retry with fresh data when conflicts occur
 5. **Performance**: Better than pessimistic locking when conflicts are rare
+6. **Immutability**: Return new objects to prevent race conditions in concurrent code
 
 ## Next Steps
 

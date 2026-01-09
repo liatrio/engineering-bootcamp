@@ -42,20 +42,25 @@ func (r *AccountRepository) createTable() error {
 }
 
 // Create inserts a new account
-func (r *AccountRepository) Create(account *Account) error {
+// Returns a new Account with the ID populated instead of mutating the input.
+func (r *AccountRepository) Create(account *Account) (*Account, error) {
 	query := "INSERT INTO accounts (name, balance) VALUES (?, ?)"
 	result, err := r.db.Exec(query, account.Name, account.Balance)
 	if err != nil {
-		return fmt.Errorf("failed to create account: %w", err)
+		return nil, fmt.Errorf("failed to create account: %w", err)
 	}
-	
+
 	id, err := result.LastInsertId()
 	if err != nil {
-		return fmt.Errorf("failed to get last insert id: %w", err)
+		return nil, fmt.Errorf("failed to get last insert id: %w", err)
 	}
-	
-	account.ID = int(id)
-	return nil
+
+	// Return a new Account with ID populated (immutability)
+	return &Account{
+		ID:      int(id),
+		Name:    account.Name,
+		Balance: account.Balance,
+	}, nil
 }
 
 // FindByID retrieves an account by ID (no lock)
@@ -76,22 +81,42 @@ func (r *AccountRepository) FindByID(id int) (*Account, error) {
 
 // FindByIDForUpdate retrieves an account with an exclusive lock (within a transaction)
 // This prevents other transactions from reading or modifying the row until commit/rollback
+//
+// SQLite Limitation: While this acquires a lock on the specific row, SQLite's architecture
+// means the entire table gets a write lock. Production databases like PostgreSQL/MySQL
+// support true "SELECT ... FOR UPDATE" with row-level locking, allowing much higher concurrency.
 func (r *AccountRepository) FindByIDForUpdate(tx *sql.Tx, id int) (*Account, error) {
-	// SQLite doesn't support FOR UPDATE syntax, but exclusive transactions provide similar behavior
-	// When we write to a row, SQLite locks it exclusively
-	// We simulate this by immediately updating a dummy field to acquire the lock
-	
+	// SQLite doesn't support FOR UPDATE syntax, so we need to perform a write operation
+	// to acquire an exclusive lock on the row. We do a dummy update that doesn't change data.
+
+	// First, do a dummy update to acquire the write lock
+	// This ensures no other transaction can modify this row until we commit/rollback
+	lockQuery := "UPDATE accounts SET balance = balance WHERE id = ?"
+	result, err := tx.Exec(lockQuery, id)
+	if err != nil {
+		return nil, fmt.Errorf("failed to acquire lock: %w", err)
+	}
+
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return nil, fmt.Errorf("failed to check lock: %w", err)
+	}
+	if rows == 0 {
+		return nil, fmt.Errorf("account not found")
+	}
+
+	// Now read the locked account
 	query := "SELECT id, name, balance FROM accounts WHERE id = ?"
 	account := &Account{}
-	
-	err := tx.QueryRow(query, id).Scan(&account.ID, &account.Name, &account.Balance)
+
+	err = tx.QueryRow(query, id).Scan(&account.ID, &account.Name, &account.Balance)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, fmt.Errorf("account not found")
 		}
 		return nil, fmt.Errorf("failed to find account: %w", err)
 	}
-	
+
 	return account, nil
 }
 
@@ -117,7 +142,7 @@ func (r *AccountRepository) Update(tx *sql.Tx, account *Account) error {
 
 // Transfer money between accounts using pessimistic locking
 func (r *AccountRepository) Transfer(fromID, toID, amount int) error {
-	// Start a transaction
+	// Start a transaction - we'll acquire row-level locks explicitly via UPDATE
 	tx, err := r.db.Begin()
 	if err != nil {
 		return fmt.Errorf("failed to begin transaction: %w", err)
@@ -174,7 +199,7 @@ func (r *AccountRepository) Transfer(fromID, toID, amount int) error {
 
 // WithLock executes a function within a transaction with the account locked
 func (r *AccountRepository) WithLock(accountID int, fn func(*sql.Tx, *Account) error) error {
-	// Start exclusive transaction
+	// Start a transaction - we'll acquire row-level locks explicitly via UPDATE
 	tx, err := r.db.Begin()
 	if err != nil {
 		return fmt.Errorf("failed to begin transaction: %w", err)

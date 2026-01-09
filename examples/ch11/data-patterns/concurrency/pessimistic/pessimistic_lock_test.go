@@ -25,7 +25,7 @@ func TestCreate(t *testing.T) {
 	repo := setupTestRepo(t)
 	
 	account := &Account{Name: "Test Account", Balance: 1000}
-	err := repo.Create(account)
+	account, err := repo.Create(account)
 	
 	if err != nil {
 		t.Fatalf("Create failed: %v", err)
@@ -40,7 +40,7 @@ func TestFindByID(t *testing.T) {
 	repo := setupTestRepo(t)
 	
 	account := &Account{Name: "Test Account", Balance: 1000}
-	repo.Create(account)
+	account, _ = repo.Create(account)
 	
 	found, err := repo.FindByID(account.ID)
 	if err != nil {
@@ -58,8 +58,8 @@ func TestTransfer_Success(t *testing.T) {
 	alice := &Account{Name: "Alice", Balance: 1000}
 	bob := &Account{Name: "Bob", Balance: 500}
 	
-	repo.Create(alice)
-	repo.Create(bob)
+	alice, _ = repo.Create(alice)
+	bob, _ = repo.Create(bob)
 	
 	err := repo.Transfer(alice.ID, bob.ID, 300)
 	if err != nil {
@@ -90,8 +90,8 @@ func TestTransfer_InsufficientFunds(t *testing.T) {
 	alice := &Account{Name: "Alice", Balance: 100}
 	bob := &Account{Name: "Bob", Balance: 500}
 	
-	repo.Create(alice)
-	repo.Create(bob)
+	alice, _ = repo.Create(alice)
+	bob, _ = repo.Create(bob)
 	
 	err := repo.Transfer(alice.ID, bob.ID, 500)
 	if err == nil {
@@ -115,7 +115,7 @@ func TestWithLock(t *testing.T) {
 	repo := setupTestRepo(t)
 	
 	account := &Account{Name: "Test Account", Balance: 1000}
-	repo.Create(account)
+	account, _ = repo.Create(account)
 	
 	// Use WithLock to perform atomic operation
 	err := repo.WithLock(account.ID, func(tx *sql.Tx, acc *Account) error {
@@ -138,7 +138,7 @@ func TestWithLock_Rollback(t *testing.T) {
 	repo := setupTestRepo(t)
 	
 	account := &Account{Name: "Test Account", Balance: 1000}
-	repo.Create(account)
+	account, _ = repo.Create(account)
 	
 	// Use WithLock but cause an error to trigger rollback
 	err := repo.WithLock(account.ID, func(tx *sql.Tx, acc *Account) error {
@@ -165,8 +165,8 @@ func TestTransfer_DeadlockPrevention(t *testing.T) {
 	alice := &Account{Name: "Alice", Balance: 1000}
 	bob := &Account{Name: "Bob", Balance: 1000}
 	
-	repo.Create(alice)
-	repo.Create(bob)
+	alice, _ = repo.Create(alice)
+	bob, _ = repo.Create(bob)
 	
 	// Transfer in both directions should work (locks acquired in consistent order)
 	err1 := repo.Transfer(alice.ID, bob.ID, 100)

@@ -168,6 +168,40 @@ if accountA.ID < accountB.ID {
 
 Our `Transfer()` method implements this by always locking accounts in ID order.
 
+## Immutability and Transaction Safety
+
+### Why Immutability with Transactions?
+
+This implementation uses **immutable creation** for new entities:
+
+```go
+// Good: Returns new Account with ID
+account, err := repo.Create(account)
+
+// Bad: Mutates input account
+repo.Create(account)  // modifies account.ID internally
+```
+
+**Why This Matters:**
+1. **Clear Data Flow**: Explicit return values show what was created
+2. **Thread-Safety**: Input objects remain unchanged, safe for concurrent access
+3. **Testability**: Easy to verify created entities without checking side effects
+4. **Transactional Clarity**: Separates input (what you want) from output (what was created)
+
+### Update Operations and Transactions
+
+Update operations work differently - they operate within transactions on locked entities:
+
+```go
+// Read with lock, modify, update - all within transaction
+err := repo.WithLock(accountID, func(tx *sql.Tx, account *Account) error {
+    account.Balance += 100  // Modify locked entity
+    return repo.Update(tx, account)  // Update within same transaction
+})
+```
+
+The lock ensures no other transaction can interfere, making in-place modifications safe.
+
 ## Key Takeaways
 
 1. **Exclusive Access**: Lock acquired before reading, held until commit
@@ -175,6 +209,7 @@ Our `Transfer()` method implements this by always locking accounts in ID order.
 3. **Consistency**: Guaranteed no concurrent modifications during transaction
 4. **Performance Trade-off**: Better consistency but lower concurrency than optimistic locking
 5. **Deadlock Awareness**: Always acquire multiple locks in consistent order
+6. **Immutability**: Use immutable creation patterns where possible; rely on transactions for safe updates
 
 ## Comparison: Optimistic vs Pessimistic
 
