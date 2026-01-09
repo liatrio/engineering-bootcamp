@@ -72,7 +72,7 @@ Update package.json name and description fields, and update all Docker-related d
 - [x] 2.9 Verify all Docker command references in CLAUDE.md have been updated by searching for "devops-bootcamp" in the file
 - [x] 2.10 Read updated sections of CLAUDE.md to confirm Docker commands are accurate
 
-### [~] 3.0 Update Introductory and Project Documentation Content
+### [x] 3.0 Update Introductory and Project Documentation Content
 
 Revise STYLE.md, CLAUDE.md, and docs/1-introduction/1.0-overview.md to introduce "Liatrio Engineering Bootcamp" concept and explain the broader engineering scope while maintaining DevOps focus.
 
@@ -98,7 +98,7 @@ Revise STYLE.md, CLAUDE.md, and docs/1-introduction/1.0-overview.md to introduce
 - [x] 3.11 Run `npm run lint` to verify all markdown changes pass linting
 - [x] 3.12 If lint errors occur, fix them and re-run `npm run lint` until it passes
 
-### [ ] 4.0 Document GitHub Repository URL References
+### [~] 4.0 Document GitHub Repository URL References
 
 Use a sub-agent to comprehensively search for all `github.com/liatrio/devops-bootcamp` URL references and create a GitHub issue documenting all locations for future updates after repository rename.
 
@@ -110,12 +110,12 @@ Use a sub-agent to comprehensively search for all `github.com/liatrio/devops-boo
 
 #### 4.0 Tasks
 
-- [ ] 4.1 Use Task tool with subagent_type="general-purpose" to search the entire codebase for all occurrences of "github.com/liatrio/devops-bootcamp" using grep and enumerate all file paths and line numbers
-- [ ] 4.2 Review the sub-agent's findings and organize results by file type/category (e.g., Configuration Files: package.json; Documentation: docs/*.md; Code Examples: examples/*)
-- [ ] 4.3 Draft GitHub issue content with title "Update GitHub repository URLs after rename to liatrio/engineering-bootcamp"
-- [ ] 4.4 Include issue body with: (1) Context explaining these URLs need updating after repository rename, (2) Comprehensive categorized list of all files and line numbers with repository URLs, (3) Action items for updating each reference after repo rename
-- [ ] 4.5 Create GitHub issue using `gh issue create --title "Update GitHub repository URLs after rename to liatrio/engineering-bootcamp" --body "<issue-body-content>"`
-- [ ] 4.6 Capture the issue number from the creation output
-- [ ] 4.7 Run `gh issue view <issue-number>` to verify issue was created successfully and contains all expected content
-- [ ] 4.8 Run `grep -r "github.com/liatrio/devops-bootcamp" . --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=specs` to confirm all locations were documented (should match 26+ files)
-- [ ] 4.9 Compare grep results with issue content to ensure completeness
+- [x] 4.1 Use Task tool with subagent_type="general-purpose" to search the entire codebase for all occurrences of "github.com/liatrio/devops-bootcamp" using grep and enumerate all file paths and line numbers
+- [x] 4.2 Review the sub-agent's findings and organize results by file type/category (e.g., Configuration Files: package.json; Documentation: docs/*.md; Code Examples: examples/*)
+- [x] 4.3 Draft GitHub issue content with title "Update GitHub repository URLs after rename to liatrio/engineering-bootcamp"
+- [x] 4.4 Include issue body with: (1) Context explaining these URLs need updating after repository rename, (2) Comprehensive categorized list of all files and line numbers with repository URLs, (3) Action items for updating each reference after repo rename
+- [x] 4.5 Create GitHub issue using `gh issue create --title "Update GitHub repository URLs after rename to liatrio/engineering-bootcamp" --body "<issue-body-content>"`
+- [x] 4.6 Capture the issue number from the creation output
+- [x] 4.7 Run `gh issue view <issue-number>` to verify issue was created successfully and contains all expected content
+- [x] 4.8 Run `grep -r "github.com/liatrio/devops-bootcamp" . --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=specs` to confirm all locations were documented (should match 26+ files)
+- [x] 4.9 Compare grep results with issue content to ensure completeness
