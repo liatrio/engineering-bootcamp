@@ -370,7 +370,7 @@ docs/3-AI-Engineering/3.1.3-ai-tools.md:
         - AI Tools
 docs/3-AI-Engineering/3.1.4-ai-best-practices.md:
   category: AI Engineering
-  estReadingMinutes: 10
+  estReadingMinutes: 30
 docs/3-AI-Engineering/3.2-mcp.md:
   category: AI Engineering
   estReadingMinutes: 12
