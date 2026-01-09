@@ -98,7 +98,7 @@ Revise STYLE.md, CLAUDE.md, and docs/1-introduction/1.0-overview.md to introduce
 - [x] 3.11 Run `npm run lint` to verify all markdown changes pass linting
 - [x] 3.12 If lint errors occur, fix them and re-run `npm run lint` until it passes
 
-### [~] 4.0 Document GitHub Repository URL References
+### [x] 4.0 Document GitHub Repository URL References
 
 Use a sub-agent to comprehensively search for all `github.com/liatrio/devops-bootcamp` URL references and create a GitHub issue documenting all locations for future updates after repository rename.
 
