@@ -49,7 +49,7 @@ Update all user-visible branding elements in index.html from "DevOps Bootcamp" t
 - [x] 1.11 Run `grep -ri "DevOps Bootcamp" docs/ --exclude-dir=specs` and verify remaining occurrences are only in appropriate technical contexts
 - [x] 1.12 Stop the local server (Ctrl+C)
 
-### [~] 2.0 Update Technical Identifiers in Package Configuration
+### [x] 2.0 Update Technical Identifiers in Package Configuration
 
 Update package.json name and description fields, and update all Docker-related documentation from "devops-bootcamp" to "engineering-bootcamp".
 
@@ -72,7 +72,7 @@ Update package.json name and description fields, and update all Docker-related d
 - [x] 2.9 Verify all Docker command references in CLAUDE.md have been updated by searching for "devops-bootcamp" in the file
 - [x] 2.10 Read updated sections of CLAUDE.md to confirm Docker commands are accurate
 
-### [ ] 3.0 Update Introductory and Project Documentation Content
+### [~] 3.0 Update Introductory and Project Documentation Content
 
 Revise STYLE.md, CLAUDE.md, and docs/1-introduction/1.0-overview.md to introduce "Liatrio Engineering Bootcamp" concept and explain the broader engineering scope while maintaining DevOps focus.
 
@@ -85,18 +85,18 @@ Revise STYLE.md, CLAUDE.md, and docs/1-introduction/1.0-overview.md to introduce
 
 #### 3.0 Tasks
 
-- [ ] 3.1 Read `STYLE.md` header section
-- [ ] 3.2 Update STYLE.md header from "# Liatrio's DevOps Bootcamp" to "# Liatrio's Engineering Bootcamp"
-- [ ] 3.3 Read `CLAUDE.md` project overview section
-- [ ] 3.4 Update CLAUDE.md project overview from "This is Liatrio's DevOps Bootcamp" to "This is Liatrio's Engineering Bootcamp - a comprehensive educational resource built with Docsify that covers engineering fundamentals with a focus on DevOps practices and tools"
-- [ ] 3.5 Review CLAUDE.md for any other references to "DevOps Bootcamp" in descriptive text and update to "Engineering Bootcamp" where appropriate
-- [ ] 3.6 Read `docs/1-introduction/1.0-overview.md`
-- [ ] 3.7 Update docs/1-introduction/1.0-overview.md chapter title if needed (may remain "Introduction to DevOps" as this is technically accurate)
-- [ ] 3.8 Update docs/1-introduction/1.0-overview.md chapter goal #3 from "Familiarize yourself with tools needed to successfully complete DevOps Bootcamp" to "Familiarize yourself with tools needed to successfully complete Liatrio's Engineering Bootcamp"
-- [ ] 3.9 Read `.github/prompts/new-section.prompt.md`
-- [ ] 3.10 Update .github/prompts/new-section.prompt.md line 4 from "You are an DevOps consulting expert that designs content for a college level DevOps bootcamp" to "You are a DevOps consulting expert that designs content for a college level engineering bootcamp with a focus on DevOps" (note: also fixes grammar "an DevOps" to "a DevOps")
-- [ ] 3.11 Run `npm run lint` to verify all markdown changes pass linting
-- [ ] 3.12 If lint errors occur, fix them and re-run `npm run lint` until it passes
+- [x] 3.1 Read `STYLE.md` header section
+- [x] 3.2 Update STYLE.md header from "# Liatrio's DevOps Bootcamp" to "# Liatrio's Engineering Bootcamp"
+- [x] 3.3 Read `CLAUDE.md` project overview section
+- [x] 3.4 Update CLAUDE.md project overview from "This is Liatrio's DevOps Bootcamp" to "This is Liatrio's Engineering Bootcamp - a comprehensive educational resource built with Docsify that covers engineering fundamentals with a focus on DevOps practices and tools"
+- [x] 3.5 Review CLAUDE.md for any other references to "DevOps Bootcamp" in descriptive text and update to "Engineering Bootcamp" where appropriate
+- [x] 3.6 Read `docs/1-introduction/1.0-overview.md`
+- [x] 3.7 Update docs/1-introduction/1.0-overview.md chapter title if needed (may remain "Introduction to DevOps" as this is technically accurate)
+- [x] 3.8 Update docs/1-introduction/1.0-overview.md chapter goal #3 from "Familiarize yourself with tools needed to successfully complete DevOps Bootcamp" to "Familiarize yourself with tools needed to successfully complete Liatrio's Engineering Bootcamp"
+- [x] 3.9 Read `.github/prompts/new-section.prompt.md`
+- [x] 3.10 Update .github/prompts/new-section.prompt.md line 4 from "You are an DevOps consulting expert that designs content for a college level DevOps bootcamp" to "You are a DevOps consulting expert that designs content for a college level engineering bootcamp with a focus on DevOps" (note: also fixes grammar "an DevOps" to "a DevOps")
+- [x] 3.11 Run `npm run lint` to verify all markdown changes pass linting
+- [x] 3.12 If lint errors occur, fix them and re-run `npm run lint` until it passes
 
 ### [ ] 4.0 Document GitHub Repository URL References
 
