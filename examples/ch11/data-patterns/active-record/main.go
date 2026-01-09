@@ -27,9 +27,10 @@ func main() {
 	if err := alice.Validate(); err != nil {
 		log.Fatal(err)
 	}
-	
-	// Save the user (insert)
-	if err := alice.Save(); err != nil {
+
+	// Save the user (insert) - returns new User with ID
+	alice, err := alice.Save()
+	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf("Created user: %+v\n", alice)
@@ -39,7 +40,8 @@ func main() {
 		Name:  "Bob",
 		Email: "bob@example.com",
 	}
-	if err := bob.Save(); err != nil {
+	bob, err = bob.Save()
+	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf("Created user: %+v\n", bob)
@@ -66,7 +68,8 @@ func main() {
 	
 	// Update a user - just change the object and call Save()
 	alice.Name = "Alice Smith"
-	if err := alice.Save(); err != nil {
+	alice, err = alice.Save()
+	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf("Updated user: %+v\n", alice)

@@ -109,12 +109,42 @@ The tests verify all CRUD operations and validation logic.
 - Testing with mocks is critical
 - Your domain model is complex and doesn't map 1:1 to database tables
 
+## Immutability and Design Decisions
+
+### Why Return New Objects?
+
+This implementation follows Go best practices by **returning new objects** instead of mutating inputs:
+
+```go
+// Good: Returns new User with ID
+user, err := user.Save()
+
+// Bad: Mutates the input user
+user.Save()  // sets user.ID internally
+```
+
+**Rationale:**
+1. **Principle of Least Surprise**: Functions that return values are more predictable
+2. **Thread-Safety**: Immutable inputs prevent race conditions
+3. **Testability**: Easier to verify what a function returns vs. what it mutates
+4. **Go Idioms**: Aligns with Go's preference for explicit over implicit
+
+### Active Record and Immutability Trade-off
+
+While Active Record naturally couples data and persistence (making true immutability difficult), this implementation minimizes mutation by:
+- Returning new instances from `insert()` operations
+- Making ID assignment explicit through return values
+- Keeping `update()` operations that modify existing records clearly separated
+
+This strikes a balance between Active Record's convenience and Go's idiomatic patterns.
+
 ## Key Takeaways
 
 1. **Convenience**: Active Record provides a simple, intuitive API for data persistence
 2. **Trade-offs**: You gain simplicity but lose separation of concerns
 3. **Framework Support**: Many popular web frameworks use this pattern
 4. **Evolution**: You can start with Active Record and refactor to Repository later if needed
+5. **Immutability**: Prefer returning new objects over mutating inputs for better testability and thread-safety
 
 ## Next Steps
 

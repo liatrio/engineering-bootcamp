@@ -42,28 +42,36 @@ type User struct {
 }
 
 // Save persists the user to the database (insert or update)
-func (u *User) Save() error {
+// Returns a new User object with updated fields instead of mutating the receiver.
+// For inserts, returns a new User with the ID populated.
+// For updates, returns the same user since no fields change.
+func (u *User) Save() (*User, error) {
 	if u.ID == 0 {
 		return u.insert()
 	}
-	return u.update()
+	return u, u.update()
 }
 
 // insert creates a new user record in the database
-func (u *User) insert() error {
+// Returns a new User with the generated ID instead of mutating the input.
+func (u *User) insert() (*User, error) {
 	query := "INSERT INTO users (name, email) VALUES (?, ?)"
 	result, err := DB.Exec(query, u.Name, u.Email)
 	if err != nil {
-		return fmt.Errorf("failed to insert user: %w", err)
+		return nil, fmt.Errorf("failed to insert user: %w", err)
 	}
-	
+
 	id, err := result.LastInsertId()
 	if err != nil {
-		return fmt.Errorf("failed to get last insert id: %w", err)
+		return nil, fmt.Errorf("failed to get last insert id: %w", err)
 	}
-	
-	u.ID = int(id)
-	return nil
+
+	// Return a new User with the ID populated (immutability)
+	return &User{
+		ID:    int(id),
+		Name:  u.Name,
+		Email: u.Email,
+	}, nil
 }
 
 // update modifies an existing user record in the database
