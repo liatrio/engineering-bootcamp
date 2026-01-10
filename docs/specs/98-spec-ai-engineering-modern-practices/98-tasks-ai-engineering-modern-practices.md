@@ -138,7 +138,7 @@
 - [x] 4.13 Run `npm run lint` on all three updated files (3.1.2, 3.3.1, 3.3.2) and fix any linting errors
 - [x] 4.14 Review all three files to ensure VSCode remains primary environment, Claude Code receives equal attention alongside other tools, and context tracking features are emphasized appropriately
 
-### [ ] 5.0 Restructure Exercises with SDD Workflow
+### [x] 5.0 Restructure Exercises with SDD Workflow
 
 **Purpose:** Transform informal "vibing" exercises into structured SDD-based learning experiences that guide participants through the complete specification → task breakdown → implementation → validation workflow.
 
@@ -154,30 +154,30 @@
 
 #### 5.0 Tasks
 
-- [ ] 5.1 Read 3.3.2-agentic-ide.md and locate Exercise 1 section (starts around line 162)
-- [ ] 5.2 Rename "## Exercise 1 - VSCode Vibing" to "## Exercise 1 - Structured MCP Server Development with SDD"
-- [ ] 5.3 Update exercise introduction paragraph to explain this exercise applies SDD methodology learned in 3.3.1 to building an MCP server, emphasizing structured approach over exploratory "vibing"
-- [ ] 5.4 Restructure "### Steps" section to follow four SDD stages with numbered sub-steps:
+- [x] 5.1 Read 3.3.2-agentic-ide.md and locate Exercise 1 section (starts around line 162)
+- [x] 5.2 Rename "## Exercise 1 - VSCode Vibing" to "## Exercise 1 - Structured MCP Server Development with SDD"
+- [x] 5.3 Update exercise introduction paragraph to explain this exercise applies SDD methodology learned in 3.3.1 to building an MCP server, emphasizing structured approach over exploratory "vibing"
+- [x] 5.4 Restructure "### Steps" section to follow four SDD stages with numbered sub-steps:
   - Stage 1: Generate Specification (steps 1-2 currently, expand with clarifying questions emphasis)
   - Stage 2: Task Breakdown (new step: "Create parent tasks representing demoable units with proof artifacts")
   - Stage 3: Execute with Management (steps 3-5 currently, expand with compaction and verification checkpoints)
   - Stage 4: Validate Implementation (step 6 currently, expand with coverage validation)
-- [ ] 5.5 In Stage 1 (Generate Specification), update steps to emphasize brainstorming spec using the resources provided (MCP Full Text, Python SDK) and creating a comprehensive specification before any coding
-- [ ] 5.6 Add new Stage 2 (Task Breakdown) step instructing participants to break down their spec into parent tasks, identify relevant files, and create sub-tasks with proof artifacts
-- [ ] 5.7 In Stage 3 (Execute with Management), add instruction to monitor context utilization (using /context in Claude Code or similar tools) and trigger intentional compaction when exceeding 60%
-- [ ] 5.8 In Stage 3, add guidance on incremental testing and committing after each completed task with appropriate commit messages
-- [ ] 5.9 In Stage 4 (Validate Implementation), expand step 6 to include validating implementation against original spec, reviewing proof artifacts, and ensuring all requirements met
-- [ ] 5.10 Add subsection "### Context Management Tips" before or within the Steps section covering: monitoring context utilization during development, when to compact (60%+ threshold), progressive disclosure strategies (loading MCP docs on-demand), and avoiding context rot
-- [ ] 5.11 Add subsection "### Proof Artifacts" explaining what proof artifacts are, why they matter, and what participants should collect (screenshots, CLI output, test results) - note they're optional for this exercise but good practice
-- [ ] 5.12 Locate Exercise 2 section (starts around line 176) and rename "## Exercise 2 - Windsurf" to "## Exercise 2 - Structured MCP Server Development with Windsurf IDE"
-- [ ] 5.13 Update Exercise 2 introduction to reference SDD methodology and note that this exercise applies the same structured approach but using Windsurf IDE instead
-- [ ] 5.14 Update Exercise 2 steps to match the four-stage SDD structure from Exercise 1 (Generate Spec → Task Breakdown → Execute → Validate)
-- [ ] 5.15 Add same context management guidance to Exercise 2 about monitoring utilization and triggering compaction
-- [ ] 5.16 Verify front-matter metadata maintains correct exercise information: Exercise 1 (name: "VSCode MCP Server", estMinutes: 240), Exercise 2 (name: "Windsurf MCP Server", estMinutes: 180)
-- [ ] 5.17 Update Deliverables section to include questions about applying SDD workflow, managing context during exercises, and using proof artifacts
-- [ ] 5.18 Run `npm run lint docs/3-AI-Engineering/3.3.2-agentic-ide.md` and fix any linting errors
-- [ ] 5.19 Run `npm run refresh-front-matter` and verify exercise metadata validates correctly
-- [ ] 5.20 Review both exercises for clarity, beginner-friendliness, and consistency with SDD methodology taught in 3.3.1
+- [x] 5.5 In Stage 1 (Generate Specification), update steps to emphasize brainstorming spec using the resources provided (MCP Full Text, Python SDK) and creating a comprehensive specification before any coding
+- [x] 5.6 Add new Stage 2 (Task Breakdown) step instructing participants to break down their spec into parent tasks, identify relevant files, and create sub-tasks with proof artifacts
+- [x] 5.7 In Stage 3 (Execute with Management), add instruction to monitor context utilization (using /context in Claude Code or similar tools) and trigger intentional compaction when exceeding 60%
+- [x] 5.8 In Stage 3, add guidance on incremental testing and committing after each completed task with appropriate commit messages
+- [x] 5.9 In Stage 4 (Validate Implementation), expand step 6 to include validating implementation against original spec, reviewing proof artifacts, and ensuring all requirements met
+- [x] 5.10 Add subsection "### Context Management Tips" before or within the Steps section covering: monitoring context utilization during development, when to compact (60%+ threshold), progressive disclosure strategies (loading MCP docs on-demand), and avoiding context rot
+- [x] 5.11 Add subsection "### Proof Artifacts" explaining what proof artifacts are, why they matter, and what participants should collect (screenshots, CLI output, test results) - note they're optional for this exercise but good practice
+- [x] 5.12 Locate Exercise 2 section (starts around line 176) and rename "## Exercise 2 - Windsurf" to "## Exercise 2 - Structured MCP Server Development with Windsurf IDE"
+- [x] 5.13 Update Exercise 2 introduction to reference SDD methodology and note that this exercise applies the same structured approach but using Windsurf IDE instead
+- [x] 5.14 Update Exercise 2 steps to match the four-stage SDD structure from Exercise 1 (Generate Spec → Task Breakdown → Execute → Validate)
+- [x] 5.15 Add same context management guidance to Exercise 2 about monitoring utilization and triggering compaction
+- [x] 5.16 Verify front-matter metadata maintains correct exercise information: Exercise 1 (name: "VSCode MCP Server", estMinutes: 240), Exercise 2 (name: "Windsurf MCP Server", estMinutes: 180)
+- [x] 5.17 Update Deliverables section to include questions about applying SDD workflow, managing context during exercises, and using proof artifacts
+- [x] 5.18 Run `npm run lint docs/3-AI-Engineering/3.3.2-agentic-ide.md` and fix any linting errors
+- [x] 5.19 Run `npm run refresh-front-matter` and verify exercise metadata validates correctly
+- [x] 5.20 Review both exercises for clarity, beginner-friendliness, and consistency with SDD methodology taught in 3.3.1
 
 ### [ ] 6.0 Integration, Cross-References, and Quality Assurance
 
