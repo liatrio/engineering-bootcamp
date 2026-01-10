@@ -1565,7 +1565,7 @@ docs/9-kubernetes-container-orchestration/9.8-controllers.md:
 
   ![Liatrio Logomark](../img/favicon.svg ':size=150x150 :class=logo :alt= Liatrio image')
 
-# Liatrio's DevOps Bootcamp
+# Liatrio's Engineering Bootcamp
 
 </center>
 
@@ -1577,7 +1577,7 @@ Welcome! You must be here because you're interested in DevOps. Don't worry, we'l
 
 ## Target Audience
 
-This DevOps Bootcamp is used as an introduction to DevOps for Liatrio's apprentices. Therefore, there are deliverables at the end of each section and knowledge checks sprinkled throughout that help guide the apprentices' training. However, anyone can go through the DevOps Bootcamp. Feel free to ignore the deliverables, knowledge checks, etc. This bootcamp also assumes the bootcamper is using a Mac for the deliverables.
+This Engineering Bootcamp is used as an introduction to DevOps for Liatrio's apprentices. Therefore, there are deliverables at the end of each section and knowledge checks sprinkled throughout that help guide the apprentices' training. However, anyone can go through the Engineering Bootcamp. Feel free to ignore the deliverables, knowledge checks, etc. This bootcamp also assumes the bootcamper is using a Mac for the deliverables.
 
 ## Disclaimer
 

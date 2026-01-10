@@ -1,7 +1,7 @@
 {
-  "name": "devops-bootcamp",
+  "name": "engineering-bootcamp",
   "version": "1.0.0",
-  "description": "Liatrio DevOps Bootcamp",
+  "description": "Liatrio Engineering Bootcamp",
   "main": "index.js",
   "directories": {
     "example": "examples"
