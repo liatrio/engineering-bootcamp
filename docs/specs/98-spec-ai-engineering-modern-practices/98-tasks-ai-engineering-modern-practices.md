@@ -108,7 +108,7 @@
 - [x] 3.9 Test quiz JavaScript syntax by checking the file loads without errors (open page with quiz embedded and verify no console errors)
 - [x] 3.10 Review quiz for beginner appropriateness, accuracy of technical concepts, and balanced difficulty
 
-### [ ] 4.0 Modernize Tool Coverage with Claude Code and VSCode Balance
+### [~] 4.0 Modernize Tool Coverage with Claude Code and VSCode Balance
 
 **Purpose:** Add comprehensive Claude Code coverage while maintaining VSCode as the primary development environment, providing equal representation of AI assistant options across multiple documentation files.
 
@@ -123,20 +123,20 @@
 
 #### 4.0 Tasks
 
-- [ ] 4.1 Read 3.1.2-ai-agents.md and locate the "Agent Tools You May Use" section (lines ~33-39)
-- [ ] 4.2 Add Claude Code bullet to the Agent Tools section: "**Claude Code**: Command-line AI agent with strong context management features including /context command for monitoring context utilization and structured workflows. Particularly effective for managing context rot through intentional compaction."
-- [ ] 4.3 Ensure Claude Code entry maintains equal weight with other tools and highlights context management features relevant to the curriculum
-- [ ] 4.4 Read 3.3.1-agentic-best-practices.md and identify where to add Claude Code examples in the SDD workflow sections (created in Task 2.0)
-- [ ] 4.5 In the "Execute with Management (SDD Stage 3)" section, add example showing both Claude Code (/context command) and VSCode (GitHub Copilot context indicators) for monitoring context utilization
-- [ ] 4.6 Add practical tip about using Claude Code's /context command to track the 40% and 60% thresholds discussed in context engineering sections
-- [ ] 4.7 Read 3.3.2-agentic-ide.md and locate the "Popular Examples" list (lines ~36-42)
-- [ ] 4.8 Add Claude Code to the Popular Examples list with description: "**[Claude Code](https://claude.ai/code)**: Command-line AI agent from Anthropic featuring robust context management, /context monitoring, structured workflows through slash commands, and integration with development tools"
-- [ ] 4.9 Ensure Claude Code entry maintains parallel structure with other tool descriptions and emphasizes context management capabilities
-- [ ] 4.10 In the Key Features table (lines ~48-55), verify that context management features are appropriately highlighted (already present, but review for Claude Code relevance)
-- [ ] 4.11 Update Exercise 1 and Exercise 2 sections to mention both VSCode and Claude Code as viable options, maintaining VSCode as the primary/default choice for exercises
-- [ ] 4.12 Add note in exercises that participants using Claude Code can leverage /context command for monitoring context utilization during SDD workflow
-- [ ] 4.13 Run `npm run lint` on all three updated files (3.1.2, 3.3.1, 3.3.2) and fix any linting errors
-- [ ] 4.14 Review all three files to ensure VSCode remains primary environment, Claude Code receives equal attention alongside other tools, and context tracking features are emphasized appropriately
+- [x] 4.1 Read 3.1.2-ai-agents.md and locate the "Agent Tools You May Use" section (lines ~33-39)
+- [x] 4.2 Add Claude Code bullet to the Agent Tools section: "**Claude Code**: Command-line AI agent with strong context management features including /context command for monitoring context utilization and structured workflows. Particularly effective for managing context rot through intentional compaction."
+- [x] 4.3 Ensure Claude Code entry maintains equal weight with other tools and highlights context management features relevant to the curriculum
+- [x] 4.4 Read 3.3.1-agentic-best-practices.md and identify where to add Claude Code examples in the SDD workflow sections (created in Task 2.0)
+- [x] 4.5 In the "Execute with Management (SDD Stage 3)" section, add example showing both Claude Code (/context command) and VSCode (GitHub Copilot context indicators) for monitoring context utilization
+- [x] 4.6 Add practical tip about using Claude Code's /context command to track the 40% and 60% thresholds discussed in context engineering sections
+- [x] 4.7 Read 3.3.2-agentic-ide.md and locate the "Popular Examples" list (lines ~36-42)
+- [x] 4.8 Add Claude Code to the Popular Examples list with description: "**[Claude Code](https://claude.ai/code)**: Command-line AI agent from Anthropic featuring robust context management, /context monitoring, structured workflows through slash commands, and integration with development tools"
+- [x] 4.9 Ensure Claude Code entry maintains parallel structure with other tool descriptions and emphasizes context management capabilities
+- [x] 4.10 In the Key Features table (lines ~48-55), verify that context management features are appropriately highlighted (already present, but review for Claude Code relevance)
+- [x] 4.11 Update Exercise 1 and Exercise 2 sections to mention both VSCode and Claude Code as viable options, maintaining VSCode as the primary/default choice for exercises
+- [x] 4.12 Add note in exercises that participants using Claude Code can leverage /context command for monitoring context utilization during SDD workflow
+- [x] 4.13 Run `npm run lint` on all three updated files (3.1.2, 3.3.1, 3.3.2) and fix any linting errors
+- [x] 4.14 Review all three files to ensure VSCode remains primary environment, Claude Code receives equal attention alongside other tools, and context tracking features are emphasized appropriately
 
 ### [ ] 5.0 Restructure Exercises with SDD Workflow
 
