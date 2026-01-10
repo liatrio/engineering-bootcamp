@@ -83,7 +83,7 @@
 - [x] 2.15 Run `npm run lint docs/3-AI-Engineering/3.3.1-agentic-best-practices.md` and fix any linting errors
 - [x] 2.16 Review for consistency with beginner audience, clarity of SDD concepts, and logical flow
 
-### [ ] 3.0 Update Quiz Content for Modern Practices
+### [~] 3.0 Update Quiz Content for Modern Practices
 
 **Purpose:** Modernize quiz questions to remove Harper Reed workflow references and add new questions covering SDD methodology, context engineering, context rot, and intentional compaction concepts.
 
@@ -97,16 +97,16 @@
 
 #### 3.0 Tasks
 
-- [ ] 3.1 Read and analyze current quiz file at src/quizzes/chapter-3/3.3/agentic-best-practices-quiz.js to understand existing question structure and format
-- [ ] 3.2 Replace question 2 (lines ~13-21 about "Harper Reed's LLM Codegen Workflow") with new question about SDD four-stage workflow sequence, asking participants to identify correct order: Generate Spec → Task Breakdown → Execute with Management → Validate
-- [ ] 3.3 Add new question about context rot: "What happens when context window utilization exceeds 40%?" with correct answer explaining the "dumb zone" and performance degradation, and incorrect answers about other issues
-- [ ] 3.4 Add new question about intentional compaction: "When should you trigger intentional compaction during development?" with correct answer around 60%+ utilization or when context becomes cluttered, and incorrect answers suggesting other triggers
-- [ ] 3.5 Add new question about progressive disclosure: "What is the progressive disclosure pattern in context engineering?" with correct answer about loading context on-demand vs. front-loading everything, and incorrect answers about other patterns
-- [ ] 3.6 Add new question about proof artifacts in SDD: "What is the purpose of proof artifacts in SDD?" with correct answer about demonstrating functionality and enabling validation, and incorrect answers about other purposes
-- [ ] 3.7 Update question 4 (lines ~33-41 about "dumber than they look") to reference context rot as one reason for AI limitations, adding context window management to the explanation
-- [ ] 3.8 Ensure all new questions maintain the rawQuizdown format: question text as H1 (#), options with checkbox format (1. [ ] or 1. [x]), and explanations with > prefix
-- [ ] 3.9 Test quiz JavaScript syntax by checking the file loads without errors (open page with quiz embedded and verify no console errors)
-- [ ] 3.10 Review quiz for beginner appropriateness, accuracy of technical concepts, and balanced difficulty
+- [x] 3.1 Read and analyze current quiz file at src/quizzes/chapter-3/3.3/agentic-best-practices-quiz.js to understand existing question structure and format
+- [x] 3.2 Replace question 2 (lines ~13-21 about "Harper Reed's LLM Codegen Workflow") with new question about SDD four-stage workflow sequence, asking participants to identify correct order: Generate Spec → Task Breakdown → Execute with Management → Validate
+- [x] 3.3 Add new question about context rot: "What happens when context window utilization exceeds 40%?" with correct answer explaining the "dumb zone" and performance degradation, and incorrect answers about other issues
+- [x] 3.4 Add new question about intentional compaction: "When should you trigger intentional compaction during development?" with correct answer around 60%+ utilization or when context becomes cluttered, and incorrect answers suggesting other triggers
+- [x] 3.5 Add new question about progressive disclosure: "What is the progressive disclosure pattern in context engineering?" with correct answer about loading context on-demand vs. front-loading everything, and incorrect answers about other patterns
+- [x] 3.6 Add new question about proof artifacts in SDD: "What is the purpose of proof artifacts in SDD?" with correct answer about demonstrating functionality and enabling validation, and incorrect answers about other purposes
+- [x] 3.7 Update question 4 (lines ~33-41 about "dumber than they look") to reference context rot as one reason for AI limitations, adding context window management to the explanation
+- [x] 3.8 Ensure all new questions maintain the rawQuizdown format: question text as H1 (#), options with checkbox format (1. [ ] or 1. [x]), and explanations with > prefix
+- [x] 3.9 Test quiz JavaScript syntax by checking the file loads without errors (open page with quiz embedded and verify no console errors)
+- [x] 3.10 Review quiz for beginner appropriateness, accuracy of technical concepts, and balanced difficulty
 
 ### [ ] 4.0 Modernize Tool Coverage with Claude Code and VSCode Balance
 
