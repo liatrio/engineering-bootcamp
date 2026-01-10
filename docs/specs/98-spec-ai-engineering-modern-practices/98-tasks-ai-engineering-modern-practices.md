@@ -179,7 +179,7 @@
 - [x] 5.19 Run `npm run refresh-front-matter` and verify exercise metadata validates correctly
 - [x] 5.20 Review both exercises for clarity, beginner-friendliness, and consistency with SDD methodology taught in 3.3.1
 
-### [ ] 6.0 Integration, Cross-References, and Quality Assurance
+### [x] 6.0 Integration, Cross-References, and Quality Assurance
 
 **Purpose:** Ensure all updates are cohesive with consistent terminology, valid cross-references between sections, appropriate 12-Factor Agents mentions, and passing all repository validation checks.
 
@@ -196,31 +196,31 @@
 
 #### 6.0 Tasks
 
-- [ ] 6.1 Read through all updated files (3.1.4, 3.3.1, 3.1.2, 3.3.2) and identify all instances where cross-references should be added or verified
-- [ ] 6.2 In 3.3.1-agentic-best-practices.md SDD workflow sections, add cross-reference to 3.1.4 context engineering sections: "For detailed coverage of context management, see [AI Best Practices](3.1.4-ai-best-practices.md#understanding-context-windows)"
-- [ ] 6.3 In 3.3.2-agentic-ide.md exercise sections, add cross-reference to 3.3.1 SDD workflow: "This exercise applies the SDD methodology covered in [AI Development for Software Engineers](3.3.1-agentic-best-practices.md#thoughtful-ai-development)"
-- [ ] 6.4 In 3.1.4-ai-best-practices.md Resources section, add brief mention of 12-Factor Agents with link: "For architectural principles in AI applications, see [12-Factor Agents](https://www.humanlayer.dev/12-factor-agents) methodology"
-- [ ] 6.5 Verify consistent terminology across all files: "context engineering" (not "context management" inconsistently), "context rot" (not "context degradation" inconsistently), "intentional compaction" (not just "compaction"), "SDD workflow" (not "SDD methodology" when referring to the four stages)
-- [ ] 6.6 Check that "proof artifacts" terminology is consistent across 3.3.1 (SDD workflow) and 3.3.2 (exercises)
-- [ ] 6.7 Verify all external links are correctly formatted and functional:
+- [x] 6.1 Read through all updated files (3.1.4, 3.3.1, 3.1.2, 3.3.2) and identify all instances where cross-references should be added or verified
+- [x] 6.2 In 3.3.1-agentic-best-practices.md SDD workflow sections, add cross-reference to 3.1.4 context engineering sections: "For detailed coverage of context management, see [AI Best Practices](3.1.4-ai-best-practices.md#understanding-context-windows)"
+- [x] 6.3 In 3.3.2-agentic-ide.md exercise sections, add cross-reference to 3.3.1 SDD workflow: "This exercise applies the SDD methodology covered in [AI Development for Software Engineers](3.3.1-agentic-best-practices.md#thoughtful-ai-development)"
+- [x] 6.4 In 3.1.4-ai-best-practices.md Resources section, add brief mention of 12-Factor Agents with link: "For architectural principles in AI applications, see [12-Factor Agents](https://www.humanlayer.dev/12-factor-agents) methodology"
+- [x] 6.5 Verify consistent terminology across all files: "context engineering" (not "context management" inconsistently), "context rot" (not "context degradation" inconsistently), "intentional compaction" (not just "compaction"), "SDD workflow" (not "SDD methodology" when referring to the four stages)
+- [x] 6.6 Check that "proof artifacts" terminology is consistent across 3.3.1 (SDD workflow) and 3.3.2 (exercises)
+- [x] 6.7 Verify all external links are correctly formatted and functional:
   - Liatrio spec-driven-workflow: https://github.com/liatrio-labs/spec-driven-workflow
   - No Vibes Allowed videos: https://www.youtube.com/watch?v=IS_y40zY-hc and https://www.youtube.com/watch?v=rmvDxxNubIg
   - HumanLayer 12-Factor Agents: https://www.humanlayer.dev/12-factor-agents
   - HumanLayer Advanced Context Engineering: https://github.com/humanlayer/advanced-context-engineering-for-coding-agents
-- [ ] 6.8 Verify logical content progression: read 3.1.4 (foundations) → 3.3.1 (workflows) → 3.3.2 (application) in sequence and ensure concepts build appropriately without gaps or contradictions
-- [ ] 6.9 Check that all Deliverables sections remain at the end of each document and include updated questions reflecting new content (context engineering in 3.1.4, SDD workflow in 3.3.1, structured exercises in 3.3.2)
-- [ ] 6.10 Review quiz questions in src/quizzes/chapter-3/3.3/agentic-best-practices-quiz.js for alignment with updated 3.3.1 content and consistent terminology
-- [ ] 6.11 Run `npm run lint` on ALL updated markdown files and fix any remaining linting errors:
+- [x] 6.8 Verify logical content progression: read 3.1.4 (foundations) → 3.3.1 (workflows) → 3.3.2 (application) in sequence and ensure concepts build appropriately without gaps or contradictions
+- [x] 6.9 Check that all Deliverables sections remain at the end of each document and include updated questions reflecting new content (context engineering in 3.1.4, SDD workflow in 3.3.1, structured exercises in 3.3.2)
+- [x] 6.10 Review quiz questions in src/quizzes/chapter-3/3.3/agentic-best-practices-quiz.js for alignment with updated 3.3.1 content and consistent terminology
+- [x] 6.11 Run `npm run lint` on ALL updated markdown files and fix any remaining linting errors:
   - docs/3-AI-Engineering/3.1.4-ai-best-practices.md
   - docs/3-AI-Engineering/3.3.1-agentic-best-practices.md
   - docs/3-AI-Engineering/3.1.2-ai-agents.md
   - docs/3-AI-Engineering/3.3.2-agentic-ide.md
-- [ ] 6.12 Run `npm run refresh-front-matter` and ensure all front-matter metadata validates successfully across all updated files
-- [ ] 6.13 Review all git commits made during implementation and verify commit messages follow repository conventions (e.g., "docs: expand context engineering coverage in 3.1.4", "docs: replace Harper Reed workflow with SDD in 3.3.1", "docs: add Claude Code coverage to multiple files", "docs: restructure exercises with SDD workflow in 3.3.2", "test: update quiz with SDD and context engineering questions")
-- [ ] 6.14 Perform final read-through of all updated documentation as a beginner would experience it, checking for:
+- [x] 6.12 Run `npm run refresh-front-matter` and ensure all front-matter metadata validates successfully across all updated files
+- [x] 6.13 Review all git commits made during implementation and verify commit messages follow repository conventions (e.g., "docs: expand context engineering coverage in 3.1.4", "docs: replace Harper Reed workflow with SDD in 3.3.1", "docs: add Claude Code coverage to multiple files", "docs: restructure exercises with SDD workflow in 3.3.2", "test: update quiz with SDD and context engineering questions")
+- [x] 6.14 Perform final read-through of all updated documentation as a beginner would experience it, checking for:
   - Clear explanations without assuming prior knowledge
   - Logical flow from basic to advanced concepts
   - Consistent voice and tone
   - Beginner-appropriate examples
   - No broken internal or external links
-- [ ] 6.15 Create a summary document or checklist confirming all proof artifacts from Tasks 1.0-5.0 have been successfully produced and validated
+- [x] 6.15 Create a summary document or checklist confirming all proof artifacts from Tasks 1.0-5.0 have been successfully produced and validated
