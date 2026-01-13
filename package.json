@@ -11,7 +11,7 @@
     "serve:docsify": "docsify serve --port 3000",
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",
-    "lint": "markdownlint-cli2 \"**/*.md\" \"!**/node_modules/**\" \"!**/.venv/**\" \"!**/specs/**\"",
+    "lint": "markdownlint-cli2 \"**/*.md\" \"!**/node_modules/**\" \"!**/.venv/**\" \"!**/specs/**\" \"!**/examples/**\"",
     "prepare": "husky install",
     "compare-front-matter": "node ./.husky/front-matter-condenser",
     "refresh-front-matter": "node ./.husky/front-matter-condenser update"
