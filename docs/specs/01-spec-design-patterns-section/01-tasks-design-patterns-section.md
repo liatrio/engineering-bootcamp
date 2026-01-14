@@ -4,7 +4,7 @@ This task list implements the Design Patterns subsections (11.2.2 - 11.2.5) for 
 
 ## Tasks
 
-### [ ] 1.0 Create Data Layer Patterns Documentation and Examples (11.2.2)
+### [x] 1.0 Create Data Layer Patterns Documentation and Examples (11.2.2)
 
 Implement comprehensive documentation for Repository, Active Record, and Concurrency patterns (Optimistic/Pessimistic Locking) with working Go examples and an interactive quiz.
 
@@ -21,21 +21,21 @@ Implement comprehensive documentation for Repository, Active Record, and Concurr
 
 #### 1.0 Tasks
 
-- [ ] 1.1 Create documentation file `docs/11-application-development/11.2.2-data-layer-patterns.md` with front-matter (category: Application Development, technologies: Go/SQLite/Design Patterns, estReadingMinutes: 45, exercise definition)
-- [ ] 1.2 Write Repository Pattern section explaining interface abstraction over data access, benefits (testability, flexibility), and when to use it
-- [ ] 1.3 Write Active Record Pattern section explaining domain objects with encapsulated data access methods and when to use it
-- [ ] 1.4 Write pattern comparison section with decision guidance based on domain complexity, testability requirements, and team preferences
-- [ ] 1.5 Write Optimistic Locking section explaining version-based conflict detection with multi-user scenario examples
-- [ ] 1.6 Write Pessimistic Locking section explaining exclusive access control with multi-user scenario examples
-- [ ] 1.7 Write anti-patterns section showing problems with direct data access mixed with business logic
-- [ ] 1.8 Add self-directed refactoring exercise description for converting direct data access to Repository pattern
-- [ ] 1.9 Create Repository Pattern Go example in `examples/ch11/data-patterns/repository/` with main.go, go.mod, repository.go (interface + implementation), README.md, and repository_test.go
-- [ ] 1.10 Create Active Record Pattern Go example in `examples/ch11/data-patterns/active-record/` with main.go, go.mod, user.go (domain object with data access methods), README.md, and user_test.go
-- [ ] 1.11 Create Optimistic Locking Go example in `examples/ch11/data-patterns/concurrency/optimistic/` with main.go demonstrating multi-user simulation, SQLite version checking, README.md, and tests
-- [ ] 1.12 Create Pessimistic Locking Go example in `examples/ch11/data-patterns/concurrency/pessimistic/` with main.go demonstrating exclusive locking, SQLite transaction control, README.md, and tests
-- [ ] 1.13 Create interactive quiz `src/quizzes/chapter-11/11.2.2/data-layer-patterns-quiz.js` with 6-8 questions covering pattern recognition, concurrency scenarios, and when to use each pattern
-- [ ] 1.14 Verify all Go examples run successfully with `go run main.go` and tests pass with `go test ./...`
-- [ ] 1.15 Embed quiz in documentation using Docsify quiz syntax and verify it renders correctly with `npm start`
+- [x] 1.1 Create documentation file `docs/11-application-development/11.2.2-data-layer-patterns.md` with front-matter (category: Application Development, technologies: Go/SQLite/Design Patterns, estReadingMinutes: 45, exercise definition)
+- [x] 1.2 Write Repository Pattern section explaining interface abstraction over data access, benefits (testability, flexibility), and when to use it
+- [x] 1.3 Write Active Record Pattern section explaining domain objects with encapsulated data access methods and when to use it
+- [x] 1.4 Write pattern comparison section with decision guidance based on domain complexity, testability requirements, and team preferences
+- [x] 1.5 Write Optimistic Locking section explaining version-based conflict detection with multi-user scenario examples
+- [x] 1.6 Write Pessimistic Locking section explaining exclusive access control with multi-user scenario examples
+- [x] 1.7 Write anti-patterns section showing problems with direct data access mixed with business logic
+- [x] 1.8 Add self-directed refactoring exercise description for converting direct data access to Repository pattern
+- [x] 1.9 Create Repository Pattern Go example in `examples/ch11/data-patterns/repository/` with main.go, go.mod, repository.go (interface + implementation), README.md, and repository_test.go
+- [x] 1.10 Create Active Record Pattern Go example in `examples/ch11/data-patterns/active-record/` with main.go, go.mod, user.go (domain object with data access methods), README.md, and user_test.go
+- [x] 1.11 Create Optimistic Locking Go example in `examples/ch11/data-patterns/concurrency/optimistic/` with main.go demonstrating multi-user simulation, SQLite version checking, README.md, and tests
+- [x] 1.12 Create Pessimistic Locking Go example in `examples/ch11/data-patterns/concurrency/pessimistic/` with main.go demonstrating exclusive locking, SQLite transaction control, README.md, and tests
+- [x] 1.13 Create interactive quiz `src/quizzes/chapter-11/11.2.2/data-layer-patterns-quiz.js` with 6-8 questions covering pattern recognition, concurrency scenarios, and when to use each pattern
+- [x] 1.14 Verify all Go examples run successfully with `go run main.go` and tests pass with `go test ./...`
+- [x] 1.15 Embed quiz in documentation using Docsify quiz syntax and verify it renders correctly with `npm start`
 
 ### [ ] 2.0 Create Business Logic Patterns Documentation and Examples (11.2.3)
 

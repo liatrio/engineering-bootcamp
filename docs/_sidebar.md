@@ -166,6 +166,7 @@
 - [11.1 - Layers](11-application-development/11.1-layers.md)
 - [11.2 - Design Patterns](11-application-development/11.2-design-patterns.md)
   - [11.2.1 - SOLID Principles](11-application-development/11.2.1-solid-principles.md)
+  - [11.2.2 - Data Layer Patterns](11-application-development/11.2.2-data-layer-patterns.md)
 
 - **Addendum**
 
