@@ -277,6 +277,24 @@ docs/11-application-development/11.2.2-data-layer-patterns.md:
   category: Software Development
   estReadingMinutes: 45
   exercises:
+    - name: Extend the Repository with FindByEmail
+      description: >-
+        Add a FindByEmail method to the UserRepository interface and implement
+        it in both SQLite and in-memory repositories with tests.
+      estMinutes: 15
+      technologies:
+        - Go
+        - SQLite
+        - Design Patterns
+    - name: Add Timestamp Tracking to Active Record
+      description: >-
+        Extend the Active Record User model to automatically track CreatedAt and
+        UpdatedAt timestamps, updating schema, insert/update methods, and tests.
+      estMinutes: 15
+      technologies:
+        - Go
+        - SQLite
+        - Design Patterns
     - name: Refactor Direct Data Access to Repository Pattern
       description: >-
         Convert a tightly coupled application with direct database access
@@ -287,6 +305,17 @@ docs/11-application-development/11.2.2-data-layer-patterns.md:
         - Go
         - SQLite
         - Design Patterns
+    - name: AI-Assisted Refactoring with Spec-Driven Development
+      description: >-
+        Use an AI agent with Spec-Driven Development to refactor the starter
+        code using precise pattern vocabulary, then compare AI and manual
+        approaches.
+      estMinutes: 60
+      technologies:
+        - Go
+        - SQLite
+        - Design Patterns
+        - AI Collaboration
 docs/2-Github/2.2-Actions.md:
   category: CI/CD
   estReadingMinutes: 20
