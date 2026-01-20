@@ -375,8 +375,8 @@ docs/3-AI-Engineering/3.2-mcp.md:
   category: AI Engineering
   estReadingMinutes: 12
   exercises:
-    - name: Create an MCP Client
-      description: Build a simple MCP client that connects to a local MCP server
+    - name: Create an MCP Server
+      description: Build a simple MCP server that connects to a local MCP client
       estMinutes: 45
       technologies:
         - MCP
