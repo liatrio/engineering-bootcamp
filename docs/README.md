@@ -1628,15 +1628,6 @@ This bootcamp alone will by no means make anyone an expert on DevOps; that's whe
 
 ## Learning Goals
 
-1. Introduction to DevOps
-2. GitHub
-3. Virtual Machines and Containers
-4. Cloud Computing
-5. Development Practices
-6. Release Management
-7. Infrastructure and Configuration
-8. Kubernetes
-
 <canvas id="technology-word-cloud"></canvas>
 
 <canvas id="category-doughnut-canvas"></canvas>
