@@ -1,4 +1,4 @@
-# Liatrio's DevOps Bootcamp
+# Liatrio's Engineering Bootcamp
 
 ## Style Guide
 

@@ -36,3 +36,9 @@ examples/ch11/example2/data.sqlite
 .uv/
 __pypackages__/
 .python-version
+
+# Claude Code
+.claude/
+
+# Specs (internal planning artifacts)
+# docs/specs/

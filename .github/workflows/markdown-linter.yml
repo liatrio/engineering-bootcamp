@@ -11,8 +11,9 @@ jobs:
     if: github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@v6
-      - uses: DavidAnson/markdownlint-cli2-action@v22
+      - uses: DavidAnson/markdownlint-cli2-action@v23
         with:
           globs: |
             *.md
             **/*.md
+            !**/specs/**
