@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-processor
+  namespace: keda-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-processor
+  template:
+    metadata:
+      labels:
+        app: order-processor
+    spec:
+      containers:
+        - name: order-processor
+          image: order-processor:local
+          env:
+            - name: REDIS_ADDR
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: REDIS_ADDR
+            - name: PROCESS_DELAY_MS
+              value: "500"
+          resources:
+            requests:
+              cpu: 100m
+            limits:
+              cpu: 500m

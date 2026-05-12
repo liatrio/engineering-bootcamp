@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout-service
+  namespace: keda-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: checkout-service
+  template:
+    metadata:
+      labels:
+        app: checkout-service
+    spec:
+      containers:
+        - name: checkout-service
+          image: checkout-service:local
+          ports:
+            - containerPort: 8080
+          env:
+            - name: REDIS_ADDR
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: REDIS_ADDR
+          resources:
+            requests:
+              cpu: 100m
+            limits:
+              cpu: 250m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkout-service
+  namespace: keda-demo
+spec:
+  selector:
+    app: checkout-service
+  ports:
+    - port: 8080
+      targetPort: 8080

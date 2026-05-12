@@ -65,7 +65,7 @@ Build the two Go microservices (`checkout-service` and `order-processor`) with m
 
 ---
 
-### [ ] 2.0 Kubernetes Manifests (Kustomize)
+### [x] 2.0 Kubernetes Manifests (Kustomize)
 
 Create all Kubernetes YAML for the full stack: Redis, both services, the Secret, the CPU HPA, and the KEDA TriggerAuthentication resource. Organized as Kustomize base + local overlay with imagePullPolicy patch for k3d.
 
@@ -78,16 +78,16 @@ Create all Kubernetes YAML for the full stack: Redis, both services, the Secret,
 
 #### 2.0 Tasks
 
-- [ ] 2.1 Create `examples/ch9/keda/k8s/base/namespace.yaml`: `Namespace` resource named `keda-demo`
-- [ ] 2.2 Create `examples/ch9/keda/k8s/base/redis-secret.yaml`: `Secret` named `redis-secret` in namespace `keda-demo` with a `stringData` entry `REDIS_ADDR: redis:6379` (no password — teaching the pattern, not securing a real credential)
-- [ ] 2.3 Create `examples/ch9/keda/k8s/base/redis.yaml`: `Deployment` named `redis` in namespace `keda-demo` using image `redis:7-alpine`, single replica, port `6379`, no resource limits needed; and a `ClusterIP` `Service` named `redis` exposing port `6379` targeting the same pod
-- [ ] 2.4 Create `examples/ch9/keda/k8s/base/checkout-service.yaml`: `Deployment` named `checkout-service` in namespace `keda-demo`, one replica, container port `8080`; inject `REDIS_ADDR` from `redis-secret` via `secretKeyRef`; set CPU `requests: 100m` and `limits: 250m`; include a `ClusterIP` `Service` named `checkout-service` on port `8080`
-- [ ] 2.5 Create `examples/ch9/keda/k8s/base/order-processor.yaml`: `Deployment` named `order-processor` in namespace `keda-demo`, one replica; inject `REDIS_ADDR` from `redis-secret` and set `PROCESS_DELAY_MS: "500"` as a plain env var; set CPU `requests: 100m` and `limits: 500m` (CPU limits are required for the HPA exercise to show meaningful CPU utilization); no Service needed
-- [ ] 2.6 Create `examples/ch9/keda/k8s/base/hpa.yaml`: `HorizontalPodAutoscaler` named `order-processor-hpa` in namespace `keda-demo`; target the `order-processor` Deployment; `minReplicas: 1`, `maxReplicas: 10`; metric: `Resource` type `cpu`, target `Utilization: 50`
-- [ ] 2.7 Create `examples/ch9/keda/k8s/base/keda-trigger-auth.yaml`: `TriggerAuthentication` (apiVersion `keda.sh/v1alpha1`) named `redis-trigger-auth` in namespace `keda-demo`; `spec.secretTargetRef` referencing key `REDIS_ADDR` from Secret `redis-secret` as parameter `address`
-- [ ] 2.8 Create `examples/ch9/keda/k8s/base/kustomization.yaml`: list all base resources in dependency order — `namespace.yaml`, `redis-secret.yaml`, `redis.yaml`, `checkout-service.yaml`, `order-processor.yaml`, `hpa.yaml`, `keda-trigger-auth.yaml`; **do not include a ScaledObject** (students write that themselves)
-- [ ] 2.9 Create `examples/ch9/keda/k8s/overlays/local/kustomization.yaml`: reference `../../base`, list `image-pull-policy-patch.yaml` as a `patches` entry
-- [ ] 2.10 Create `examples/ch9/keda/k8s/overlays/local/image-pull-policy-patch.yaml`: strategic merge patches for both `checkout-service` and `order-processor` Deployments setting `imagePullPolicy: Never` on their containers so k3d uses the locally imported images without attempting a registry pull
+- [x] 2.1 Create `examples/ch9/keda/k8s/base/namespace.yaml`: `Namespace` resource named `keda-demo`
+- [x] 2.2 Create `examples/ch9/keda/k8s/base/redis-secret.yaml`: `Secret` named `redis-secret` in namespace `keda-demo` with a `stringData` entry `REDIS_ADDR: redis:6379` (no password — teaching the pattern, not securing a real credential)
+- [x] 2.3 Create `examples/ch9/keda/k8s/base/redis.yaml`: `Deployment` named `redis` in namespace `keda-demo` using image `redis:7-alpine`, single replica, port `6379`, no resource limits needed; and a `ClusterIP` `Service` named `redis` exposing port `6379` targeting the same pod
+- [x] 2.4 Create `examples/ch9/keda/k8s/base/checkout-service.yaml`: `Deployment` named `checkout-service` in namespace `keda-demo`, one replica, container port `8080`; inject `REDIS_ADDR` from `redis-secret` via `secretKeyRef`; set CPU `requests: 100m` and `limits: 250m`; include a `ClusterIP` `Service` named `checkout-service` on port `8080`
+- [x] 2.5 Create `examples/ch9/keda/k8s/base/order-processor.yaml`: `Deployment` named `order-processor` in namespace `keda-demo`, one replica; inject `REDIS_ADDR` from `redis-secret` and set `PROCESS_DELAY_MS: "500"` as a plain env var; set CPU `requests: 100m` and `limits: 500m` (CPU limits are required for the HPA exercise to show meaningful CPU utilization); no Service needed
+- [x] 2.6 hpa.yaml intentionally omitted — left for students to write as part of Exercise 3: `HorizontalPodAutoscaler` named `order-processor-hpa` in namespace `keda-demo`; target the `order-processor` Deployment; `minReplicas: 1`, `maxReplicas: 10`; metric: `Resource` type `cpu`, target `Utilization: 50`
+- [x] 2.7 Create `examples/ch9/keda/k8s/base/keda-trigger-auth.yaml`: `TriggerAuthentication` (apiVersion `keda.sh/v1alpha1`) named `redis-trigger-auth` in namespace `keda-demo`; `spec.secretTargetRef` referencing key `REDIS_ADDR` from Secret `redis-secret` as parameter `address`
+- [x] 2.8 Create `examples/ch9/keda/k8s/base/kustomization.yaml`: list all base resources in dependency order — `namespace.yaml`, `redis-secret.yaml`, `redis.yaml`, `checkout-service.yaml`, `order-processor.yaml`, `hpa.yaml`, `keda-trigger-auth.yaml`; **do not include a ScaledObject** (students write that themselves)
+- [x] 2.9 Create `examples/ch9/keda/k8s/overlays/local/kustomization.yaml`: reference `../../base`, list `image-pull-policy-patch.yaml` as a `patches` entry
+- [x] 2.10 Create `examples/ch9/keda/k8s/overlays/local/image-pull-policy-patch.yaml`: strategic merge patches for both `checkout-service` and `order-processor` Deployments setting `imagePullPolicy: Never` on their containers so k3d uses the locally imported images without attempting a registry pull
 
 ---
 
