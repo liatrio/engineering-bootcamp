@@ -2,7 +2,7 @@ import http from "k6/http";
 import { check, sleep } from "k6";
 
 const CHECKOUT_URL = __ENV.CHECKOUT_URL || "http://localhost:8080";
-const VUS = parseInt(__ENV.VUS || "2");
+const VUS = parseInt(__ENV.VUS || "20");
 const DURATION = __ENV.DURATION || "60s";
 
 export const options = {
@@ -23,5 +23,5 @@ export default function () {
 
   check(res, { "status is 202": (r) => r.status === 202 });
 
-  sleep(0.5);
+  sleep(1);
 }

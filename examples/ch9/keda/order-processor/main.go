@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
+	//"strconv"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -22,12 +22,14 @@ func main() {
 		log.Fatal("REDIS_ADDR environment variable is required")
 	}
 
-	delayMs := 500
-	if v := os.Getenv("PROCESS_DELAY_MS"); v != "" {
+	IOMs := 250 // Simulate delay from the IO when processing the order
+    CPUMs := 30 // Simulate actual work done by the CPU
+
+	/*if v := os.Getenv("PROCESS_DELAY_MS"); v != "" {
 		if d, err := strconv.Atoi(v); err == nil {
 			delayMs = d
 		}
-	}
+	}*/
 
 	rdb := redis.NewClient(&redis.Options{Addr: redisAddr})
 
@@ -35,7 +37,7 @@ func main() {
 		log.Fatalf("cannot connect to Redis at %s: %v", redisAddr, err)
 	}
 
-	log.Printf("order-processor started, delay=%dms", delayMs)
+	//log.Printf("order-processor started, delay=%dms", delayMs)
 
 	for {
 		results, err := rdb.BLPop(context.Background(), 0, "orders:queue").Result()
@@ -52,13 +54,20 @@ func main() {
 			continue
 		}
 
-		deadline := time.Now().Add(time.Duration(delayMs) * time.Millisecond)
+        // Fake IO (Read order)
+        time.Sleep(time.Duration(IOMs) * time.Millisecond)
+        
+        // Fake order proccessing work
+		deadline := time.Now().Add(time.Duration(CPUMs) * time.Millisecond)
 		x := 1
 		for time.Now().Before(deadline) {
 			x += x * x
 		}
 		_ = x
 
+        // Fake IO (Write processed order)
+        time.Sleep(time.Duration(IOMs) * time.Millisecond)
+        
 		fmt.Printf("completed order %s\n", order.OrderID)
 	}
 }
