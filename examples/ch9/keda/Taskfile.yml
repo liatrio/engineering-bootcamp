@@ -1,0 +1,72 @@
+version: "3"
+
+vars:
+  CLUSTER_NAME: keda-demo
+  NAMESPACE: keda-demo
+  CHECKOUT_IMAGE: checkout-service:local
+  ORDER_IMAGE: order-processor:local
+
+tasks:
+  deps:check:
+    desc: Verify all required tools are installed
+    cmds:
+      - |
+        missing=0
+        for tool in k3d docker go k6 watch helm; do
+          if ! command -v "$tool" > /dev/null 2>&1; then
+            echo "Missing: $tool  →  brew install $tool"
+            missing=1
+          fi
+        done
+        exit $missing
+
+  cluster:create:
+    desc: Create the local k3d cluster
+    deps: [deps:check]
+    cmds:
+      - k3d cluster create {{.CLUSTER_NAME}}
+
+  cluster:delete:
+    desc: Tear down the local k3d cluster
+    cmds:
+      - k3d cluster delete {{.CLUSTER_NAME}}
+
+  cluster:install-keda:
+    desc: Install KEDA with Helm
+    deps: [deps:check]
+    cmds:
+      - helm repo add kedacore https://kedacore.github.io/charts
+      - helm repo update
+      - helm install keda kedacore/keda --namespace keda --create-namespace
+
+  images:build:
+    desc: Build both service images locally
+    cmds:
+      - docker build -t {{.CHECKOUT_IMAGE}} ./checkout-service
+      - docker build -t {{.ORDER_IMAGE}} ./order-processor
+
+  images:load:
+    desc: Import built images into the k3d cluster
+    deps: [images:build]
+    cmds:
+      - k3d image import {{.CHECKOUT_IMAGE}} {{.ORDER_IMAGE}} -c {{.CLUSTER_NAME}}
+
+  deploy:all:
+    desc: Apply all manifests via Kustomize (does NOT apply ScaledObject — students do that manually)
+    deps: [images:load]
+    cmds:
+      - kubectl apply -k k8s/overlays/local
+
+  load:run:
+    desc: Run k6 load test (defaults — CHECKOUT_URL=http://localhost:8080, VUS=50, DURATION=60s)
+    cmds:
+      - k6 run
+          -e CHECKOUT_URL=${CHECKOUT_URL:-http://localhost:8080}
+          -e VUS=${VUS:-50}
+          -e DURATION=${DURATION:-60s}
+          load/flash-sale.js
+
+  observe:
+    desc: Watch queue depth, order-processor pod count, and avg CPU every 2 seconds
+    cmds:
+      - watch -n2 'echo "=== Queue depth ===" && kubectl exec -n {{.NAMESPACE}} deploy/redis -- redis-cli llen orders:queue && echo "=== order-processor pods ===" && kubectl get pods -n {{.NAMESPACE}} -l app=order-processor --no-headers | wc -l && echo "=== avg CPU (millicores) ===" && kubectl top pods -n {{.NAMESPACE}} -l app=order-processor --no-headers 2>/dev/null | awk "{gsub(/m/,\"\",\$2); sum+=\$2; n++} END {if(n>0) printf \"%dm avg across %d pod(s)\n\", sum/n, n; else print \"metrics not available\"}"'

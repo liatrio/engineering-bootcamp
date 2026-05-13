@@ -52,12 +52,10 @@ func main() {
 			continue
 		}
 
-		time.Sleep(time.Duration(delayMs) * time.Millisecond)
-
-		// CPU pressure to produce measurable utilization for HPA/KEDA demos
-		x := 0
-		for i := 0; i < 1_000_000; i++ {
-			x += i * i
+		deadline := time.Now().Add(time.Duration(delayMs) * time.Millisecond)
+		x := 1
+		for time.Now().Before(deadline) {
+			x += x * x
 		}
 		_ = x
 

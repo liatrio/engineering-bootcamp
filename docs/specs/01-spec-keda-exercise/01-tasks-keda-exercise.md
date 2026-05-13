@@ -91,7 +91,7 @@ Create all Kubernetes YAML for the full stack: Redis, both services, the Secret,
 
 ---
 
-### [ ] 3.0 Taskfile and k6 Load Test Script
+### [x] 3.0 Taskfile and k6 Load Test Script
 
 Write the `Taskfile.yml` with all required tasks and the `load/flash-sale.js` k6 script. This is the primary operator interface students use throughout all six exercises.
 
@@ -107,16 +107,16 @@ Write the `Taskfile.yml` with all required tasks and the `load/flash-sale.js` k6
 
 #### 3.0 Tasks
 
-- [ ] 3.1 Create `examples/ch9/keda/Taskfile.yml` with `version: "3"` schema; add a top-level `vars` block defining `CLUSTER_NAME: keda-demo`, `NAMESPACE: keda-demo`, `CHECKOUT_IMAGE: checkout-service:local`, `ORDER_IMAGE: order-processor:local`; use the `namespace:verb` naming convention for all tasks
-- [ ] 3.2 Implement the `deps:check` task: for each required tool (`k3d`, `docker`, `go`, `k6`, `watch`), test presence with `command -v <tool>`; if any are missing, print the tool name and a one-line `brew install <tool>` / package-manager hint; exit non-zero if at least one tool is absent; list this as a dependency of `cluster:create`
-- [ ] 3.3 Implement the `cluster:create` task: run `k3d cluster create {{.CLUSTER_NAME}}`; document in task `desc` that it creates the local k3d cluster; add `deps: [deps:check]`
-- [ ] 3.4 Implement the `cluster:delete` task: run `k3d cluster delete {{.CLUSTER_NAME}}` to allow clean teardown between exercise runs
-- [ ] 3.5 Implement the `images:build` task: run `docker build -t {{.CHECKOUT_IMAGE}} ./checkout-service` and `docker build -t {{.ORDER_IMAGE}} ./order-processor`; both build commands must complete before the task is considered done
-- [ ] 3.6 Implement the `images:load` task: run `k3d image import {{.CHECKOUT_IMAGE}} {{.ORDER_IMAGE}} -c {{.CLUSTER_NAME}}` to push both images into the k3d cluster nodes; add `deps: [images:build]`
-- [ ] 3.7 Implement the `deploy:all` task: run `kubectl apply -k k8s/overlays/local`; add `deps: [images:load]`; include a brief `desc` noting it does NOT apply the ScaledObject (students do that manually)
-- [ ] 3.8 Implement the `load:run` task: run `k6 run -e CHECKOUT_URL=${CHECKOUT_URL:-http://localhost:8080} -e VUS=${VUS:-50} -e DURATION=${DURATION:-60s} load/flash-sale.js`; the env-var syntax allows overrides without editing the file; add a `desc` explaining the defaults
-- [ ] 3.9 Implement the `observe` task: run `watch -n2 'echo "=== Queue depth ===" && kubectl exec -n {{.NAMESPACE}} deploy/redis -- redis-cli llen orders:queue && echo "=== order-processor pods ===" && kubectl get pods -n {{.NAMESPACE}} -l app=order-processor --no-headers | wc -l'`; this is the primary observable artifact for all three load test runs
-- [ ] 3.10 Create `examples/ch9/keda/load/flash-sale.js`: k6 script that reads `CHECKOUT_URL` (default `http://localhost:8080`), `VUS` (default `50`), and `DURATION` (default `60s`) from `__ENV`; in the `options` block set `vus` and `duration` from those env vars; the default scenario (50 VUs × 60s) must be sufficient to push `LLEN orders:queue` above 50 within ~30s with a single order-processor replica at `PROCESS_DELAY_MS=500`; each VU runs `POST /checkout` in a tight loop with a minimal sleep (e.g., 100ms) between iterations; validate that the response status is `202`
+- [x] 3.1 Create `examples/ch9/keda/Taskfile.yml` with `version: "3"` schema; add a top-level `vars` block defining `CLUSTER_NAME: keda-demo`, `NAMESPACE: keda-demo`, `CHECKOUT_IMAGE: checkout-service:local`, `ORDER_IMAGE: order-processor:local`; use the `namespace:verb` naming convention for all tasks
+- [x] 3.2 Implement the `deps:check` task: for each required tool (`k3d`, `docker`, `go`, `k6`, `watch`), test presence with `command -v <tool>`; if any are missing, print the tool name and a one-line `brew install <tool>` / package-manager hint; exit non-zero if at least one tool is absent; list this as a dependency of `cluster:create`
+- [x] 3.3 Implement the `cluster:create` task: run `k3d cluster create {{.CLUSTER_NAME}}`; document in task `desc` that it creates the local k3d cluster; add `deps: [deps:check]`
+- [x] 3.4 Implement the `cluster:delete` task: run `k3d cluster delete {{.CLUSTER_NAME}}` to allow clean teardown between exercise runs
+- [x] 3.5 Implement the `images:build` task: run `docker build -t {{.CHECKOUT_IMAGE}} ./checkout-service` and `docker build -t {{.ORDER_IMAGE}} ./order-processor`; both build commands must complete before the task is considered done
+- [x] 3.6 Implement the `images:load` task: run `k3d image import {{.CHECKOUT_IMAGE}} {{.ORDER_IMAGE}} -c {{.CLUSTER_NAME}}` to push both images into the k3d cluster nodes; add `deps: [images:build]`
+- [x] 3.7 Implement the `deploy:all` task: run `kubectl apply -k k8s/overlays/local`; add `deps: [images:load]`; include a brief `desc` noting it does NOT apply the ScaledObject (students do that manually)
+- [x] 3.8 Implement the `load:run` task: run `k6 run -e CHECKOUT_URL=${CHECKOUT_URL:-http://localhost:8080} -e VUS=${VUS:-50} -e DURATION=${DURATION:-60s} load/flash-sale.js`; the env-var syntax allows overrides without editing the file; add a `desc` explaining the defaults
+- [x] 3.9 Implement the `observe` task: run `watch -n2 'echo "=== Queue depth ===" && kubectl exec -n {{.NAMESPACE}} deploy/redis -- redis-cli llen orders:queue && echo "=== order-processor pods ===" && kubectl get pods -n {{.NAMESPACE}} -l app=order-processor --no-headers | wc -l'`; this is the primary observable artifact for all three load test runs
+- [x] 3.10 Create `examples/ch9/keda/load/flash-sale.js`: k6 script that reads `CHECKOUT_URL` (default `http://localhost:8080`), `VUS` (default `50`), and `DURATION` (default `60s`) from `__ENV`; in the `options` block set `vus` and `duration` from those env vars; the default scenario (50 VUs × 60s) must be sufficient to push `LLEN orders:queue` above 50 within ~30s with a single order-processor replica at `PROCESS_DELAY_MS=500`; each VU runs `POST /checkout` in a tight loop with a minimal sleep (e.g., 100ms) between iterations; validate that the response status is `202`
 
 ---
 

@@ -7,4 +7,3 @@ resources:
   - redis.yaml
   - checkout-service.yaml
   - order-processor.yaml
-  - keda-trigger-auth.yaml
