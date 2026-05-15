@@ -2,7 +2,7 @@ import http from "k6/http";
 import { check, sleep } from "k6";
 
 const CHECKOUT_URL = __ENV.CHECKOUT_URL || "http://localhost:8080";
-const VUS = parseInt(__ENV.VUS || "20");
+const VUS = parseInt(__ENV.VUS || "10");
 const DURATION = __ENV.DURATION || "60s";
 
 export const options = {
@@ -21,7 +21,9 @@ export default function () {
     headers: { "Content-Type": "application/json" },
   });
 
-  check(res, { "status is 202": (r) => r.status === 202 });
+  if (!check(res, { "status is 202": (r) => r.status === 202 })) {
+    console.error(`checkout failed [${res.status}]: ${res.body}`);
+  }
 
   sleep(1);
 }

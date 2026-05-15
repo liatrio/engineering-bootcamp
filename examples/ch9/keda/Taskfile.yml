@@ -21,10 +21,16 @@ tasks:
         exit $missing
 
   cluster:create:
-    desc: Create the local k3d cluster
+    desc: Create the local k3d cluster with HPA sync period tuned to 5s
     deps: [deps:check]
     cmds:
-      - k3d cluster create {{.CLUSTER_NAME}}
+      - k3d cluster create {{.CLUSTER_NAME}} --k3s-arg "--kube-controller-manager-arg=horizontal-pod-autoscaler-sync-period=5s@server:0"
+
+  cluster:install-metrics-server:
+    desc: Install metrics-server with 15s scrape interval and insecure TLS (required for k3d)
+    cmds:
+      - kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+      - kubectl patch deployment metrics-server -n kube-system --type=json -p='[{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--kubelet-insecure-tls"},{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--metric-resolution=15s"}]'
 
   cluster:delete:
     desc: Tear down the local k3d cluster
@@ -62,7 +68,7 @@ tasks:
     cmds:
       - k6 run
           -e CHECKOUT_URL=${CHECKOUT_URL:-http://localhost:8080}
-          -e VUS=${VUS:-50}
+          -e VUS=${VUS:-10}
           -e DURATION=${DURATION:-60s}
           load/flash-sale.js
 
@@ -70,3 +76,8 @@ tasks:
     desc: Watch queue depth, order-processor pod count, and avg CPU every 2 seconds
     cmds:
       - watch -n2 'echo "=== Queue depth ===" && kubectl exec -n {{.NAMESPACE}} deploy/redis -- redis-cli llen orders:queue && echo "=== order-processor pods ===" && kubectl get pods -n {{.NAMESPACE}} -l app=order-processor --no-headers | wc -l && echo "=== avg CPU (millicores) ===" && kubectl top pods -n {{.NAMESPACE}} -l app=order-processor --no-headers 2>/dev/null | awk "{gsub(/m/,\"\",\$2); sum+=\$2; n++} END {if(n>0) printf \"%dm avg across %d pod(s)\n\", sum/n, n; else print \"metrics not available\"}"'
+  
+  scale-down:
+    desc: Scale down order processor pods to 1
+    cmds:
+      - kubectl scale --replicas=1 deployment -n keda-demo order-processor

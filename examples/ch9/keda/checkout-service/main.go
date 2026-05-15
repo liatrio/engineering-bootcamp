@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -14,6 +15,7 @@ import (
 type OrderRequest struct {
 	OrderID string          `json:"order_id"`
 	Items   json.RawMessage `json:"items"`
+	Padding string          `json:"_pad,omitempty"`
 }
 
 var rdb *redis.Client
@@ -29,6 +31,9 @@ func checkoutHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "invalid JSON", http.StatusBadRequest)
 		return
 	}
+
+    // 10KiB of VERY REAL order data
+	order.Padding = strings.Repeat("67", 10*512)
 
 	payload, err := json.Marshal(order)
 	if err != nil {
