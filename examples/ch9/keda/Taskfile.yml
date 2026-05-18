@@ -64,7 +64,7 @@ tasks:
       - kubectl apply -k k8s/overlays/local
 
   load:run:
-    desc: Run k6 load test (defaults — CHECKOUT_URL=http://localhost:8080, VUS=50, DURATION=60s)
+    desc: Run k6 load test (defaults — CHECKOUT_URL=http://localhost:8080, VUS=10, DURATION=60s)
     cmds:
       - k6 run
           -e CHECKOUT_URL=${CHECKOUT_URL:-http://localhost:8080}
