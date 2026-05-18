@@ -1485,7 +1485,7 @@ docs/9-kubernetes-container-orchestration/9.6-keda.md:
         - KEDA
         - Redis
         - k6
-docs/9-kubernetes-container-orchestration/9.6-webhooks.md:
+docs/9-kubernetes-container-orchestration/9.7-webhooks.md:
   category: Container Orchestration
   estReadingMinutes: 15
   exercises:
@@ -1515,7 +1515,7 @@ docs/9-kubernetes-container-orchestration/9.6-webhooks.md:
       technologies:
         - Kubernetes
         - Python
-docs/9-kubernetes-container-orchestration/9.6.1-validating-admission-policy.md:
+docs/9-kubernetes-container-orchestration/9.7.1-validating-admission-policy.md:
   category: Container Orchestration
   estReadingMinutes: 35
   exercises:
@@ -1549,7 +1549,7 @@ docs/9-kubernetes-container-orchestration/9.6.1-validating-admission-policy.md:
         - Kubernetes
         - ValidatingAdmissionPolicy
         - CEL
-docs/9-kubernetes-container-orchestration/9.7.1-kustomize.md:
+docs/9-kubernetes-container-orchestration/9.8.1-kustomize.md:
   category: Container Orchestration
   estReadingMinutes: 20
   exercises:
@@ -1604,7 +1604,7 @@ docs/9-kubernetes-container-orchestration/9.7.1-kustomize.md:
       technologies:
         - Kubernetes
         - Kustomize
-docs/9-kubernetes-container-orchestration/9.7.2-helm.md:
+docs/9-kubernetes-container-orchestration/9.8.2-helm.md:
   category: Container Orchestration
   estReadingMinutes: 5
   exercises:
@@ -1624,7 +1624,7 @@ docs/9-kubernetes-container-orchestration/9.7.2-helm.md:
         - Kubernetes
         - Helm
         - Kustomize
-docs/9-kubernetes-container-orchestration/9.8-controllers.md:
+docs/9-kubernetes-container-orchestration/9.9-controllers.md:
   category: Container Orchestration
   estReadingMinutes: 45
   exercises:

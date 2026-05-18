@@ -146,12 +146,12 @@
 - [9.4 - RBAC](9-kubernetes-container-orchestration/9.4-rbac.md)
 - [9.5 - HPAs](9-kubernetes-container-orchestration/9.5-hpas.md)
 - [9.6 - KEDA](9-kubernetes-container-orchestration/9.6-keda.md)
-- [9.6 - Webhooks](9-kubernetes-container-orchestration/9.6-webhooks.md)
-  - [9.6.1  - Native Admission Control](9-kubernetes-container-orchestration/9.6.1-validating-admission-policy.md)
-- [9.7 - Declarative Configuration](9-kubernetes-container-orchestration/9.7-declarative-configuration.md)
-  - [9.7.1 - Kustomize](9-kubernetes-container-orchestration/9.7.1-kustomize.md)
-  - [9.7.2 - Helm](9-kubernetes-container-orchestration/9.7.2-helm.md)
-- [9.8 - Controllers](9-kubernetes-container-orchestration/9.8-controllers.md)
+- [9.7 - Webhooks](9-kubernetes-container-orchestration/9.7-webhooks.md)
+  - [9.7.1  - Native Admission Control](9-kubernetes-container-orchestration/9.7.1-validating-admission-policy.md)
+- [9.8 - Declarative Configuration](9-kubernetes-container-orchestration/9.8-declarative-configuration.md)
+  - [9.8.1 - Kustomize](9-kubernetes-container-orchestration/9.8.1-kustomize.md)
+  - [9.8.2 - Helm](9-kubernetes-container-orchestration/9.8.2-helm.md)
+- [9.9 - Controllers](9-kubernetes-container-orchestration/9.9-controllers.md)
 
 - **Chapter 10**
 - [10.0 - Platform Engineering Overview](10-platform-engineering/10.0-overview.md)
