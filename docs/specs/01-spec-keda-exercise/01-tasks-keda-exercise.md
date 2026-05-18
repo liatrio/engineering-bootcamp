@@ -12,7 +12,7 @@
 - `examples/ch9/keda/order-processor/Dockerfile` — Multi-stage build matching checkout-service pattern
 - `examples/ch9/keda/k8s/base/kustomization.yaml` — Kustomize base listing all resources
 - `examples/ch9/keda/k8s/base/namespace.yaml` — Namespace `keda-demo`
-- `examples/ch9/keda/k8s/base/redis.yaml` — Redis Deployment + Service (redis:7-alpine)
+- `examples/ch9/keda/k8s/base/redis.yaml` — Redis Deployment + Service (redis:8.6-alpine)
 - `examples/ch9/keda/k8s/base/redis-secret.yaml` — Secret with `REDIS_ADDR=redis:6379`
 - `examples/ch9/keda/k8s/base/checkout-service.yaml` — Deployment + ClusterIP Service for checkout-service
 - `examples/ch9/keda/k8s/base/order-processor.yaml` — Deployment for order-processor (CPU resources set so HPA works)
@@ -80,7 +80,7 @@ Create all Kubernetes YAML for the full stack: Redis, both services, the Secret,
 
 - [x] 2.1 Create `examples/ch9/keda/k8s/base/namespace.yaml`: `Namespace` resource named `keda-demo`
 - [x] 2.2 Create `examples/ch9/keda/k8s/base/redis-secret.yaml`: `Secret` named `redis-secret` in namespace `keda-demo` with a `stringData` entry `REDIS_ADDR: redis:6379` (no password — teaching the pattern, not securing a real credential)
-- [x] 2.3 Create `examples/ch9/keda/k8s/base/redis.yaml`: `Deployment` named `redis` in namespace `keda-demo` using image `redis:7-alpine`, single replica, port `6379`, no resource limits needed; and a `ClusterIP` `Service` named `redis` exposing port `6379` targeting the same pod
+- [x] 2.3 Create `examples/ch9/keda/k8s/base/redis.yaml`: `Deployment` named `redis` in namespace `keda-demo` using image `redis:8.6-alpine`, single replica, port `6379`, no resource limits needed; and a `ClusterIP` `Service` named `redis` exposing port `6379` targeting the same pod
 - [x] 2.4 Create `examples/ch9/keda/k8s/base/checkout-service.yaml`: `Deployment` named `checkout-service` in namespace `keda-demo`, one replica, container port `8080`; inject `REDIS_ADDR` from `redis-secret` via `secretKeyRef`; set CPU `requests: 100m` and `limits: 250m`; include a `ClusterIP` `Service` named `checkout-service` on port `8080`
 - [x] 2.5 Create `examples/ch9/keda/k8s/base/order-processor.yaml`: `Deployment` named `order-processor` in namespace `keda-demo`, one replica; inject `REDIS_ADDR` from `redis-secret` and set `PROCESS_DELAY_MS: "500"` as a plain env var; set CPU `requests: 100m` and `limits: 500m` (CPU limits are required for the HPA exercise to show meaningful CPU utilization); no Service needed
 - [x] 2.6 hpa.yaml intentionally omitted — left for students to write as part of Exercise 3: `HorizontalPodAutoscaler` named `order-processor-hpa` in namespace `keda-demo`; target the `order-processor` Deployment; `minReplicas: 1`, `maxReplicas: 10`; metric: `Resource` type `cpu`, target `Utilization: 50`
