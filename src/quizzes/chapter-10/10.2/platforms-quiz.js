@@ -26,16 +26,16 @@ shuffleQuestions: true
 1. [ ] Generating manifests manually without any templating
 	> Incorrect. The pattern still uses templating tools, but renders them before committing.
 
-# What does IRSA (IAM Roles for Service Accounts) enable?
+# What does Pod Identity enable?
 
 1. [x] Pods can authenticate to AWS services using temporary credentials without storing long-lived secrets
-	> Correct. IRSA links Kubernetes service accounts to IAM roles via an OIDC provider.
+	> Correct. Pod Identity links Kubernetes service accounts to IAM roles via an OIDC provider.
 1. [ ] Users can log into the AWS console from kubectl
-	> Incorrect. IRSA is for pod-level authentication, not user authentication.
+	> Incorrect. Pod Identity is for pod-level authentication, not user authentication.
 1. [ ] S3 buckets can be mounted directly as volumes
-	> Incorrect. While there are solutions for this, it's not what IRSA provides.
+	> Incorrect. While there are solutions for this, it's not what Pod Identity provides.
 1. [ ] EKS clusters can span multiple AWS regions
-	> Incorrect. IRSA is about authentication, not cluster topology.
+	> Incorrect. Pod Identity is about authentication, not cluster topology.
 
 # What is the App of Apps pattern in ArgoCD?
 
