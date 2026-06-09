@@ -26,7 +26,7 @@ shuffleQuestions: true
 1. [ ] Generating manifests manually without any templating
 	> Incorrect. The pattern still uses templating tools, but renders them before committing.
 
-# What does IRSA (IAM Roles for Service Accounts) enable?
+# What does Pod Identity enable?
 
 1. [x] Pods can authenticate to AWS services using temporary credentials without storing long-lived secrets
 	> Correct. IRSA links Kubernetes service accounts to IAM roles via an OIDC provider.
