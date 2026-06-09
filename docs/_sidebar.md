@@ -145,6 +145,7 @@
 - [9.3 - Probes](9-kubernetes-container-orchestration/9.3-probes.md)
 - [9.4 - RBAC](9-kubernetes-container-orchestration/9.4-rbac.md)
 - [9.5 - HPAs](9-kubernetes-container-orchestration/9.5-hpas.md)
+  - [9.5.1 - KEDA](9-kubernetes-container-orchestration/9.5.1-keda.md)
 - [9.6 - Webhooks](9-kubernetes-container-orchestration/9.6-webhooks.md)
   - [9.6.1  - Native Admission Control](9-kubernetes-container-orchestration/9.6.1-validating-admission-policy.md)
 - [9.7 - Declarative Configuration](9-kubernetes-container-orchestration/9.7-declarative-configuration.md)

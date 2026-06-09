@@ -1429,6 +1429,51 @@ docs/9-kubernetes-container-orchestration/9.5-hpas.md:
       technologies:
         - Docker
         - Kubernetes
+docs/9-kubernetes-container-orchestration/9.5.1-keda.md:
+  category: Container Orchestration
+  estReadingMinutes: 15
+  exercises:
+    - name: Install KEDA
+      description: >-
+        Install KEDA on a local Docker Desktop cluster using the official
+        deployment guide and verify the installation.
+      estMinutes: 60
+      technologies:
+        - Docker
+        - Kubernetes
+        - Helm
+    - name: Create a ScaledObject
+      description: >-
+        Create a KEDA ScaledObject targeting the php-apache deployment with a
+        CPU trigger and observe the HPA KEDA manages automatically.
+      estMinutes: 60
+      technologies:
+        - Docker
+        - Kubernetes
+    - name: Increase Server Load
+      description: >-
+        Generate load against the php-apache service and watch KEDA drive
+        replica scaling through the ScaledObject.
+      estMinutes: 30
+      technologies:
+        - Docker
+        - Kubernetes
+    - name: Decrease Server Load
+      description: >-
+        Remove the load generator and observe KEDA scale the deployment back
+        down.
+      estMinutes: 30
+      technologies:
+        - Docker
+        - Kubernetes
+    - name: ScaledObjects with Multiple Triggers
+      description: >-
+        Add a Cron trigger alongside the CPU trigger to observe KEDA combining
+        multiple scaling signals in a single ScaledObject.
+      estMinutes: 120
+      technologies:
+        - Docker
+        - Kubernetes
 docs/9-kubernetes-container-orchestration/9.6-webhooks.md:
   category: Container Orchestration
   estReadingMinutes: 15
