@@ -1107,6 +1107,20 @@ docs/7-release-management/7.2.5-go-releaser.md:
         - Go Releaser
         - GitHub
         - GitHub Actions
+docs/7-release-management/7.2.6-taskfiles.md:
+  category: CI/CD
+  estReadingMinutes: 10
+  exercises:
+    - name: Taskfile Exploration
+      description: >-
+        Explore the Taskfile of a complex project to understand its structure
+        and how tasks are organized. No code writing is required for this
+        exercise, but you should spend time studying and understanding the
+        Taskfile.
+      estMinutes: 45
+      technologies:
+        - Task
+        - Taskfile
 docs/7-release-management/7.3.1-docker.md:
   category: Container Orchestration
   estReadingMinutes: 10
