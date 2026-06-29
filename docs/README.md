@@ -1429,7 +1429,63 @@ docs/9-kubernetes-container-orchestration/9.5-hpas.md:
       technologies:
         - Docker
         - Kubernetes
-docs/9-kubernetes-container-orchestration/9.6-webhooks.md:
+docs/9-kubernetes-container-orchestration/9.6-keda.md:
+  category: Container Orchestration
+  estReadingMinutes: 20
+  exercises:
+    - name: Meet the System
+      description: >-
+        Deploy a Redis-backed order processing system using k3d and the provided
+        Taskfile. Verify all services are running before proceeding.
+      estMinutes: 30
+      technologies:
+        - Docker
+        - Kubernetes
+        - Redis
+    - name: Simulate Peak Traffic
+      description: >-
+        Run a flash sale load simulation and observe the order-processor fall
+        behind as queue depth grows unchecked.
+      estMinutes: 20
+      technologies:
+        - Docker
+        - Kubernetes
+        - Redis
+        - k6
+    - name: Attempt a Fix with Native HPA
+      description: >-
+        Write and apply a CPU-based HPA targeting the order-processor, then
+        re-run the load test and evaluate its effectiveness.
+      estMinutes: 45
+      technologies:
+        - Docker
+        - Kubernetes
+    - name: Introduce KEDA
+      description: Remove the native HPA and install KEDA into the cluster using Helm.
+      estMinutes: 30
+      technologies:
+        - Kubernetes
+        - KEDA
+    - name: Create a ScaledObject
+      description: >-
+        Read the KEDA documentation and write a ScaledObject that scales the
+        order-processor based on Redis queue depth.
+      estMinutes: 60
+      technologies:
+        - Kubernetes
+        - KEDA
+        - Redis
+    - name: Run the Load Test Again
+      description: >-
+        Re-run the flash sale simulation and compare queue depth and scaling
+        behavior against the previous two runs.
+      estMinutes: 20
+      technologies:
+        - Kubernetes
+        - KEDA
+        - Redis
+        - k6
+docs/9-kubernetes-container-orchestration/9.7-webhooks.md:
   category: Container Orchestration
   estReadingMinutes: 15
   exercises:
@@ -1459,7 +1515,7 @@ docs/9-kubernetes-container-orchestration/9.6-webhooks.md:
       technologies:
         - Kubernetes
         - Python
-docs/9-kubernetes-container-orchestration/9.6.1-validating-admission-policy.md:
+docs/9-kubernetes-container-orchestration/9.7.1-validating-admission-policy.md:
   category: Container Orchestration
   estReadingMinutes: 35
   exercises:
@@ -1493,7 +1549,7 @@ docs/9-kubernetes-container-orchestration/9.6.1-validating-admission-policy.md:
         - Kubernetes
         - ValidatingAdmissionPolicy
         - CEL
-docs/9-kubernetes-container-orchestration/9.7.1-kustomize.md:
+docs/9-kubernetes-container-orchestration/9.8.1-kustomize.md:
   category: Container Orchestration
   estReadingMinutes: 20
   exercises:
@@ -1548,7 +1604,7 @@ docs/9-kubernetes-container-orchestration/9.7.1-kustomize.md:
       technologies:
         - Kubernetes
         - Kustomize
-docs/9-kubernetes-container-orchestration/9.7.2-helm.md:
+docs/9-kubernetes-container-orchestration/9.8.2-helm.md:
   category: Container Orchestration
   estReadingMinutes: 5
   exercises:
@@ -1568,7 +1624,7 @@ docs/9-kubernetes-container-orchestration/9.7.2-helm.md:
         - Kubernetes
         - Helm
         - Kustomize
-docs/9-kubernetes-container-orchestration/9.8-controllers.md:
+docs/9-kubernetes-container-orchestration/9.9-controllers.md:
   category: Container Orchestration
   estReadingMinutes: 45
   exercises:
