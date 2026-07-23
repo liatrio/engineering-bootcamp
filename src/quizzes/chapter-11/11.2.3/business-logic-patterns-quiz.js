@@ -138,21 +138,4 @@ function processPayment(amount, customerId, paymentMethod) {
 	> Not quite. You don't delete data; you rollback changes to restore the state before the transaction started.
 `;
 
-if (typeof window !== 'undefined' && window.quizdown) {
-  const quizContainer = document.getElementById('quiz-11-2-3');
-  if (quizContainer) {
-    window.quizdown.register(quizContainer).then(() => {
-      window.quizdown.createApp(rawQuizdown, quizContainer, {
-        startOnLoad: true,
-        shuffleAnswers: true,
-        shuffleQuestions: true,
-        nQuestions: 10
-      });
-    });
-  }
-}
-
-// Export for module systems
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = rawQuizdown;
-}
+export { rawQuizdown }
