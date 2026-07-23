@@ -13,7 +13,7 @@ This parent spec coordinates seven child specifications that build the chapter s
 | Spec | Title | Status | Priority |
 |------|-------|--------|----------|
 | **01** | Design Patterns (11.2.2-11.2.5) | ✅ COMPLETE | P0 |
-| **02** | System Thinking & Codebase Analysis (11.3) | ✅ COMPLETE | P1 |
+| **02** | System Thinking & Codebase Analysis (11.3) | 🟡 CONTENT COMPLETE (OTel ARM validation pending) | P1 |
 | **03** | Databases & Data Persistence (11.4) | 📋 PLANNED | P1 |
 | **04** | REST API Design & OpenAPI (11.5) | 📋 PLANNED | P1 |
 | **05** | Authentication & Authorization (11.6) | 📋 PLANNED | P1 |
@@ -118,12 +118,13 @@ By the end of Chapter 11, students should be able to:
 
 ### Phase 1: Foundation (Understanding Applications)
 
-**Spec 02: System Thinking & Codebase Analysis (11.3)** 📋 PLANNED
+**Spec 02: System Thinking & Codebase Analysis (11.3)** 🟡 CONTENT COMPLETE (OTel ARM validation pending)
 - Analyzing existing applications
 - Creating system diagrams (sequence, component, data flow)
 - Tracing transactions through services
 - Documentation and communication skills
 - Hands-on with realistic microservice architecture
+- All content, templates, examples, and diagrams built and committed on `docs/11.3-system-thinking`; the OTel Demo setup guide's ARM (Apple Silicon) instructions are sourced from upstream docs but have not yet been exercised end-to-end on real ARM hardware in this environment
 
 **Why This Phase**: Students must learn to READ and UNDERSTAND code before effectively writing it. System thinking develops the mental models needed for production work.
 
@@ -446,7 +447,7 @@ Students completing Chapter 11 should demonstrate:
 - ✅ Spec 01: Design Patterns (COMPLETE)
 
 **P1 (Foundation & Topics)**:
-- 📋 Spec 02: System Thinking & Codebase Analysis
+- 🟡 Spec 02: System Thinking & Codebase Analysis (content complete, OTel ARM validation pending)
 - 📋 Spec 03: Databases & Data Persistence
 - 📋 Spec 04: REST API Design & OpenAPI
 - 📋 Spec 05: Authentication & Authorization

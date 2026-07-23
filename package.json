@@ -32,6 +32,7 @@
   "homepage": "https://github.com/liatrio/devops-bootcamp#readme",
   "cspell": {
     "version": "0.2",
+    "ignorePaths": ["**/node_modules/**", "**/.venv/**", "docs/specs/**"],
     "words": [
       "OLJCESPC",
       "diffable",
@@ -42,6 +43,7 @@
       "skinparam",
       "enduml",
       "bootcamp",
+      "bootcamper",
       "healthcheck",
       "loadgen",
       "opensearch",
@@ -50,7 +52,27 @@
       "blockquotes",
       "venv",
       "chartjs",
-      "wordcloud"
+      "wordcloud",
+      "keypair",
+      "techdocs",
+      "llms",
+      "vmss",
+      "VMSS",
+      "pairprogramming",
+      "sonarqube",
+      "Qube",
+      "Taskfile",
+      "Dockerhub",
+      "Hashicups",
+      "hpas",
+      "productionalized",
+      "Gitea",
+      "kustomization",
+      "Logomark",
+      "quizdown",
+      "equivillant",
+      "leanred",
+      "pathes"
     ]
   },
   "dependencies": {
