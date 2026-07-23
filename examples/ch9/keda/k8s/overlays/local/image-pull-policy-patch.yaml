@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout-service
+  namespace: keda-demo
+spec:
+  template:
+    spec:
+      containers:
+        - name: checkout-service
+          imagePullPolicy: Never
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-processor
+  namespace: keda-demo
+spec:
+  template:
+    spec:
+      containers:
+        - name: order-processor
+          imagePullPolicy: Never

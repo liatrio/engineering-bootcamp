@@ -16,7 +16,8 @@
             "script",
             "style",
             "input",
-            "span"
+            "span",
+            "quizdown"
         ]
     },
     "heading-style": false,
@@ -36,5 +37,8 @@
     "code-block-style": false,
     "no-emphasis-as-heading": false,
     "no-duplicate-heading": false,
-    "heading-increment": false
+    "heading-increment": false,
+    "no-bare-urls": false,
+    "no-space-in-emphasis": false,
+    "table-column-style": false
 }
