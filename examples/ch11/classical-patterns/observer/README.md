@@ -121,7 +121,7 @@ All tests should pass, demonstrating:
 
 ## Project Structure
 
-```
+```text
 observer/
 ├── src/
 │   ├── observer.ts     # Observer interface and concrete observers

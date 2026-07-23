@@ -181,7 +181,7 @@ All tests should pass, demonstrating:
 
 ## Project Structure
 
-```
+```text
 factory/
 ├── factory.go       # Database interface, factories, and implementations
 ├── main.go          # Executable demo

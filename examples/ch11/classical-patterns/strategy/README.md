@@ -147,7 +147,7 @@ All tests should pass, demonstrating:
 
 ## Project Structure
 
-```
+```text
 strategy/
 ├── src/
 │   ├── strategy.py      # Strategy interface and concrete implementations

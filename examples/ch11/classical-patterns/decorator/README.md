@@ -148,7 +148,7 @@ All tests should pass, demonstrating:
 
 ## Project Structure
 
-```
+```text
 decorator/
 ├── src/
 │   ├── decorator.py     # Component interface, decorators
