@@ -69,7 +69,7 @@ This task list breaks down the implementation of Chapter 11.3: System Thinking &
 
 ## Tasks
 
-### [ ] 1.0 Create Introduction Section with Simple Application Example
+### [x] 1.0 Create Introduction Section with Simple Application Example
 
 **Purpose:** Build the foundation by creating the main documentation page with system thinking concepts, and provide a simple 2-3 service example application that students can analyze to learn diagram types.
 
@@ -83,26 +83,26 @@ This task list breaks down the implementation of Chapter 11.3: System Thinking &
 
 #### 1.0 Tasks
 
-- [ ] 1.1 Create `docs/11-application-development/11.3-system-thinking.md` with front-matter (category: Software Development, estReadingMinutes: 30), H2 section "System Thinking & Codebase Analysis", introduction explaining the importance of understanding existing codebases, and learning objectives
-- [ ] 1.2 Add H2 section "Understanding System Diagrams" to `11.3-system-thinking.md` explaining the three diagram types: sequence diagrams (request/response flows with time dimension), component diagrams (service boundaries and dependencies), and data flow diagrams (information movement through system)
-- [ ] 1.3 Add H2 section "Diagramming Tools" to `11.3-system-thinking.md` introducing code-based tools (PlantUML, Mermaid) and visual tools (Draw.io, Lucidchart), with pros/cons of each approach and links to getting started guides
-- [ ] 1.4 Create directory structure `examples/ch11/simple-system/` with subdirectories for `frontend/`, `backend/`, and `diagrams/`
-- [ ] 1.5 Create `examples/ch11/simple-system/README.md` documenting what the application does (e.g., "Simple task list application with web UI, REST API, and SQLite database"), its architecture (3 components: frontend, backend, database), and how to run it with docker-compose
-- [ ] 1.6 Create `examples/ch11/simple-system/frontend/app.py` with a simple Flask application serving HTML templates and making HTTP requests to the backend API (e.g., display task list, add new task)
-- [ ] 1.7 Create `examples/ch11/simple-system/frontend/templates/index.html` with a simple UI showing the application functionality (form to add items, list display)
-- [ ] 1.8 Create `examples/ch11/simple-system/frontend/requirements.txt` and `frontend/pyproject.toml` with Flask dependency and Python 3.11+ requirement
-- [ ] 1.9 Create `examples/ch11/simple-system/backend/app.py` with a Flask REST API providing endpoints (e.g., GET /tasks, POST /tasks) and using SQLite for data persistence
-- [ ] 1.10 Create `examples/ch11/simple-system/backend/requirements.txt` and `backend/pyproject.toml` with Flask dependency and Python 3.11+ requirement
-- [ ] 1.11 Create `examples/ch11/simple-system/docker-compose.yml` orchestrating frontend and backend services with appropriate port mappings and health checks
-- [ ] 1.12 Create `examples/ch11/simple-system/.gitignore` with common patterns (*.pyc, __pycache__, .venv/, *.db, .DS_Store)
-- [ ] 1.13 Create `examples/ch11/simple-system/diagrams/sequence.puml` with PlantUML source showing a complete request flow (User → Frontend → Backend → Database → Backend → Frontend → User)
-- [ ] 1.14 Create `examples/ch11/simple-system/diagrams/component.puml` with PlantUML source showing the three components (Frontend, Backend, Database) with their dependencies and interfaces
-- [ ] 1.15 Create `examples/ch11/simple-system/diagrams/dataflow.puml` with PlantUML source showing how data flows through the system (user input → form data → API request → database write → query → API response → UI display)
-- [ ] 1.16 Render all three PlantUML diagrams to PNG and save in `docs/11-application-development/img11/` as `simple-system-sequence.png`, `simple-system-component.png`, `simple-system-dataflow.png`
-- [ ] 1.17 Add H2 section "Exercise 1: Simple Application Analysis" to `11.3-system-thinking.md` with instructions to run the simple-system application, examine its code, and create all three diagram types with reference to the example diagrams
-- [ ] 1.18 Embed the three example diagram images in `11.3-system-thinking.md` using HTML img tags with proper alt text, showing students what quality diagrams look like
-- [ ] 1.19 Create `examples/ch11/templates/architecture-readme-template.md` with sections: Overview (what does it do?), Architecture (components and their responsibilities), Communication Patterns (how components interact), Data Storage (what data is stored and where), Key Decisions (why was it built this way?)
-- [ ] 1.20 Test that `docker-compose up` in `examples/ch11/simple-system/` successfully starts all services, and verify the application is accessible and functional (can add/view items)
+- [x] 1.1 Create `docs/11-application-development/11.3-system-thinking.md` with front-matter (category: Software Development, estReadingMinutes: 30), H2 section "System Thinking & Codebase Analysis", introduction explaining the importance of understanding existing codebases, and learning objectives
+- [x] 1.2 Add H2 section "Understanding System Diagrams" to `11.3-system-thinking.md` explaining the three diagram types: sequence diagrams (request/response flows with time dimension), component diagrams (service boundaries and dependencies), and data flow diagrams (information movement through system)
+- [x] 1.3 Add H2 section "Diagramming Tools" to `11.3-system-thinking.md` introducing code-based tools (PlantUML, Mermaid) and visual tools (Draw.io, Lucidchart), with pros/cons of each approach and links to getting started guides
+- [x] 1.4 Create directory structure `examples/ch11/simple-system/` with subdirectories for `frontend/`, `backend/`, and `diagrams/`
+- [x] 1.5 Create `examples/ch11/simple-system/README.md` documenting what the application does (e.g., "Simple task list application with web UI, REST API, and SQLite database"), its architecture (3 components: frontend, backend, database), and how to run it with docker-compose
+- [x] 1.6 Create `examples/ch11/simple-system/frontend/app.py` with a simple Flask application serving HTML templates and making HTTP requests to the backend API (e.g., display task list, add new task)
+- [x] 1.7 Create `examples/ch11/simple-system/frontend/templates/index.html` with a simple UI showing the application functionality (form to add items, list display)
+- [x] 1.8 Create `examples/ch11/simple-system/frontend/requirements.txt` and `frontend/pyproject.toml` with Flask dependency and Python 3.11+ requirement
+- [x] 1.9 Create `examples/ch11/simple-system/backend/app.py` with a Flask REST API providing endpoints (e.g., GET /tasks, POST /tasks) and using SQLite for data persistence
+- [x] 1.10 Create `examples/ch11/simple-system/backend/requirements.txt` and `backend/pyproject.toml` with Flask dependency and Python 3.11+ requirement
+- [x] 1.11 Create `examples/ch11/simple-system/docker-compose.yml` orchestrating frontend and backend services with appropriate port mappings and health checks
+- [x] 1.12 Create `examples/ch11/simple-system/.gitignore` with common patterns (*.pyc, __pycache__, .venv/, *.db, .DS_Store)
+- [x] 1.13 Create `examples/ch11/simple-system/diagrams/sequence.puml` with PlantUML source showing a complete request flow (User → Frontend → Backend → Database → Backend → Frontend → User)
+- [x] 1.14 Create `examples/ch11/simple-system/diagrams/component.puml` with PlantUML source showing the three components (Frontend, Backend, Database) with their dependencies and interfaces
+- [x] 1.15 Create `examples/ch11/simple-system/diagrams/dataflow.puml` with PlantUML source showing how data flows through the system (user input → form data → API request → database write → query → API response → UI display)
+- [x] 1.16 Render all three PlantUML diagrams to PNG and save in `docs/11-application-development/img11/` as `simple-system-sequence.png`, `simple-system-component.png`, `simple-system-dataflow.png`
+- [x] 1.17 Add H2 section "Exercise 1: Simple Application Analysis" to `11.3-system-thinking.md` with instructions to run the simple-system application, examine its code, and create all three diagram types with reference to the example diagrams
+- [x] 1.18 Embed the three example diagram images in `11.3-system-thinking.md` using HTML img tags with proper alt text, showing students what quality diagrams look like
+- [x] 1.19 Create `examples/ch11/templates/architecture-readme-template.md` with sections: Overview (what does it do?), Architecture (components and their responsibilities), Communication Patterns (how components interact), Data Storage (what data is stored and where), Key Decisions (why was it built this way?)
+- [x] 1.20 Test that `docker-compose up` in `examples/ch11/simple-system/` successfully starts all services, and verify the application is accessible and functional (can add/view items)
 
 ---
 

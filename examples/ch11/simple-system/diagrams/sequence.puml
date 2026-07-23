@@ -1,0 +1,35 @@
+@startuml simple-system-sequence
+title Simple System - "Add Task" Sequence Diagram
+
+actor User
+participant "Frontend\n(Flask :5000)" as Frontend
+participant "Backend API\n(Flask :5001)" as Backend
+database "SQLite\n(tasks.db)" as DB
+
+User -> Frontend: Submit "Add Task" form\n(POST /tasks, title="Buy milk")
+activate Frontend
+
+Frontend -> Backend: POST /tasks\n{"title": "Buy milk"}
+activate Backend
+
+Backend -> DB: INSERT INTO tasks (title, done)\nVALUES ("Buy milk", 0)
+activate DB
+DB --> Backend: new row id
+deactivate DB
+
+Backend --> Frontend: 201 Created\n{"id": 4, "title": "Buy milk", "done": false}
+deactivate Backend
+
+Frontend -> Backend: GET /tasks\n(re-render list)
+activate Backend
+Backend -> DB: SELECT * FROM tasks
+activate DB
+DB --> Backend: rows
+deactivate DB
+Backend --> Frontend: 200 OK\n[{...}, {...}, {...}, {...}]
+deactivate Backend
+
+Frontend --> User: 302 redirect -> rendered HTML\nwith updated task list
+deactivate Frontend
+
+@enduml

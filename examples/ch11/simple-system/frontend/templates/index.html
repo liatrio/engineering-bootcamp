@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Simple Task List</title>
+  <style>
+    body { font-family: sans-serif; max-width: 480px; margin: 3rem auto; }
+    li.done { text-decoration: line-through; color: #888; }
+    form { margin-bottom: 1.5rem; display: flex; gap: 0.5rem; }
+    input[type=text] { flex: 1; padding: 0.4rem; }
+    button { padding: 0.4rem 0.8rem; }
+    li { cursor: pointer; padding: 0.2rem 0; }
+  </style>
+</head>
+<body>
+  <h1>Task List</h1>
+
+  <form action="/tasks" method="post">
+    <input type="text" name="title" placeholder="New task" required>
+    <button type="submit">Add</button>
+  </form>
+
+  <ul>
+    {% for task in tasks %}
+    <li class="{{ 'done' if task.done else '' }}">
+      <form action="/tasks/{{ task.id }}/toggle" method="post" style="display:inline">
+        <button type="submit" style="border:none;background:none;cursor:pointer;">
+          {{ '[x]' if task.done else '[ ]' }}
+        </button>
+      </form>
+      {{ task.title }}
+    </li>
+    {% else %}
+    <li>No tasks yet.</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

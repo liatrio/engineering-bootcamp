@@ -1,0 +1,25 @@
+@startuml simple-system-dataflow
+title Simple System - Data Flow Diagram ("Add Task")
+
+skinparam defaultTextAlignment center
+
+rectangle "User Input\n(text typed into form field)" as Input
+rectangle "Form Data\n(application/x-www-form-urlencoded\ntitle=\"Buy milk\")" as FormData
+rectangle "API Request\n(JSON body\n{\"title\": \"Buy milk\"})" as ApiRequest
+database "Database Row\n(id, title, done=0)" as DbRow
+rectangle "API Response\n(JSON\n{\"id\":4,\"title\":\"Buy milk\",\"done\":false})" as ApiResponse
+rectangle "Rendered HTML\n(updated <ul> of tasks)" as Html
+
+Input -down-> FormData : browser serializes form
+FormData -down-> ApiRequest : frontend parses form,\nbuilds JSON payload
+ApiRequest -down-> DbRow : backend validates,\ninserts row
+DbRow -down-> ApiResponse : backend serializes\nnew row to JSON
+ApiResponse -down-> Html : frontend re-fetches\ntask list, renders template
+
+note bottom of Html
+  Data is transformed at every hop:
+  raw text -> form encoding -> JSON -> SQL row -> JSON -> HTML.
+  Each transformation is a place a bug (or a diagram) can hide.
+end note
+
+@enduml
