@@ -4,7 +4,13 @@ shuffleQuestions: true
 shuffleAnswers: true
 ---
 
-# Which design pattern is demonstrated by this Python code: \`class OrderProcessor:\n    def __init__(self, payment_strategy: PaymentStrategy):\n        self.strategy = payment_strategy\`?
+# Which design pattern is demonstrated by this Python code?
+
+\`\`\`python
+class OrderProcessor:
+    def __init__(self, payment_strategy: PaymentStrategy):
+        self.strategy = payment_strategy
+\`\`\`
 
 1. [x] Strategy Pattern
 	> Correct! The Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. Here, PaymentStrategy is swapped via dependency injection.
@@ -15,7 +21,13 @@ shuffleAnswers: true
 1. [ ] Decorator Pattern
 	> Not quite. Decorator Pattern adds behavior by wrapping, not by swapping strategies.
 
-# This Go code demonstrates which SOLID principle? \`func NewUserService(db Database) *UserService {\n    return &UserService{db: db}\n}\`
+# This Go code demonstrates which SOLID principle?
+
+\`\`\`go
+func NewUserService(db Database) *UserService {
+    return &UserService{db: db}
+}
+\`\`\`
 
 1. [x] Dependency Inversion Principle
 	> Correct! UserService depends on the Database interface (abstraction), not a concrete implementation like MySQL. Dependencies are injected, following DIP.
@@ -37,7 +49,13 @@ shuffleAnswers: true
 1. [ ] The price is stored but no notifications occur
 	> Not quite. The core purpose of Observer Pattern is automatic notification of state changes.
 
-# This TypeScript code shows which pattern? \`class WhippedCreamDecorator extends BeverageDecorator {\n    cost() { return this._beverage.cost() + 0.70; }\n}\`
+# This TypeScript code shows which pattern?
+
+\`\`\`typescript
+class WhippedCreamDecorator extends BeverageDecorator {
+    cost() { return this._beverage.cost() + 0.70; }
+}
+\`\`\`
 
 1. [x] Decorator Pattern
 	> Correct! The Decorator Pattern wraps an object to add behavior. WhippedCreamDecorator wraps a beverage and adds cost/functionality without modifying the base class.
@@ -48,7 +66,12 @@ shuffleAnswers: true
 1. [ ] Factory Pattern
 	> Not quite. Factory handles object creation. This code wraps existing objects to extend behavior.
 
-# Identify the pattern: \`factory := GetDatabaseFactory("mysql")\ndb := factory.CreateDatabase(config)\`
+# Identify the pattern:
+
+\`\`\`go
+factory := GetDatabaseFactory("mysql")
+db := factory.CreateDatabase(config)
+\`\`\`
 
 1. [x] Factory Pattern
 	> Correct! The Factory Pattern abstracts object creation. GetDatabaseFactory returns a factory that creates database instances, decoupling creation from usage.
