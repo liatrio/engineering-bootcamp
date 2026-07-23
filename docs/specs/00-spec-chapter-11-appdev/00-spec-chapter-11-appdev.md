@@ -11,7 +11,7 @@ This is the **parent specification** for the complete Chapter 11: Application De
 This parent spec coordinates seven child specifications that build the chapter sequentially:
 
 | Spec | Title | Status | Priority |
-|------|-------|--------|----------|
+| ---- | ----- | ------ | -------- |
 | **01** | Design Patterns (11.2.2-11.2.5) | ✅ COMPLETE | P0 |
 | **02** | System Thinking & Codebase Analysis (11.3) | ✅ COMPLETE | P1 |
 | **03** | Databases & Data Persistence (11.4) | 📋 PLANNED | P1 |
@@ -554,7 +554,7 @@ After each phase, validate:
 ## Revision History
 
 | Version | Date | Author | Changes |
-|---------|------|--------|---------|
+| ------- | ---- | ------ | ------- |
 | 1.0 | 2026-01-05 | SDD System | Initial parent spec coordinating seven child specs |
 
 ---
@@ -562,42 +562,49 @@ After each phase, validate:
 ## Child Spec Status Tracking
 
 ### Spec 01: Design Patterns (11.2.2-11.2.5)
+
 - **Status**: ✅ COMPLETE
 - **Location**: `docs/specs/01-spec-design-patterns-section/`
 - **Sections Covered**: 11.2.2, 11.2.3, 11.2.4, 11.2.5
 - **Notes**: Data layer patterns, business logic patterns, classical GoF patterns, integrated refactoring exercise
 
 ### Spec 02: System Thinking & Codebase Analysis (11.3)
+
 - **Status**: ✅ COMPLETE
 - **Location**: `docs/specs/02-spec-system-thinking/`
 - **Sections Covered**: 11.3
 - **Notes**: Analyzing applications, system diagrams, tracing transactions. Spec and task list complete.
 
 ### Spec 03: Databases & Data Persistence (11.4)
+
 - **Status**: 📋 PLANNED
 - **Location**: `docs/specs/03-spec-databases/` (to be created)
 - **Sections Covered**: 11.4
 - **Notes**: SQL, NoSQL, ORMs, data modeling
 
 ### Spec 04: REST API Design & OpenAPI (11.5)
+
 - **Status**: 📋 PLANNED
 - **Location**: `docs/specs/04-spec-rest-api/` (to be created)
 - **Sections Covered**: 11.5
 - **Notes**: REST principles, OpenAPI spec, API design exercises
 
 ### Spec 05: Authentication & Authorization (11.6)
+
 - **Status**: 📋 PLANNED
 - **Location**: `docs/specs/05-spec-auth/` (to be created)
 - **Sections Covered**: 11.6
 - **Notes**: OAuth/OIDC, FE/BE auth patterns, security best practices
 
 ### Spec 06: Debugging & Observability (11.7)
+
 - **Status**: 📋 PLANNED
 - **Location**: `docs/specs/06-spec-debugging-observability/` (to be created)
 - **Sections Covered**: 11.7
 - **Notes**: OTel Demo App, telemetry, memory leak exercise, **introduces SDD**
 
 ### Spec 07: Production Development & Digital Clone (11.8)
+
 - **Status**: 📋 PLANNED
 - **Location**: `docs/specs/07-spec-production-development/` (to be created)
 - **Sections Covered**: 11.8
