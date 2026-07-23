@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is Liatrio's DevOps Bootcamp - a comprehensive educational resource built with Docsify that covers DevOps fundamentals, practices, and tools. The bootcamp is structured as a static documentation site with interactive elements, exercises, and front-matter metadata for tracking learning metrics.
+This is Liatrio's Engineering Bootcamp - a comprehensive educational resource built with Docsify that covers engineering fundamentals with a focus on DevOps practices and tools. The bootcamp is structured as a static documentation site with interactive elements, exercises, and front-matter metadata for tracking learning metrics.
 
 ## Development Commands
 
@@ -20,8 +20,8 @@ This is Liatrio's DevOps Bootcamp - a comprehensive educational resource built w
 
 ### Docker Development
 
-- `docker build . -t devops-bootcamp` - Build Docker image
-- `docker run -d -p 3000:3000 --name devops-bootcamp devops-bootcamp` - Run container
+- `docker build . -t engineering-bootcamp` - Build Docker image
+- `docker run -d -p 3000:3000 --name engineering-bootcamp engineering-bootcamp` - Run container
 - `docker compose up -d` - Start with Docker Compose
 - `docker compose down` - Stop Docker Compose
 
@@ -65,6 +65,18 @@ The bootcamp uses a sophisticated front-matter system to track learning metrics:
 - Images should use HTML `<img>` tags and be placed in the root `img/` folder
 - Front-matter must follow the specified YAML template for exercises
 - Multi-column layouts available using `grid2`, `grid3`, `grid4` CSS classes
+
+### Adding Quizzes
+
+Quiz files go in `src/quizzes/chapter-N/N.X/quiz-name.js`. To embed a quiz in markdown:
+
+```html
+<div class="quizdown">
+  <div id="chapter-N/N.X/quiz-name.js"></div>
+</div>
+```
+
+The `id` attribute should match the path relative to `src/quizzes/`. Do NOT use inline scripts or import statements.
 
 ## Pre-commit Hooks
 
