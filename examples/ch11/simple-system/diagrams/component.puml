@@ -1,0 +1,37 @@
+@startuml simple-system-component
+title Simple System - Component Diagram
+
+skinparam componentStyle rectangle
+
+actor "User\n(Browser)" as User
+
+package "simple-system" {
+  [Frontend\n(Flask, :5000)] as Frontend
+  [Backend API\n(Flask, :5001)] as Backend
+  database "SQLite\n(tasks.db)" as DB
+}
+
+User --> Frontend : HTTP\n(HTML forms)
+Frontend --> Backend : HTTP/JSON\n(REST API)
+Backend --> DB : SQL
+
+note right of Frontend
+  Responsibility: presentation
+  Owns no data. Renders HTML,
+  translates form submissions
+  into backend API calls.
+end note
+
+note right of Backend
+  Responsibility: business logic
+  + data access. Sole owner of
+  the database. Exposes a
+  REST API (GET/POST /tasks).
+end note
+
+note right of DB
+  Responsibility: persistence.
+  Single table: tasks(id, title, done)
+end note
+
+@enduml

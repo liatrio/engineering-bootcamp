@@ -1,0 +1,64 @@
+# Optional override: trims the OTel Demo (release 2.1.3) down to the ~5 core
+# services touched by this chapter's "Add to Cart" worked example, instead of
+# the full ~26-service stack or the ~21-service `docker-compose.minimal.yml`.
+#
+# Usage (from inside a checkout of the pinned opentelemetry-demo release):
+#   cp /path/to/this/file/docker-compose-subset.yml .
+#   docker compose -f docker-compose.yml -f docker-compose-subset.yml up frontend-proxy frontend cart product-catalog valkey-cart flagd jaeger otel-collector
+#
+# Why these services: `frontend` and `frontend-proxy` are the entry point,
+# `cart` and `valkey-cart` handle the "Add to Cart" write, `product-catalog`
+# serves the product data the frontend renders, and `flagd` / `jaeger` /
+# `otel-collector` are supporting infrastructure the frontend depends on to
+# start and that you need to view the resulting trace.
+#
+# What this trades away: the frontend's own `depends_on` list includes several
+# services NOT started here (ad, checkout, currency, quote, recommendation,
+# shipping, image-provider). Compose will still bring the storefront up, but
+# product-page sections backed by those services (ads, recommendations,
+# shipping estimates, checkout) will error or render empty — which is exactly
+# what you'd expect to see if those services were actually down in production.
+# That's a reasonable trade for this chapter's scope, since Exercise 2 only
+# needs "Add to Cart" to work end-to-end.
+#
+# Not validated against a live run in this environment — see "Local ARM
+# validation: pending" in README.md. If frontend fails to start because of an
+# unmet dependency, fall back to `docker-compose.minimal.yml` or the full
+# `docker-compose.yml` instead.
+services:
+  ad:
+    profiles: ["disabled"]
+  checkout:
+    profiles: ["disabled"]
+  currency:
+    profiles: ["disabled"]
+  email:
+    profiles: ["disabled"]
+  payment:
+    profiles: ["disabled"]
+  quote:
+    profiles: ["disabled"]
+  recommendation:
+    profiles: ["disabled"]
+  shipping:
+    profiles: ["disabled"]
+  image-provider:
+    profiles: ["disabled"]
+  accounting:
+    profiles: ["disabled"]
+  fraud-detection:
+    profiles: ["disabled"]
+  kafka:
+    profiles: ["disabled"]
+  postgresql:
+    profiles: ["disabled"]
+  flagd-ui:
+    profiles: ["disabled"]
+  grafana:
+    profiles: ["disabled"]
+  prometheus:
+    profiles: ["disabled"]
+  opensearch:
+    profiles: ["disabled"]
+  load-generator:
+    profiles: ["disabled"]

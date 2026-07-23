@@ -1,0 +1,39 @@
+@startuml integration-example-sequence
+title Product Recommendation Flow - Sequence Diagram
+
+actor Shopper
+participant "Frontend\n(Next.js)" as Frontend
+participant "Recommendation Service\n(Python, gRPC)" as Recs
+participant "Product Catalog Service\n(Go, gRPC)" as Catalog
+
+Shopper -> Frontend: GET /product/[id]
+activate Frontend
+
+Frontend -> Recs: gRPC ListRecommendations\n(productIds: [currentId])
+activate Recs
+
+Recs -> Catalog: gRPC ListProducts()
+activate Catalog
+Catalog --> Recs: all products
+deactivate Catalog
+
+note right of Recs
+  Filters out currentId,
+  randomly selects up to 4
+  remaining product IDs
+end note
+
+Recs --> Frontend: RecommendationResponse\n(productIds: [id2, id3, id4, id5])
+deactivate Recs
+
+loop for each recommended productId
+  Frontend -> Catalog: gRPC GetProduct(productId)
+  activate Catalog
+  Catalog --> Frontend: full Product\n(name, price, picture)
+  deactivate Catalog
+end
+
+Frontend --> Shopper: rendered page with\n"You might also like" section
+deactivate Frontend
+
+@enduml
