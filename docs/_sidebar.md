@@ -118,6 +118,7 @@
   - [7.2.3 - Make](7-release-management/7.2.3-make.md)
   - [7.2.4 - Npm](7-release-management/7.2.4-npm.md)
   - [7.2.5 - Go Releaser](7-release-management/7.2.5-go-releaser.md)
+  - [7.2.6 - Taskfiles](7-release-management/7.2.6-taskfiles.md)
 - [7.3 - Containers](7-release-management/7.3-containers.md)
   - [7.3.1 - Docker](7-release-management/7.3.1-docker.md)
   - [7.3.2 - Helm](7-release-management/7.3.2-helm.md)
