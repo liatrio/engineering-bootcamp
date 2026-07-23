@@ -30,6 +30,29 @@
     "url": "https://github.com/liatrio/devops-bootcamp/issues"
   },
   "homepage": "https://github.com/liatrio/devops-bootcamp#readme",
+  "cspell": {
+    "version": "0.2",
+    "words": [
+      "OLJCESPC",
+      "diffable",
+      "Lucidchart",
+      "Valkey",
+      "valkey",
+      "startuml",
+      "skinparam",
+      "enduml",
+      "bootcamp",
+      "healthcheck",
+      "loadgen",
+      "opensearch",
+      "crawlable",
+      "grpcurl",
+      "blockquotes",
+      "venv",
+      "chartjs",
+      "wordcloud"
+    ]
+  },
   "dependencies": {
     "chart.js": "^4.3.0",
     "chartjs-chart-wordcloud": "^4.2.0",
