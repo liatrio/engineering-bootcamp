@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is Liatrio's DevOps Bootcamp - a comprehensive educational resource built with Docsify that covers DevOps fundamentals, practices, and tools. The bootcamp is structured as a static documentation site with interactive elements, exercises, and front-matter metadata for tracking learning metrics.
+This is Liatrio's Engineering Bootcamp - a comprehensive educational resource built with Docsify that covers engineering fundamentals with a focus on DevOps practices and tools. The bootcamp is structured as a static documentation site with interactive elements, exercises, and front-matter metadata for tracking learning metrics.
 
 ## Development Commands
 
@@ -20,8 +20,8 @@ This is Liatrio's DevOps Bootcamp - a comprehensive educational resource built w
 
 ### Docker Development
 
-- `docker build . -t devops-bootcamp` - Build Docker image
-- `docker run -d -p 3000:3000 --name devops-bootcamp devops-bootcamp` - Run container
+- `docker build . -t engineering-bootcamp` - Build Docker image
+- `docker run -d -p 3000:3000 --name engineering-bootcamp engineering-bootcamp` - Run container
 - `docker compose up -d` - Start with Docker Compose
 - `docker compose down` - Stop Docker Compose
 
