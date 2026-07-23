@@ -38,7 +38,7 @@ grep -c "async (" src/routes.ts
 
 Draw the current architecture on paper or whiteboard:
 
-```
+```text
 Client → routes.ts → SQLite Database
            ↓
     (Everything happens here)
@@ -210,7 +210,7 @@ if (orderRequest.payment_type === 'credit_card') {
 ### Missing Abstraction Layers
 
 **Evidence:**
-```
+```text
 Current:
   HTTP (routes.ts) → SQLite
 
@@ -460,6 +460,7 @@ await service.createOrder(request);
 After completing your refactoring, verify:
 
 ### Behavioral Verification
+
 - [ ] All tests pass without modification: `npm test`
 - [ ] Can create orders with same API
 - [ ] Payment fees calculate correctly (credit_card, paypal, bitcoin)
@@ -467,6 +468,7 @@ After completing your refactoring, verify:
 - [ ] Inventory decrements after successful orders
 
 ### Architecture Verification
+
 - [ ] routes.ts (or equivalent) < 50 lines
 - [ ] No if/else chains for payment or shipping types
 - [ ] Business logic separated from HTTP layer
@@ -474,6 +476,7 @@ After completing your refactoring, verify:
 - [ ] All major classes follow SRP (one responsibility)
 
 ### Extensibility Verification (OCP Test)
+
 - [ ] Can add Apple Pay by creating ONE new file:
   ```bash
   # Create ApplePayPayment.ts
@@ -482,6 +485,7 @@ After completing your refactoring, verify:
   ```
 
 ### Testability Verification
+
 - [ ] Can unit test OrderService without Express
 - [ ] Can unit test with mock repositories
 - [ ] Can test payment calculations without database

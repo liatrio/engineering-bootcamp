@@ -1,9 +1,11 @@
 # Research Notes: Refactoring Exercise Application Selection
 
 ## Evaluation Date
+
 January 6, 2026
 
 ## Research Question
+
 Should we adapt an existing open-source TypeScript/Node.js e-commerce application or build a custom application for this refactoring exercise?
 
 ## Evaluation Criteria
@@ -11,17 +13,20 @@ Should we adapt an existing open-source TypeScript/Node.js e-commerce applicatio
 We used the following scoring rubric to evaluate potential projects:
 
 ### Technical Fit (40 points)
+
 - TypeScript native implementation (10 pts)
 - Clear, identifiable anti-patterns suitable for teaching (10 pts)
 - Appropriate size: 500-2000 LOC (10 pts)
 - Testable without complex infrastructure (10 pts)
 
 ### Educational Fit (30 points)
+
 - Code readability for learning purposes (10 pts)
 - Real-world business scenarios (10 pts)
 - Clear refactoring opportunities (10 pts)
 
 ### Practical Considerations (30 points)
+
 - Permissive license (MIT/Apache) (10 pts)
 - Minimal external dependencies (10 pts)
 - Active maintenance or stable state (10 pts)
@@ -29,6 +34,7 @@ We used the following scoring rubric to evaluate potential projects:
 ## Evaluated Projects
 
 ### 1. E-commerce REST API Examples on GitHub
+
 **Repository:** Various `typescript-ecommerce-api` projects
 **Score:** 45/100
 
@@ -42,6 +48,7 @@ We used the following scoring rubric to evaluate potential projects:
 **Anti-patterns identified:** Limited - most are well-structured or too minimal
 
 ### 2. NestJS E-commerce Boilerplates
+
 **Repository:** Various NestJS-based e-commerce starters
 **Score:** 38/100
 
@@ -55,6 +62,7 @@ We used the following scoring rubric to evaluate potential projects:
 **Anti-patterns identified:** Hidden by framework abstractions
 
 ### 3. Simple Express TypeScript Examples
+
 **Repository:** Various Express + TypeScript tutorials
 **Score:** 52/100
 
@@ -69,6 +77,7 @@ We used the following scoring rubric to evaluate potential projects:
 **Anti-patterns identified:** Occasional God Objects, but not systematic
 
 ### 4. Commerce.js and Similar Headless Commerce
+
 **Repository:** commercejs-examples, similar headless commerce clients
 **Score:** 35/100
 
@@ -90,30 +99,35 @@ We used the following scoring rubric to evaluate potential projects:
 After evaluating existing open-source projects, we decided to **build a custom application** specifically for this exercise. Here's why:
 
 #### 1. Pedagogical Control (Critical)
+
 - **Deliberate Anti-patterns:** We can intentionally introduce specific SOLID violations at precise locations
 - **Line-by-line Teaching:** Custom code allows us to reference exact line numbers in the analysis guide
 - **Progressive Complexity:** We control exactly how complex each anti-pattern is
 - **Clear Before/After:** Solution demonstrates exact pattern applications without framework noise
 
 #### 2. Licensing Freedom (Critical)
+
 - **No Attribution Complexity:** No need to track multiple OSS licenses
 - **Modification Freedom:** Complete freedom to modify for educational purposes
 - **No External Dependencies Issues:** No risk of license conflicts with dependencies
 - **Bootcamp Ownership:** Liatrio owns the educational content completely
 
 #### 3. Integration with Bootcamp Conventions (High Priority)
+
 - **Consistent Testing Approach:** Matches existing Jest/Supertest patterns from other exercises
 - **TypeScript Standards:** Aligns with strict mode conventions established in bootcamp
 - **Self-Contained:** No external services (uses SQLite like other examples)
 - **README Standards:** Follows established format from solid-exercises/
 
 #### 4. Maintenance and Stability (High Priority)
+
 - **No Upstream Changes:** Won't break if external project changes/disappears
 - **Controlled Scope:** Exactly the complexity needed for learning (400-500 LOC starter)
 - **Predictable Dependencies:** Minimal, stable dependencies (Express, SQLite3, Jest)
 - **Long-term Stability:** Code remains stable for years without external updates
 
 #### 5. Technical Benefits
+
 - **Testability:** Designed specifically for behavior-based testing
 - **No Framework Overhead:** Pure TypeScript/Express without NestJS/similar complexity
 - **Realistic but Focused:** E-commerce domain is real-world, but scope is teachable

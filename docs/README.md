@@ -273,6 +273,49 @@ docs/11-application-development/11.2.1-solid-principles.md:
       estMinutes: 45
       technologies:
         - Python
+docs/11-application-development/11.2.2-data-layer-patterns.md:
+  category: Software Development
+  estReadingMinutes: 45
+  exercises:
+    - name: Extend the Repository with FindByEmail
+      description: >-
+        Add a FindByEmail method to the UserRepository interface and implement
+        it in both SQLite and in-memory repositories with tests.
+      estMinutes: 15
+      technologies:
+        - Go
+        - SQLite
+        - Design Patterns
+    - name: Add Timestamp Tracking to Active Record
+      description: >-
+        Extend the Active Record User model to automatically track CreatedAt and
+        UpdatedAt timestamps, updating schema, insert/update methods, and tests.
+      estMinutes: 15
+      technologies:
+        - Go
+        - SQLite
+        - Design Patterns
+    - name: Refactor Direct Data Access to Repository Pattern
+      description: >-
+        Convert a tightly coupled application with direct database access
+        scattered throughout the codebase to use the Repository Pattern with
+        proper abstraction.
+      estMinutes: 90
+      technologies:
+        - Go
+        - SQLite
+        - Design Patterns
+    - name: AI-Assisted Refactoring with Spec-Driven Development
+      description: >-
+        Use an AI agent with Spec-Driven Development to refactor the starter
+        code using precise pattern vocabulary, then compare AI and manual
+        approaches.
+      estMinutes: 60
+      technologies:
+        - Go
+        - SQLite
+        - Design Patterns
+        - AI Collaboration
 docs/11-application-development/11.2.5-refactoring-exercise.md:
   category: Software Development
   estReadingMinutes: 20
@@ -384,13 +427,13 @@ docs/3-AI-Engineering/3.1.3-ai-tools.md:
         - AI Tools
 docs/3-AI-Engineering/3.1.4-ai-best-practices.md:
   category: AI Engineering
-  estReadingMinutes: 10
+  estReadingMinutes: 30
 docs/3-AI-Engineering/3.2-mcp.md:
   category: AI Engineering
   estReadingMinutes: 12
   exercises:
-    - name: Create an MCP Client
-      description: Build a simple MCP client that connects to a local MCP server
+    - name: Create an MCP Server
+      description: Build a simple MCP server that connects to a local MCP client
       estMinutes: 45
       technologies:
         - MCP
@@ -400,7 +443,7 @@ docs/3-AI-Engineering/3.3-best-practices.md:
   estReadingMinutes: 5
 docs/3-AI-Engineering/3.3.1-agentic-best-practices.md:
   category: AI Engineering
-  estReadingMinutes: 30
+  estReadingMinutes: 40
 docs/3-AI-Engineering/3.3.2-agentic-ide.md:
   category: AI Engineering
   estReadingMinutes: 20
@@ -1400,7 +1443,63 @@ docs/9-kubernetes-container-orchestration/9.5-hpas.md:
       technologies:
         - Docker
         - Kubernetes
-docs/9-kubernetes-container-orchestration/9.6-webhooks.md:
+docs/9-kubernetes-container-orchestration/9.6-keda.md:
+  category: Container Orchestration
+  estReadingMinutes: 20
+  exercises:
+    - name: Meet the System
+      description: >-
+        Deploy a Redis-backed order processing system using k3d and the provided
+        Taskfile. Verify all services are running before proceeding.
+      estMinutes: 30
+      technologies:
+        - Docker
+        - Kubernetes
+        - Redis
+    - name: Simulate Peak Traffic
+      description: >-
+        Run a flash sale load simulation and observe the order-processor fall
+        behind as queue depth grows unchecked.
+      estMinutes: 20
+      technologies:
+        - Docker
+        - Kubernetes
+        - Redis
+        - k6
+    - name: Attempt a Fix with Native HPA
+      description: >-
+        Write and apply a CPU-based HPA targeting the order-processor, then
+        re-run the load test and evaluate its effectiveness.
+      estMinutes: 45
+      technologies:
+        - Docker
+        - Kubernetes
+    - name: Introduce KEDA
+      description: Remove the native HPA and install KEDA into the cluster using Helm.
+      estMinutes: 30
+      technologies:
+        - Kubernetes
+        - KEDA
+    - name: Create a ScaledObject
+      description: >-
+        Read the KEDA documentation and write a ScaledObject that scales the
+        order-processor based on Redis queue depth.
+      estMinutes: 60
+      technologies:
+        - Kubernetes
+        - KEDA
+        - Redis
+    - name: Run the Load Test Again
+      description: >-
+        Re-run the flash sale simulation and compare queue depth and scaling
+        behavior against the previous two runs.
+      estMinutes: 20
+      technologies:
+        - Kubernetes
+        - KEDA
+        - Redis
+        - k6
+docs/9-kubernetes-container-orchestration/9.7-webhooks.md:
   category: Container Orchestration
   estReadingMinutes: 15
   exercises:
@@ -1430,7 +1529,7 @@ docs/9-kubernetes-container-orchestration/9.6-webhooks.md:
       technologies:
         - Kubernetes
         - Python
-docs/9-kubernetes-container-orchestration/9.6.1-validating-admission-policy.md:
+docs/9-kubernetes-container-orchestration/9.7.1-validating-admission-policy.md:
   category: Container Orchestration
   estReadingMinutes: 35
   exercises:
@@ -1464,7 +1563,7 @@ docs/9-kubernetes-container-orchestration/9.6.1-validating-admission-policy.md:
         - Kubernetes
         - ValidatingAdmissionPolicy
         - CEL
-docs/9-kubernetes-container-orchestration/9.7.1-kustomize.md:
+docs/9-kubernetes-container-orchestration/9.8.1-kustomize.md:
   category: Container Orchestration
   estReadingMinutes: 20
   exercises:
@@ -1519,7 +1618,7 @@ docs/9-kubernetes-container-orchestration/9.7.1-kustomize.md:
       technologies:
         - Kubernetes
         - Kustomize
-docs/9-kubernetes-container-orchestration/9.7.2-helm.md:
+docs/9-kubernetes-container-orchestration/9.8.2-helm.md:
   category: Container Orchestration
   estReadingMinutes: 5
   exercises:
@@ -1539,7 +1638,7 @@ docs/9-kubernetes-container-orchestration/9.7.2-helm.md:
         - Kubernetes
         - Helm
         - Kustomize
-docs/9-kubernetes-container-orchestration/9.8-controllers.md:
+docs/9-kubernetes-container-orchestration/9.9-controllers.md:
   category: Container Orchestration
   estReadingMinutes: 45
   exercises:
@@ -1579,7 +1678,7 @@ docs/9-kubernetes-container-orchestration/9.8-controllers.md:
 
   ![Liatrio Logomark](../img/favicon.svg ':size=150x150 :class=logo :alt= Liatrio image')
 
-# Liatrio's DevOps Bootcamp
+# Liatrio's Engineering Bootcamp
 
 </center>
 
@@ -1591,22 +1690,13 @@ Welcome! You must be here because you're interested in DevOps. Don't worry, we'l
 
 ## Target Audience
 
-This DevOps Bootcamp is used as an introduction to DevOps for Liatrio's apprentices. Therefore, there are deliverables at the end of each section and knowledge checks sprinkled throughout that help guide the apprentices' training. However, anyone can go through the DevOps Bootcamp. Feel free to ignore the deliverables, knowledge checks, etc. This bootcamp also assumes the bootcamper is using a Mac for the deliverables.
+This Engineering Bootcamp is used as an introduction to DevOps for Liatrio's apprentices. Therefore, there are deliverables at the end of each section and knowledge checks sprinkled throughout that help guide the apprentices' training. However, anyone can go through the Engineering Bootcamp. Feel free to ignore the deliverables, knowledge checks, etc. This bootcamp also assumes the bootcamper is using a Mac for the deliverables.
 
 ## Disclaimer
 
 This bootcamp alone will by no means make anyone an expert on DevOps; that's where real, in-the-field experience engineering and shadowing come in. However, this bootcamp is a great start for anyone entering the world of DevOps! It is recommended that anyone going through this bootcamp have a mentor to fill in the gaps of information and answer questions, as well. Also, many of the exercises proposed in this bootcamp have no solution listed. This is because it is up to the bootcamper to come up with the solution on their own. So, if you're wondering where a solution to an exercise is - there is likely none; that's up to you!
 
 ## Learning Goals
-
-1. Introduction to DevOps
-2. GitHub
-3. Virtual Machines and Containers
-4. Cloud Computing
-5. Development Practices
-6. Release Management
-7. Infrastructure and Configuration
-8. Kubernetes
 
 <canvas id="technology-word-cloud"></canvas>
 

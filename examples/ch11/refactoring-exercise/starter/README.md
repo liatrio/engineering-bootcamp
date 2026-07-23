@@ -125,7 +125,7 @@ curl http://localhost:3000/api/products
 
 ## Project Structure
 
-```
+```text
 starter/
 ├── src/
 │   ├── index.ts       # Express server setup

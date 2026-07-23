@@ -16,13 +16,13 @@ This is the **refactored solution** for the e-commerce order refactoring exercis
 ### Architecture Transformation
 
 **Before (Starter):**
-```
+```text
 Client → routes.ts (450 lines, God Object) → SQLite
          Everything happens in one file
 ```
 
 **After (Solution):**
-```
+```text
 Client → HTTP Layer (routes) → Service Layer → Repository Layer → SQLite
                       ↓
                   Strategies (Payment, Shipping)
@@ -268,7 +268,7 @@ const orderService = new OrderService(
 
 ## Project Structure
 
-```
+```text
 solution/
 ├── src/
 │   ├── domain/
@@ -364,17 +364,20 @@ High-level modules depend on abstractions, not concrete implementations:
 ## Setup & Running
 
 ### Installation
+
 ```bash
 npm install
 npm run db:reset
 ```
 
 ### Run Application
+
 ```bash
 npm run dev
 ```
 
 ### Run Tests
+
 ```bash
 npm test
 ```
