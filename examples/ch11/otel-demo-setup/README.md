@@ -29,6 +29,12 @@ This guide is written against **release `2.1.3`** (published 2025-09-26) of the 
    cd opentelemetry-demo
    ```
 
+   Then pin the **runtime images** to the same release too — cloning the `2.1.3` tag only pins the source checkout. The shipped `.env` separately sets `DEMO_VERSION=latest`, which is what every service's `image:` tag is actually built from (`${IMAGE_NAME}:${DEMO_VERSION}-<service>`), so `docker compose up` pulls the unpinned, continuously-moving `latest-*` tags regardless of which git tag you checked out. `latest` tracks upstream `main` and can be broken at any given moment — during validation of this guide, `latest-product-catalog` crashed on start (exited immediately, no log output) while `2.1.3-product-catalog` ran fine. Pin it before starting:
+
+   ```bash
+   echo "DEMO_VERSION=2.1.3" >> .env
+   ```
+
 2. **Start the full application:**
 
    ```bash
@@ -44,6 +50,8 @@ This guide is written against **release `2.1.3`** (published 2025-09-26) of the 
    ```
 
    Look for all services in a `running` (or `healthy`, where a healthcheck is defined) state. A few restarts during the first 30-60 seconds while services wait on their dependencies (e.g., Kafka) are normal.
+
+   If the very first `up` prints `Error dependency opensearch failed to start` and exits, opensearch just hadn't finished its health check the instant Compose checked it — it typically becomes healthy a few seconds later. Simply re-run the same `docker compose up --force-recreate --remove-orphans --detach` command; it resumes and starts the remaining containers rather than starting over.
 
 4. **Open the storefront** at <http://localhost:8080/>. You should see the astronomy shop homepage with a product grid. From the same base URL, everything else is reachable behind the frontend proxy:
 
@@ -85,17 +93,29 @@ For an even smaller footprint scoped to exactly the "Add to Cart" worked example
 
 **Insufficient RAM / Docker Desktop OOM-killing containers.** Increase Docker's memory allocation (Docker Desktop/OrbStack → Settings → Resources) to at least 6 GB (3 GB if using minimal mode), or switch to minimal mode above.
 
-**ARM compatibility (Apple Silicon: M1/M2/M3/M4).** All services in this release publish multi-arch images, so `docker compose up` works out of the box on ARM — but the Java-based `otel-collector` build and some JIT-heavy services have hit a known issue on Apple Silicon related to SVE (Scalable Vector Extension) support. The repository ships a workaround as `.env.arm64`, which disables the problematic JIT optimization:
+**ARM compatibility (Apple Silicon: M1/M2/M3/M4).** All services in this release publish multi-arch images, so `docker compose up` works out of the box on ARM — but some JIT-heavy services have hit a known issue on Apple Silicon related to SVE (Scalable Vector Extension) support. The repository ships a workaround as `.env.arm64`, which disables the problematic JIT optimization. Pass it **in addition to** `.env`, not instead of it — `--env-file` replaces Compose's implicit `.env` load rather than merging with it, and `.env.arm64` alone is missing required variables (`HOST_FILESYSTEM`, `DOCKER_SOCK`, etc.), which fails immediately with `invalid spec: :/hostfs:ro: empty section between colons`:
 
 ```bash
-docker compose --env-file .env.arm64 up --force-recreate --remove-orphans --detach
+docker compose --env-file .env --env-file .env.arm64 up --force-recreate --remove-orphans --detach
 ```
 
-Use this env file on Apple Silicon if you see Java services crash-looping in `docker compose ps`.
+Use this on Apple Silicon if you see Java services crash-looping in `docker compose ps`.
 
 **Slow first `docker compose up`.** This is expected — the first run pulls ~26 images from `ghcr.io`. Subsequent runs reuse cached layers and start in seconds.
 
-**"Local ARM validation: pending."** This guide's ARM instructions are sourced from the upstream repository's documented `.env.arm64` workaround, but have not yet been exercised end-to-end on Apple Silicon hardware in this bootcamp environment. If you hit an ARM-specific issue not covered above, please note it so this guide can be updated with a verified fix.
+**Local ARM validation: done (2026-07-23, Apple M5 Max, macOS 26.6, OrbStack, Docker 29.4.0 / Compose v5.1.2, 64 GB host RAM, no fixed memory limit).** Following the setup steps above (including `DEMO_VERSION=2.1.3` and the merged `--env-file .env --env-file .env.arm64`), all 26 containers reached a stable `running`/`healthy` state with no further restarts, and the storefront, Jaeger, Grafana, load generator, and feature-flag UI all returned HTTP 200 through `http://localhost:8080`. Container creation/start itself took under a minute once images were cached; the ~3 GB of unique images is the dominant cost on a cold pull. Steady-state RAM across all 26 containers was **~3.5 GB** shortly after startup (heaviest: opensearch ~790 MB, load-generator ~610 MB, kafka ~505 MB) — comfortably under the documented 6 GB budget. Two ARM/OrbStack-specific issues turned up beyond the `.env.arm64` SVE workaround, both now folded into the steps above:
+
+- The `DEMO_VERSION=2.1.3` pin (see step 1) was the fix for `product-catalog` — without it, `latest-product-catalog` (upstream's moving `main` tag) crashed on start with no log output during this validation run.
+- `otel-collector` crash-looped with `client version 1.25 is too old. Minimum supported API version is 1.40` from its `docker_stats` receiver. This is an OrbStack-specific Docker API version-negotiation issue, not a SVE/ARM CPU problem — OrbStack's daemon enforces `MinAPIVersion 1.40`, and the receiver's default client falls back to 1.25. Fix by adding `api_version: "1.41"` to the `docker_stats` receiver in the cloned repo's `src/otel-collector/otelcol-config.yml`:
+
+  ```yaml
+  receivers:
+    docker_stats:
+      endpoint: unix:///var/run/docker.sock
+      api_version: "1.41"
+  ```
+
+  Then `docker compose up -d --force-recreate otel-collector` to pick it up. If you're on Docker Desktop rather than OrbStack, you likely won't hit this at all.
 
 ## Next Steps
 

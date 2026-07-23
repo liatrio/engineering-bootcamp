@@ -43,6 +43,8 @@
       "skinparam",
       "enduml",
       "bootcamp",
+      "hostfs",
+      "otelcol",
       "bootcamper",
       "healthcheck",
       "loadgen",
