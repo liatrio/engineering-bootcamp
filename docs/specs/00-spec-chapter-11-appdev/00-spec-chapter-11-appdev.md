@@ -8,17 +8,20 @@ This is the **parent specification** for the complete Chapter 11: Application De
 
 **Core Philosophy**: Give apprentices hands-on experience with application development using AI-assisted workflows, including Spec-Driven Development for large-scale changes.
 
-This parent spec coordinates seven child specifications that build the chapter sequentially:
+This parent spec coordinates eight child specifications that build the chapter sequentially:
 
 | Spec | Title | Status | Priority |
 | ---- | ----- | ------ | -------- |
-| **01** | Design Patterns (11.2.2-11.2.5) | ✅ COMPLETE | P0 |
-| **02** | System Thinking & Codebase Analysis (11.3) | ✅ COMPLETE | P1 |
-| **03** | Databases & Data Persistence (11.4) | 📋 PLANNED | P1 |
-| **04** | REST API Design & OpenAPI (11.5) | 📋 PLANNED | P1 |
+| **01** | Design Patterns (11.2.2-11.2.5) | 🔍 IN REVIEW (PRs #822, #824, #826) | P0 |
+| **02** | System Thinking & Codebase Analysis (11.3) | 🚧 BUILT, ARM VALIDATION PENDING (PR #914, #920) | P1 |
+| **03** | Databases & Data Persistence (11.4) | 📝 SPEC WRITTEN, TASKS IN PROGRESS (#919) | P1 |
+| **04** | REST API Design & OpenAPI (11.5) | ❓ QUESTIONS IN FLIGHT (#918) | P1 |
 | **05** | Authentication & Authorization (11.6) | 📋 PLANNED | P1 |
 | **06** | Debugging & Observability (11.7) | 📋 PLANNED | P2 |
 | **07** | Production Development & Digital Clone (11.8) | 📋 PLANNED | P2 |
+| **08** | Infrastructure: Terraform/AWS One-Command OTel Demo Environment | 📋 PLANNED | P1 |
+
+**Spec 08** is a standalone infrastructure spec consumed by Specs 06 and 07: it defines the committed-Terraform, one-command AWS environment those two production specs deploy into, so it must land before either is implemented.
 
 **Deferred Topics** (to be specced later based on student needs):
 - Front-end best practices & component design
@@ -156,6 +159,12 @@ By the end of Chapter 11, students should be able to:
 
 ### Phase 3: Production Work (Hands-On Experience)
 
+**Spec 08: Infrastructure — Terraform/AWS One-Command OTel Demo Environment** 📋 PLANNED (standalone, consumed by Specs 06 & 07)
+- Committed Terraform under `examples/` that provisions the OTel Demo App into the learner's own AWS account with a single command
+- Single EC2 VM running the OTel Demo App's official Docker Compose (researched direction, see [issue #921](https://github.com/liatrio/engineering-bootcamp/issues/921)): ~$1/day while running, clean `terraform destroy` teardown
+- k3s-on-EC2 fallback if Spec 07 needs pod/Service-level blue-green (same cost/teardown profile, real Kubernetes API)
+- No GitHub Actions coupling — learners `cd` into the example directory and run `make`/`terraform apply` themselves
+
 **Spec 06: Debugging & Observability (11.7)** 📋 PLANNED
 - Introduction to production environments
 - Working with OTel Demo App or similar
@@ -242,6 +251,34 @@ By the end of Chapter 11, students should be able to:
 - Active community support
 - Students can continue exploration independently
 
+### 7. AWS Infrastructure via Committed Terraform (No CI Coupling)
+
+**Decision**: Production exercises (Specs 06-08) deploy to the learner's **own AWS account**, provisioned by **Terraform committed directly in the repo** under `examples/`. There is no GitHub Actions coupling — a learner `cd`s into the relevant example directory and runs a single command (`make` / `terraform apply`).
+
+**Rationale**:
+- The bootcamp is open source; a design that requires shared or CI-managed cloud credentials doesn't work once the repo is forked
+- Self-contained `examples/` directories keep the "one command to run it" promise consistent with the rest of the chapter's examples
+- Researched deployment direction ([issue #921](https://github.com/liatrio/engineering-bootcamp/issues/921)): a single EC2 VM running the OTel Demo App's official Docker Compose via thin Terraform is the primary path (~$1/day while running, $0 between exercises, clean `terraform destroy`); single-node k3s on EC2 is the fallback if Spec 07 needs pod/Service-level blue-green. EKS (managed or Fargate) and ECS/Fargate were ruled out — always-on control-plane cost, orphaned ELB/ENI teardown risk, and no supported compose→ECS translation
+- Spec 08 (new, standalone) owns this infrastructure so Specs 06 and 07 can both consume it without duplicating Terraform
+
+### 8. Framework-Agnostic, One Language Per Section
+
+**Decision**: The chapter is framework-agnostic. Each section deliberately uses a different language to highlight one core principle, rather than standardizing on a single stack throughout.
+
+**Rationale**:
+- Keeps the pattern being taught distinct from the framework that happens to demonstrate it
+- Matches language choice to the concept being taught (extends Decision #5's multi-language approach into an explicit per-section rule)
+- Mirrors the polyglot reality of professional engineering organizations
+
+### 9. Open Source — Anyone Can Take It
+
+**Decision**: The bootcamp, including Chapter 11's production exercises, is open source. Anyone should be able to fork the repo and complete the chapter using only their own AWS account and free tooling — no Liatrio-internal access required.
+
+**Rationale**:
+- Rules out any solution coupled to Liatrio-internal CI/CD, secrets, or shared cloud accounts
+- Directly motivates Decision #7 (committed Terraform, no CI coupling, self-contained `examples/`)
+- Extends the bootcamp's reach beyond Liatrio's own cohorts
+
 ---
 
 ## Reference Materials
@@ -319,7 +356,7 @@ Based on `CLAUDE.md` and existing chapter structure:
 
 ### Completion Criteria
 
-1. **All Seven Specs Complete**: Each child spec (01-07) has been generated, reviewed, and approved
+1. **All Eight Specs Complete**: Each child spec (01-08) has been generated, reviewed, and approved
 2. **Documentation Coverage**: All planned sections (11.3-11.8) have markdown documentation
 3. **Working Examples**: All code examples are self-contained, documented, and demonstrate concepts clearly
 4. **Interactive Elements**: Quizzes exist for appropriate sections and render correctly in Docsify
@@ -361,13 +398,15 @@ Students completing Chapter 11 should demonstrate:
 - **SQLite**: For database examples (included with Python/Node, available for Go)
 - **Git**: For version control and refactoring exercises
 - **OTel Demo App**: For production exercises (Spec 06-07)
+- **Terraform**: For committed, one-command infrastructure provisioning (Spec 08, consumed by Specs 06-07)
+- **AWS Account (learner-owned)**: Target for Terraform-provisioned production exercises
 
 ### External Constraints
 
-1. **Target Audience**: Senior CSCI students with strong programming but limited production experience
-2. **Time Constraints**: Chapter must be completable within bootcamp timeframe (approximately 2-3 weeks)
+1. **Target Audience**: College seniors entering the bootcamp with strong general programming fundamentals but **no prior application-development exposure** — this is their first time building, deploying, or operating a real application.
+2. **Time Constraints**: The bootcamp itself runs approximately **six months**, not a 2-3 week chapter budget. Chapter 11 has room to run its full sequential arc (Specs 01-08); overrunning the original 2-3 week estimate is acceptable — depth for first-time learners matters more than hitting a fixed calendar box.
 3. **Platform**: Examples must work on modern ARM-based macOS (M1/M2/M3)
-4. **No External Services**: Examples should not require external APIs, cloud services, or paid accounts
+4. **AWS via Committed Terraform**: Production exercises (Specs 06-08) deploy to the **learner's own AWS account** using **Terraform committed in the repo** — no external/paid managed services beyond what that Terraform provisions, and no GitHub Actions coupling (the bootcamp is open source). Everything is self-contained under `examples/` so a learner can `cd` into the relevant directory and bring the environment up with one command (`make` / `terraform apply`). See Key Design Decision #7 and [issue #921](https://github.com/liatrio/engineering-bootcamp/issues/921) for the researched deployment direction (single EC2 VM + OTel Demo's Docker Compose, ~$1/day, clean teardown; k3s fallback).
 5. **Bootcamp Context**: Fits within larger DevOps bootcamp curriculum (Chapters 1-10 completed)
 
 ### Content Constraints
@@ -375,8 +414,9 @@ Students completing Chapter 11 should demonstrate:
 1. **No Duplication**: Don't replicate content from Chapters 1-10 (containerization, CI/CD, etc.)
 2. **Consistent Style**: Follow established bootcamp tone, structure, and formatting conventions
 3. **Front-Matter Compliance**: All sections must include proper YAML metadata for analytics
-4. **Progressive Disclosure**: Start simple, increase complexity gradually
-5. **Practical Focus**: Theory serves practice; every concept includes hands-on application
+4. **Generous Time Estimates**: Front-matter `estReadingMinutes` and exercise `estMinutes` must be **generous**, not optimistic — students are first-time application developers, and estimates should reflect that learning curve rather than an experienced engineer's pace
+5. **Progressive Disclosure**: Start simple, increase complexity gradually
+6. **Practical Focus**: Theory serves practice; every concept includes hands-on application
 
 ---
 
@@ -394,13 +434,13 @@ Students completing Chapter 11 should demonstrate:
 
 ### Risk 2: Infrastructure Complexity
 
-**Risk**: Production exercises (Spec 06-07) require complex infrastructure setup that becomes a barrier.
+**Risk**: Production exercises (Spec 06-08) require complex infrastructure setup that becomes a barrier.
 
 **Mitigation**:
-- Use OTel Demo App with existing deployment options
-- Defer infrastructure implementation to task planning
-- Provide Docker Compose for local development
-- Consider cloud-based shared environments if needed
+- Use OTel Demo App's official Docker Compose, run on a single EC2 VM via thin, committed Terraform — the simplest option surveyed (see [issue #921](https://github.com/liatrio/engineering-bootcamp/issues/921))
+- Standalone Spec 08 owns this infrastructure so Specs 06 and 07 consume a single, one-command environment instead of each solving deployment themselves
+- Self-contained under `examples/`: `cd` in, run `make`/`terraform apply`, no GitHub Actions coupling to break for forks
+- k3s-on-EC2 fallback only if pod-level blue-green is required later, at the same cost/teardown profile
 - Extensive documentation and troubleshooting guides
 
 ### Risk 3: Outdated Technologies
@@ -443,13 +483,14 @@ Students completing Chapter 11 should demonstrate:
 ### Priority Tiers
 
 **P0 (Critical Path)**:
-- ✅ Spec 01: Design Patterns (COMPLETE)
+- 🔍 Spec 01: Design Patterns (content in review, PRs #822/#824/#826)
 
 **P1 (Foundation & Topics)**:
-- 📋 Spec 02: System Thinking & Codebase Analysis
-- 📋 Spec 03: Databases & Data Persistence
-- 📋 Spec 04: REST API Design & OpenAPI
+- 🚧 Spec 02: System Thinking & Codebase Analysis (built in PR #914, ARM validation pending — #920)
+- 📝 Spec 03: Databases & Data Persistence (spec written, tasks file in progress — #919)
+- ❓ Spec 04: REST API Design & OpenAPI (round-1 questions in flight — #918)
 - 📋 Spec 05: Authentication & Authorization
+- 📋 Spec 08: Infrastructure (Terraform/AWS One-Command OTel Demo Environment) — must land before Specs 06-07 build
 
 **P2 (Production Work)**:
 - 📋 Spec 06: Debugging & Observability
@@ -469,8 +510,9 @@ Students completing Chapter 11 should demonstrate:
 2. **Spec 03** (Databases) - Most universal topic
 3. **Spec 04** (REST APIs) - Builds on database knowledge
 4. **Spec 05** (Auth) - Integrates with APIs
-5. **Spec 06** (Debugging & Observability) - Introduces production context and SDD
-6. **Spec 07** (Production Development) - Synthesizes all learning
+5. **Spec 08** (Infrastructure) - Terraform/AWS one-command environment; must exist before Spec 06 build begins
+6. **Spec 06** (Debugging & Observability) - Introduces production context and SDD, deploys via Spec 08's infrastructure
+7. **Spec 07** (Production Development) - Synthesizes all learning, deploys via Spec 08's infrastructure
 
 ### Checkpoints
 
@@ -485,15 +527,19 @@ After each phase, validate:
 
 ## Open Questions
 
+**Live tracking**: Open decisions for Chapter 11 are tracked on the wayfinder map, [issue #915](https://github.com/liatrio/engineering-bootcamp/issues/915), which lists closed decision tickets and what's still unspecified. The items below are this spec's local view of that map.
+
 ### For All Specs
 
-1. **OTel Demo App Verification**: Has the OpenTelemetry Demo App been tested with current setup requirements? Are there alternative production-ready demo applications to consider?
+1. **OTel Demo App Verification**: Has the OpenTelemetry Demo App been tested with current setup requirements? Are there alternative production-ready demo applications to consider? *(Partially resolved: ARM validation is tracked as [issue #920](https://github.com/liatrio/engineering-bootcamp/issues/920).)*
 
-2. **Shared Environment Strategy**: Will students work in individual local environments only, or are shared dev/prod environments available for team exercises?
+2. **Shared Environment Strategy**: Will students work in individual local environments only, or are shared dev/prod environments available for team exercises? *(Still open — see issue #915: "shared dev/prod cohort environment policy vs everyone-deploys-their-own.")*
 
-3. **Time Budget**: What is the actual time budget for Chapter 11? This affects how many specs can be realistically completed.
+3. ~~**Time Budget**: What is the actual time budget for Chapter 11?~~ **Resolved (2026-07-23 planning meeting)**: the bootcamp runs approximately six months; Chapter 11 can run its full sequential arc and overrunning the original 2-3 week chapter estimate is acceptable.
 
-4. **Assessment Strategy**: How will student learning be assessed? Self-directed exercises only, or formal deliverables?
+4. **Assessment Strategy**: How will student learning be assessed? Self-directed exercises only, or formal deliverables? *(Still open — see issue #915: "assessment strategy across the six months.")*
+
+5. **AWS Cost Guidance**: What cost guidance or ceilings should the chapter give learners running Terraform-provisioned infrastructure in their own AWS accounts? *(Still open — see issue #915.)*
 
 ### Spec-Specific Questions
 
@@ -521,33 +567,28 @@ After each phase, validate:
 
 ### Immediate Actions
 
-1. **Create Spec 02**: System Thinking & Codebase Analysis
-   - Define specific application for analysis
-   - Outline diagramming exercises
-   - Specify deliverables
+1. **Land Spec 01 content**: Review and merge PRs [#822](https://github.com/liatrio/engineering-bootcamp/pull/822), [#824](https://github.com/liatrio/engineering-bootcamp/pull/824), [#826](https://github.com/liatrio/engineering-bootcamp/pull/826) (Design Patterns content, ready for review)
 
-2. **Create Spec 03**: Databases & Data Persistence
-   - Determine SQL vs NoSQL coverage balance
-   - Design data modeling exercises
-   - Select ORM for examples
+2. **Close out Spec 02**: Merge PR [#914](https://github.com/liatrio/engineering-bootcamp/pull/914) (System Thinking content) and resolve [issue #920](https://github.com/liatrio/engineering-bootcamp/issues/920) (ARM validation of the OTel Demo setup)
 
-3. **Create Spec 04**: REST API Design & OpenAPI
-   - Choose API design scenario
-   - Define OpenAPI specification requirements
-   - Plan API testing approach
+3. **Finish Spec 03 tasks**: Spec is written (`docs/specs/03-spec-databases/`); write the tasks file per [issue #919](https://github.com/liatrio/engineering-bootcamp/issues/919)
+
+4. **Answer Spec 04 questions**: Resolve the remaining round-1 questions per [issue #918](https://github.com/liatrio/engineering-bootcamp/issues/918), then write the Spec 04 spec
+
+5. **Write Spec 08 (Infrastructure)**: Author the standalone Terraform/AWS one-command OTel Demo environment spec, using the research in [issue #921](https://github.com/liatrio/engineering-bootcamp/issues/921) as its technical basis
 
 ### Before Production Specs (06-07)
 
-1. **Validate OTel Demo App**: Verify deployment options and exercise viability
-2. **Define Infrastructure**: Decide on local vs shared environment approach
-3. **Prepare SDD Materials**: Create templates and examples for Spec-Driven Workflow introduction
+1. **Spec 08 must be written and reviewed first** — it is now the standalone dependency both specs consume, rather than something decided ad hoc within each
+2. **Prepare SDD Materials**: Create templates and examples for Spec-Driven Workflow introduction
 
 ### Continuous
 
 1. **Update Chapter Overview**: Revise 11.0-overview.md as structure becomes clearer
-2. **Track Front-Matter**: Ensure all sections have consistent metadata
+2. **Track Front-Matter**: Ensure all sections have consistent metadata, with generous time estimates for first-time learners
 3. **Cross-Reference**: Link between sections appropriately
 4. **Review Pacing**: Validate time estimates with actual student experience
+5. **Track open decisions**: Keep the wayfinder map ([issue #915](https://github.com/liatrio/engineering-bootcamp/issues/915)) current as decision tickets close
 
 ---
 
@@ -556,6 +597,7 @@ After each phase, validate:
 | Version | Date | Author | Changes |
 | ------- | ---- | ------ | ------- |
 | 1.0 | 2026-01-05 | SDD System | Initial parent spec coordinating seven child specs |
+| 2.0 | 2026-07-23 | 2026-07-23 planning meeting | Six-month bootcamp timeline (replaces 2-3 week budget) with generous front-matter time-estimate guideline; AWS-via-committed-Terraform infrastructure (replaces no-external-services/local-only constraint), no GitHub Actions coupling, everything self-contained under `examples/`; added framework-agnostic/one-language-per-section and open-source design decisions; added standalone Spec 08 (Infrastructure: Terraform/AWS One-Command OTel Demo Environment) consumed by Specs 06-07; corrected stale status tracking for Specs 01-04; linked wayfinder map (#915) |
 
 ---
 
@@ -563,31 +605,31 @@ After each phase, validate:
 
 ### Spec 01: Design Patterns (11.2.2-11.2.5)
 
-- **Status**: ✅ COMPLETE
+- **Status**: 🔍 IN REVIEW
 - **Location**: `docs/specs/01-spec-design-patterns-section/`
 - **Sections Covered**: 11.2.2, 11.2.3, 11.2.4, 11.2.5
-- **Notes**: Data layer patterns, business logic patterns, classical GoF patterns, integrated refactoring exercise
+- **Notes**: Data layer patterns, business logic patterns, classical GoF patterns, integrated refactoring exercise. Content is in PRs [#822](https://github.com/liatrio/engineering-bootcamp/pull/822), [#824](https://github.com/liatrio/engineering-bootcamp/pull/824), [#826](https://github.com/liatrio/engineering-bootcamp/pull/826), ready for review.
 
 ### Spec 02: System Thinking & Codebase Analysis (11.3)
 
-- **Status**: ✅ COMPLETE
+- **Status**: 🚧 BUILT, ARM VALIDATION PENDING
 - **Location**: `docs/specs/02-spec-system-thinking/`
 - **Sections Covered**: 11.3
-- **Notes**: Analyzing applications, system diagrams, tracing transactions. Spec and task list complete.
+- **Notes**: Spec and task list complete; content built in PR [#914](https://github.com/liatrio/engineering-bootcamp/pull/914). OTel Demo ARM (Apple Silicon) validation is still pending — see [issue #920](https://github.com/liatrio/engineering-bootcamp/issues/920).
 
 ### Spec 03: Databases & Data Persistence (11.4)
 
-- **Status**: 📋 PLANNED
-- **Location**: `docs/specs/03-spec-databases/` (to be created)
+- **Status**: 📝 SPEC WRITTEN, TASKS IN PROGRESS
+- **Location**: `docs/specs/03-spec-databases/`
 - **Sections Covered**: 11.4
-- **Notes**: SQL, NoSQL, ORMs, data modeling
+- **Notes**: SQL, NoSQL, ORMs, data modeling. Spec is written; the tasks file is in progress — see [issue #919](https://github.com/liatrio/engineering-bootcamp/issues/919).
 
 ### Spec 04: REST API Design & OpenAPI (11.5)
 
-- **Status**: 📋 PLANNED
+- **Status**: ❓ QUESTIONS IN FLIGHT
 - **Location**: `docs/specs/04-spec-rest-api/` (to be created)
 - **Sections Covered**: 11.5
-- **Notes**: REST principles, OpenAPI spec, API design exercises
+- **Notes**: REST principles, OpenAPI spec, API design exercises. Round-1 questions are in flight — see [issue #918](https://github.com/liatrio/engineering-bootcamp/issues/918).
 
 ### Spec 05: Authentication & Authorization (11.6)
 
@@ -601,14 +643,21 @@ After each phase, validate:
 - **Status**: 📋 PLANNED
 - **Location**: `docs/specs/06-spec-debugging-observability/` (to be created)
 - **Sections Covered**: 11.7
-- **Notes**: OTel Demo App, telemetry, memory leak exercise, **introduces SDD**
+- **Notes**: OTel Demo App, telemetry, memory leak exercise, **introduces SDD**. Deploys via Spec 08's infrastructure.
 
 ### Spec 07: Production Development & Digital Clone (11.8)
 
 - **Status**: 📋 PLANNED
 - **Location**: `docs/specs/07-spec-production-development/` (to be created)
 - **Sections Covered**: 11.8
-- **Notes**: Production fixes, feature implementation, digital clone, zero-downtime migration, **applies SDD**
+- **Notes**: Production fixes, feature implementation, digital clone, zero-downtime migration, **applies SDD**. Deploys via Spec 08's infrastructure.
+
+### Spec 08: Infrastructure — Terraform/AWS One-Command OTel Demo Environment
+
+- **Status**: 📋 PLANNED
+- **Location**: `docs/specs/08-spec-infrastructure/` (to be created)
+- **Sections Covered**: N/A (standalone infrastructure spec supporting 11.7-11.8)
+- **Notes**: Committed Terraform provisioning a single EC2 VM running the OTel Demo App's official Docker Compose into the learner's own AWS account (~$1/day, clean `terraform destroy`); k3s-on-EC2 fallback if pod-level blue-green is needed. Research complete in [issue #921](https://github.com/liatrio/engineering-bootcamp/issues/921); spec not yet written.
 
 ---
 
@@ -621,8 +670,9 @@ After each phase, validate:
 3. **Identify Next Spec**: Follow Priority Tiers and Suggested Implementation Order
 4. **Gather Context**: Review Reference Materials section for source documents
 5. **Apply Standards**: Follow Repository Standards and Technical Dependencies
-6. **Continue**: Create the next planned spec using the structure established in Spec 01
+6. **Check open decisions**: Review the wayfinder map ([issue #915](https://github.com/liatrio/engineering-bootcamp/issues/915)) for anything unresolved before continuing
+7. **Continue**: Create or advance the next planned spec using the structure established in Spec 01
 
-**Current State**: Specs 01 and 02 complete. Ready to begin Spec 03 (Databases & Data Persistence).
+**Current State**: Spec 01 content is in review (PRs #822/#824/#826). Spec 02 content is built (PR #914) with ARM validation pending (#920). Spec 03 has a written spec with its tasks file in progress (#919). Spec 04 has round-1 questions in flight (#918). Specs 05-07 are planned. Spec 08 (Infrastructure) is newly added, planned, with its supporting research already complete (#921).
 
-**Next Action**: Create Spec 03 following the established spec structure, incorporating database and data persistence concepts from patterns-of-enterprise-application-architecture-notes.
+**Next Action**: Close out Spec 02's ARM validation (#920), finish Spec 03's tasks file (#919), resolve Spec 04's remaining questions (#918), and write Spec 08 so Specs 06-07 have infrastructure to build against. Track all of the above via the wayfinder map (#915).
