@@ -7,7 +7,7 @@
 ### Example in how the import is call in your go code:
 
 ```go
-import "github.com/liatrio/devops-bootcamp/examples/ch8/devops-resources"
+import "github.com/liatrio/engineering-bootcamp/examples/ch8/devops-resources"
 ```
 
 #### This is how you would pull the module in the default branch [master]
@@ -17,7 +17,7 @@ import "github.com/liatrio/devops-bootcamp/examples/ch8/devops-resources"
 #### Here is an example of how to include the module inside of the go.mod within the terraform provider:
 
 ```go
-require github.com/liatrio/devops-bootcamp/examples/ch8/devops-resource [branch]
+require github.com/liatrio/engineering-bootcamp/examples/ch8/devops-resource [branch]
 ```
 
 #### When you run go mod tidy go will look for the module at the head of the branch you specified in go.mod
