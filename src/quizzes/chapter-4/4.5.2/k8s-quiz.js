@@ -15,7 +15,7 @@ shuffleAnswers: true
 1. [ ] Docker, Kubernetes
 	> Keep in mind that while Kubernetes and Docker Compose handle container orchestration, all Docker does is create containers
 
-# Order the following Kubernetes resources into the correct scopes (highest scope to lowest scope)<br>If you are confused, reread the [Design](https://devops-bootcamp.liatr.io/#/4-virtual-machines-containers/4.5.2-kubernetes?id=design) section above.
+# Order the following Kubernetes resources into the correct scopes (highest scope to lowest scope)<br>If you are confused, reread the [Design](https://engineering-bootcamp.liatr.io/#/4-virtual-machines-containers/4.5.2-kubernetes?id=design) section above.
 
 1. Cluster
 2. Node
@@ -24,7 +24,7 @@ shuffleAnswers: true
 # True or False: Making an invalid command to the Kubernetes API can run the risk of breaking resources in your cluster
 
 1. [ ] True
-	> Not quite. Refer back to the [Design](https://devops-bootcamp.liatr.io/#/4-virtual-machines-containers/4.5.2-kubernetes?id=design) section above to get a firmer grasp on how Kubernetes handles changes to the cluster
+	> Not quite. Refer back to the [Design](https://engineering-bootcamp.liatr.io/#/4-virtual-machines-containers/4.5.2-kubernetes?id=design) section above to get a firmer grasp on how Kubernetes handles changes to the cluster
 1. [x] False
 	> Excellent! The great thing about the Kubernetes engine is that *proposed* changes (your commands) must be validated by an API server before any changes are made to etcd
 
@@ -33,7 +33,7 @@ shuffleAnswers: true
 1. [x] Deployments, Services
 	> Good. These terms are easy to mix up because they deal with similar things, so this is a good item to commit to memory
 1. [ ] Services, Deployments
-	> Not quite. These terms are easy to mix up because they deal with similar things, so don't sweat it. Reread the [Services](https://devops-bootcamp.liatr.io/#/4-virtual-machines-containers/4.5.2-kubernetes?id=services) and [Deployments](https://devops-bootcamp.liatr.io/#/4-virtual-machines-containers/4.5.2-kubernetes?id=deployments) definitions above to help commit these to memory
+	> Not quite. These terms are easy to mix up because they deal with similar things, so don't sweat it. Reread the [Services](https://engineering-bootcamp.liatr.io/#/4-virtual-machines-containers/4.5.2-kubernetes?id=services) and [Deployments](https://engineering-bootcamp.liatr.io/#/4-virtual-machines-containers/4.5.2-kubernetes?id=deployments) definitions above to help commit these to memory
 
 `;
 

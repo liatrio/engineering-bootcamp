@@ -9,7 +9,7 @@ class LiatrioBootcampLinkTest(unittest.TestCase):
 
     def test_bootcamp_link(self):
         driver = self.driver
-        driver.get("https://devops-bootcamp.liatr.io")
+        driver.get("https://engineering-bootcamp.liatr.io")
         # check we get expected page title
 
         # find the link to Introduction to DevOps section at the bottom of the page
@@ -28,7 +28,7 @@ class LiatrioBootcampSidebarTest(unittest.TestCase):
 
     def test_bootcamp_sidebar(self):
         driver = self.driver
-        driver.get("https://devops-bootcamp.liatr.io")
+        driver.get("https://engineering-bootcamp.liatr.io")
         # check that the sidebar is shown (HINT: check html body attributes)
 
         # check that there is no CLOSE attribute on the body
