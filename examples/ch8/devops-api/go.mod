@@ -4,8 +4,10 @@ go 1.24.0
 
 require (
 	github.com/gin-gonic/gin v1.9.1
-	github.com/liatrio/devops-bootcamp/examples/ch7/devops-resources v0.0.0-20230921193819-569bb9d9dbdd
+	github.com/liatrio/engineering-bootcamp/examples/ch7/devops-resources v0.0.0-00010101000000-000000000000
 )
+
+replace github.com/liatrio/engineering-bootcamp/examples/ch7/devops-resources => ../devops-resources
 
 require (
 	github.com/bytedance/sonic v1.9.1 // indirect
