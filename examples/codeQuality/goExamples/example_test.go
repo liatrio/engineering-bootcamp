@@ -7,7 +7,7 @@ func TestIndexGitHubRepositoriesByOrg_basic(t *testing.T) {
     repos := []*GitHubRepository{
         {
             Organization: "liatrio",
-            Repository: "devops-bootcamp",
+            Repository: "engineering-bootcamp",
             Url: "https://github.com/liatrio/engineering-bootcamp",
             License: "MIT",
         },
@@ -29,7 +29,7 @@ func TestIndexGitHubRepositoriesByOrg_multiple(t *testing.T) {
     repos := []*GitHubRepository{
         {
             Organization: "liatrio",
-            Repository: "devops-bootcamp",
+            Repository: "engineering-bootcamp",
             Url: "https://github.com/liatrio/engineering-bootcamp",
             License: "MIT",
         },
