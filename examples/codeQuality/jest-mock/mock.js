@@ -40,9 +40,9 @@ async function checkUserName(username, expectedName = "Chris Blackburn") {
   }
 }
 
-//// REPO CHECKS FOR DEVOPS-BOOTCAMP ////
+//// REPO CHECKS FOR ENGINEERING-BOOTCAMP ////
 
-async function checkRepoName(owner, repo, expectedName = "devops-bootcamp") {
+async function checkRepoName(owner, repo, expectedName = "engineering-bootcamp") {
   try {
     const repoInfo = await getRepoInfo(owner, repo);
     if (!repoInfo || !repoInfo.name) {

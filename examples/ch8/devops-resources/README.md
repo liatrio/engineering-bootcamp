@@ -73,4 +73,4 @@ type DevOps struct {
 ### Why is the module name long and almost looks like a path.
 
 - Go looks for the path in which the package and module is referenced.
-- For this case the repository is github.com(host)/liatrio(owner)/devops-bootcamp(repo)/examples/ch8/devops-resources(path to package)
+- For this case the repository is github.com(host)/liatrio(owner)/engineering-bootcamp(repo)/examples/ch8/devops-resources(path to package)
