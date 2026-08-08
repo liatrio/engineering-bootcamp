@@ -8,7 +8,7 @@ import (
 	"sync"
 
 	"github.com/gin-gonic/gin"
-	devops_resource "github.com/liatrio/devops-bootcamp/examples/ch7/devops-resources"
+	devops_resource "github.com/liatrio/engineering-bootcamp/examples/ch7/devops-resources"
 )
 
 // Thread-safe stores for each data type

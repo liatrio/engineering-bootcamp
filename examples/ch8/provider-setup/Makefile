@@ -7,7 +7,7 @@ GOARCH?=$$(go env GOARCH)
 plan: clean init provider resource datasource debug-allCombined
 
 build: main.go generate
-	go $@ -o terraform-provider-devops-bootcamp
+	go $@ -o terraform-provider-engineering-bootcamp
 
 debug-allCombined:
 	terraform -chdir=examples/allCombined init -plugin-dir=../../.plugin-cache
@@ -31,11 +31,11 @@ fmt: main.tf
 
 #makes a directory including making gome directories should they not exist (-p)
 init: clean build
-	@mkdir -p .plugin-cache/liatr.io/terraform/devops-bootcamp/0.0.1/$(GOOS)_$(GOARCH) && \
-	ln -s "${PWD}/terraform-provider-devops-bootcamp" "${PWD}/.plugin-cache/liatr.io/terraform/devops-bootcamp/0.0.1/$(GOOS)_$(GOARCH)/terraform-provider-devops-bootcamp"
+	@mkdir -p .plugin-cache/liatr.io/terraform/engineering-bootcamp/0.0.1/$(GOOS)_$(GOARCH) && \
+	ln -s "${PWD}/terraform-provider-engineering-bootcamp" "${PWD}/.plugin-cache/liatr.io/terraform/engineering-bootcamp/0.0.1/$(GOOS)_$(GOARCH)/terraform-provider-engineering-bootcamp"
 
 clean: 
-	@rm -rf .plugin-cache .terraform .terraform.lock.hcl terraform-provider-devops-bootcamp && \
+	@rm -rf .plugin-cache .terraform .terraform.lock.hcl terraform-provider-engineering-bootcamp && \
 	rm -rf examples/*/*/.terraform* examples/*/.terraform*
 
 provider:

@@ -3,7 +3,7 @@ const { Octokit } = require("octokit");
 /**
  * Fetches public repository info using Octokit.
  * @param {string} owner - The repo owner (e.g., 'liatrio')
- * @param {string} repo - The repo name (e.g., 'devops-bootcamp')
+ * @param {string} repo - The repo name (e.g., 'engineering-bootcamp')
  * @returns {Promise<object>} - The repository info object
  */
 async function getRepoInfo(owner, repo) {

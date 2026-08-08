@@ -1,4 +1,4 @@
-DevOps Bootcamp: Anything in this notes file will be displayed when installing this Helm chart
+Engineering Bootcamp: Anything in this notes file will be displayed when installing this Helm chart
 
 1. Once you have all three pods running successfully you will need to run the following command:
 kubectl port-forward svc/backend 8080:8080

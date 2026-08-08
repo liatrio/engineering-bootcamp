@@ -1,4 +1,4 @@
-module github.com/liatrio/devops-bootcamp/examples/ch11/data-patterns/repository
+module github.com/liatrio/engineering-bootcamp/examples/ch11/data-patterns/repository
 
 go 1.21
 

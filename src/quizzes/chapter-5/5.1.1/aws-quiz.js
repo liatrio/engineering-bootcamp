@@ -9,9 +9,9 @@ shuffleAnswers: true
 1. [x] True
 	> Good. While naming seems like a feature that should be standalone and separate from tags, this A) allows for quick searching of resources and B) allows for a standardized naming method across all resources, regardless of their type
 1. [ ] False
-	> Not quite. Reread the [Names](https://devops-bootcamp.liatr.io/#/5-cloud-computing/5.1.1-aws?id=names) section above
+	> Not quite. Reread the [Names](https://engineering-bootcamp.liatr.io/#/5-cloud-computing/5.1.1-aws?id=names) section above
 
-# From the following list, select all *quality* resource tags<br>If you are confused, refer to [Liatrio's tagging standards](https://devops-bootcamp.liatr.io/#/5-cloud-computing/5.1.1-aws?id=liatrio39s-tagging-standards) above.
+# From the following list, select all *quality* resource tags<br>If you are confused, refer to [Liatrio's tagging standards](https://engineering-bootcamp.liatr.io/#/5-cloud-computing/5.1.1-aws?id=liatrio39s-tagging-standards) above.
 
 - [x] **Owner**=chris-blackburn
 - [x] **Project**=pipeline-initiative
