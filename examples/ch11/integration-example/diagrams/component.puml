@@ -1,0 +1,26 @@
+@startuml integration-example-component
+title Product Recommendation Flow - Component Diagram
+
+skinparam componentStyle rectangle
+
+actor "Shopper\n(Browser)" as Shopper
+
+package "OTel Demo (subset)" {
+  [Frontend\n(Next.js)] as Frontend
+  [Recommendation Service\n(Python, gRPC)] as Recs
+  [Product Catalog Service\n(Go, gRPC)] as Catalog
+}
+
+Shopper --> Frontend : HTTP\n(view product page)
+Frontend --> Recs : gRPC ListRecommendations\n(product IDs in view)
+Frontend --> Catalog : gRPC GetProduct\n(per recommended ID)
+Recs --> Catalog : gRPC ListProducts\n(full catalog)
+
+note right of Recs
+  Stateless: no database of its own.
+  Computes recommendations fresh
+  from the current catalog on
+  every request.
+end note
+
+@enduml

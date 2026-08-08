@@ -1,0 +1,45 @@
+@startuml add-to-cart-trace
+title OTel Demo - "Add to Cart" Sequence Diagram (Worked Example)
+
+actor Shopper
+
+participant "Frontend Proxy\n(Envoy)" as Proxy
+participant "Frontend\n(Next.js)" as Frontend
+participant "Cart Service\n(.NET, gRPC)" as Cart
+database "Valkey / Redis\n(cart store)" as Store
+
+Shopper -> Proxy: POST /api/cart\n{productId, quantity}
+activate Proxy
+
+Proxy -> Frontend: routes /api/* to frontend
+activate Frontend
+
+Frontend -> Cart: gRPC AddItem(userId, CartItem)
+activate Cart
+
+Cart -> Store: read existing cart for userId
+activate Store
+Store --> Cart: current cart (or empty)
+deactivate Store
+
+Cart -> Store: write merged cart for userId
+activate Store
+Store --> Cart: OK
+deactivate Store
+
+Cart --> Frontend: gRPC response (success)
+deactivate Cart
+
+Frontend --> Proxy: 200 OK (JSON)
+deactivate Frontend
+
+Proxy --> Shopper: 200 OK\n(UI updates cart count)
+deactivate Proxy
+
+note over Cart, Store
+  Failure point: if Valkey is unreachable, the gRPC
+  call may still be accepted but the write can fail --
+  the frontend only knows what the Cart Service tells it.
+end note
+
+@enduml

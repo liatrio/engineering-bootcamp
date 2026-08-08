@@ -1,0 +1,27 @@
+@startuml integration-example-dataflow
+title Product Recommendation Flow - Data Flow Diagram
+
+skinparam defaultTextAlignment center
+
+rectangle "Viewed Product ID\n(from page URL)" as ViewedId
+rectangle "gRPC Request\nListRecommendations(productIds=[id])" as RecReq
+rectangle "Full Catalog\n(list of all Product objects)" as FullCatalog
+rectangle "Filtered + Sampled IDs\n([id2, id3, id4, id5])" as SampledIds
+rectangle "Per-ID GetProduct Calls\n(4x gRPC requests)" as GetCalls
+rectangle "Full Product Objects\n(name, price, picture per ID)" as FullProducts
+rectangle "Rendered HTML\n(\"You might also like\" cards)" as Html
+
+ViewedId -down-> RecReq : frontend builds\ngRPC request
+RecReq -down-> FullCatalog : recommendation service\nfetches full catalog
+FullCatalog -down-> SampledIds : recommendation service\nfilters + randomly samples,\nreturns IDs only
+SampledIds -down-> GetCalls : frontend issues one\nGetProduct call per ID
+GetCalls -down-> FullProducts : catalog service returns\nfull product details
+FullProducts -down-> Html : frontend renders\nproduct cards
+
+note bottom of Html
+  Notice the recommendation service never sends full
+  product data -- only IDs. The frontend re-fetches full
+  details itself, an explicit boundary decision (see ADR).
+end note
+
+@enduml

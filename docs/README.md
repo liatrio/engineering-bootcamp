@@ -316,6 +316,45 @@ docs/11-application-development/11.2.2-data-layer-patterns.md:
         - SQLite
         - Design Patterns
         - AI Collaboration
+docs/11-application-development/11.3-system-thinking.md:
+  category: Software Development
+  estReadingMinutes: 30
+  exercises:
+    - name: Simple Application Analysis
+      description: >-
+        Create sequence, component, and data flow diagrams for a simple
+        multi-service application
+      estMinutes: 90
+      technologies:
+        - System Design
+        - Diagramming
+        - Architecture Documentation
+    - name: Transaction Tracing in OTel Demo
+      description: >-
+        Trace a transaction through 3-5 services in the OpenTelemetry Demo
+        Application
+      estMinutes: 120
+      technologies:
+        - Microservices
+        - OpenTelemetry
+        - System Design
+    - name: Architecture Documentation & Presentation
+      description: 'Write ADRs and README documentation, deliver walkthrough presentation'
+      estMinutes: 150
+      technologies:
+        - Technical Writing
+        - Architecture Documentation
+        - Communication
+    - name: Integration Exercise
+      description: >-
+        Complete analysis of a feature including all diagram types,
+        documentation, and presentation
+      estMinutes: 180
+      technologies:
+        - System Design
+        - Microservices
+        - OpenTelemetry
+        - Technical Writing
 docs/2-Github/2.2-Actions.md:
   category: CI/CD
   estReadingMinutes: 20
