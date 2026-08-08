@@ -1,0 +1,12 @@
+[project]
+name = "decorator-pattern"
+version = "0.1.0"
+description = "Decorator Pattern Example - Coffee Shop with Dynamic Customizations"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]

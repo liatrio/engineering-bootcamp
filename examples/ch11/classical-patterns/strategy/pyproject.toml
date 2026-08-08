@@ -1,0 +1,12 @@
+[project]
+name = "strategy-pattern"
+version = "0.1.0"
+description = "Strategy Pattern Example - Payment Processing System"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
