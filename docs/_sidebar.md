@@ -21,6 +21,9 @@
   - [1.3.4 - Passwords and Keys](1-introduction/1.3.4-passwords-and-keys.md)
   - [1.3.5 - Networking Basics](1-introduction/1.3.5-networking.md)
 - [1.4 - External Resources](1-introduction/1.4-external-resources.md)
+- [1.5 - Version Control](1-introduction/1.5-version-control.md)
+  - [1.5.1 - Branching & Merging](1-introduction/1.5.1-branching-merging.md)
+  - [1.5.2 - Git](1-introduction/1.5.2-git.md)
 
 - **Chapter 2**
 
@@ -91,10 +94,6 @@
   - [6.1.5 - Sizing](6-software-development-practices/6.1.5-sizing.md)
   - [6.1.6 - Deliverable](6-software-development-practices/6.1.6-deliverable.md)
 - [6.2 - Jira](6-software-development-practices/6.2-jira.md)
-- [6.3 - Version Control](6-software-development-practices/6.3-version-control.md)
-  - [6.3.1 - Branching & Merging](6-software-development-practices/6.3.1-branching-merging.md)
-  - [6.3.2 - Git](6-software-development-practices/6.3.2-git.md)
-  - [6.3.3 - GitHub](6-software-development-practices/6.3.3-github.md)
 - [6.4 - Pair Programming](6-software-development-practices/6.4-pairprogramming.md)
 - [6.5 - Code Quality](6-software-development-practices/6.5-code-quality.md)
   - [6.5.1 - Unit Testing](6-software-development-practices/6.5.1-unit-testing.md)

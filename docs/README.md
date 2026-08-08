@@ -42,6 +42,33 @@ docs/1-introduction/1.3.5-networking.md:
 docs/1-introduction/1.4-external-resources.md:
   category: Fundamentals
   estReadingMinutes: 50
+docs/1-introduction/1.5.1-branching-merging.md:
+  category: Version Control
+  estReadingMinutes: 15
+docs/1-introduction/1.5.2-git.md:
+  category: Version Control
+  estReadingMinutes: 25
+  exercises:
+    - name: Git Basics
+      description: Learn the basics of Git.
+      estMinutes: 30
+      technologies:
+        - Git
+    - name: Branching and Merging
+      description: Practice branching and merging with Git.
+      estMinutes: 30
+      technologies:
+        - Git
+    - name: Merge Conflicts
+      description: Learn how to resolve merge conflicts in Git.
+      estMinutes: 30
+      technologies:
+        - Git
+    - name: Removing Secrets
+      description: Learn how to remove secrets from Git history.
+      estMinutes: 30
+      technologies:
+        - Git
 docs/10-platform-engineering/10.0-overview.md:
   category: Platform Engineering
   estReadingMinutes: 15
@@ -853,43 +880,6 @@ docs/6-software-development-practices/6.1-overview.md:
 docs/6-software-development-practices/6.2-jira.md:
   category: Agile Development
   estReadingMinutes: 30
-docs/6-software-development-practices/6.3.1-branching-merging.md:
-  category: Version Control
-  estReadingMinutes: 15
-docs/6-software-development-practices/6.3.2-git.md:
-  category: Version Control
-  estReadingMinutes: 25
-  exercises:
-    - name: Git Basics
-      description: Learn the basics of Git.
-      estMinutes: 30
-      technologies:
-        - Git
-    - name: Branching and Merging
-      description: Practice branching and merging with Git.
-      estMinutes: 30
-      technologies:
-        - Git
-    - name: Merge Conflicts
-      description: Learn how to resolve merge conflicts in Git.
-      estMinutes: 30
-      technologies:
-        - Git
-    - name: Removing Secrets
-      description: Learn how to remove secrets from Git history.
-      estMinutes: 30
-      technologies:
-        - Git
-docs/6-software-development-practices/6.3.3-github.md:
-  category: Version Control
-  estReadingMinutes: 25
-  exercises:
-    - name: Fork and Merge
-      description: Practice forking and merging on GitHub
-      estMinutes: 30
-      technologies:
-        - Git
-        - GitHub
 docs/6-software-development-practices/6.4-pairprogramming.md:
   category: Agile Development
   estReadingMinutes: 20
