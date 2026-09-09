@@ -34,8 +34,8 @@ describe("User Info Checks (with mocked getUserInfo)", () => {
 
   test("checkUserLogin does not match expected", async () => {
     getUserInfo.mockResolvedValue({ login: "otheruser" });
-    await checkUserLogin("otheruser", "chrisjblackburn");
-    expect(getUserInfo).toHaveBeenCalledWith("otheruser");
+    await checkUserLogin("chrisjblackburn", "chrisjblackburn");
+    expect(getUserInfo).toHaveBeenCalledWith("chrisjblackburn");
     expect(logSpy).toHaveBeenCalledWith(
       "User login does NOT match expected. Got: otheruser, Expected: chrisjblackburn",
     );
