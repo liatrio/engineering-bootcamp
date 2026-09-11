@@ -316,6 +316,20 @@ docs/11-application-development/11.2.2-data-layer-patterns.md:
         - SQLite
         - Design Patterns
         - AI Collaboration
+docs/11-application-development/11.2.4-classical-patterns.md:
+  category: Software Development
+  estReadingMinutes: 45
+  exercises:
+    - name: Identify Classical Patterns in Production Code
+      description: >-
+        Analyze a production codebase of your choice to identify Strategy,
+        Factory, Observer, and Decorator patterns in use.
+      estMinutes: 90
+      technologies:
+        - Design Patterns
+        - Python
+        - Go
+        - TypeScript
 docs/2-Github/2.2-Actions.md:
   category: CI/CD
   estReadingMinutes: 20
