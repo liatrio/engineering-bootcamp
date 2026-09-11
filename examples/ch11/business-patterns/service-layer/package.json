@@ -1,0 +1,26 @@
+{
+  "name": "business-patterns-service-layer",
+  "version": "1.0.0",
+  "description": "Service Layer pattern example for business logic orchestration",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node dist/main.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "keywords": [
+    "design-patterns",
+    "service-layer",
+    "business-logic"
+  ],
+  "author": "Liatrio",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  }
+}
