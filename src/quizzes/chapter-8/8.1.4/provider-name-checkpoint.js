@@ -2,11 +2,11 @@ const rawQuizdown = `
 ---
 shuffleAnswers: true
 ---
-# Based on the provider address \`\`\`liatri.io/terraform/devops-bootcamp\`\`\`, what is the name of your provider?
+# Based on the provider address \`\`\`liatr.io/terraform/engineering-bootcamp\`\`\`, what is the name of your provider?
 
-- [x] devops-bootcamp
-- [ ] liatri.io/terraform/devops-bootcamp
-- [ ] liatri.io
+- [x] engineering-bootcamp
+- [ ] liatr.io/terraform/engineering-bootcamp
+- [ ] liatr.io
 `;
 
 export { rawQuizdown }
