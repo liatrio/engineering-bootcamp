@@ -316,6 +316,19 @@ docs/11-application-development/11.2.2-data-layer-patterns.md:
         - SQLite
         - Design Patterns
         - AI Collaboration
+docs/11-application-development/11.2.3-business-logic-patterns.md:
+  category: Software Development
+  estReadingMinutes: 30
+  exercises:
+    - name: Implement Business Logic Patterns
+      description: >-
+        Choose and implement the appropriate business logic pattern (Transaction
+        Script, Domain Model, or Service Layer) for a given business problem
+        based on complexity.
+      estMinutes: 90
+      technologies:
+        - TypeScript
+        - Design Patterns
 docs/2-Github/2.2-Actions.md:
   category: CI/CD
   estReadingMinutes: 20
