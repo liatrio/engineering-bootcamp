@@ -52,11 +52,11 @@ shuffleAnswers: true
 1. [x] Controller, Agent
 	> Good. The controller is the original node that delegates work to one or multiple agents
 1. [ ] Agent, Controller
-	> Almost there! Refer back to the [Jenkins Architecture](https://devops-bootcamp.liatr.io/#/4-cloud-computing/4.2.2-ec2?id=jenkins) above
+	> Almost there! Refer back to the [Jenkins Architecture](https://engineering-bootcamp.liatr.io/#/4-cloud-computing/4.2.2-ec2?id=jenkins) above
 1. [ ] Pipeline, Agent
-	> Not quite. The Jenkins Pipeline refers to the entire process as a whole. Refer back to the [Jenkins Architecture](https://devops-bootcamp.liatr.io/#/4-cloud-computing/4.2.2-ec2?id=jenkins) above
+	> Not quite. The Jenkins Pipeline refers to the entire process as a whole. Refer back to the [Jenkins Architecture](https://engineering-bootcamp.liatr.io/#/4-cloud-computing/4.2.2-ec2?id=jenkins) above
 1. [ ] Pipeline, Controller
-	> Not quite. The Jenkins Pipeline refers to the entire process as a whole. Refer back to the [Jenkins Architecture](https://devops-bootcamp.liatr.io/#/4-cloud-computing/4.2.2-ec2?id=jenkins) above
+	> Not quite. The Jenkins Pipeline refers to the entire process as a whole. Refer back to the [Jenkins Architecture](https://engineering-bootcamp.liatr.io/#/4-cloud-computing/4.2.2-ec2?id=jenkins) above
 
 # True or False: You can have agents working together and running in unison across different environments in one Jenkins pipeline
 
