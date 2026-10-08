@@ -15,9 +15,9 @@ shuffleAnswers: true
 1. [x] A container is a runtime instance of an image
 	> Good. The image is what defines the container and the container is what is actually running
 1. [ ] An image is a runtime instance of a container
-	> Not quite. Refer back to the [Images and Containers](https://devops-bootcamp.liatr.io/#/4-virtual-machines-containers/4.4-containers?id=images-and-containers) section above
+	> Not quite. Refer back to the [Images and Containers](https://engineering-bootcamp.liatr.io/#/4-virtual-machines-containers/4.4-containers?id=images-and-containers) section above
 1. [ ] The two terms can be used interchangeably
-	> Not quite. Refer back to the [Images and Containers](https://devops-bootcamp.liatr.io/#/4-virtual-machines-containers/4.4-containers?id=images-and-containers) section above
+	> Not quite. Refer back to the [Images and Containers](https://engineering-bootcamp.liatr.io/#/4-virtual-machines-containers/4.4-containers?id=images-and-containers) section above
 
 # 1/2 - Suppose you need a very specific set of dependencies and packages installed to your container, but no base image exists that has them already installed for you. What problems does this pose? Select all that apply
 
@@ -46,7 +46,7 @@ shuffleAnswers: true
 1. [x] True
 	> Good. This is because the image build will utilize caching to greatly speed up unchanged layers. This is one of Docker's best strengths
 1. [ ] False
-	> Not quite. Refer back to the [Layers](https://devops-bootcamp.liatr.io/#/4-virtual-machines-containers/4.4-containers?id=layers) section above
+	> Not quite. Refer back to the [Layers](https://engineering-bootcamp.liatr.io/#/4-virtual-machines-containers/4.4-containers?id=layers) section above
 
 # True or False: If you run the same Docker container twice, the start time will be shorter the second time around
 
