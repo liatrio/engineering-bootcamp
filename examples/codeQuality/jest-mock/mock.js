@@ -40,7 +40,7 @@ async function checkUserName(username, expectedName = "Chris Blackburn") {
   }
 }
 
-//// REPO CHECKS FOR ENGINEERING-BOOTCAMP ////
+//// REPO CHECKS FOR engineering-bootcamp ////
 
 async function checkRepoName(owner, repo, expectedName = "engineering-bootcamp") {
   try {

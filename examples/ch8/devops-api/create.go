@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/liatrio/engineering-bootcamp/examples/ch8/devops-resources"
+	"github.com/liatrio/engineering-bootcamp/examples/devops-resources"
 )
 
 func newDevOps(newDevOps devops_resource.DevOps) (*devops_resource.DevOps, error) {

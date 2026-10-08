@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
-	"github.com/liatrio/engineering-bootcamp/examples/ch8/devops-resources"
+	"github.com/liatrio/engineering-bootcamp/examples/devops-resources"
 	"io"
 	"net/http"
 	"net/http/httptest"
