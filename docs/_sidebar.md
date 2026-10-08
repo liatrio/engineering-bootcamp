@@ -24,7 +24,6 @@
 - [1.5 - Version Control](1-introduction/1.5-version-control.md)
   - [1.5.1 - Branching & Merging](1-introduction/1.5.1-branching-merging.md)
   - [1.5.2 - Git](1-introduction/1.5.2-git.md)
-  - [1.5.3 - GitHub](1-introduction/1.5.3-github.md)
 
 - **Chapter 2**
 

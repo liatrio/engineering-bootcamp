@@ -69,16 +69,6 @@ docs/1-introduction/1.5.2-git.md:
       estMinutes: 30
       technologies:
         - Git
-docs/1-introduction/1.5.3-github.md:
-  category: Version Control
-  estReadingMinutes: 25
-  exercises:
-    - name: Fork and Merge
-      description: Practice forking and merging on GitHub
-      estMinutes: 30
-      technologies:
-        - Git
-        - GitHub
 docs/10-platform-engineering/10.0-overview.md:
   category: Platform Engineering
   estReadingMinutes: 15
