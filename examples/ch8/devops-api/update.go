@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/liatrio/engineering-bootcamp/examples/ch7/devops-resources"
+	"github.com/liatrio/engineering-bootcamp/examples/ch8/devops-resources"
 )
 
 // functions to update resources//
