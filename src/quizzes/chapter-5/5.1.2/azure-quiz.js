@@ -20,7 +20,7 @@ shuffleAnswers: true
 # True or False: You can change the name of a resource in Azure at any time without needing to alter the resource itself.
 
 1. [ ] True
-	> Not quite. Resource names in Azure are immutable by design, meaning they shouldn't/can't be changed. Refer back to the [Resource Naming and Tagging](https://devops-bootcamp.liatr.io/#/4-cloud-computing/4.1.2-azure?id=resource-naming-and-tagging) section above
+	> Not quite. Resource names in Azure are immutable by design, meaning they shouldn't/can't be changed. Refer back to the [Resource Naming and Tagging](https://engineering-bootcamp.liatr.io/#/4-cloud-computing/4.1.2-azure?id=resource-naming-and-tagging) section above
 1. [x] False
 	> Good. Since resource names are immutable, you would need to destroy the resource and recreate it with a different name
 

@@ -1746,8 +1746,8 @@ Use Docker to build and serve the content, but remember to rebuild the Docker im
 
 #### Build and Run Docker Container
 
-1. Execute `docker build . -t devops-bootcamp` from the project's root directory to generate a container image
-2. Run `docker run -d -p 3000:3000 --name devops-bootcamp devops-bootcamp` to run a detached Docker container
+1. Execute `docker build . -t engineering-bootcamp` from the project's root directory to generate a container image
+2. Run `docker run -d -p 3000:3000 --name engineering-bootcamp engineering-bootcamp` to run a detached Docker container
 3. Open <http://localhost:3000>
 
 #### Docker Compose
