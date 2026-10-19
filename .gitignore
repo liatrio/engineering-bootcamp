@@ -37,7 +37,8 @@ __pypackages__/
 .python-version
 
 # Claude Code
-.claude/
+.claude/*
+!.claude/skills
 
 # Specs (internal planning artifacts)
 docs/specs/
