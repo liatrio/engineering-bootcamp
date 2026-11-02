@@ -1,13 +1,9 @@
 ---
 name: lesson-style-check
-description: Scan bootcamp section markdown in docs/ for the specific rhetorical AI-isms that recur in AI-assisted course content (bolded lead-in sentences, negate-then-restate, personification, em dashes, Title Case headings, rule-of-three padding, throat-clearing meta-commentary, unsourced claims, off-register idioms, banned vocabulary, copula avoidance, vague attributions, hollow intensifiers, confidence-calibration announcers). Read when the user asks to check section style, scan for AI-isms in bootcamp content, or reviews a new section before merge.
+description: Scan bootcamp section markdown in docs/ for the specific rhetorical AI-isms that recur in AI-assisted course content (bolded lead-in sentences, negate-then-restate, personification, em dashes, Title Case headings, rule-of-three padding, throat-clearing meta-commentary, unsourced claims, off-register idioms, banned vocabulary, copula avoidance, vague attributions, hollow intensifiers, confidence-calibration announcers). Use when checking section style, scanning for AI-isms, or reviewing a new section before merge.
 ---
 
 # Section Style Check
-
-## When to read this skill
-
-Read this whenever the user asks to audit section prose for AI-sounding writing, or check one or more `docs/N-*/N.X-*.md` section files before merging.
 
 ## Why this exists
 

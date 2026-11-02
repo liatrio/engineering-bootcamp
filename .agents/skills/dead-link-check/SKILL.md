@@ -1,13 +1,9 @@
 ---
 name: dead-link-check
-description: Audit external links in docs/ for dead, redirected, or migrated URLs, then propose or apply fixes. Read whenever the user asks to check for dead links or broken sources.
+description: Audit external links in docs/ for dead, redirected, or migrated URLs, then propose or apply fixes. Use when checking docs for dead links or broken sources.
 ---
 
 # Dead Link Check
-
-## When to read this skill
-
-Read this skill whenever the user asks to scan for dead/broken links, or audit the references in a section.
 
 ## The core problem this skill solves
 

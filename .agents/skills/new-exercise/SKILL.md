@@ -5,35 +5,31 @@ description: Add a new exercise to an existing bootcamp section, including its f
 
 # New bootcamp exercise
 
-- Prompt the user for the exercise name if one is not provided.
-- Append a new exercise at the end of the current section file, matching this template:
+Golden example to replicate: "Exercise 2 - HPAs" in `docs/9-kubernetes-container-orchestration/9.6-keda.md`, plus the matching entries in that file's front-matter. Read both before drafting.
 
-```markdown
-## <Exercise Name>
+What makes it the model:
 
-### Overview
-<generated exercise overview>
+- A `## Exercise N - <Name>` heading that continues the section's scenario.
+- Short context first (why the exercise matters), then numbered steps.
+- Steps state the goal and ask what the learner observes, without spelling out every command.
+- Ends on a question that forces the learner to name the limitation or tradeoff they just saw.
+- Code and manifests live under `examples/`, linked from the exercise.
 
-#### Steps
-<Series of vague high level steps to complete the exercise>
-```
+The page uses an em dash in the heading; use a hyphen or colon in new content, per `lesson-style-check`.
 
-- Every exercise needs a matching entry in the section's front-matter at the top of the file:
+## Steps
 
-```yaml
----
-docs/6-release-management/6.3.2-helm.md:
-  category: Container Orchestration
-  estReadingMinutes: 15
-  exercises:
-    -
-      name: <Exercise Name>
-      description: <generated exercise overview>
-      estMinutes: <estimated time to complete the exercise in minutes>
-      technologies:
-      - <Array of key technologies>
----
-```
+1. Ask for the exercise name and target section if not given.
+2. Append the exercise to the end of the section, before `### Deliverables` if one exists.
+3. Add a matching entry to the section's front-matter `exercises` list:
 
-- Reuse existing `category` and `technologies` strings from `docs/README.md`. Do not invent variants (e.g. "K8s" vs "Kubernetes"); the visualizations aggregate by exact match.
-- Afterwards run `npm run refresh-front-matter` and `npm run lint`.
+   ```yaml
+   - name: <Exercise Name>
+     description: <one-sentence summary>
+     estMinutes: <minutes>
+     technologies:
+     - <existing technology string>
+   ```
+
+4. Reuse `category` and `technologies` strings from `docs/README.md`. Novel spellings fragment the visualizations, which aggregate by exact match.
+5. Run `npm run refresh-front-matter` and `npm run lint`.
