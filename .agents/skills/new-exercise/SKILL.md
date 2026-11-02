@@ -19,7 +19,8 @@ What makes it the model:
 - Steps state the goal and ask what the learner observes, without spelling out every command.
 - Ends on a question that forces the learner to name the limitation or tradeoff they just saw.
 - Code and manifests live under `examples/`, linked from the exercise.
-- Explanations stay brief. Link the official docs for anything that exists online, and put gotchas in `?>` hints.
+- Links to official external docs (or relevant blogs the author finds) are used often instead of explaining what a thing is in detail. Letting learners explore on their own is a key part of the experience.
+- Gotchas go in short `?>` hints so the numbered steps stay terse.
 
 The page uses an em dash in the heading; use a hyphen or colon in new content, per `lesson-style-check`.
 
