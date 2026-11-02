@@ -5,7 +5,12 @@ description: Add a new exercise to an existing bootcamp section, including its f
 
 # New bootcamp exercise
 
-Golden example to replicate: "Exercise 2 - HPAs" in `docs/9-kubernetes-container-orchestration/9.6-keda.md`, plus the matching entries in that file's front-matter. Read both before drafting.
+Golden examples to replicate. Files get renumbered, so each is named by article title first; search `docs/` for the title if the path is stale.
+
+- "Exercise 2 - HPAs" in the article "9.6 KEDA" (`docs/9-kubernetes-container-orchestration/9.6-keda.md`), plus its front-matter entries: scenario-driven, goal-level steps.
+- The exercise in the article "ECS" (`docs/5-cloud-computing/5.2.6-ecs.md`): brief explanation, with links to official docs and `?>` hints instead of walkthroughs.
+
+Read both before drafting.
 
 What makes it the model:
 
@@ -14,6 +19,7 @@ What makes it the model:
 - Steps state the goal and ask what the learner observes, without spelling out every command.
 - Ends on a question that forces the learner to name the limitation or tradeoff they just saw.
 - Code and manifests live under `examples/`, linked from the exercise.
+- Explanations stay brief. Link the official docs for anything that exists online, and put gotchas in `?>` hints.
 
 The page uses an em dash in the heading; use a hyphen or colon in new content, per `lesson-style-check`.
 
