@@ -17,3 +17,18 @@ jobs:
             *.md
             **/*.md
             !**/specs/**
+
+  docs-checks:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Check Docsify links and images
+        run: npm run lint:links
+      - name: Spell check
+        run: npm run lint:spelling

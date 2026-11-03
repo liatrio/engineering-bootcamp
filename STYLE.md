@@ -33,12 +33,12 @@ Docsify and some Markdown viewers supports mixing HTML and Markdown elements in 
 ```html
 <center>
 
-  ![](../../img/goals.png)
+  ![goals image](../../img/goals_light.svg)
 
 </center>
 ```
 
-Note the blank line between the `<center>` HTML tag and the `![](../img/goals.png)` Markdown tag.
+Note the blank line between the `<center>` HTML tag and the `![goals image](../../img/goals_light.svg)` Markdown tag. Image paths are page-relative: `img/x.svg` for the chapter's own images, `../../img/x.svg` for site-wide assets in the root `img/` folder.
 
 ### Multi Column Layout
 

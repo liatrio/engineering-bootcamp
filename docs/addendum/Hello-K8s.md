@@ -33,8 +33,8 @@ This product can be anything you choose. However, there are some necessary compo
 
 </center>
 
-![ticket image](img8/ticket_light.svg ':size=100x100 :class=light-mode-icon :alt= ticket image; light mode')
-![ticket image](img8/ticket_dark.svg ':size=100x100 :class=dark-mode-icon :alt= ticket image; dark mode')
+![ticket image](../9-kubernetes-container-orchestration/img/ticket_light.svg ':size=100x100 :class=light-mode-icon :alt= ticket image; light mode')
+![ticket image](../9-kubernetes-container-orchestration/img/ticket_dark.svg ':size=100x100 :class=dark-mode-icon :alt= ticket image; dark mode')
 
 # Deliverable
 

@@ -4,8 +4,8 @@ A software artifact is the product produced by software development, often used 
 
 Nexus is one such repository manager which stores artifacts. Previously in the Bootcamp, we've used it with Maven as the ultimate destination of our deployments. However, if you're storing artifacts, it's obvious you might also like to use them later. In this section we'll use Nexus as an intermediate step, with the artifacts stored they're being used later in our pipeline.
 
-![repo image](img-addendum/repository_light.svg ':size=150x150 :class=light-mode-icon :alt= repo image; light mode')
-![repo image](img-addendum/repository_dark.svg ':size=150x150 :class=dark-mode-icon :alt= repo image; dark mode')
+![repo image](img/repository_light.svg ':size=150x150 :class=light-mode-icon :alt= repo image; light mode')
+![repo image](img/repository_dark.svg ':size=150x150 :class=dark-mode-icon :alt= repo image; dark mode')
 
 # Setup Nexus
 

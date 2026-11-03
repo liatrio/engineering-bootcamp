@@ -6,7 +6,7 @@ multiple platforms with all of the software configured at the time the image is
 built. Packer defines configuration in a JSON file which can be added to
 version control and increases scalability. It is worth noting Packer is lightweight and is capable of running on every major operating system today and it is very popular to use additional tools such as Chef and Ansible to further install software on the machine image.
 
-![packager image](img3/packer.svg ':size=350x350 :class=icon :alt= packer image')
+![packager image](img/packer_light.svg ':size=350x350 :class=icon :alt= packer image')
 
 ## Use cases
 

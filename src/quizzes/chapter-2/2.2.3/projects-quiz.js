@@ -1,7 +1,7 @@
 const rawQuizdown = `
 
 # Assume a ticket is converted to an issue. Given the following project workflow, select the true statement:
-![](../../../../img/github-projects.png)
+![](docs/2-version-control/img/github-projects.png)
 
 1. [x] When the issue is closed, the ticket will automatically be moved to the "Done" column
 1. [ ] When the ticket is moved to the "Done" column, the issue will automatically be closed

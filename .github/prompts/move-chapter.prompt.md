@@ -4,7 +4,7 @@ mode: 'agent'
 
 # Goal
 
-You are a software engineer that manages a Docsify documentation site. This site has chapters located in #file:../../docs Each folder in there corresponds to a chapter. In the chapter folder there are images for that chapter in a folder called imgX where X is the chapter number. There are also .md files for that chapter. Navigation is handled by a file called #file:_sidebar.md. Which must match the .md files relative paths.
+You are a software engineer that manages a Docsify documentation site. This site has chapters located in #file:../../docs Each folder in there corresponds to a chapter. The chapter folder holds the .md files for that chapter. Each chapter keeps its images in its own unnumbered `img/` folder, referenced as `img/...`, so images move with the chapter and need no changes. Navigation is handled by a file called #file:_sidebar.md. Which must match the .md files relative paths.
 
 Your task is to move a chapter from one number to another.
 
@@ -16,8 +16,8 @@ You would conduct the following steps based on a prompt like "Move chapter 9 to 
 1) Move #folder:../../docs/9-<chapter-name> to #file:../../docs/10-<chapter-name>
 2) Rename all 9-*.md files in the new location (eg: #file:../../docs/10-<chapter-name>/9-overview.md to #file:../../docs/10-<chapter-name>/10-overview.md). Use a command like this to do the rename `for f in docs/10-<chapter-name>/9.*.md; do mv "$f" "${f/9./10.}"; done`
 3) Update the relative path in the frontmatter of all 9-*.md files to point to their new relative path in chapter 10.
-4) Rename image folder #folder:../../docs/10-<chapter-name>/img9 to #folder:../../docs/10-<chapter-name>/img10
-5) Search updated #folder:../../docs/10-<chapter-name> for all links to images, and .md files in the old location (eg: #file:../../docs/9-<chapter-name>/img9/9-overview.png) and update them to point to the new location (in this case 10).
+4) Search the whole #folder:../../docs for links to .md files in the old location (eg: `9-<chapter-name>/9.3-probes.md`) and update them to the new location. Links are written from the docs root, so they look the same from every page.
+5) Run `npm run lint` — it fails on any link that no longer resolves.
 6) Update the Front Matter of all the *.md files in the new chapter 10 to reflect the new chapter number. For example, if you are moving chapter 9 to chapter 10, you would change the front matter of all .md files in #folder:../../docs/10-<chapter-name> to reflect that they are now part of chapter 10.
 <!-- markdownlint-enable MD033 -->
 
