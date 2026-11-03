@@ -13,10 +13,10 @@ A naive link check treats "curl didn't return 200" as "dead link." That's wrong 
 
 ## Procedure
 
-1. **Extract.** `grep -rohE 'https?://[^)"'"'"'[:space:]>]+' docs --include='*.md' | sort -u`. Scope to a single chapter (`docs/N-*/`) when asked; skip `docs/README.md` (auto-generated). Check `examples/` only if asked. Internal links follow the cross-link rule in AGENTS.md (relative paths, not `#/` hashes).
-2. **Check.** `curl -s -o /dev/null -w "%{http_code}\n" -A "<browser UA>" -L --max-time 10 "$URL"` for each. Batch it; resume from where a long run stops rather than restarting.
+1. **Extract.** `grep -rohE 'https?://[^)"'"'"'[:space:]>]+' docs --include='*.md' --exclude='README.md' | sort -u`. Scope to a single chapter (`docs/N-*/`) when asked; skip `docs/README.md` (auto-generated). Check `examples/` only if asked. Internal links follow the cross-link rule in AGENTS.md (relative paths, not `#/` hashes).
+2. **Check.** `curl -s -o /dev/null -w "%{http_code} %{num_redirects} %{url_effective}\n" -A "<browser UA>" -L --max-time 10 "$URL"` for each. Batch it; resume from where a long run stops rather than restarting.
 3. **Diagnose every non-200 before deciding it's dead:**
-   - `403`/`503` from academic/API/publisher sites (ACM, DOI, university, OpenAI, Google AI docs, etc.) is usually an anti-bot challenge a real browser would pass — not proof of death. Cross-check with `WebFetch` before concluding either way.
+   - `403`/`503` from academic/API/publisher sites (ACM, DOI, university, OpenAI, Google AI docs, etc.) is usually an anti-bot challenge a real browser would pass — not proof of death. Cross-check with the harness's web-fetch or browser tool when available. Otherwise, inspect the response with `curl -v` and ask the user to verify the URL in a browser before concluding either way.
    - A block page from a network filter or TLS-intercepting proxy is the *network's* verdict, not the site's. Get the real answer with `curl -v` and read the actual TLS/HTTP handshake.
    - `404`, DNS failure (`Could not resolve host`), or a TLS cert issued for a *different* domain than requested — these are real. Confirm with `curl -v`, then treat as genuinely dead.
    - A `3xx` that redirects to a sane new URL isn't dead at all — but if the *same* redirect shows up across many files, that's a migration in progress. Flag it and offer to fix all instances now, before the old domain's redirect gets retired.

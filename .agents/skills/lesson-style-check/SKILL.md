@@ -70,12 +70,12 @@ Bootcamp conventions take precedence over this list: `STYLE.md` and `AGENTS.md` 
     - Fix: cut the intensifier and state the fact plainly.
 
 14. **Confidence-calibration announcers** used to signal importance instead of showing it: `Notably`, `Interestingly`, `Importantly`, `Significantly` as a sentence opener.
-    - Detect: `grep -niE '^(Notably|Interestingly|Importantly|Significantly),' <file>`.
+    - Detect: `grep -niE '(^|[.!?] )(Notably|Interestingly|Importantly|Significantly),' <file>` (the `[.!?] ` alternative catches openers that follow another sentence on the same line).
     - Density-gated, not zero-tolerance: one in a long section is fine. Flag when 2+ appear in the same section, or when the sentence it opens is a restatement of something already obvious rather than a genuine surprise.
 
 ## Procedure
 
-1. **Scope.** Default to the files the user names. If none are named, default to files changed on the current branch (`git diff --name-only master -- 'docs/**/*.md'`); sweep a whole chapter or all of `docs/` only if asked. Skip `docs/README.md` (auto-generated).
+1. **Scope.** Default to the files the user names. If none are named, default to files changed on the current branch (`git diff --name-only master -- 'docs/**/*.md'` plus untracked files from `git ls-files --others --exclude-standard -- 'docs/**/*.md'`); sweep a whole chapter or all of `docs/` only if asked. Skip `docs/README.md` (auto-generated).
 2. **Run the mechanical checks first** (patterns 1, 4, 6, 10, 11, 12, 13, 14 above) - they're grep-able and cheap, and catch the highest-frequency offenders. Patterns 10, 11, and 14 need a context read after the grep, since the match is a candidate list, not an automatic hit.
 3. **Read each file for the judgment-only patterns** (2, 3, 5, 7, 8, 9) - these need the sentence in context, not a regex.
 4. **Report before fixing.** List every hit with file:line and the offending text, grouped by pattern number. Note any pattern that's borderline (e.g. bold-on-a-term vs bold-on-a-sentence, or a domain-legitimate use of a pattern-10 word) rather than silently deciding either way.

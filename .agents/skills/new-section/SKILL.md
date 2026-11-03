@@ -25,7 +25,7 @@ A section has content, deliverables, and optionally exercises.
 - Cover fact and opinion on how the topic relates to DevOps and enterprise software delivery.
 - Keep explanations of what things do brief. Link to official docs, or relevant blogs you find, instead of explaining what a thing is in detail. Letting learners explore on their own is a key part of the experience.
 - Quote or link the vendor's own description of the tool, and link a good external explanation of tricky concepts.
-- Images live in the chapter's `imgN/` folder and use the `:class=img-center :alt=` Docsify syntax.
+- Images live in the root `img/` folder and use HTML `<img>` references.
 
 ## Exercises
 
