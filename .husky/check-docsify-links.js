@@ -18,7 +18,7 @@
 //     page-relative because Docsify resolves asset paths from the page's folder.
 //     Root paths (`/img/x.svg`) only work on ':ignore' links.
 //
-// Usage: node scripts/check-docsify-links.js   (exits 1 on any problem)
+// Usage: node .husky/check-docsify-links.js   (exits 1 on any problem)
 
 const fs = require('fs');
 const path = require('path');
