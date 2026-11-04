@@ -2,7 +2,17 @@
 docs/1-ways-of-working/1.1-agile.md:
   category: Agile Development
   estReadingMinutes: 90
-docs/1-ways-of-working/1.2-jira.md:
+docs/1-ways-of-working/1.1.5-scoping-and-refinement.md:
+  category: Agile Development
+  estReadingMinutes: 25
+  exercises:
+    - name: Scope and refine a feature request
+      description: >-
+        Take a vague feature request, scope it into an epic with clear outcomes
+        and boundaries, then refine it into a set of ready stories with
+        acceptance criteria.
+      estMinutes: 90
+docs/1-ways-of-working/1.2-work-tracking.md:
   category: Agile Development
   estReadingMinutes: 30
 docs/1-ways-of-working/1.3-pairprogramming.md:
@@ -171,7 +181,7 @@ docs/1-ways-of-working/1.6-devops-defined.md:
   estReadingMinutes: 30
 docs/1-ways-of-working/1.7-liatrio-and-devops.md:
   category: Fundamentals
-  estReadingMinutes: 5
+  estReadingMinutes: 15
 docs/1-ways-of-working/1.8-external-resources.md:
   category: Fundamentals
   estReadingMinutes: 50
