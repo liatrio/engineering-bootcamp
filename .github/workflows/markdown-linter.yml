@@ -5,12 +5,17 @@ on:
       - master
     types: [opened, synchronize, reopened, ready_for_review]
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: DavidAnson/markdownlint-cli2-action@v25
         with:
           globs: |
@@ -23,6 +28,8 @@ jobs:
     if: github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v7
         with:
           node-version: '24'

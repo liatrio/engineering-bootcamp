@@ -8,8 +8,10 @@
 //
 // Rules enforced:
 //   - Page links must be root-relative: `1-ways-of-working/1.1.6-sizing.md`.
-//   - Heading anchors (`page.md#heading`, `#heading`) must match a heading slug,
-//     computed with Docsify's own slugify rules.
+//   - Heading anchors (`page.md#heading`, `#heading`, `page?id=heading`) must match
+//     a heading slug, computed with Docsify's own slugify rules.
+//   - Inline links and reference-style definitions (`[label]: page.md`) are checked;
+//     fenced code blocks (backtick or tilde) and inline code are skipped.
 //   - Links into the repo outside docs/ (e.g. examples/) must be full GitHub URLs.
 //   - Images and other assets live in the chapter's img/ folder (`img/x.svg`), or
 //     in the root img/ folder for site-wide assets (`../../img/x.svg`). Paths are
@@ -34,7 +36,24 @@ function walk(dir) {
     });
 }
 
-const stripCode = (text) => text.replace(/```[\s\S]*?```/g, '').replace(/`[^`\n]*`/g, '');
+// Blanks fenced code blocks. A fence opens with 3+ backticks or tildes and only
+// closes on a fence of the same character that is at least as long (CommonMark).
+function stripFences(text) {
+    let open = null;
+    return text
+        .split('\n')
+        .map((line) => {
+            const m = line.match(/^ {0,3}(`{3,}|~{3,})/);
+            if (!open) {
+                if (m) open = m[1];
+                return m ? '' : line;
+            }
+            if (m && m[1][0] === open[0] && m[1].length >= open.length && !line.slice(m[0].length).trim()) open = null;
+            return '';
+        })
+        .join('\n');
+}
+const stripCode = (text) => stripFences(text).replace(/`[^`\n]*`/g, '');
 
 // Mirrors slugify() in node_modules/docsify/lib/docsify.js.
 const SLUG_STRIP = /[ -⁯⸀-⹿\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g;
@@ -54,10 +73,12 @@ function slugsFor(file) {
     if (slugCache.has(file)) return slugCache.get(file);
     const seen = {};
     const slugs = new Set();
-    const text = fs.readFileSync(file, 'utf8').replace(/```[\s\S]*?```/g, '');
+    const text = stripFences(fs.readFileSync(file, 'utf8'));
     for (const [, raw] of text.matchAll(/^#{1,6}\s+(.+?)\s*$/gm)) {
         const custom = raw.match(/:id=(\S+)/);
-        let slug = custom ? custom[1] : slugify(raw);
+        // Docsify slugs the rendered heading, so a link contributes only its text.
+        const plain = raw.replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1');
+        let slug = custom ? custom[1] : slugify(plain);
         const count = slug in seen ? seen[slug] + 1 : 0;
         seen[slug] = count;
         if (count) slug = `${slug}-${count}`;
@@ -100,10 +121,16 @@ for (const file of walk(DOCS)) {
 for (const file of walk(DOCS)) {
     const rel = path.relative(ROOT, file);
     const text = stripCode(fs.readFileSync(file, 'utf8'));
-    for (const [, href, rest] of text.matchAll(/\]\(\s*<?([^)\s>'"]+)([^)]*)\)/g)) {
+    const links = [
+        ...text.matchAll(/\]\(\s*<?([^)\s>'"]+)([^)]*)\)/g), // inline: [text](href 'title')
+        ...text.matchAll(/^ {0,3}\[[^\]]+\]:\s*<?([^\s>]+)>?(.*)$/gm), // reference: [label]: href
+    ];
+    for (const [, href, rest] of links) {
         if (/^(https?:|mailto:|\/\/)/.test(href)) continue;
-        const [target, anchor] = href.split('#');
-        const page = target.split('?')[0];
+        const [target, hashAnchor] = href.split('#');
+        const [page, query = ''] = target.split('?');
+        // Docsify writes heading links as `page?id=slug`; treat id like a #anchor.
+        const anchor = hashAnchor || new URLSearchParams(query).get('id');
         if (ASSET.test(page)) {
             checkAsset(file, rel, page, rest.includes(':ignore'));
             continue;
