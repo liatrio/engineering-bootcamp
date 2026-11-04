@@ -34,6 +34,26 @@ shuffleAnswers: true
 1. [ ] True
 	> Failure is part of the process! It's bound to happen at some point, so it's important to have a strong culture around it for when it does. Check out the *Culture of Feedback* section of the Tao for more.
 2. [x] False
+
+# Select all of Liatrio's First Principles
+
+- [x] Small Batch and Fast Feedback
+- [x] Culture of Experimentation and Empowerment
+- [x] Direct and Transparent Communication
+- [x] Focus on Flow
+- [x] Default to Action (Emphasis on Action)
+- [ ] Big Bang Releases
+- [ ] Plan Everything Up Front
+- [ ] Need-to-Know Communication
+
+# Your team has an idea for a new feature. Which approach best reflects *Default to Action*?
+
+1. [ ] Schedule a series of meetings to plan every detail before writing any code
+	> That risks analysis paralysis. *Default to Action* means getting things done now, not later.
+1. [x] Start sketching a prototype right away, then refine it with small batches and feedback
+	> Right! Act now, learn from real results, and iterate.
+1. [ ] Wait until leadership approves a complete design
+	> The *Culture of Experimentation and Empowerment* encourages testing ideas without waiting for permission.
 `;
 
 export { rawQuizdown }
