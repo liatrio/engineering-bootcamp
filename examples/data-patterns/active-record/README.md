@@ -150,4 +150,4 @@ This strikes a balance between Active Record's convenience and Go's idiomatic pa
 
 - Compare this with the Repository pattern example
 - Explore concurrency patterns (Optimistic and Pessimistic Locking)
-- Consider how Active Record fits with layered architecture from Chapter 11.1
+- Consider how Active Record fits with layered architecture from Chapter 10.1
