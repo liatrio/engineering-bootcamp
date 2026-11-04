@@ -37,7 +37,8 @@ Copy these verbatim; do not paraphrase.
 - `npm start` — build dev bundle + serve Docsify on `http://localhost:3000`.
 - `npm run serve:docsify` — serve only, no rebuild.
 - `npm run build:dev` / `npm run build:prod` — webpack builds.
-- `npm run lint` — markdownlint-cli2 over all `.md`, then `lint:links` and `lint:spelling`. Same checks as CI.
+- `npm run lint` — runs `lint:markdown`, `lint:links` and `lint:spelling`. CI runs the same three scripts.
+- `npm run lint:markdown` — markdownlint-cli2 over all `.md` (see `package.json` for excluded directories).
 - `npm run lint:links` — check that every internal link, `#anchor`, and image in `docs/` resolves the way Docsify serves it.
 - `npm run lint:spelling` — cspell over all `.md`. Add legitimate new words to `.cspell.json`.
 - `npm run refresh-front-matter` — regenerate `docs/README.md` from current section front-matter.
