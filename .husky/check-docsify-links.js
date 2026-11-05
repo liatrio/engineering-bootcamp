@@ -3,20 +3,22 @@
 //
 // Docsify (index.html: basePath "/docs/", no relativePath) resolves every page
 // link from the docs root, NOT from the current page. So a link written as
-// `1.1.6-sizing.md` or `../2-version-control/2.0-overview.md` 404s on the site
-// even though the file exists next to the page on disk.
+// `<section>.md` or `../<chapter>/<section>.md` 404s on the site even though
+// the file exists next to the page on disk.
 //
 // Rules enforced:
-//   - Page links must be root-relative: `1-ways-of-working/1.1.6-sizing.md`.
+//   - Page links must be root-relative: `<chapter>/<section>.md`.
 //   - Heading anchors (`page.md#heading`, `#heading`, `page?id=heading`) must match
 //     a heading slug, computed with Docsify's own slugify rules.
 //   - Inline links and reference-style definitions (`[label]: page.md`) are checked;
 //     fenced code blocks (backtick or tilde) and inline code are skipped.
 //   - Links into the repo outside docs/ (e.g. examples/) must be full GitHub URLs.
-//   - Images and other assets live in the chapter's img/ folder (`img/x.svg`), or
-//     in the root img/ folder for site-wide assets (`../../img/x.svg`). Paths are
-//     page-relative because Docsify resolves asset paths from the page's folder.
-//     Root paths (`/img/x.svg`) only work on ':ignore' links.
+//   - Images and other assets live in the page's own chapter img/ folder
+//     (`img/<descriptive_image_name>.svg`), or in the root img/ folder when several
+//     chapters use them (`../../img/<descriptive_image_name>.svg`). Another chapter's
+//     img/ folder is rejected. Paths are page-relative because Docsify resolves
+//     asset paths from the page's folder. Root paths (`/img/...`) only work on
+//     ':ignore' links.
 //
 // Usage: node .husky/check-docsify-links.js   (exits 1 on any problem)
 
@@ -91,8 +93,8 @@ function slugsFor(file) {
 const problems = [];
 
 // Images and other assets (pdf, svg...). Docsify prefixes any path without a
-// protocol with the current page's folder, so `/img/x.svg` becomes
-// `/docs/<chapter>/img/x.svg`. Assets must be page-relative: `img/x.svg`.
+// protocol with the current page's folder, so `/img/<name>.svg` becomes
+// `/docs/<chapter>/img/<name>.svg`. Assets must be page-relative: `img/<name>.svg`.
 // Exception: links marked ':ignore' are served as written, from the site root.
 function checkAsset(file, rel, href, ignored = false) {
     if (/^(https?:|data:|\/\/)/.test(href)) return;
