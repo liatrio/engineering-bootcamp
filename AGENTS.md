@@ -26,7 +26,7 @@ Canonical agent instructions for Liatrio's Engineering Bootcamp — a Docsify-ba
 - `.husky/pre-commit` — Spell-checks staged files, regenerates the master record (`front-matter-condenser.js update`), then runs `npm run lint`.
 - `.husky/front-matter-condenser.js` — Reconciles section front-matter into `docs/README.md`.
 - `.husky/check-docsify-links.js` — Link and image checker behind `npm run lint:links`.
-- `.github/workflows/` — CI: `markdown-linter.yml` (markdownlint, links, spelling) and `test-front-matter.yml` (`compare-front-matter`).
+- `.github/workflows/` — CI: `markdown-linter.yml` (markdownlint, links, spelling) and `test-front-matter.yml` (`compare-front-matter`) on PRs; `static.yml` builds and deploys the site to GitHub Pages on push to `master`.
 - `STYLE.md` — Contributor style guide (front-matter template, HTML-in-markdown rules, multi-column grids).
 
 ## Commands
