@@ -26,7 +26,7 @@ docs/1-ways-of-working/1.3-pairprogramming.md:
       estMinutes: 30
       technologies:
         - VSCode
-docs/1-ways-of-working/1.4.1-unit-testing.md:
+docs/3-application-development/3.2.1-unit-testing.md:
   category: Software Quality
   estReadingMinutes: 20
   exercises:
@@ -36,7 +36,7 @@ docs/1-ways-of-working/1.4.1-unit-testing.md:
       technologies:
         - Go
         - TDD
-docs/1-ways-of-working/1.4.2-functional-testing.md:
+docs/3-application-development/3.2.2-functional-testing.md:
   category: Software Quality
   estReadingMinutes: 20
   exercises:
@@ -52,10 +52,10 @@ docs/1-ways-of-working/1.4.2-functional-testing.md:
       technologies:
         - Playwright
         - Python
-docs/1-ways-of-working/1.4.3-code-styling.md:
+docs/3-application-development/3.2.3-code-styling.md:
   category: Software Quality
   estReadingMinutes: 30
-docs/1-ways-of-working/1.4.4-code-coverage.md:
+docs/3-application-development/3.2.4-code-coverage.md:
   category: Software Quality
   estReadingMinutes: 20
   exercises:
@@ -67,7 +67,7 @@ docs/1-ways-of-working/1.4.4-code-coverage.md:
       technologies:
         - Node.js
         - Jest
-docs/1-ways-of-working/1.4.5-test-doubles.md:
+docs/3-application-development/3.2.5-test-doubles.md:
   category: Software Quality
   estReadingMinutes: 10
   exercises:
@@ -93,7 +93,7 @@ docs/1-ways-of-working/1.4.5-test-doubles.md:
       technologies:
         - Node.js
         - Jest
-docs/1-ways-of-working/1.4.6-test-automation.md:
+docs/3-application-development/3.2.6-test-automation.md:
   category: Software Quality
   estReadingMinutes: 5
   exercises:
@@ -103,7 +103,7 @@ docs/1-ways-of-working/1.4.6-test-automation.md:
       technologies:
         - GitHub Actions
         - Go
-docs/1-ways-of-working/1.4.7-sonarqube.md:
+docs/3-application-development/3.2.7-sonarqube.md:
   category: Software Quality
   estReadingMinutes: 10
   exercises:
@@ -115,10 +115,10 @@ docs/1-ways-of-working/1.4.7-sonarqube.md:
       technologies:
         - SonarQube
         - GitHub Actions
-docs/1-ways-of-working/1.4.8-code-review.md:
+docs/3-application-development/3.2.8-code-review.md:
   category: Software Quality
   estReadingMinutes: 10
-docs/1-ways-of-working/1.4.9-pre-commit.md:
+docs/3-application-development/3.2.9-pre-commit.md:
   category: Software Quality
   estReadingMinutes: 12
   exercises:
@@ -145,13 +145,13 @@ docs/1-ways-of-working/1.4.9-pre-commit.md:
         - GitHub Actions
         - Taskfile.dev
         - pre-commit
-docs/1-ways-of-working/1.5-devops-defined.md:
+docs/1-ways-of-working/1.4-devops-defined.md:
   category: Fundamentals
   estReadingMinutes: 30
-docs/1-ways-of-working/1.6-liatrio-and-devops.md:
+docs/1-ways-of-working/1.5-liatrio-and-devops.md:
   category: Fundamentals
   estReadingMinutes: 15
-docs/1-ways-of-working/1.7-external-resources.md:
+docs/1-ways-of-working/1.6-external-resources.md:
   category: Fundamentals
   estReadingMinutes: 50
 docs/2-version-control/2.0-overview.md:
@@ -295,7 +295,7 @@ docs/3-application-development/3.1.5-networking.md:
     - name: hello network
       description: explore the network of your local computer
       estMinutes: 15
-docs/3-application-development/3.2-layers.md:
+docs/3-application-development/3.3-layers.md:
   category: Software Development
   estReadingMinutes: 30
   exercises:
@@ -317,7 +317,7 @@ docs/3-application-development/3.2-layers.md:
         - Python
         - Flask
         - SQLite
-docs/3-application-development/3.3.1-solid-principles.md:
+docs/3-application-development/3.4.1-solid-principles.md:
   category: Software Development
   estReadingMinutes: 120
   exercises:
@@ -342,7 +342,7 @@ docs/3-application-development/3.3.1-solid-principles.md:
       estMinutes: 45
       technologies:
         - Python
-docs/3-application-development/3.3.2-data-layer-patterns.md:
+docs/3-application-development/3.4.2-data-layer-patterns.md:
   category: Software Development
   estReadingMinutes: 45
   exercises:
