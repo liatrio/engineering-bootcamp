@@ -18,6 +18,8 @@
 //     chapters use them (`../../img/<descriptive_image_name>.svg`). Another chapter's
 //     img/ folder is rejected. Paths are page-relative because Docsify resolves
 //     asset paths from the page's folder.
+//   - Every file in an img/ folder must be used, by a page, a quiz (src/), or
+//     index.html. Unused images fail the check so they can't pile up.
 //   - Local files are only embedded as images (`![alt](img/...)`). A plain link to
 //     one (`[report](img/x.pdf)`) is routed by Docsify as a page and 404s, so link
 //     to a public URL instead.
@@ -32,11 +34,12 @@ const DOCS = path.join(ROOT, 'docs');
 const REPO_TREE_URL = 'https://github.com/liatrio/engineering-bootcamp/tree/master/';
 const ASSET = /\.(png|svg|webp|jpe?g|gif|pdf|ico)$/i;
 
-function walk(dir) {
+function walk(dir, keep = (name) => name.endsWith('.md')) {
+    if (!fs.existsSync(dir)) return [];
     return fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
         const p = path.join(dir, e.name);
-        if (e.isDirectory()) return walk(p);
-        return e.name.endsWith('.md') ? [p] : [];
+        if (e.isDirectory()) return walk(p, keep);
+        return keep(e.name) ? [p] : [];
     });
 }
 
@@ -93,6 +96,7 @@ function slugsFor(file) {
 }
 
 const problems = [];
+const usedAssets = new Set(); // absolute paths of assets that pages reference
 
 // Returns the suggestion for the first candidate path that exists, or ''.
 // Each candidate is [path, (path) => suggestion].
@@ -116,7 +120,10 @@ function checkAsset(file, rel, href) {
     if (!fs.existsSync(resolved)) {
         const fix = hint([[path.join(dir, 'img', path.basename(href)), (p) => `, use "${path.relative(dir, p)}"`]]);
         problems.push(`${rel}: missing asset "${href}"${fix}`);
-    } else if (![path.join(dir, 'img'), path.join(ROOT, 'img')].includes(path.dirname(resolved))) {
+    } else {
+        usedAssets.add(resolved);
+    }
+    if (fs.existsSync(resolved) && ![path.join(dir, 'img'), path.join(ROOT, 'img')].includes(path.dirname(resolved))) {
         problems.push(
             `${rel}: asset "${href}" is not in this chapter's img/ folder or the root img/ — ` +
                 `move it to this chapter's img/, or to the root img/ if several chapters use it`,
@@ -189,9 +196,29 @@ for (const file of walk(DOCS)) {
     }
 }
 
+// Unused images. Quizzes and index.html reference images from the site root
+// (`docs/<chapter>/img/<name>.png`, `/img/favicon.svg`), so match those as
+// repo-relative paths.
+const siteCode = (n) => /\.(js|css|html)$/.test(n);
+const siteRootRefs = [path.join(ROOT, 'index.html'), ...walk(path.join(ROOT, 'src'), siteCode), ...walk(path.join(ROOT, 'css'), siteCode)]
+    .map((f) => fs.readFileSync(f, 'utf8'))
+    .join('\n');
+const imgDirs = [
+    path.join(ROOT, 'img'),
+    ...fs
+        .readdirSync(DOCS, { withFileTypes: true })
+        .filter((e) => e.isDirectory())
+        .map((e) => path.join(DOCS, e.name, 'img')),
+];
+for (const img of imgDirs.flatMap((d) => walk(d, () => true))) {
+    const repoPath = path.relative(ROOT, img).split(path.sep).join('/');
+    if (usedAssets.has(img) || siteRootRefs.includes(repoPath)) continue;
+    problems.push(`${repoPath}: unused image — nothing references it; delete it, or reference it from a page`);
+}
+
 if (problems.length) {
     console.error(problems.join('\n'));
-    console.error(`\n\x1b[31m${problems.length} broken Docsify link(s).\x1b[0m`);
+    console.error(`\n\x1b[31m${problems.length} Docsify link/image problem(s).\x1b[0m`);
     process.exit(1);
 }
-console.log('\x1b[32mAll Docsify links resolve.\x1b[0m');
+console.log('\x1b[32mAll Docsify links and images resolve, and every image is used.\x1b[0m');
