@@ -1,13 +1,9 @@
-## Pre-commit hook that checks for spelling
-echo "\033[33mStarting spell check precommit hook...\033[0m"
-git diff --cached --name-only | npx cspell --no-summary --no-progress --no-must-find-files --file-list stdin
-echo "\033[32mSpell Check passed\033[0m"
-echo
+## Condense section front-matter into the master record (docs/README.md).
+## Exits 1 when the master record changed, so the commit stops for you to stage it.
 echo "\033[33mStarting front matter precommit hook...\033[0m"
-## Pre-commit hook that condenses section front-matter into master record.
 node .husky/front-matter-condenser.js update
 
-## Pre-commit hook that runs markdown-lintci2
+## Markdown lint, Docsify links and images, and spelling: the same checks CI runs.
 echo "\033[33mStarting linter precommit hook...\033[0m"
 npm run lint
 echo "\033[32mLinter passed\033[0m"

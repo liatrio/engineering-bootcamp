@@ -23,7 +23,7 @@ Canonical agent instructions for Liatrio's Engineering Bootcamp — a Docsify-ba
 - `src/` — Docsify plugins, quiz sources, webpack entry points.
 - `examples/` — Runnable code referenced from exercises (Go modules, docker-compose files, etc.).
 - `img/` — Site-wide assets shared across chapters (goal icons, favicon). Section-specific images go in the chapter's `img/` folder.
-- `.husky/pre-commit` — Spell-checks staged files, regenerates the master record (`front-matter-condenser.js update`), then runs `npm run lint`.
+- `.husky/pre-commit` — Regenerates the master record (`front-matter-condenser.js update`), then runs `npm run lint`, the same checks as CI.
 - `.husky/front-matter-condenser.js` — Reconciles section front-matter into `docs/README.md`.
 - `.husky/check-docsify-links.js` — Link and image checker behind `npm run lint:links`.
 - `.github/workflows/` — CI: `markdown-linter.yml` (markdownlint, links, spelling) and `test-front-matter.yml` (`compare-front-matter`) on PRs; `static.yml` builds and deploys the site to GitHub Pages on push to `master`.
