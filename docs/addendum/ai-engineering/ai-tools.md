@@ -1,5 +1,5 @@
 ---
-docs/3-AI-Engineering/3.1.3-ai-tools.md:
+docs/addendum/ai-engineering/ai-tools.md:
   category: AI Engineering
   estReadingMinutes: 18
   exercises:

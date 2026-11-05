@@ -145,139 +145,15 @@ docs/1-ways-of-working/1.4.9-pre-commit.md:
         - GitHub Actions
         - Taskfile.dev
         - pre-commit
-docs/1-ways-of-working/1.5.1-unix.md:
+docs/1-ways-of-working/1.5-devops-defined.md:
   category: Fundamentals
   estReadingMinutes: 30
-docs/1-ways-of-working/1.5.2-vim.md:
+docs/1-ways-of-working/1.6-liatrio-and-devops.md:
   category: Fundamentals
   estReadingMinutes: 15
-  exercises:
-    - name: hello vim
-      description: create a file in Vim
-      estMinutes: 5
-      technologies:
-        - Vim
-docs/1-ways-of-working/1.5.3-installations.md:
-  category: Fundamentals
-  estReadingMinutes: 10
-docs/1-ways-of-working/1.5.4-passwords-and-keys.md:
-  category: Fundamentals
-  estReadingMinutes: 10
-  exercises:
-    - name: hello ssh
-      description: create ssh keypair and ssh to a host
-      estMinutes: 15
-      technologies:
-        - ssh
-docs/1-ways-of-working/1.5.5-networking.md:
-  category: Fundamentals
-  estReadingMinutes: 10
-  exercises:
-    - name: hello network
-      description: explore the network of your local computer
-      estMinutes: 15
-docs/1-ways-of-working/1.6-devops-defined.md:
-  category: Fundamentals
-  estReadingMinutes: 30
-docs/1-ways-of-working/1.7-liatrio-and-devops.md:
-  category: Fundamentals
-  estReadingMinutes: 15
-docs/1-ways-of-working/1.8-external-resources.md:
+docs/1-ways-of-working/1.7-external-resources.md:
   category: Fundamentals
   estReadingMinutes: 50
-docs/10-application-development/10.0-overview.md:
-  category: Software Development
-  estReadingMinutes: 10
-docs/10-application-development/10.1-layers.md:
-  category: Software Development
-  estReadingMinutes: 30
-  exercises:
-    - name: Compare tightly coupled vs layered architecture
-      description: >-
-        Run both example applications, examine their structure, and understand
-        the architectural differences.
-      estMinutes: 60
-      technologies:
-        - Python
-        - Flask
-    - name: Refactor storage backend from in-memory to SQLite
-      description: >-
-        Switch the data storage in both examples from in-memory to SQLite,
-        comparing the effort required in tightly coupled vs layered
-        implementations.
-      estMinutes: 90
-      technologies:
-        - Python
-        - Flask
-        - SQLite
-docs/10-application-development/10.2.1-solid-principles.md:
-  category: Software Development
-  estReadingMinutes: 120
-  exercises:
-    - name: Refactor a class to follow SRP
-      description: >-
-        Take a provided monolithic class and refactor it into multiple classes,
-        each with a single responsibility.
-      estMinutes: 60
-      technologies:
-        - Python
-    - name: Apply Open/Closed Principle to payment processing
-      description: >-
-        Extend a payment system to support new payment methods without modifying
-        existing code.
-      estMinutes: 60
-      technologies:
-        - Python
-    - name: Implement Dependency Injection
-      description: >-
-        Refactor tightly coupled code to use dependency injection, making it
-        testable and flexible.
-      estMinutes: 45
-      technologies:
-        - Python
-docs/10-application-development/10.2.2-data-layer-patterns.md:
-  category: Software Development
-  estReadingMinutes: 45
-  exercises:
-    - name: Extend the Repository with FindByEmail
-      description: >-
-        Add a FindByEmail method to the UserRepository interface and implement
-        it in both SQLite and in-memory repositories with tests.
-      estMinutes: 15
-      technologies:
-        - Go
-        - SQLite
-        - Design Patterns
-    - name: Add Timestamp Tracking to Active Record
-      description: >-
-        Extend the Active Record User model to automatically track CreatedAt and
-        UpdatedAt timestamps, updating schema, insert/update methods, and tests.
-      estMinutes: 15
-      technologies:
-        - Go
-        - SQLite
-        - Design Patterns
-    - name: Refactor Direct Data Access to Repository Pattern
-      description: >-
-        Convert a tightly coupled application with direct database access
-        scattered throughout the codebase to use the Repository Pattern with
-        proper abstraction.
-      estMinutes: 90
-      technologies:
-        - Go
-        - SQLite
-        - Design Patterns
-    - name: AI-Assisted Refactoring with Spec-Driven Development
-      description: >-
-        Use an AI agent with Spec-Driven Development to refactor the starter
-        code using precise pattern vocabulary, then compare AI and manual
-        approaches.
-      estMinutes: 60
-      technologies:
-        - Go
-        - SQLite
-        - Design Patterns
-        - AI Collaboration
 docs/2-version-control/2.0-overview.md:
   category: Version Control
   estReadingMinutes: 5
@@ -385,72 +261,130 @@ docs/2-version-control/2.2.5-security.md:
       estMinutes: 20
       technologies:
         - GitHub Security
-docs/3-AI-Engineering/3.0-overview.md:
-  category: AI Engineering
-  estReadingMinutes: 5
-docs/3-AI-Engineering/3.1-ai-concepts.md:
-  category: AI Engineering
-  estReadingMinutes: 15
-docs/3-AI-Engineering/3.1.1-llms.md:
-  category: AI Engineering
-  estReadingMinutes: 12
-docs/3-AI-Engineering/3.1.2-ai-agents.md:
-  category: AI Engineering
+docs/3-application-development/3.0-overview.md:
+  category: Software Development
   estReadingMinutes: 10
-docs/3-AI-Engineering/3.1.3-ai-tools.md:
-  category: AI Engineering
-  estReadingMinutes: 18
-  exercises:
-    - name: Exploring Model Capabilities
-      description: >-
-        Get familiar comparing different AI models based on their capabilities
-        and characteristics
-      estMinutes: 30
-      technologies:
-        - AI Tools
-docs/3-AI-Engineering/3.1.4-ai-best-practices.md:
-  category: AI Engineering
+docs/3-application-development/3.1.1-unix.md:
+  category: Fundamentals
   estReadingMinutes: 30
-docs/3-AI-Engineering/3.2-mcp.md:
-  category: AI Engineering
-  estReadingMinutes: 12
+docs/3-application-development/3.1.2-vim.md:
+  category: Fundamentals
+  estReadingMinutes: 15
   exercises:
-    - name: Create an MCP Server
-      description: Build a simple MCP server that connects to a local MCP client
+    - name: hello vim
+      description: create a file in Vim
+      estMinutes: 5
+      technologies:
+        - Vim
+docs/3-application-development/3.1.3-installations.md:
+  category: Fundamentals
+  estReadingMinutes: 10
+docs/3-application-development/3.1.4-passwords-and-keys.md:
+  category: Fundamentals
+  estReadingMinutes: 10
+  exercises:
+    - name: hello ssh
+      description: create ssh keypair and ssh to a host
+      estMinutes: 15
+      technologies:
+        - ssh
+docs/3-application-development/3.1.5-networking.md:
+  category: Fundamentals
+  estReadingMinutes: 10
+  exercises:
+    - name: hello network
+      description: explore the network of your local computer
+      estMinutes: 15
+docs/3-application-development/3.2-layers.md:
+  category: Software Development
+  estReadingMinutes: 30
+  exercises:
+    - name: Compare tightly coupled vs layered architecture
+      description: >-
+        Run both example applications, examine their structure, and understand
+        the architectural differences.
+      estMinutes: 60
+      technologies:
+        - Python
+        - Flask
+    - name: Refactor storage backend from in-memory to SQLite
+      description: >-
+        Switch the data storage in both examples from in-memory to SQLite,
+        comparing the effort required in tightly coupled vs layered
+        implementations.
+      estMinutes: 90
+      technologies:
+        - Python
+        - Flask
+        - SQLite
+docs/3-application-development/3.3.1-solid-principles.md:
+  category: Software Development
+  estReadingMinutes: 120
+  exercises:
+    - name: Refactor a class to follow SRP
+      description: >-
+        Take a provided monolithic class and refactor it into multiple classes,
+        each with a single responsibility.
+      estMinutes: 60
+      technologies:
+        - Python
+    - name: Apply Open/Closed Principle to payment processing
+      description: >-
+        Extend a payment system to support new payment methods without modifying
+        existing code.
+      estMinutes: 60
+      technologies:
+        - Python
+    - name: Implement Dependency Injection
+      description: >-
+        Refactor tightly coupled code to use dependency injection, making it
+        testable and flexible.
       estMinutes: 45
       technologies:
-        - MCP
         - Python
-docs/3-AI-Engineering/3.3-best-practices.md:
-  category: AI Engineering
-  estReadingMinutes: 5
-docs/3-AI-Engineering/3.3.1-agentic-best-practices.md:
-  category: AI Engineering
-  estReadingMinutes: 40
-docs/3-AI-Engineering/3.3.2-agentic-ide.md:
-  category: AI Engineering
-  estReadingMinutes: 20
+docs/3-application-development/3.3.2-data-layer-patterns.md:
+  category: Software Development
+  estReadingMinutes: 45
   exercises:
-    - name: VSCode MCP Server
+    - name: Extend the Repository with FindByEmail
       description: >-
-        Build an MCP server from scratch using VSCode in Agent mode and register
-        it with an MCP client
-      estMinutes: 240
+        Add a FindByEmail method to the UserRepository interface and implement
+        it in both SQLite and in-memory repositories with tests.
+      estMinutes: 15
       technologies:
-        - VSCode
-        - MCP
-        - Python
-        - LLM
-    - name: Windsurf MCP Server
+        - Go
+        - SQLite
+        - Design Patterns
+    - name: Add Timestamp Tracking to Active Record
       description: >-
-        Build an MCP server using Windsurf IDE, applying best practices learned
-        from the VSCode exercise
-      estMinutes: 180
+        Extend the Active Record User model to automatically track CreatedAt and
+        UpdatedAt timestamps, updating schema, insert/update methods, and tests.
+      estMinutes: 15
       technologies:
-        - Windsurf
-        - MCP
-        - Python
-        - LLM
+        - Go
+        - SQLite
+        - Design Patterns
+    - name: Refactor Direct Data Access to Repository Pattern
+      description: >-
+        Convert a tightly coupled application with direct database access
+        scattered throughout the codebase to use the Repository Pattern with
+        proper abstraction.
+      estMinutes: 90
+      technologies:
+        - Go
+        - SQLite
+        - Design Patterns
+    - name: AI-Assisted Refactoring with Spec-Driven Development
+      description: >-
+        Use an AI agent with Spec-Driven Development to refactor the starter
+        code using precise pattern vocabulary, then compare AI and manual
+        approaches.
+      estMinutes: 60
+      technologies:
+        - Go
+        - SQLite
+        - Design Patterns
+        - AI Collaboration
 docs/4-virtual-machines-containers/4.0-overview.md:
   category: Virtualization
   estReadingMinutes: 5

@@ -1,5 +1,5 @@
 ---
-docs/3-AI-Engineering/3.1-ai-concepts.md:
+docs/addendum/ai-engineering/ai-concepts.md:
   category: AI Engineering
   estReadingMinutes: 15
 ---

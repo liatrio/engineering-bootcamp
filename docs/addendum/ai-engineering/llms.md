@@ -1,5 +1,5 @@
 ---
-docs/3-AI-Engineering/3.1.1-llms.md:
+docs/addendum/ai-engineering/llms.md:
   category: AI Engineering
   estReadingMinutes: 12
 ---

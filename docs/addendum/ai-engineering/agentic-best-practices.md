@@ -1,5 +1,5 @@
 ---
-docs/3-AI-Engineering/3.3.1-agentic-best-practices.md:
+docs/addendum/ai-engineering/agentic-best-practices.md:
   category: AI Engineering
   estReadingMinutes: 40
 ---
@@ -223,7 +223,7 @@ After completing each sub-task:
 
 **Context Management During Implementation:**
 
-As you work through tasks, actively manage context utilization to maintain AI effectiveness (see [AI Best Practices](3-AI-Engineering/3.1.4-ai-best-practices.md#context-rot-and-performance-degradation) for detailed coverage):
+As you work through tasks, actively manage context utilization to maintain AI effectiveness (see [AI Best Practices](addendum/ai-engineering/ai-best-practices.md#context-rot-and-performance-degradation) for detailed coverage):
 
 - **Monitor context**: Use tools like `/context` in Claude Code or check context indicators in your AI assistant
 - **Watch for 40%+ utilization**: Performance degradation begins around 40% context utilization
@@ -487,7 +487,7 @@ Provide a thorough code review including line numbers and contextual information
 ## Knowledge Check
 
 <div class="quizdown">
-  <div id="chapter-3/3.3/agentic-best-practices-quiz.js"></div>
+  <div id="addendum/ai-engineering/agentic-best-practices-quiz.js"></div>
 </div>
 
 ## Deliverables
