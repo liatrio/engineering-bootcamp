@@ -1,5 +1,5 @@
 ---
-docs/3-AI-Engineering/3.1.4-ai-best-practices.md:
+docs/addendum/ai-engineering/ai-best-practices.md:
   category: AI Engineering
   estReadingMinutes: 30
 ---
@@ -440,13 +440,13 @@ This section provides links to deeper explorations of context engineering, AI-as
 
 If you're new to context engineering, we recommend reading in this order:
 
-1. Start with this bootcamp chapter to build foundational understanding
+1. Start with this bootcamp section to build foundational understanding
 2. Review "Writing a Good CLAUDE.md" for practical application to your projects
 3. Explore "Advanced Context Engineering" for deeper technical techniques
 4. Read "12-Factor Agents" when you're ready to think about production AI systems
 5. Consult research papers when you want to understand the underlying mechanisms
 
-These resources will deepen your understanding of the context engineering principles introduced in this chapter and help you develop sophisticated context management practices as you progress in your AI-assisted development journey.
+These resources will deepen your understanding of the context engineering principles introduced in this section and help you develop sophisticated context management practices as you progress in your AI-assisted development journey.
 
 ## Deliverables
 
