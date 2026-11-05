@@ -62,12 +62,12 @@ function stripFences(text) {
 }
 const stripCode = (text) => stripFences(text).replace(/`[^`\n]*`/g, '');
 
-// Mirrors slugify() in node_modules/docsify/lib/docsify.js.
+// Mirrors slugify() in node_modules/docsify/lib/docsify.js (checked against 5.1.0).
 const SLUG_STRIP = /[ -⁯⸀-⹿\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g;
 function slugify(str) {
     return str
         .trim()
-        .toLowerCase()
+        .replace(/[A-Z]+/g, (s) => s.toLowerCase()) // Docsify lowercases ASCII only, so "Å" stays "Å"
         .replace(/<[^>]+>/g, '')
         .replace(SLUG_STRIP, '')
         .replace(/\s/g, '-')
