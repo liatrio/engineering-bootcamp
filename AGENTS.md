@@ -33,7 +33,7 @@ Canonical agent instructions for Liatrio's Engineering Bootcamp — a Docsify-ba
 
 Copy these verbatim; do not paraphrase.
 
-- `npm install` — install dependencies (also runs Husky install).
+- `npm install` — install dependencies (also sets up the Husky git hooks).
 - `npm start` — build dev bundle + serve Docsify on `http://localhost:3000`.
 - `npm run serve:docsify` — serve only, no rebuild.
 - `npm run build:dev` / `npm run build:prod` — webpack builds.

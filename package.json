@@ -15,7 +15,7 @@
     "lint:markdown": "markdownlint-cli2 \"**/*.md\" \"!**/node_modules/**\" \"!**/.venv/**\" \"!**/specs/**\"",
     "lint:links": "node .husky/check-docsify-links.js",
     "lint:spelling": "cspell --no-progress \"**/*.md\"",
-    "prepare": "husky install",
+    "prepare": "husky",
     "compare-front-matter": "node ./.husky/front-matter-condenser",
     "refresh-front-matter": "node ./.husky/front-matter-condenser update"
   },
