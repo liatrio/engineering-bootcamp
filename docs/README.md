@@ -26,125 +26,6 @@ docs/1-ways-of-working/1.3-pairprogramming.md:
       estMinutes: 30
       technologies:
         - VSCode
-docs/3-application-development/3.2.1-unit-testing.md:
-  category: Software Quality
-  estReadingMinutes: 20
-  exercises:
-    - name: Solve a problem in Go with TDD
-      description: Solve a given problem in Go using test-driven development (TDD).
-      estMinutes: 120
-      technologies:
-        - Go
-        - TDD
-docs/3-application-development/3.2.2-functional-testing.md:
-  category: Software Quality
-  estReadingMinutes: 20
-  exercises:
-    - name: Create functional tests with Selenium in Python
-      description: Create functional tests for the bootcamp using Selenium in Python.
-      estMinutes: 120
-      technologies:
-        - Selenium
-        - Python
-    - name: Create functional tests with Playwright in Python
-      description: Create functional tests for the bootcamp using Playwright in Python.
-      estMinutes: 60
-      technologies:
-        - Playwright
-        - Python
-docs/3-application-development/3.2.3-code-styling.md:
-  category: Software Quality
-  estReadingMinutes: 30
-docs/3-application-development/3.2.4-code-coverage.md:
-  category: Software Quality
-  estReadingMinutes: 20
-  exercises:
-    - name: Achieve 100% code coverage
-      description: >-
-        Install node dependencies for code coverage (jest) and get 100% code
-        coverage for a given module and tests.
-      estMinutes: 60
-      technologies:
-        - Node.js
-        - Jest
-docs/3-application-development/3.2.5-test-doubles.md:
-  category: Software Quality
-  estReadingMinutes: 10
-  exercises:
-    - name: Practice Test Doubles
-      description: >
-        Leverage mocking to test the user and repo checking functions. The code
-        now exposes only two user and two repo check functions. Your tests
-        should mock all API calls, cover both positive and negative scenarios,
-        and use Jest's best practices for mocking and restoring. No real API
-        calls should be made; focus on verifying the logic of the exported
-        functions only.
-      estMinutes: 60
-      technologies:
-        - Node.js
-        - Jest
-    - name: Spying on Functions
-      description: >
-        Use Jest spies to verify that when a repo name is invalid or not found,
-        console.error is called and console.log is not. Write a test for the
-        error case of getRepoInfo() using mocks and spies to check the correct
-        error handling behavior.
-      estMinutes: 30
-      technologies:
-        - Node.js
-        - Jest
-docs/3-application-development/3.2.6-test-automation.md:
-  category: Software Quality
-  estReadingMinutes: 5
-  exercises:
-    - name: Create a GitHub Action to test a Go project
-      description: Create a GitHub Action that will run Unit Tests when a change is pushed
-      estMinutes: 180
-      technologies:
-        - GitHub Actions
-        - Go
-docs/3-application-development/3.2.7-sonarqube.md:
-  category: Software Quality
-  estReadingMinutes: 10
-  exercises:
-    - name: Setup SonarQube and GitHub Integration
-      description: >-
-        Create a SonarQube server and add GitHub action to run SonarQube in our
-        build pipeline.
-      estMinutes: 180
-      technologies:
-        - SonarQube
-        - GitHub Actions
-docs/3-application-development/3.2.8-code-review.md:
-  category: Software Quality
-  estReadingMinutes: 10
-docs/3-application-development/3.2.9-pre-commit.md:
-  category: Software Quality
-  estReadingMinutes: 12
-  exercises:
-    - name: Create a basic Git pre-commit hook
-      description: Implement a simple shell pre-commit hook that runs a fast check.
-      estMinutes: 20
-      technologies:
-        - Git
-        - Bash
-    - name: Configure pre-commit to run local tasks
-      description: >-
-        Add a .pre-commit-config.yaml that delegates to Taskfile targets for
-        formatting and linting.
-      estMinutes: 60
-      technologies:
-        - pre-commit
-        - Taskfile.dev
-    - name: Align local hooks with CI
-      description: >-
-        Reuse the same Taskfile targets from pre-commit in a GitHub Actions
-        workflow.
-      estMinutes: 30
-      technologies:
-        - GitHub Actions
-        - Taskfile.dev
-        - pre-commit
 docs/1-ways-of-working/1.4-devops-defined.md:
   category: Fundamentals
   estReadingMinutes: 30
@@ -295,6 +176,140 @@ docs/3-application-development/3.1.5-networking.md:
     - name: hello network
       description: explore the network of your local computer
       estMinutes: 15
+docs/3-application-development/3.2-code-quality.md:
+  category: Software Quality
+  estReadingMinutes: 10
+docs/3-application-development/3.2.1-testing-concepts.md:
+  category: Software Quality
+  estReadingMinutes: 15
+  exercises:
+    - name: Classify a test suite
+      description: >-
+        Classify the tests in two example projects by type, and decide where
+        each would sit on the testing pyramid and the testing trophy.
+      estMinutes: 30
+      technologies:
+        - Go
+        - Python
+docs/3-application-development/3.2.10-pre-commit.md:
+  category: Software Quality
+  estReadingMinutes: 12
+  exercises:
+    - name: Create a basic Git pre-commit hook
+      description: Implement a simple shell pre-commit hook that runs a fast check.
+      estMinutes: 20
+      technologies:
+        - Git
+        - Bash
+    - name: Configure pre-commit to run local tasks
+      description: >-
+        Add a .pre-commit-config.yaml that delegates to Taskfile targets for
+        formatting and linting.
+      estMinutes: 60
+      technologies:
+        - pre-commit
+        - Taskfile.dev
+    - name: Align local hooks with CI
+      description: >-
+        Reuse the same Taskfile targets from pre-commit in a GitHub Actions
+        workflow.
+      estMinutes: 30
+      technologies:
+        - GitHub Actions
+        - Taskfile.dev
+        - pre-commit
+docs/3-application-development/3.2.2-unit-testing.md:
+  category: Software Quality
+  estReadingMinutes: 20
+  exercises:
+    - name: Solve a problem in Go with TDD
+      description: Solve a given problem in Go using test-driven development (TDD).
+      estMinutes: 120
+      technologies:
+        - Go
+        - TDD
+docs/3-application-development/3.2.3-functional-testing.md:
+  category: Software Quality
+  estReadingMinutes: 20
+  exercises:
+    - name: Create functional tests with Selenium in Python
+      description: Create functional tests for the bootcamp using Selenium in Python.
+      estMinutes: 120
+      technologies:
+        - Selenium
+        - Python
+    - name: Create functional tests with Playwright in Python
+      description: Create functional tests for the bootcamp using Playwright in Python.
+      estMinutes: 60
+      technologies:
+        - Playwright
+        - Python
+docs/3-application-development/3.2.4-code-styling.md:
+  category: Software Quality
+  estReadingMinutes: 30
+docs/3-application-development/3.2.5-code-coverage.md:
+  category: Software Quality
+  estReadingMinutes: 20
+  exercises:
+    - name: Achieve 100% code coverage
+      description: >-
+        Install node dependencies for code coverage (jest) and get 100% code
+        coverage for a given module and tests.
+      estMinutes: 60
+      technologies:
+        - Node.js
+        - Jest
+docs/3-application-development/3.2.6-test-doubles.md:
+  category: Software Quality
+  estReadingMinutes: 10
+  exercises:
+    - name: Practice Test Doubles
+      description: >
+        Leverage mocking to test the user and repo checking functions. The code
+        now exposes only two user and two repo check functions. Your tests
+        should mock all API calls, cover both positive and negative scenarios,
+        and use Jest's best practices for mocking and restoring. No real API
+        calls should be made; focus on verifying the logic of the exported
+        functions only.
+      estMinutes: 60
+      technologies:
+        - Node.js
+        - Jest
+    - name: Spying on Functions
+      description: >
+        Use Jest spies to verify that when a repo name is invalid or not found,
+        console.error is called and console.log is not. Write a test for the
+        error case of getRepoInfo() using mocks and spies to check the correct
+        error handling behavior.
+      estMinutes: 30
+      technologies:
+        - Node.js
+        - Jest
+docs/3-application-development/3.2.7-test-automation.md:
+  category: Software Quality
+  estReadingMinutes: 5
+  exercises:
+    - name: Create a GitHub Action to test a Go project
+      description: Create a GitHub Action that will run Unit Tests when a change is pushed
+      estMinutes: 180
+      technologies:
+        - GitHub Actions
+        - Go
+docs/3-application-development/3.2.8-sonarqube.md:
+  category: Software Quality
+  estReadingMinutes: 10
+  exercises:
+    - name: Setup SonarQube and GitHub Integration
+      description: >-
+        Create a SonarQube server and add GitHub action to run SonarQube in our
+        build pipeline.
+      estMinutes: 180
+      technologies:
+        - SonarQube
+        - GitHub Actions
+docs/3-application-development/3.2.9-code-review.md:
+  category: Software Quality
+  estReadingMinutes: 10
 docs/3-application-development/3.3-layers.md:
   category: Software Development
   estReadingMinutes: 30
