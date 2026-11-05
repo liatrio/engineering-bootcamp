@@ -27,6 +27,10 @@ Read one before drafting.
 - Use short `?>` hints for gotchas and nudges so the goal list stays terse.
 - End on a question that forces the learner to name the limitation or tradeoff they just saw.
 
+## When the user says "a goal and nothing else"
+
+Honor it. The page is the scenario, one line saying where to put the starting files, the goal with its verifiable end state, and the closing question. Leave out `?>` hints, a Deliverables section, constraints lists, and numbered setup. The user's constraint beats the defaults above; offer hints or a facilitator file afterwards instead of adding them unasked.
+
 ## Language patterns
 
 - "Your goal is to [outcome]. How do you know it worked?"
