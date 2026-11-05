@@ -94,22 +94,29 @@ function slugsFor(file) {
 
 const problems = [];
 
+// Returns the suggestion for the first candidate path that exists, or ''.
+// Each candidate is [path, (path) => suggestion].
+function hint(candidates) {
+    const hit = candidates.find(([p]) => fs.existsSync(p));
+    return hit ? hit[1](hit[0]) : '';
+}
+
 // Images and other assets (pdf, svg...). Docsify prefixes any path without a
 // protocol with the current page's folder, so `/img/<name>.svg` becomes
 // `/docs/<chapter>/img/<name>.svg`. Assets must be page-relative: `img/<name>.svg`.
 function checkAsset(file, rel, href) {
     if (/^(https?:|data:|\/\/)/.test(href)) return;
+    const dir = path.dirname(file);
     if (href.startsWith('/')) {
-        const fix = path.relative(path.dirname(file), path.join(ROOT, href));
+        const fix = path.relative(dir, path.join(ROOT, href));
         problems.push(`${rel}: "${href}" — Docsify resolves asset paths from the page's folder, use "${fix}"`);
         return;
     }
-    const resolved = path.join(path.dirname(file), href);
+    const resolved = path.join(dir, href);
     if (!fs.existsSync(resolved)) {
-        const inImg = path.join(path.dirname(file), 'img', path.basename(href));
-        const hint = fs.existsSync(inImg) ? `, use "${path.relative(path.dirname(file), inImg)}"` : '';
-        problems.push(`${rel}: missing asset "${href}"${hint}`);
-    } else if (![path.join(path.dirname(file), 'img'), path.join(ROOT, 'img')].includes(path.dirname(resolved))) {
+        const fix = hint([[path.join(dir, 'img', path.basename(href)), (p) => `, use "${path.relative(dir, p)}"`]]);
+        problems.push(`${rel}: missing asset "${href}"${fix}`);
+    } else if (![path.join(dir, 'img'), path.join(ROOT, 'img')].includes(path.dirname(resolved))) {
         problems.push(
             `${rel}: asset "${href}" is not in this chapter's img/ folder or the root img/ — ` +
                 `move it to this chapter's img/, or to the root img/ if several chapters use it`,
@@ -117,15 +124,52 @@ function checkAsset(file, rel, href) {
     }
 }
 
-for (const file of walk(DOCS)) {
-    const relFile = path.relative(ROOT, file);
-    const raw = stripCode(fs.readFileSync(file, 'utf8'));
-    for (const [, src] of raw.matchAll(/<img[^>]*\ssrc=["']([^"']+)["']/g)) checkAsset(file, relFile, src);
+// Page links, resolved from the docs root the way Docsify does.
+function checkPage(file, rel, href) {
+    if (href.startsWith('#/')) {
+        const [route, query = ''] = href.slice(2).split('?');
+        const id = new URLSearchParams(query).get('id');
+        const fix = `${route.replace(/\.md$/, '')}.md${id ? `#${id}` : ''}`;
+        problems.push(`${rel}: "${href}" is a Docsify hash link — write the path from docs/ instead: "${fix}"`);
+        return;
+    }
+    const [target, hashAnchor] = href.split('#');
+    const [page, query = ''] = target.split('?');
+    // Docsify writes heading links as `page?id=slug`; treat id like a #anchor.
+    const anchor = hashAnchor || new URLSearchParams(query).get('id');
+
+    let resolved = file;
+    if (page) {
+        resolved = path.normalize(path.join(DOCS, page.replace(/^\//, '')));
+        if (resolved !== DOCS && !resolved.startsWith(DOCS + path.sep)) {
+            problems.push(`${rel}: "${href}" points outside docs/ — use a full GitHub URL (${REPO_TREE_URL}...)`);
+            return;
+        }
+        if (fs.existsSync(resolved) && fs.statSync(resolved).isDirectory()) {
+            resolved = path.join(resolved, 'README.md');
+        } else if (!resolved.endsWith('.md')) {
+            resolved += '.md';
+        }
+        if (!fs.existsSync(resolved)) {
+            const fix = hint([
+                [path.join(path.dirname(file), page), (p) => ` — links resolve from docs/, use "${path.relative(DOCS, p)}"`],
+                [path.join(ROOT, page.replace(/^\//, '')), (p) => ` — not under docs/, use ${REPO_TREE_URL}${path.relative(ROOT, p)}`],
+            ]);
+            problems.push(`${rel}: dead link "${href}"${fix}`);
+            return;
+        }
+    }
+    if (anchor && !slugsFor(resolved).has(anchor)) {
+        problems.push(`${rel}: no heading for anchor "#${anchor}" in ${path.relative(ROOT, resolved)}`);
+    }
 }
 
 for (const file of walk(DOCS)) {
     const rel = path.relative(ROOT, file);
     const text = stripCode(fs.readFileSync(file, 'utf8'));
+
+    for (const [, src] of text.matchAll(/<img[^>]*\ssrc=["']([^"']+)["']/g)) checkAsset(file, rel, src);
+
     const links = [
         // inline: [text](href 'title') or ![alt](src 'title'); group 1 is the "!" of an image
         ...text.matchAll(/(!?)\[[^\]]*\]\(\s*<?([^)\s>'"]+)[^)]*\)/g),
@@ -135,43 +179,12 @@ for (const file of walk(DOCS)) {
     ];
     for (const [, bang, href] of links) {
         if (/^(https?:|mailto:|\/\/)/.test(href)) continue;
-        const [target, hashAnchor] = href.split('#');
-        const [page, query = ''] = target.split('?');
-        // Docsify writes heading links as `page?id=slug`; treat id like a #anchor.
-        const anchor = hashAnchor || new URLSearchParams(query).get('id');
-        if (ASSET.test(page)) {
-            if (bang) checkAsset(file, rel, page);
+        const target = href.split(/[?#]/)[0];
+        if (ASSET.test(target)) {
+            if (bang) checkAsset(file, rel, target);
             else problems.push(`${rel}: "${href}" links to a local file, which Docsify routes as a page and 404s — embed it as an image or link to a public URL`);
-            continue;
-        }
-
-        let resolved = file;
-        if (page) {
-            resolved = path.normalize(path.join(DOCS, page.replace(/^\//, '')));
-            if (resolved !== DOCS && !resolved.startsWith(DOCS + path.sep)) {
-                problems.push(`${rel}: "${href}" points outside docs/ — use a full GitHub URL (${REPO_TREE_URL}...)`);
-                continue;
-            }
-            if (fs.existsSync(resolved) && fs.statSync(resolved).isDirectory()) {
-                resolved = path.join(resolved, 'README.md');
-            } else if (!resolved.endsWith('.md')) {
-                resolved += '.md';
-            }
-            if (!fs.existsSync(resolved)) {
-                const local = path.join(path.dirname(file), page);
-                const repoPath = path.join(ROOT, page.replace(/^\//, ''));
-                let hint = '';
-                if (fs.existsSync(local)) {
-                    hint = ` — links resolve from docs/, use "${path.relative(DOCS, local)}"`;
-                } else if (fs.existsSync(repoPath)) {
-                    hint = ` — not under docs/, use ${REPO_TREE_URL}${path.relative(ROOT, repoPath)}`;
-                }
-                problems.push(`${rel}: dead link "${href}"${hint}`);
-                continue;
-            }
-        }
-        if (anchor && !slugsFor(resolved).has(anchor)) {
-            problems.push(`${rel}: no heading for anchor "#${anchor}" in ${path.relative(ROOT, resolved)}`);
+        } else {
+            checkPage(file, rel, href);
         }
     }
 }
