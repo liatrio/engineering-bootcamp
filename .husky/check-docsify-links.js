@@ -107,8 +107,11 @@ function checkAsset(file, rel, href, ignored = false) {
         const inImg = path.join(path.dirname(file), 'img', path.basename(href));
         const hint = fs.existsSync(inImg) ? `, use "${path.relative(path.dirname(file), inImg)}"` : '';
         problems.push(`${rel}: missing asset "${href}"${hint}`);
-    } else if (path.basename(path.dirname(resolved)) !== 'img') {
-        problems.push(`${rel}: asset "${href}" is not in an img/ folder — move it to the chapter's img/ folder`);
+    } else if (![path.join(path.dirname(file), 'img'), path.join(ROOT, 'img')].includes(path.dirname(resolved))) {
+        problems.push(
+            `${rel}: asset "${href}" is not in this chapter's img/ folder or the root img/ — ` +
+                `move it to this chapter's img/, or to the root img/ if several chapters use it`,
+        );
     }
 }
 
