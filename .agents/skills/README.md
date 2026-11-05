@@ -14,7 +14,7 @@ Example prompts:
 
 ## move-content
 
-Moves or renumbers a chapter, section, or exercise. It confirms the plan first, then uses `git mv` and updates front-matter keys, quiz sources and embed ids, neighbor numbering, cross-links, and `docs/_sidebar.md`.
+Moves or renumbers a chapter, section, or exercise. It confirms the plan first with a dry run, then `scripts/move.js` does the `git mv` and updates front-matter keys, quiz sources and embed ids, neighbor numbering, cross-links, and `docs/_sidebar.md`. `scripts/check-refs.js` then checks quiz ids, front-matter keys and leftover references.
 
 Example prompts:
 
@@ -24,7 +24,7 @@ Example prompts:
 
 ## lesson-style-check
 
-Scans section markdown for 14 recurring AI-writing patterns, such as bolded lead-in sentences, em dashes, Title Case headings, negate-then-restate, and vague attributions. It uses grep-based detection and reports hits. It does not rewrite existing content unprompted.
+Scans section markdown for 14 recurring AI-writing patterns, such as bolded lead-in sentences, em dashes, Title Case headings, negate-then-restate, and vague attributions. A script (`scripts/scan.js`) does the mechanical matching on markdown text only, so code and front-matter are ignored, and the skill reads the file for the patterns that need judgment. It reports hits. It does not rewrite existing content unprompted.
 
 Example prompts:
 
@@ -34,7 +34,7 @@ Example prompts:
 
 ## dead-link-check
 
-Audits external URLs in `docs/` with `curl`. A non-200 is treated as a lead rather than a verdict: 403 or 503 from publisher sites is often anti-bot blocking, so each failure is diagnosed before fixes are proposed or applied. It looks for redirects and systematic migrations.
+Audits external URLs in `docs/` with `scripts/check-links.js`, which extracts links from the markdown AST and checks them with `curl`. A non-200 is treated as a lead rather than a verdict: 403 or 503 from publisher sites is often anti-bot blocking, so each failure is diagnosed before fixes are proposed or applied. It looks for redirects and systematic migrations.
 
 Example prompts:
 
