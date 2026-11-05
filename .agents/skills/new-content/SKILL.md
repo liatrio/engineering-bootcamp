@@ -13,7 +13,7 @@ This skill is interactive. Do not draft anything until discovery is done and the
 2. **Locate.** Read `docs/_sidebar.md` and search `docs/` by topic. Propose a placement and confirm it. Never default to the end of a chapter or section.
 3. **Categorize.** Pick one format from the table, say which and why. The user can override.
 4. **Research.** Look up every tool, API, or command the content teaches before writing about it, using the Context7 MCP (`resolve-library-id`, then `query-docs`; load them with ToolSearch if they are deferred). Training data goes stale and lessons are read for years, so verify flags, resource fields, and versions against current docs, and link the official page you used. Fall back to fetching the official docs if Context7 has no match. End your reply with a short list of what you looked up.
-5. **Draft with the user.** Open only that format's reference and its golden example. Propose an outline or exercise ideas first, get feedback, then write.
+5. **Draft with the user.** Open only that format's reference and its golden example. Propose an outline or exercise ideas first, get feedback, then write. Choose `category` and `technologies` from the existing strings (the command in `references/mechanics.md` lists them) rather than inventing new ones.
 6. **Mechanics.** Read `references/mechanics.md`: front-matter, sidebar, quiz embed, `npm run refresh-front-matter`, `npm run lint`, then the `lesson-style-check` skill.
 
 ## Formats

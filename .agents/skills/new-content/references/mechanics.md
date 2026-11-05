@@ -16,6 +16,12 @@ Run these after the content is drafted and the user is happy with it.
   ```
 
 - Reuse `category` and `technologies` strings from `docs/README.md`. Visualizations aggregate by exact match, so new spellings fragment the data.
+- List the existing strings with this command (run from the repo root) and pick from them:
+
+  ```bash
+  node -e "const m=require('gray-matter')(require('fs').readFileSync('docs/README.md','utf8')).data;const c=new Set(),t=new Set();for(const e of Object.values(m)){c.add(e.category);for(const x of e.exercises||[])for(const y of x.technologies||[])t.add(y)}console.log([...c].sort().join('\n')+'\n--\n'+[...t].sort().join('\n'))"
+  ```
+
 - Never hand-edit the front-matter block in `docs/README.md`.
 
 ## Sidebar
