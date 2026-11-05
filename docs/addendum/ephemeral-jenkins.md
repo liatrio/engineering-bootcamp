@@ -4,8 +4,8 @@ Jenkins is a self-contained, open source automation server which can be used to 
 
 In previous sections, you have likely been using a more persistent Jenkins container. This requires a number of manual steps to configure Jenkins, install plugins and tools, and setup jobs. In this section you will be creating an ephemeral (i.e. no persistence) Jenkins instance using the [Jenkins Configuration as Code plugin](https://github.com/jenkinsci/configuration-as-code-plugin) and the [job-dsl plugin](https://jenkinsci.github.io/job-dsl-plugin/).
 
-![jenkins image](img-addendum/jenkins_light.svg ':size=400px :class=light-mode-img-center :alt= jenkins image; light mode')
-![jenkins image](img-addendum/jenkins_dark.svg ':size=400px :class=dark-mode-img-center :alt= jenkins image; dark mode')
+![jenkins image](img/jenkins_light.svg ':size=400px :class=light-mode-img-center :alt= jenkins image; light mode')
+![jenkins image](img/jenkins_dark.svg ':size=400px :class=dark-mode-img-center :alt= jenkins image; dark mode')
 
 ## Exercise
 

@@ -20,7 +20,7 @@
             "quizdown"
         ]
     },
-    "heading-style": false,
+    "heading-style": { "style": "atx" },
     "no-trailing-punctuation": false,
     "first-line-h1": false,
     "single-h1": false,

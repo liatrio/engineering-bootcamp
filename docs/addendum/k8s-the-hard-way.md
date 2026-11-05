@@ -39,7 +39,7 @@ These controller nodes communicate with the worker nodes via:
 - kubelet - The primary "node agent" that each node runs. The kubelet accepts a set of PodSpecs provided by various mechanisms and ensures that the containers described in those PodSpecs are up and running.
 - kube-proxy - The Kubernetes network proxy runs on each node. This essentially implements part of the Kubernetes service concept.
 
-![Kubernetes Cluster](img-addendum/k8sthw-components-of-kubernetes.svg ':class=cluster')
+![Kubernetes Cluster](img/k8sthw-components-of-kubernetes.svg ':class=cluster')
 
 ### Getting Started
 
@@ -65,7 +65,7 @@ Login into the Azure CLI using "[az login](https://learn.microsoft.com/en-us/cli
 
 It is VERY important to understand the networking topology of the cluster. This will help you to understand how the various components communicate with each other. The following diagram shows a more descriptive network topology of the cluster and you can find a [link to an overview of the various components here](https://kubernetes.io/docs/concepts/overview/components/)
 
-![Kubernetes Cluster](img-addendum/k8sthw-network-topology.svg ':class=cluster')
+![Kubernetes Cluster](img/k8sthw-network-topology.svg ':class=cluster')
 
 - Overview
   - When starting out, it is important to identify what tool you are using and what it is used for. For example, the lab "Provisioning Compute Resources" would be a case of **building** infrastructure, thus using Terraform. Whereas "Provisioning the CA and Generating TLS Certificates" would be a case of **configuring** infrastructure, thus using Ansible. Be sure to distinguish between the two as you are moving through the labs.

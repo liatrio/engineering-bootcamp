@@ -5,15 +5,29 @@ on:
       - master
     types: [opened, synchronize, reopened, ready_for_review]
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
     steps:
-      - uses: actions/checkout@v7
-      - uses: DavidAnson/markdownlint-cli2-action@v25
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          globs: |
-            *.md
-            **/*.md
-            !**/specs/**
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '26'
+          cache: npm
+      - run: npm ci
+      # Same scripts as `npm run lint` in the pre-commit hook. Each step runs
+      # even if an earlier one fails, so one CI run reports every problem.
+      - name: Markdown lint
+        run: npm run lint:markdown
+      - name: Check Docsify links and images
+        if: ${{ !cancelled() }}
+        run: npm run lint:links
+      - name: Spell check
+        if: ${{ !cancelled() }}
+        run: npm run lint:spelling

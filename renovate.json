@@ -4,6 +4,21 @@
     "config:recommended"
   ],
   "automerge": true,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Versioned npm packages loaded from unpkg or jsdelivr by the site",
+      "managerFilePatterns": [
+        "/^index\\.html$/",
+        "/^css/[^/]+\\.css$/"
+      ],
+      "matchStrings": [
+        "(?:unpkg\\.com|cdn\\.jsdelivr\\.net/npm)/(?<depName>(?:@[\\w.-]+/)?[\\w.-]+)@(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "npm",
+      "versioningTemplate": "npm"
+    }
+  ],
   "packageRules": [
     {
       "matchUpdateTypes": [
@@ -11,6 +26,13 @@
         "patch"
       ],
       "automerge": true
+    },
+    {
+      "description": "Keep the CDN copy of Docsify the site runs in step with the npm package the link checker mirrors",
+      "matchPackageNames": [
+        "docsify"
+      ],
+      "groupName": "docsify"
     }
   ]
 }

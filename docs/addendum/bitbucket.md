@@ -9,8 +9,8 @@ jodatime as a petclinic dependency.
 Be sure to keep enough notes to create a
 step-by-step guide showing your experience through this section.
 
-![BitBucket image](img-addendum/bitbucket_light.svg ':size=400px :class=light-mode-img-center :alt= BitBucket image; light mode')
-![BitBucket image](img-addendum/bitbucket_dark.svg ':size=400px :class=dark-mode-img-center :alt= BitBucket image; dark mode')
+![BitBucket image](img/bitbucket_light.svg ':size=400px :class=light-mode-img-center :alt= BitBucket image; light mode')
+![BitBucket image](img/bitbucket_dark.svg ':size=400px :class=dark-mode-img-center :alt= BitBucket image; dark mode')
 
 ## Exercise 1
 

@@ -1734,7 +1734,7 @@ Install Docsify locally (in current directory)
 Install Docsify Globally in your system
 
 1. Install [docsify](https://docsify.js.org/#/quickstart)
-2. Navigate to local library of onboarding
+2. Navigate to the repository root
 3. Run `docsify serve .`
 4. Open <http://localhost:3000>
 
@@ -1756,10 +1756,10 @@ Use Docker to build and serve the content, but remember to rebuild the Docker im
 
 ### More Information on Contributing
 
-- Images should be placed under the root `img` folder and referred to using HTML `<img>` tags
-- H3 header (`###`) should be the default header within a page
-- H2 header (`##`) will appear in the navigation as the page's table of contents
-- To add a new section, add a new file to `docs` such as `x.x-new-section.md`, and then reference it in `docs/_sidebar.md`.
+- Put images in the chapter's `img/` folder and embed them with Markdown: `![alt](img/<descriptive_image_name>.svg)`. Images used by several chapters go in the root `img/` folder.
+- Use one `#` page title per section, `##` for sections (these appear in the page's table of contents), and `###` for subsections.
+- To add a new section, add a file such as `docs/<chapter>/<N.X>-<topic>.md` and link it from `docs/_sidebar.md`.
+- Run `npm run lint` before you push. It checks Markdown style, links, images, and spelling, and the pre-commit hook and CI run it too.
 
 [Contributors](contributors.md)
 

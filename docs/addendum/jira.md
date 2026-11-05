@@ -2,8 +2,8 @@
 
 At this point you should already have experience using Jira. Jira is available as a cloud service and a self managed server. In this section you will gain experience with the self managed server version of Jira by installing, managing and integrating it with other tools.
 
-![jira image](img-addendum/jira_light.svg ':size=400px :class=light-mode-img-center :alt= jira image; light mode')
-![jira image](img-addendum/jira_dark.svg ':size=400px :class=dark-mode-img-center :alt= jira image; dark mode')
+![jira image](img/jira_light.svg ':size=400px :class=light-mode-img-center :alt= jira image; light mode')
+![jira image](img/jira_dark.svg ':size=400px :class=dark-mode-img-center :alt= jira image; dark mode')
 
 ## Install Jira
 
@@ -15,23 +15,23 @@ At this point you should already have experience using Jira. Jira is available a
 3. Execute the Jira installer and follow the [instructions](https://confluence.atlassian.com/display/ALLDOC/Latest+JIRA+installation+documentation).
 4. Open the Jira web interface [http://localhost:8080](http://localhost:8080) and choose "Set it up for me".
 
-![jira image 1](img-addendum/jira1.webp ':class=img-shadow-center :alt= jira image 1')
+![jira image 1](img/jira1.webp ':class=img-shadow-center :alt= jira image 1')
 
 5. Configure the evaluation license. This might be cached if you have recently configured a trial Bitbucket.
 
-![jira image 2](img-addendum/jira2.webp ':class=img-shadow-center :alt= jira image 2')
+![jira image 2](img/jira2.webp ':class=img-shadow-center :alt= jira image 2')
 
 6. Create an administrator account and wait for setup to complete.
 
-![jira image 3](img-addendum/jira3.webp ':class=img-shadow-center :alt= jira image 3')
+![jira image 3](img/jira3.webp ':class=img-shadow-center :alt= jira image 3')
 
 7. Once the server setup is complete create a new *Kanban software development* project.
 
-![jira image 4](img-addendum/jira4.webp ':class=img-shadow-center :alt= jira image 4')
+![jira image 4](img/jira4.webp ':class=img-shadow-center :alt= jira image 4')
 
 8. Create an issue in your Kanban project.
 
-![jira image 5](img-addendum/jira5.webp ':class=img-shadow-center :alt= jira image 5')
+![jira image 5](img/jira5.webp ':class=img-shadow-center :alt= jira image 5')
 
 ## Connect Jira to your BitBucket server
 

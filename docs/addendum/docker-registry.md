@@ -4,8 +4,8 @@ In this section we'll be learning about Docker Registry. As you've learned previ
 
 In some situations it might be useful to manage your own collection of Docker images. In this case you could set up an internal Docker Registry to store them in.
 
-![build image](img-addendum/build_light.svg ':size=100x100 :class=light-mode-icon :alt= build image; light mode')
-![build image](img-addendum/build_dark.svg ':size=100x100 :class=dark-mode-icon :alt= build image; dark mode')
+![build image](img/build_light.svg ':size=100x100 :class=light-mode-icon :alt= build image; light mode')
+![build image](img/build_dark.svg ':size=100x100 :class=dark-mode-icon :alt= build image; dark mode')
 
 ## Setup a Docker Registry
 

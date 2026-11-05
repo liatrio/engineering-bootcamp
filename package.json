@@ -11,8 +11,11 @@
     "serve:docsify": "docsify serve --port 3000",
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",
-    "lint": "markdownlint-cli2 \"**/*.md\" \"!**/node_modules/**\" \"!**/.venv/**\" \"!**/specs/**\"",
-    "prepare": "husky install",
+    "lint": "npm run lint:markdown && npm run lint:links && npm run lint:spelling",
+    "lint:markdown": "markdownlint-cli2 \"**/*.md\" \"!**/node_modules/**\" \"!**/.venv/**\" \"!**/specs/**\"",
+    "lint:links": "node .husky/check-docsify-links.js",
+    "lint:spelling": "cspell --no-progress \"**/*.md\"",
+    "prepare": "husky",
     "compare-front-matter": "node ./.husky/front-matter-condenser",
     "refresh-front-matter": "node ./.husky/front-matter-condenser update"
   },
