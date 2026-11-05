@@ -1,5 +1,5 @@
 ---
-docs/3-AI-Engineering/3.2-mcp.md:
+docs/addendum/ai-engineering/mcp.md:
   category: AI Engineering
   estReadingMinutes: 12
   exercises:
@@ -122,7 +122,7 @@ Roots provide entry points into your data, helping AI models understand where to
 ## Knowledge Check
 
 <div class="quizdown">
-  <div id="chapter-3/3.2/mcp-quiz.js"></div>
+  <div id="addendum/ai-engineering/mcp-quiz.js"></div>
 </div>
 
 # Exercise: Create an MCP Server

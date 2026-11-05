@@ -1,5 +1,5 @@
 ---
-docs/3-AI-Engineering/3.1.2-ai-agents.md:
+docs/addendum/ai-engineering/ai-agents.md:
   category: AI Engineering
   estReadingMinutes: 10
 ---

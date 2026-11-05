@@ -1,5 +1,5 @@
 ---
-docs/3-AI-Engineering/3.3-best-practices.md:
+docs/addendum/ai-engineering/best-practices.md:
   category: AI Engineering
   estReadingMinutes: 5
 ---
@@ -19,11 +19,11 @@ This section explores:
 
 ## Subsections
 
-### [3.3.1 Advanced AI Techniques](/3-AI-Engineering/3.3.1-agentic-best-practices.md)
+### [Advanced AI Techniques](addendum/ai-engineering/agentic-best-practices.md)
 
 Learn senior engineering techniques for leveraging AI in your development workflow, including structured approaches to using LLMs while maintaining engineering oversight.
 
-### [3.3.2 Agentic IDEs](/3-AI-Engineering/3.3.2-agentic-ide.md)
+### [Agentic IDEs](addendum/ai-engineering/agentic-ide.md)
 
 Explore how agentic IDEs represent the next evolution of development environments, integrating AI capabilities directly into the coding workflow.
 

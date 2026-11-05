@@ -31,15 +31,9 @@
   - [1.4.7 - SonarQube](1-ways-of-working/1.4.7-sonarqube.md)
   - [1.4.8 - Code Review](1-ways-of-working/1.4.8-code-review.md)
   - [1.4.9 - Git Hooks and pre-commit](1-ways-of-working/1.4.9-pre-commit.md)
-- [1.5 - The Basics](1-ways-of-working/1.5-basics.md)
-  - [1.5.1 - Unix Basics](1-ways-of-working/1.5.1-unix.md)
-  - [1.5.2 - Vim](1-ways-of-working/1.5.2-vim.md)
-  - [1.5.3 - Installations](1-ways-of-working/1.5.3-installations.md)
-  - [1.5.4 - Passwords and Keys](1-ways-of-working/1.5.4-passwords-and-keys.md)
-  - [1.5.5 - Networking Basics](1-ways-of-working/1.5.5-networking.md)
-- [1.6 - DevOps Defined](1-ways-of-working/1.6-devops-defined.md)
-- [1.7 - Liatrio and DevOps](1-ways-of-working/1.7-liatrio-and-devops.md)
-- [1.8 - External Resources](1-ways-of-working/1.8-external-resources.md)
+- [1.5 - DevOps Defined](1-ways-of-working/1.5-devops-defined.md)
+- [1.6 - Liatrio and DevOps](1-ways-of-working/1.6-liatrio-and-devops.md)
+- [1.7 - External Resources](1-ways-of-working/1.7-external-resources.md)
 
 - **Chapter 2**
 
@@ -57,16 +51,17 @@
 
 - **Chapter 3**
 
-- [3.0 - AI Engineering Overview](3-AI-Engineering/3.0-overview.md)
-- [3.1 - AI Concepts](3-AI-Engineering/3.1-ai-concepts.md)
-  - [3.1.1 - Large Language Models (LLMs)](3-AI-Engineering/3.1.1-llms.md)
-  - [3.1.2 - AI Agents](3-AI-Engineering/3.1.2-ai-agents.md)
-  - [3.1.3 - Using AI Tools](3-AI-Engineering/3.1.3-ai-tools.md)
-  - [3.1.4 - AI Best Practices](3-AI-Engineering/3.1.4-ai-best-practices.md)
-- [3.2 - MCP: Model Context Protocol](3-AI-Engineering/3.2-mcp.md)
-- [3.3 - AI Engineering](3-AI-Engineering/3.3-best-practices.md)
-  - [3.3.1 - Advanced AI Techniques](3-AI-Engineering/3.3.1-agentic-best-practices.md)
-  - [3.3.2 - Agentic IDEs](3-AI-Engineering/3.3.2-agentic-ide.md)
+- [3.0 - Application Development Overview](3-application-development/3.0-overview.md)
+- [3.1 - The Basics](3-application-development/3.1-basics.md)
+  - [3.1.1 - Unix Basics](3-application-development/3.1.1-unix.md)
+  - [3.1.2 - Vim](3-application-development/3.1.2-vim.md)
+  - [3.1.3 - Installations](3-application-development/3.1.3-installations.md)
+  - [3.1.4 - Passwords and Keys](3-application-development/3.1.4-passwords-and-keys.md)
+  - [3.1.5 - Networking Basics](3-application-development/3.1.5-networking.md)
+- [3.2 - Layers](3-application-development/3.2-layers.md)
+- [3.3 - Design Patterns](3-application-development/3.3-design-patterns.md)
+  - [3.3.1 - SOLID Principles](3-application-development/3.3.1-solid-principles.md)
+  - [3.3.2 - Data Layer Patterns](3-application-development/3.3.2-data-layer-patterns.md)
 
 - **Chapter 4**
 - [4.0 - Virtual Machines & Containers](/4-virtual-machines-containers/4.0-overview.md)
@@ -159,16 +154,19 @@
   - [9.1.4 - Plugins](9-platform-engineering/9.1.4-plugins.md)
 - [9.2 - Platforms](9-platform-engineering/9.2-platforms.md)
 
-- **Chapter 10**
-- [10.0 - Application Development Overview](10-application-development/10.0-overview.md)
-- [10.1 - Layers](10-application-development/10.1-layers.md)
-- [10.2 - Design Patterns](10-application-development/10.2-design-patterns.md)
-  - [10.2.1 - SOLID Principles](10-application-development/10.2.1-solid-principles.md)
-  - [10.2.2 - Data Layer Patterns](10-application-development/10.2.2-data-layer-patterns.md)
-
 - **Addendum**
 
 - [Addendum](addendum/addendum-overview.md)
+  - [AI Engineering](addendum/ai-engineering/ai-engineering-overview.md)
+    - [AI Concepts](addendum/ai-engineering/ai-concepts.md)
+      - [Large Language Models (LLMs)](addendum/ai-engineering/llms.md)
+      - [AI Agents](addendum/ai-engineering/ai-agents.md)
+      - [Using AI Tools](addendum/ai-engineering/ai-tools.md)
+      - [AI Best Practices](addendum/ai-engineering/ai-best-practices.md)
+    - [MCP: Model Context Protocol](addendum/ai-engineering/mcp.md)
+    - [AI Engineering Best Practices](addendum/ai-engineering/best-practices.md)
+      - [Advanced AI Techniques](addendum/ai-engineering/agentic-best-practices.md)
+      - [Agentic IDEs](addendum/ai-engineering/agentic-ide.md)
   - [GitHub Certs Quizzes](addendum/github-certs-quizzes/github-certs-quizzes.md)
     - [GitHub Actions Cert](addendum/github-certs-quizzes/github-action-cert.md)
     - [GitHub Admin Cert](addendum/github-certs-quizzes/github-admin-cert.md)

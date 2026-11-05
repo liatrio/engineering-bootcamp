@@ -6,7 +6,7 @@ Canonical agent instructions for Liatrio's Engineering Bootcamp — a Docsify-ba
 
 | Term | What it means in this repo |
 | --- | --- |
-| Chapter | Top-level `docs/<chapter>/` directory, where `<chapter>` is `N-<topic>` (1–10). One per major topic (fundamentals, virtualization, CI/CD, etc.). |
+| Chapter | Top-level `docs/<chapter>/` directory, where `<chapter>` is `N-<topic>` (1–9). One per major topic (fundamentals, virtualization, CI/CD, etc.). |
 | Section | Sub-page inside a chapter: `docs/<chapter>/<section>.md`, where `<section>` is `N.X-<topic>`. Numbering appears in the filename. |
 | Exercise | Hands-on unit inside a section, described in that section's YAML front-matter. |
 | Front-matter | YAML block at top of a section file listing `category`, `estReadingMinutes`, `exercises[]`, `technologies[]`. Drives learning-metric visualizations. |
