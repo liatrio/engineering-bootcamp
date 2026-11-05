@@ -181,7 +181,7 @@ docs/3-application-development/3.2-code-quality.md:
   estReadingMinutes: 10
 docs/3-application-development/3.2.1-testing-concepts.md:
   category: Software Quality
-  estReadingMinutes: 15
+  estReadingMinutes: 20
   exercises:
     - name: Classify a test suite
       description: >-
@@ -191,7 +191,32 @@ docs/3-application-development/3.2.1-testing-concepts.md:
       technologies:
         - Go
         - Python
-docs/3-application-development/3.2.10-pre-commit.md:
+docs/3-application-development/3.2.10-test-automation.md:
+  category: Software Quality
+  estReadingMinutes: 5
+  exercises:
+    - name: Create a GitHub Action to test a Go project
+      description: Create a GitHub Action that will run Unit Tests when a change is pushed
+      estMinutes: 180
+      technologies:
+        - GitHub Actions
+        - Go
+docs/3-application-development/3.2.11-sonarqube.md:
+  category: Software Quality
+  estReadingMinutes: 10
+  exercises:
+    - name: Setup SonarQube and GitHub Integration
+      description: >-
+        Create a SonarQube server and add GitHub action to run SonarQube in our
+        build pipeline.
+      estMinutes: 180
+      technologies:
+        - SonarQube
+        - GitHub Actions
+docs/3-application-development/3.2.12-code-review.md:
+  category: Software Quality
+  estReadingMinutes: 10
+docs/3-application-development/3.2.13-pre-commit.md:
   category: Software Quality
   estReadingMinutes: 12
   exercises:
@@ -228,38 +253,7 @@ docs/3-application-development/3.2.2-unit-testing.md:
       technologies:
         - Go
         - TDD
-docs/3-application-development/3.2.3-functional-testing.md:
-  category: Software Quality
-  estReadingMinutes: 20
-  exercises:
-    - name: Create functional tests with Selenium in Python
-      description: Create functional tests for the bootcamp using Selenium in Python.
-      estMinutes: 120
-      technologies:
-        - Selenium
-        - Python
-    - name: Create functional tests with Playwright in Python
-      description: Create functional tests for the bootcamp using Playwright in Python.
-      estMinutes: 60
-      technologies:
-        - Playwright
-        - Python
-docs/3-application-development/3.2.4-code-styling.md:
-  category: Software Quality
-  estReadingMinutes: 30
-docs/3-application-development/3.2.5-code-coverage.md:
-  category: Software Quality
-  estReadingMinutes: 20
-  exercises:
-    - name: Achieve 100% code coverage
-      description: >-
-        Install node dependencies for code coverage (jest) and get 100% code
-        coverage for a given module and tests.
-      estMinutes: 60
-      technologies:
-        - Node.js
-        - Jest
-docs/3-application-development/3.2.6-test-doubles.md:
+docs/3-application-development/3.2.3-test-doubles.md:
   category: Software Quality
   estReadingMinutes: 10
   exercises:
@@ -285,31 +279,81 @@ docs/3-application-development/3.2.6-test-doubles.md:
       technologies:
         - Node.js
         - Jest
-docs/3-application-development/3.2.7-test-automation.md:
-  category: Software Quality
-  estReadingMinutes: 5
-  exercises:
-    - name: Create a GitHub Action to test a Go project
-      description: Create a GitHub Action that will run Unit Tests when a change is pushed
-      estMinutes: 180
-      technologies:
-        - GitHub Actions
-        - Go
-docs/3-application-development/3.2.8-sonarqube.md:
+docs/3-application-development/3.2.4-component-testing.md:
   category: Software Quality
   estReadingMinutes: 10
   exercises:
-    - name: Setup SonarQube and GitHub Integration
+    - name: Component test a Flask API
       description: >-
-        Create a SonarQube server and add GitHub action to run SonarQube in our
-        build pipeline.
-      estMinutes: 180
+        Write component tests for a layered Flask application through its HTTP
+        interface, and isolate the tests from shared state.
+      estMinutes: 60
       technologies:
-        - SonarQube
-        - GitHub Actions
-docs/3-application-development/3.2.9-code-review.md:
+        - Python
+        - Flask
+        - pytest
+docs/3-application-development/3.2.5-integration-testing.md:
   category: Software Quality
   estReadingMinutes: 10
+  exercises:
+    - name: Integration test a repository
+      description: >-
+        Run one shared test suite against an in-memory fake and a real SQLite
+        database, find where the fake diverges, and optionally extend the suite
+        to PostgreSQL with Testcontainers.
+      estMinutes: 90
+      technologies:
+        - Go
+        - SQLite
+        - PostgreSQL
+        - Testcontainers
+        - Docker
+docs/3-application-development/3.2.6-contract-testing.md:
+  category: Software Quality
+  estReadingMinutes: 10
+  exercises:
+    - name: Consumer-driven contract testing with Pact
+      description: >-
+        Work through the Pact JS workshop to write consumer contract tests,
+        verify them against a provider, and share contracts through a Pact
+        Broker.
+      estMinutes: 180
+      technologies:
+        - Pact
+        - Node.js
+        - Jest
+        - Docker
+docs/3-application-development/3.2.7-end-to-end-testing.md:
+  category: Software Quality
+  estReadingMinutes: 20
+  exercises:
+    - name: Create end-to-end tests with Selenium in Python
+      description: Create end-to-end tests for the bootcamp using Selenium in Python.
+      estMinutes: 120
+      technologies:
+        - Selenium
+        - Python
+    - name: Create end-to-end tests with Playwright in Python
+      description: Create end-to-end tests for the bootcamp using Playwright in Python.
+      estMinutes: 60
+      technologies:
+        - Playwright
+        - Python
+docs/3-application-development/3.2.8-code-coverage.md:
+  category: Software Quality
+  estReadingMinutes: 20
+  exercises:
+    - name: Achieve 100% code coverage
+      description: >-
+        Install node dependencies for code coverage (jest) and get 100% code
+        coverage for a given module and tests.
+      estMinutes: 60
+      technologies:
+        - Node.js
+        - Jest
+docs/3-application-development/3.2.9-code-styling.md:
+  category: Software Quality
+  estReadingMinutes: 30
 docs/3-application-development/3.3-layers.md:
   category: Software Development
   estReadingMinutes: 30
