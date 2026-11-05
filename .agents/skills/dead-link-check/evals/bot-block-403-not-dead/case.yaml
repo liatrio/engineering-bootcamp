@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: bot-block-403-not-dead
+expected_outcome: |
+  403 from a publisher is treated as a likely bot block, not dead; nothing is rewritten.
+context:
+  scaffold_script: place-files.sh

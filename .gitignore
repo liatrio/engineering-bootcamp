@@ -51,3 +51,6 @@ examples/data-patterns/concurrency/optimistic/optimistic
 examples/data-patterns/concurrency/pessimistic/pessimistic
 examples/data-patterns/repository/repository
 examples/data-patterns/repository-exercise-starter/repository-exercise-starter
+
+# skill eval run output
+.agents/evals-workspace/

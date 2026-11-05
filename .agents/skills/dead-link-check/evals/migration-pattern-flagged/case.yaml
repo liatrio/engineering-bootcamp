@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: migration-pattern-flagged
+expected_outcome: |
+  Repeated redirect to a new domain is flagged as a migration and offered as a bulk fix; report precedes edits.
+context:
+  scaffold_script: place-files.sh

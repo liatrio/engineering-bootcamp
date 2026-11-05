@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: proposes-placement-not-end
+expected_outcome: |
+  Reads the sidebar, proposes a specific placement next to related Terraform content (not just the end of a chapter), and chooses the intro exercise format.

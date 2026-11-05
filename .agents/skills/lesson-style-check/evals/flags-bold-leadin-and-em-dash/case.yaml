@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: flags-bold-leadin-and-em-dash
+expected_outcome: |
+  Reports hits by pattern with line numbers; does not edit the file.
+context:
+  scaffold_script: place-files.sh

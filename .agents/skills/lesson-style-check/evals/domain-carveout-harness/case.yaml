@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: domain-carveout-harness
+expected_outcome: |
+  Literal technical uses of harness and ecosystem are not flagged; the flourish use is.
+context:
+  scaffold_script: place-files.sh
