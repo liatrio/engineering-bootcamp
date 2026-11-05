@@ -1734,7 +1734,7 @@ Install Docsify locally (in current directory)
 Install Docsify Globally in your system
 
 1. Install [docsify](https://docsify.js.org/#/quickstart)
-2. Navigate to local library of onboarding
+2. Navigate to the repository root
 3. Run `docsify serve .`
 4. Open <http://localhost:3000>
 
