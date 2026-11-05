@@ -17,8 +17,10 @@
 //     (`img/<descriptive_image_name>.svg`), or in the root img/ folder when several
 //     chapters use them (`../../img/<descriptive_image_name>.svg`). Another chapter's
 //     img/ folder is rejected. Paths are page-relative because Docsify resolves
-//     asset paths from the page's folder. Root paths (`/img/...`) only work on
-//     ':ignore' links.
+//     asset paths from the page's folder.
+//   - Local files are only embedded as images (`![alt](img/...)`). A plain link to
+//     one (`[report](img/x.pdf)`) is routed by Docsify as a page and 404s, so link
+//     to a public URL instead.
 //
 // Usage: node .husky/check-docsify-links.js   (exits 1 on any problem)
 
@@ -95,11 +97,9 @@ const problems = [];
 // Images and other assets (pdf, svg...). Docsify prefixes any path without a
 // protocol with the current page's folder, so `/img/<name>.svg` becomes
 // `/docs/<chapter>/img/<name>.svg`. Assets must be page-relative: `img/<name>.svg`.
-// Exception: links marked ':ignore' are served as written, from the site root.
-function checkAsset(file, rel, href, ignored = false) {
+function checkAsset(file, rel, href) {
     if (/^(https?:|data:|\/\/)/.test(href)) return;
     if (href.startsWith('/')) {
-        if (ignored && fs.existsSync(path.join(ROOT, href))) return;
         const fix = path.relative(path.dirname(file), path.join(ROOT, href));
         problems.push(`${rel}: "${href}" — Docsify resolves asset paths from the page's folder, use "${fix}"`);
         return;
@@ -127,17 +127,21 @@ for (const file of walk(DOCS)) {
     const rel = path.relative(ROOT, file);
     const text = stripCode(fs.readFileSync(file, 'utf8'));
     const links = [
-        ...text.matchAll(/\]\(\s*<?([^)\s>'"]+)([^)]*)\)/g), // inline: [text](href 'title')
-        ...text.matchAll(/^ {0,3}\[[^\]]+\]:\s*<?([^\s>]+)>?(.*)$/gm), // reference: [label]: href
+        // inline: [text](href 'title') or ![alt](src 'title'); group 1 is the "!" of an image
+        ...text.matchAll(/(!?)\[[^\]]*\]\(\s*<?([^)\s>'"]+)[^)]*\)/g),
+        // reference definition: [label]: href. It may back an image (![alt][label]),
+        // so it is checked as one.
+        ...[...text.matchAll(/^ {0,3}\[[^\]]+\]:\s*<?([^\s>]+)>?.*$/gm)].map((m) => [m[0], '!', m[1]]),
     ];
-    for (const [, href, rest] of links) {
+    for (const [, bang, href] of links) {
         if (/^(https?:|mailto:|\/\/)/.test(href)) continue;
         const [target, hashAnchor] = href.split('#');
         const [page, query = ''] = target.split('?');
         // Docsify writes heading links as `page?id=slug`; treat id like a #anchor.
         const anchor = hashAnchor || new URLSearchParams(query).get('id');
         if (ASSET.test(page)) {
-            checkAsset(file, rel, page, rest.includes(':ignore'));
+            if (bang) checkAsset(file, rel, page);
+            else problems.push(`${rel}: "${href}" links to a local file, which Docsify routes as a page and 404s — embed it as an image or link to a public URL`);
             continue;
         }
 
