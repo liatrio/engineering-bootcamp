@@ -1,0 +1,61 @@
+---
+docs/addendum/ai-engineering/ai-agents.md:
+  category: AI Engineering
+  estReadingMinutes: 10
+---
+# AI Agents
+
+Imagine that you have a really smart assistant who can not only understand what you ask them, but can also use tools to get things done for you. That's essentially what an AI agent is: a program that combines the power of language understanding with the ability to use external tools. These tools could be anything from a calculator, to a database, to an email program, or even a search engine.
+
+## What Makes an AI Agent?
+
+AI agents combine several key components to create systems that can understand, reason, and take action:
+
+### Generative AI Models
+
+These are the "brains" of the agent. They're trained on huge amounts of data to understand language and generate human-like text. Think of them as being able to understand your requests, whether it's a question or a task.
+
+### Tools
+
+These are the things that the agent can use to interact with the real world or get access to information. Just like we use books or search engines to find answers, AI agents use these tools to do the same. Examples of tools include:
+
+* **Data Retrieval**: Accessing information from databases, websites, or documents
+* **API Calls**: Interacting with other programs or services, such as sending an email or completing a financial transaction
+* **Code Execution**: Running code to perform calculations or automate tasks
+
+### Key Capabilities
+
+* **Autonomy**: Agents can plan and execute tasks on their own, without needing step-by-step instructions from you
+* **Reasoning and Logic**: An agent needs to be able to think through problems and make decisions about the best way to proceed
+* **Memory**: The ability to remember context from previous interactions and use it to inform future actions
+* **Tool Selection**: Choosing the right tool for the job based on the task at hand
+
+## Agent Tools You May Use
+
+* **Windsurf**: Like GitHub Copilot but with agentic interaction capabilities. Has its own IDE.
+* **GitHub Copilot**: Most features need a paid account. Lives in your IDE or on GitHub. Can read everything in your workspace. You can use commands with /, extensions with @ or refer to sources with #.
+* **Anthropic's Claude**: Has agentic capabilities through its Claude Artifacts feature, additionally Claude Desktop brings MCP servers into the mix for agentic interaction.
+* **Claude Code**: Command-line AI agent with strong context management features including /context command for monitoring context utilization and structured workflows. Particularly effective for managing context rot through intentional compaction.
+* **AutoGPT**: An open-source autonomous agent that can use GPT models to accomplish tasks.
+
+## Best Practices for Working with AI Agents
+
+* **Be specific with instructions**: The more clearly you define what you want, the better the agent can help you.
+* **Clearly define scope**: By being direct with where and on what the agent will be acting you can delay hallucinations and degeneration of conversations.
+* **Verify outputs**: Always review and verify the actions and outputs of an agent before implementing them.
+* **Start with simple tasks**: Begin with small, straightforward tasks and gradually increase complexity as you build trust.
+* **Provide feedback**: Help the agent learn by providing feedback on its performance.
+
+## Why is this important?
+
+AI agents can take over many complex tasks that would be difficult or impossible for a language model alone. For example, an agent can access a customer's purchase history from a database and use that information to give personalized shopping recommendations. Another example would be that an agent could make API calls to send an email response to a colleague.
+
+The idea is to create AI systems that can do more than just answer simple questions, but can actually take action and help us in our daily lives.
+
+## In summary
+
+AI agents are about combining language understanding with practical tools and autonomous planning capabilities. They go beyond the limitations of simple language models to interact with the world and help us achieve our goals. This is a rapidly evolving field, but this introduction should give you the basic understanding you need to start learning more.
+
+# Deliverables
+
+* Describe a specific workflow in your development process that could be improved by using an AI agent, and explain how the agent would help.

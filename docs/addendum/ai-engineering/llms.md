@@ -1,0 +1,61 @@
+---
+docs/addendum/ai-engineering/llms.md:
+  category: AI Engineering
+  estReadingMinutes: 12
+---
+# Large Language Models (LLMs) Explained
+
+At their core, **LLMs are sophisticated prediction machines**. They are designed to predict word sequences, effectively generating text by statistically modeling how words tend to appear together based on their training data. Think of them as having "read" countless books, learning patterns, grammar, and relationships from this massive amount of text data. They are not fact databases but rather systems that understand and generate language.
+
+> :exclamation: It is important to remember that LLMs are not sentient or conscious, and they can only generate text based on the data they are trained on and the instructions they are given.
+
+## LLM Architecture
+
+Here's a breakdown of their key aspects:
+
+- **Training Data:** The foundation of an LLM lies in its training data. This data can consist of vast amounts of publicly available text from the internet or proprietary data sources. Both the **volume and quality of the data significantly impact** how well an LLM learns. High-quality data enables the LLM to better predict human language patterns, generate relevant responses, and perform specific tasks.
+
+- **Neural Network Architecture:** LLMs are built using neural networks, computational systems comprised of layers of neurons. Each neuron performs a mathematical function on its inputs, and the output of each neuron is weighted based on its importance. Through training on massive datasets, these neural networks "learn" the weights that produce the best outputs.
+
+- **Word Embeddings:** Words are encoded as word embeddings within an LLM, which are essentially coordinates in a multidimensional abstract space. Words with similar meanings or purposes are positioned closer to each other in this space. This allows the AI to "reason" with words by evaluating their relative distances and arranging them in meaningful ways based on context.
+
+- **Self-Supervised Learning:** Unlike some older models, many LLMs use a self-supervised learning approach where they train themselves on unlabeled data. They are given basic learning objectives, and then they use a portion of the input data to practice their learning goals. Once the LLM achieves these goals on that portion of the input, it applies what it has learned to understand the rest of the input.
+
+- **Transformer Models:** State-of-the-art LLMs are based on the Transformer architecture. These models can process long sentences and paragraphs more effectively than older models based on frameworks such as recurrent neural networks or long short-term memory. This capability is important for maintaining context and understanding nuances in language.
+
+## LLM Capabilities
+
+LLMs possess a wide range of capabilities:
+
+- **Text Generation:** LLMs can generate human-quality text, including creative content, and code that follows patterns learned from the training data.
+
+- **Natural Language Understanding (NLU):** They can understand the context of source text and construct sentences linguistically in another language. This enables applications like language translation.
+
+- **Conversational AI:** They can engage in conversations, retaining the context needed to answer follow-up questions.
+
+- **Code Generation and Translation:** LLMs can assist with generating code in various programming languages and translating between them.
+
+- **Task Execution:** Through tools and integrations, LLMs can be used to execute complex tasks.
+
+## LLM Tools You May Use
+
+- **ChatGPT (OpenAI)**: Free to use, so most devs now have some familiarity with it. What most AI assistants are based on.
+- **Claude (Anthropic)**: Similar to ChatGPT, and comes standard with the Zed IDE. Uses its own model instead of OpenAI.
+- **Gemini (Google)**: Google's competitor to ChatGPT and Claude, offering similar capabilities.
+- **Llama (Meta)**: An open-source LLM that can be run locally or used through various services.
+
+## Important Considerations
+
+There are a few things to keep in mind when using LLMs:
+
+- **Prompt Engineering:** To get the most out of LLMs, it's crucial to learn how to craft effective prompts. The quality and relevance of an LLM's output is highly dependent on the input prompt.
+
+- **Potential Biases:** LLMs can reflect biases present in their training data. Therefore, it's important to be aware of and mitigate these potential biases.
+
+- **Hallucination:** LLMs can confidently invent answers, especially on esoteric topics. Using techniques like Retrieval-Augmented Generation (RAG) can help reduce these hallucinations by providing external knowledge to the LLM.
+
+- **Size and Capabilities:** Language models come in varying sizes and capabilities; some are built with massive amounts of data to function as large language models, while others are smaller and more focused on specific tasks. It is crucial to pair the right model with the right task to get the best results.
+
+# Deliverables
+
+- How would you explain the difference between an LLM and a traditional rule-based system to a non-technical colleague?

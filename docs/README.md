@@ -1,321 +1,40 @@
 ---
-docs/1-introduction/1.1-devops-defined.md:
+docs/1-ways-of-working/1.1-devops.md:
   category: Fundamentals
   estReadingMinutes: 30
-docs/1-introduction/1.2-liatrio-and-devops.md:
-  category: Fundamentals
-  estReadingMinutes: 5
-docs/1-introduction/1.2.1-dojo.md:
-  category: Fundamentals
-  estReadingMinutes: 5
-docs/1-introduction/1.3.1-unix.md:
-  category: Fundamentals
-  estReadingMinutes: 30
-docs/1-introduction/1.3.2-vim.md:
+docs/1-ways-of-working/1.2-liatrio-ways-of-working.md:
   category: Fundamentals
   estReadingMinutes: 15
+docs/1-ways-of-working/1.3-agile.md:
+  category: Agile Development
+  estReadingMinutes: 60
+docs/1-ways-of-working/1.3.4-scoping-and-refinement.md:
+  category: Agile Development
+  estReadingMinutes: 12
   exercises:
-    - name: hello vim
-      description: create a file in Vim
-      estMinutes: 5
+    - name: Scope and refine a feature request
+      description: >-
+        Take a vague feature request, scope it into an epic with clear outcomes
+        and boundaries, then refine it into a set of ready stories with
+        acceptance criteria.
+      estMinutes: 90
+docs/1-ways-of-working/1.3.6-work-tracking.md:
+  category: Agile Development
+  estReadingMinutes: 30
+docs/1-ways-of-working/1.4-pairprogramming.md:
+  category: Agile Development
+  estReadingMinutes: 10
+  exercises:
+    - name: Pair Programming
+      description: >-
+        Using 'Live Share' or some equivalent try pair programming a 'Hello
+        World' app in the language of your choice
+      estMinutes: 30
       technologies:
-        - Vim
-docs/1-introduction/1.3.3-installations.md:
-  category: Fundamentals
-  estReadingMinutes: 10
-docs/1-introduction/1.3.4-passwords-and-keys.md:
-  category: Fundamentals
-  estReadingMinutes: 10
-  exercises:
-    - name: hello ssh
-      description: create ssh keypair and ssh to a host
-      estMinutes: 15
-      technologies:
-        - ssh
-docs/1-introduction/1.3.5-networking.md:
-  category: Fundamentals
-  estReadingMinutes: 10
-  exercises:
-    - name: hello network
-      description: explore the network of your local computer
-      estMinutes: 15
-docs/1-introduction/1.4-external-resources.md:
+        - VSCode
+docs/1-ways-of-working/1.5-external-resources.md:
   category: Fundamentals
   estReadingMinutes: 50
-docs/10-platform-engineering/10.0-overview.md:
-  category: Platform Engineering
-  estReadingMinutes: 15
-docs/10-platform-engineering/10.1-backstage.md:
-  category: Platform Engineering
-  estReadingMinutes: 20
-  exercises:
-    - name: Create a GitHub Organization
-      description: >
-        This exercise involves creating a GitHub Organization to simulate an
-        integrated SCM environment, similar to what you would find in a
-        real-world development ecosystem. Each student will create their own
-        GitHub Organization following the provided instructions.
-      estMinutes: 30
-      technologies:
-        - GitHub
-    - name: Stand up local instance of Backstage
-      description: >
-        Students will set up a local instance of Backstage by following the
-        official Getting Started guide. This exercise covers starting the local
-        instance, familiarizing with the UI, and customizing the appearance of
-        the Backstage instance including logo and application name changes.
-        Extra credit is given for applying a custom theme. The customized
-        instance should then be pushed to a repo in the newly created GitHub
-        Organization.
-      estMinutes: 60
-      technologies:
-        - Backstage
-        - Docker
-    - name: Configure Authentication via GitHub
-      description: >
-        This exercise focuses on configuring authentication for the Backstage
-        instance using GitHub. Students will create an OAuth app within their
-        GitHub Organization and integrate it with Backstage for authentication
-        purposes. This includes not storing secrets in plain text and ensuring
-        secure authentication practices. Verification of login functionality
-        through GitHub is the final step to confirm successful integration.
-      estMinutes: 120
-      technologies:
-        - Backstage
-        - GitHub
-docs/10-platform-engineering/10.1.1-software-catalog.md:
-  category: Platform Engineering
-  estReadingMinutes: 20
-  exercises:
-    - name: Entity Registration
-      description: >
-        This exercise instructs students to register an entity to their local
-        Backstage instance.  The entity should correspond to a repo belonging to
-        a GitHub organization that the student owns.  This exercise will require
-        students to configure their Backstage instance to have the permissions
-        needed to access their GitHub organization and will help pave the way
-        for the following exercise.
-      estMinutes: 20
-      technologies:
-        - Backstage
-        - GitHub
-    - name: Catalog Ingestion
-      description: >
-        Students will configure their Backstage instance to automatically
-        perform read operations on a given GitHub organization and ingest
-        `catalog-info.yaml` files existing in that organization in order to
-        automatically register entities.  They will need to configure GitHub as
-        a catalog and ensure that their Backstage instance combs their
-        organization for the correct file(s) at an appropriate interval.
-      estMinutes: 80
-      technologies:
-        - Backstage
-        - GitHub
-    - name: Dependency Graphs
-      description: >
-        Students will fork two interdependent repos to their organization and
-        ensure that their Backstage instance recognizes the two repos while also
-        displaying the repos' interdependence via the "Relations" section of
-        their overviews in the UI.  This requires a thorough understanding of
-        the available fields in `catalog-info.yaml` files along with a Backstage
-        app's configuration file.
-      estMinutes: 120
-      technologies:
-        - Backstage
-        - GitHub
-    - name: OpenAPI Definitions
-      description: >
-        Here, students are required to provide an OpenAPI specification which
-        their Backstage instance can ingest and associate with a definition for
-        an API having source code in a repo owned by the student's
-        organization.  Students may use a repo that already has an OpenAPI spec
-        file or they may generate the necessary spec data from an API.
-      estMinutes: 30
-      technologies:
-        - Backstage
-        - GitHub
-docs/10-platform-engineering/10.1.2-techdocs.md:
-  category: Platform Engineering
-  estReadingMinutes: 10
-  exercises:
-    - name: Enable Documentation for an Existing Entity
-      description: >
-        This exercise instructs students to add the bare minimum amount of files
-        needed for their Backstage instance to generate an MkDocs site and
-        associate it with an entity in their Software Catalog.  Extra credit is
-        offered for studying Backstage's ability to search within TechDocs
-        stored in the Catalog -- the basic setup we point students towards in
-        this exercise can lead to a search-related bug which is valuable for
-        understanding the different ways Backstage can be configured to manage
-        TechDocs.
-      estMinutes: 40
-      technologies:
-        - GitHub
-        - Backstage
-docs/10-platform-engineering/10.1.3-software-templates.md:
-  category: Platform Engineering
-  estReadingMinutes: 20
-  exercises:
-    - name: Create a Simple Template
-      description: >
-        This exercise involves writing a custom Software Template and
-        configuring Backstage to register it as an entity that can be used from
-        the UI, and then using the template to publish a new repo in a GitHub
-        organization.  This can be achieved by following two separate guides in
-        Spotify's official Backstage docs: one for writing the Software
-        Template, and the other for providing Backstage with the necessary
-        permissions to publish new GitHub repos using the Template.  Some extra
-        time is allotted for misc. debugging, since it seems that Backstage is
-        in a transitory period and there's no telling whether their guides will
-        remain accurate.
-      estMinutes: 45
-      technologies:
-        - Backstage
-        - GitHub
-    - name: Write a Custom Action
-      description: >
-        Students are to become acquainted with the Scaffold plugin and extend
-        this plugin by writing a custom action which can be used in the custom
-        template they wrote in the previous exercise.  Some special instructions
-        are provided because the only available official guides are outdated.
-      estMinutes: 60
-      technologies:
-        - Backstage
-        - GitHub
-docs/10-platform-engineering/10.1.4-plugins.md:
-  category: Platform Engineering
-  estReadingMinutes: 10
-  exercises:
-    - name: Explore the Plugin Directory
-      description: >
-        Students receive an introduction to Backstage's plugin directory by
-        adding a plugin from the directory to their Backstage instance.  They
-        are encouraged to look through the plugin's source code and gain a basic
-        understanding of how it works.
-      estMinutes: 30
-      technologies:
-        - Backstage
-        - GitHub
-    - name: Write a Custom Plugin
-      description: >
-        Students will create their own Backstage plugin that exists outside of
-        Backstage's repo so it can be easily imported into any Backstage
-        instance.
-      estMinutes: 3000
-      technologies:
-        - Backstage
-        - TypeScript
-        - GitHub
-docs/10-platform-engineering/10.2-platforms.md:
-  category: Platform Engineering
-  estReadingMinutes: 15
-  exercises:
-    - name: Create a TVP (Thinnest Viable Platform)
-      description: >
-        Students will use Terraform, Terragrunt and a library/deploy repo
-        structure to create a core EKS platform with ArgoCD and External Secrets
-        Operators
-      estMinutes: 3000
-      technologies:
-        - AWS
-        - Terraform
-        - Terragrunt
-        - Kubernetes
-        - ArgoCD
-        - ExternalSecrets
-docs/11-application-development/11.0-overview.md:
-  category: Software Development
-  estReadingMinutes: 10
-docs/11-application-development/11.1-layers.md:
-  category: Software Development
-  estReadingMinutes: 30
-  exercises:
-    - name: Compare tightly coupled vs layered architecture
-      description: >-
-        Run both example applications, examine their structure, and understand
-        the architectural differences.
-      estMinutes: 60
-      technologies:
-        - Python
-        - Flask
-    - name: Refactor storage backend from in-memory to SQLite
-      description: >-
-        Switch the data storage in both examples from in-memory to SQLite,
-        comparing the effort required in tightly coupled vs layered
-        implementations.
-      estMinutes: 90
-      technologies:
-        - Python
-        - Flask
-        - SQLite
-docs/11-application-development/11.2.1-solid-principles.md:
-  category: Software Development
-  estReadingMinutes: 120
-  exercises:
-    - name: Refactor a class to follow SRP
-      description: >-
-        Take a provided monolithic class and refactor it into multiple classes,
-        each with a single responsibility.
-      estMinutes: 60
-      technologies:
-        - Python
-    - name: Apply Open/Closed Principle to payment processing
-      description: >-
-        Extend a payment system to support new payment methods without modifying
-        existing code.
-      estMinutes: 60
-      technologies:
-        - Python
-    - name: Implement Dependency Injection
-      description: >-
-        Refactor tightly coupled code to use dependency injection, making it
-        testable and flexible.
-      estMinutes: 45
-      technologies:
-        - Python
-docs/11-application-development/11.2.2-data-layer-patterns.md:
-  category: Software Development
-  estReadingMinutes: 45
-  exercises:
-    - name: Extend the Repository with FindByEmail
-      description: >-
-        Add a FindByEmail method to the UserRepository interface and implement
-        it in both SQLite and in-memory repositories with tests.
-      estMinutes: 15
-      technologies:
-        - Go
-        - SQLite
-        - Design Patterns
-    - name: Add Timestamp Tracking to Active Record
-      description: >-
-        Extend the Active Record User model to automatically track CreatedAt and
-        UpdatedAt timestamps, updating schema, insert/update methods, and tests.
-      estMinutes: 15
-      technologies:
-        - Go
-        - SQLite
-        - Design Patterns
-    - name: Refactor Direct Data Access to Repository Pattern
-      description: >-
-        Convert a tightly coupled application with direct database access
-        scattered throughout the codebase to use the Repository Pattern with
-        proper abstraction.
-      estMinutes: 90
-      technologies:
-        - Go
-        - SQLite
-        - Design Patterns
-    - name: AI-Assisted Refactoring with Spec-Driven Development
-      description: >-
-        Use an AI agent with Spec-Driven Development to refactor the starter
-        code using precise pattern vocabulary, then compare AI and manual
-        approaches.
-      estMinutes: 60
-      technologies:
-        - Go
-        - SQLite
-        - Design Patterns
-        - AI Collaboration
 docs/2-version-control/2.0-overview.md:
   category: Version Control
   estReadingMinutes: 5
@@ -423,72 +142,393 @@ docs/2-version-control/2.2.5-security.md:
       estMinutes: 20
       technologies:
         - GitHub Security
-docs/3-AI-Engineering/3.0-overview.md:
-  category: AI Engineering
+docs/2-version-control/2.3-versioning.md:
+  category: Version Control
   estReadingMinutes: 5
-docs/3-AI-Engineering/3.1-ai-concepts.md:
-  category: AI Engineering
-  estReadingMinutes: 15
-docs/3-AI-Engineering/3.1.1-llms.md:
-  category: AI Engineering
-  estReadingMinutes: 12
-docs/3-AI-Engineering/3.1.2-ai-agents.md:
-  category: AI Engineering
-  estReadingMinutes: 10
-docs/3-AI-Engineering/3.1.3-ai-tools.md:
-  category: AI Engineering
-  estReadingMinutes: 18
   exercises:
-    - name: Exploring Model Capabilities
+    - name: Docker Image Versioning
       description: >-
-        Get familiar comparing different AI models based on their capabilities
-        and characteristics
+        Build a few docker images and play with tagging them with semantic
+        versioning.
       estMinutes: 30
       technologies:
-        - AI Tools
-docs/3-AI-Engineering/3.1.4-ai-best-practices.md:
-  category: AI Engineering
+        - Docker
+docs/3-application-development/3.0-overview.md:
+  category: Software Development
+  estReadingMinutes: 10
+docs/3-application-development/3.1.1-unix.md:
+  category: Fundamentals
   estReadingMinutes: 30
-docs/3-AI-Engineering/3.2-mcp.md:
-  category: AI Engineering
-  estReadingMinutes: 12
+docs/3-application-development/3.1.2-vim.md:
+  category: Fundamentals
+  estReadingMinutes: 15
   exercises:
-    - name: Create an MCP Server
-      description: Build a simple MCP server that connects to a local MCP client
-      estMinutes: 45
+    - name: hello vim
+      description: create a file in Vim
+      estMinutes: 5
       technologies:
-        - MCP
-        - Python
-docs/3-AI-Engineering/3.3-best-practices.md:
-  category: AI Engineering
-  estReadingMinutes: 5
-docs/3-AI-Engineering/3.3.1-agentic-best-practices.md:
-  category: AI Engineering
-  estReadingMinutes: 40
-docs/3-AI-Engineering/3.3.2-agentic-ide.md:
-  category: AI Engineering
+        - Vim
+docs/3-application-development/3.1.3-installations.md:
+  category: Fundamentals
+  estReadingMinutes: 10
+docs/3-application-development/3.1.4-passwords-and-keys.md:
+  category: Fundamentals
+  estReadingMinutes: 10
+  exercises:
+    - name: hello ssh
+      description: create ssh keypair and ssh to a host
+      estMinutes: 15
+      technologies:
+        - ssh
+docs/3-application-development/3.1.5-networking.md:
+  category: Fundamentals
+  estReadingMinutes: 10
+  exercises:
+    - name: hello network
+      description: explore the network of your local computer
+      estMinutes: 15
+docs/3-application-development/3.2-code-quality.md:
+  category: Software Quality
+  estReadingMinutes: 10
+docs/3-application-development/3.2.1-testing-concepts.md:
+  category: Software Quality
   estReadingMinutes: 20
   exercises:
-    - name: VSCode MCP Server
+    - name: Classify a test suite
       description: >-
-        Build an MCP server from scratch using VSCode in Agent mode and register
-        it with an MCP client
-      estMinutes: 240
+        Classify the tests in two example projects by type, and decide where
+        each would sit on the testing pyramid and the testing trophy.
+      estMinutes: 30
       technologies:
-        - VSCode
-        - MCP
+        - Go
         - Python
-        - LLM
-    - name: Windsurf MCP Server
-      description: >-
-        Build an MCP server using Windsurf IDE, applying best practices learned
-        from the VSCode exercise
+docs/3-application-development/3.2.10-test-automation.md:
+  category: Software Quality
+  estReadingMinutes: 5
+  exercises:
+    - name: Create a GitHub Action to test a Go project
+      description: Create a GitHub Action that will run Unit Tests when a change is pushed
       estMinutes: 180
       technologies:
-        - Windsurf
-        - MCP
+        - GitHub Actions
+        - Go
+docs/3-application-development/3.2.11-sonarqube.md:
+  category: Software Quality
+  estReadingMinutes: 10
+  exercises:
+    - name: Setup SonarQube and GitHub Integration
+      description: >-
+        Create a SonarQube server and add GitHub action to run SonarQube in our
+        build pipeline.
+      estMinutes: 180
+      technologies:
+        - SonarQube
+        - GitHub Actions
+docs/3-application-development/3.2.12-code-review.md:
+  category: Software Quality
+  estReadingMinutes: 10
+docs/3-application-development/3.2.13-pre-commit.md:
+  category: Software Quality
+  estReadingMinutes: 12
+  exercises:
+    - name: Create a basic Git pre-commit hook
+      description: Implement a simple shell pre-commit hook that runs a fast check.
+      estMinutes: 20
+      technologies:
+        - Git
+        - Bash
+    - name: Configure pre-commit to run local tasks
+      description: >-
+        Add a .pre-commit-config.yaml that delegates to Taskfile targets for
+        formatting and linting.
+      estMinutes: 60
+      technologies:
+        - pre-commit
+        - Taskfile.dev
+    - name: Align local hooks with CI
+      description: >-
+        Reuse the same Taskfile targets from pre-commit in a GitHub Actions
+        workflow.
+      estMinutes: 30
+      technologies:
+        - GitHub Actions
+        - Taskfile.dev
+        - pre-commit
+docs/3-application-development/3.2.2-unit-testing.md:
+  category: Software Quality
+  estReadingMinutes: 20
+  exercises:
+    - name: Solve a problem in Go with TDD
+      description: Solve a given problem in Go using test-driven development (TDD).
+      estMinutes: 120
+      technologies:
+        - Go
+        - TDD
+docs/3-application-development/3.2.3-test-doubles.md:
+  category: Software Quality
+  estReadingMinutes: 10
+  exercises:
+    - name: Practice Test Doubles
+      description: >
+        Leverage mocking to test the user and repo checking functions. The code
+        now exposes only two user and two repo check functions. Your tests
+        should mock all API calls, cover both positive and negative scenarios,
+        and use Jest's best practices for mocking and restoring. No real API
+        calls should be made; focus on verifying the logic of the exported
+        functions only.
+      estMinutes: 60
+      technologies:
+        - Node.js
+        - Jest
+    - name: Spying on Functions
+      description: >
+        Use Jest spies to verify that when a repo name is invalid or not found,
+        console.error is called and console.log is not. Write a test for the
+        error case of getRepoInfo() using mocks and spies to check the correct
+        error handling behavior.
+      estMinutes: 30
+      technologies:
+        - Node.js
+        - Jest
+docs/3-application-development/3.2.4-component-testing.md:
+  category: Software Quality
+  estReadingMinutes: 10
+  exercises:
+    - name: Component test a Flask API
+      description: >-
+        Write component tests for a layered Flask application through its HTTP
+        interface, and isolate the tests from shared state.
+      estMinutes: 60
+      technologies:
         - Python
-        - LLM
+        - Flask
+        - pytest
+docs/3-application-development/3.2.5-integration-testing.md:
+  category: Software Quality
+  estReadingMinutes: 10
+  exercises:
+    - name: Integration test a repository
+      description: >-
+        Run one shared test suite against an in-memory fake and a real SQLite
+        database, find where the fake diverges, and optionally extend the suite
+        to PostgreSQL with Testcontainers.
+      estMinutes: 90
+      technologies:
+        - Go
+        - SQLite
+        - PostgreSQL
+        - Testcontainers
+        - Docker
+docs/3-application-development/3.2.6-contract-testing.md:
+  category: Software Quality
+  estReadingMinutes: 10
+  exercises:
+    - name: Consumer-driven contract testing with Pact
+      description: >-
+        Work through the Pact JS workshop to write consumer contract tests,
+        verify them against a provider, and share contracts through a Pact
+        Broker.
+      estMinutes: 180
+      technologies:
+        - Pact
+        - Node.js
+        - Jest
+        - Docker
+docs/3-application-development/3.2.7-end-to-end-testing.md:
+  category: Software Quality
+  estReadingMinutes: 20
+  exercises:
+    - name: Create end-to-end tests with Selenium in Python
+      description: Create end-to-end tests for the bootcamp using Selenium in Python.
+      estMinutes: 120
+      technologies:
+        - Selenium
+        - Python
+    - name: Create end-to-end tests with Playwright in Python
+      description: Create end-to-end tests for the bootcamp using Playwright in Python.
+      estMinutes: 60
+      technologies:
+        - Playwright
+        - Python
+docs/3-application-development/3.2.8-code-coverage.md:
+  category: Software Quality
+  estReadingMinutes: 20
+  exercises:
+    - name: Achieve 100% code coverage
+      description: >-
+        Install node dependencies for code coverage (jest) and get 100% code
+        coverage for a given module and tests.
+      estMinutes: 60
+      technologies:
+        - Node.js
+        - Jest
+docs/3-application-development/3.2.9-code-styling.md:
+  category: Software Quality
+  estReadingMinutes: 30
+docs/3-application-development/3.3-observability.md:
+  category: Observability
+  estReadingMinutes: 15
+  exercises:
+    - name: Instrument a Flask API with OpenTelemetry
+      description: >-
+        Run a local Grafana observability stack, instrument the layered Flask
+        application with zero-code OpenTelemetry, and explore its traces,
+        metrics, and logs.
+      estMinutes: 45
+      technologies:
+        - OpenTelemetry
+        - Grafana
+        - Docker
+        - Python
+        - Flask
+docs/3-application-development/3.3.1-logging.md:
+  category: Observability
+  estReadingMinutes: 10
+  exercises:
+    - name: Add structured logs to a Flask API
+      description: >-
+        Add structured, leveled application logs to the layered Flask
+        application and correlate them with traces in Grafana.
+      estMinutes: 30
+      technologies:
+        - OpenTelemetry
+        - Grafana
+        - Loki
+        - Python
+docs/3-application-development/3.3.2-metrics.md:
+  category: Observability
+  estReadingMinutes: 10
+  exercises:
+    - name: Add custom metrics and a RED dashboard
+      description: >-
+        Add custom OpenTelemetry metrics to the layered Flask application, query
+        them with PromQL, and build a Grafana dashboard for rate, errors, and
+        duration.
+      estMinutes: 45
+      technologies:
+        - OpenTelemetry
+        - Grafana
+        - Prometheus
+        - Python
+docs/3-application-development/3.3.3-tracing.md:
+  category: Observability
+  estReadingMinutes: 10
+  exercises:
+    - name: Add manual spans to a Flask API
+      description: >-
+        Add manual OpenTelemetry spans and attributes to the service and data
+        layers of the layered Flask application, and use trace waterfalls in
+        Grafana Tempo to find errors and slow operations.
+      estMinutes: 30
+      technologies:
+        - OpenTelemetry
+        - Grafana
+        - Tempo
+        - Python
+docs/3-application-development/3.3.4-opentelemetry.md:
+  category: Observability
+  estReadingMinutes: 15
+  exercises:
+    - name: Configure OpenTelemetry resources and sampling
+      description: >-
+        Configure resource attributes and trace sampling for the layered Flask
+        application with OpenTelemetry environment variables, and compare what
+        sampling does to traces and metrics.
+      estMinutes: 30
+      technologies:
+        - OpenTelemetry
+        - Grafana
+        - Python
+docs/3-application-development/3.4-layers.md:
+  category: Software Development
+  estReadingMinutes: 30
+  exercises:
+    - name: Compare tightly coupled vs layered architecture
+      description: >-
+        Run both example applications, examine their structure, and understand
+        the architectural differences.
+      estMinutes: 60
+      technologies:
+        - Python
+        - Flask
+    - name: Refactor storage backend from in-memory to SQLite
+      description: >-
+        Switch the data storage in both examples from in-memory to SQLite,
+        comparing the effort required in tightly coupled vs layered
+        implementations.
+      estMinutes: 90
+      technologies:
+        - Python
+        - Flask
+        - SQLite
+docs/3-application-development/3.5.1-solid-principles.md:
+  category: Software Development
+  estReadingMinutes: 120
+  exercises:
+    - name: Refactor a class to follow SRP
+      description: >-
+        Take a provided monolithic class and refactor it into multiple classes,
+        each with a single responsibility.
+      estMinutes: 60
+      technologies:
+        - Python
+    - name: Apply Open/Closed Principle to payment processing
+      description: >-
+        Extend a payment system to support new payment methods without modifying
+        existing code.
+      estMinutes: 60
+      technologies:
+        - Python
+    - name: Implement Dependency Injection
+      description: >-
+        Refactor tightly coupled code to use dependency injection, making it
+        testable and flexible.
+      estMinutes: 45
+      technologies:
+        - Python
+docs/3-application-development/3.5.2-data-layer-patterns.md:
+  category: Software Development
+  estReadingMinutes: 45
+  exercises:
+    - name: Extend the Repository with FindByEmail
+      description: >-
+        Add a FindByEmail method to the UserRepository interface and implement
+        it in both SQLite and in-memory repositories with tests.
+      estMinutes: 15
+      technologies:
+        - Go
+        - SQLite
+        - Design Patterns
+    - name: Add Timestamp Tracking to Active Record
+      description: >-
+        Extend the Active Record User model to automatically track CreatedAt and
+        UpdatedAt timestamps, updating schema, insert/update methods, and tests.
+      estMinutes: 15
+      technologies:
+        - Go
+        - SQLite
+        - Design Patterns
+    - name: Refactor Direct Data Access to Repository Pattern
+      description: >-
+        Convert a tightly coupled application with direct database access
+        scattered throughout the codebase to use the Repository Pattern with
+        proper abstraction.
+      estMinutes: 90
+      technologies:
+        - Go
+        - SQLite
+        - Design Patterns
+    - name: AI-Assisted Refactoring with Spec-Driven Development
+      description: >-
+        Use an AI agent with Spec-Driven Development to refactor the starter
+        code using precise pattern vocabulary, then compare AI and manual
+        approaches.
+      estMinutes: 60
+      technologies:
+        - Go
+        - SQLite
+        - Design Patterns
+        - AI Collaboration
 docs/4-virtual-machines-containers/4.0-overview.md:
   category: Virtualization
   estReadingMinutes: 5
@@ -882,143 +922,7 @@ docs/5-cloud-computing/5.3.7-app-service.md:
         - Azure
         - Azure App Service
         - Azure CLI
-docs/6-software-development-practices/6.1-overview.md:
-  category: Agile Development
-  estReadingMinutes: 90
-docs/6-software-development-practices/6.2-jira.md:
-  category: Agile Development
-  estReadingMinutes: 30
-docs/6-software-development-practices/6.3-pairprogramming.md:
-  category: Agile Development
-  estReadingMinutes: 20
-  exercises:
-    - name: Pair Programming
-      description: >-
-        Using 'Live Share' or some equivillant try pair programming a 'Hello
-        World' app in the language of your choice
-      estMinutes: 30
-      technologies:
-        - VSCode
-docs/6-software-development-practices/6.4.1-unit-testing.md:
-  category: Software Quality
-  estReadingMinutes: 20
-  exercises:
-    - name: Solve a problem in Go with TDD
-      description: Solve a given problem in Go using test-driven development (TDD).
-      estMinutes: 120
-      technologies:
-        - Go
-        - TDD
-docs/6-software-development-practices/6.4.2-functional-testing.md:
-  category: Software Quality
-  estReadingMinutes: 20
-  exercises:
-    - name: Create functional tests with Selenium in Python
-      description: Create functional tests for the bootcamp using Selenium in Python.
-      estMinutes: 120
-      technologies:
-        - Selenium
-        - Python
-    - name: Create functional tests with Playwright in Python
-      description: Create functional tests for the bootcamp using Playwright in Python.
-      estMinutes: 60
-      technologies:
-        - Playwright
-        - Python
-docs/6-software-development-practices/6.4.3-code-styling.md:
-  category: Software Quality
-  estReadingMinutes: 30
-docs/6-software-development-practices/6.4.4-code-coverage.md:
-  category: Software Quality
-  estReadingMinutes: 20
-  exercises:
-    - name: Achieve 100% code coverage
-      description: >-
-        Install node dependencies for code coverage (jest) and get 100% code
-        coverage for a given module and tests.
-      estMinutes: 60
-      technologies:
-        - Node.js
-        - Jest
-docs/6-software-development-practices/6.4.5-test-doubles.md:
-  category: Software Quality
-  estReadingMinutes: 10
-  exercises:
-    - name: Practice Test Doubles
-      description: >
-        Leverage mocking to test the user and repo checking functions. The code
-        now exposes only two user and two repo check functions. Your tests
-        should mock all API calls, cover both positive and negative scenarios,
-        and use Jest's best practices for mocking and restoring. No real API
-        calls should be made; focus on verifying the logic of the exported
-        functions only.
-      estMinutes: 60
-      technologies:
-        - Node.js
-        - Jest
-    - name: Spying on Functions
-      description: >
-        Use Jest spies to verify that when a repo name is invalid or not found,
-        console.error is called and console.log is not. Write a test for the
-        error case of getRepoInfo() using mocks and spies to check the correct
-        error handling behavior.
-      estMinutes: 30
-      technologies:
-        - Node.js
-        - Jest
-docs/6-software-development-practices/6.4.6-test-automation.md:
-  category: Software Quality
-  estReadingMinutes: 5
-  exercises:
-    - name: Create a GitHub Action to test a Go project
-      description: Create a GitHub Action that will run Unit Tests when a change is pushed
-      estMinutes: 180
-      technologies:
-        - GitHub Actions
-        - Go
-docs/6-software-development-practices/6.4.7-sonarqube.md:
-  category: Software Quality
-  estReadingMinutes: 10
-  exercises:
-    - name: Setup SonarQube and GitHub Integration
-      description: >-
-        Create a SonarQube server and add GitHub action to run SonarQube in our
-        build pipeline.
-      estMinutes: 180
-      technologies:
-        - SonarQube
-        - GitHub Actions
-docs/6-software-development-practices/6.4.8-code-review.md:
-  category: Software Quality
-  estReadingMinutes: 10
-docs/6-software-development-practices/6.4.9-pre-commit.md:
-  category: Software Quality
-  estReadingMinutes: 12
-  exercises:
-    - name: Create a basic Git pre-commit hook
-      description: Implement a simple shell pre-commit hook that runs a fast check.
-      estMinutes: 20
-      technologies:
-        - Git
-        - Bash
-    - name: Configure pre-commit to run local tasks
-      description: >-
-        Add a .pre-commit-config.yaml that delegates to Taskfile targets for
-        formatting and linting.
-      estMinutes: 60
-      technologies:
-        - pre-commit
-        - Taskfile.dev
-    - name: Align local hooks with CI
-      description: >-
-        Reuse the same Taskfile targets from pre-commit in a GitHub Actions
-        workflow.
-      estMinutes: 30
-      technologies:
-        - GitHub Actions
-        - Taskfile.dev
-        - pre-commit
-docs/6-software-development-practices/6.5-hello-devops.md:
+docs/5-cloud-computing/5.4-hello-devops.md:
   category: Agile Development
   estReadingMinutes: 5
   exercises:
@@ -1027,18 +931,7 @@ docs/6-software-development-practices/6.5-hello-devops.md:
         Using what you have leanred thus far create a production ready
         application
       estMinutes: 3000
-docs/7-release-management/7.1-versioning.md:
-  category: Version Control
-  estReadingMinutes: 5
-  exercises:
-    - name: Docker Image Versioning
-      description: >-
-        Build a few docker images and play with tagging them with semantic
-        versioning.
-      estMinutes: 30
-      technologies:
-        - Docker
-docs/7-release-management/7.2.1-maven.md:
+docs/6-release-management/6.1.1-maven.md:
   category: CI/CD
   estReadingMinutes: 20
   exercises:
@@ -1049,7 +942,7 @@ docs/7-release-management/7.2.1-maven.md:
       estMinutes: 60
       technologies:
         - Maven
-docs/7-release-management/7.2.2-maven-integration.md:
+docs/6-release-management/6.1.2-maven-integration.md:
   category: CI/CD
   estReadingMinutes: 30
   exercises:
@@ -1065,7 +958,7 @@ docs/7-release-management/7.2.2-maven-integration.md:
         - Maven
         - GitHub Actions
         - Nexus OSS
-docs/7-release-management/7.2.3-make.md:
+docs/6-release-management/6.1.3-make.md:
   category: CI/CD
   estReadingMinutes: 20
   exercises:
@@ -1078,7 +971,7 @@ docs/7-release-management/7.2.3-make.md:
       estMinutes: 60
       technologies:
         - Make
-docs/7-release-management/7.2.4-npm.md:
+docs/6-release-management/6.1.4-npm.md:
   category: CI/CD
   estReadingMinutes: 15
   exercises:
@@ -1091,7 +984,7 @@ docs/7-release-management/7.2.4-npm.md:
         - npm
         - Node.js
         - Java
-docs/7-release-management/7.2.5-go-releaser.md:
+docs/6-release-management/6.1.5-go-releaser.md:
   category: CI/CD
   estReadingMinutes: 5
   exercises:
@@ -1105,7 +998,7 @@ docs/7-release-management/7.2.5-go-releaser.md:
         - Go Releaser
         - GitHub
         - GitHub Actions
-docs/7-release-management/7.3.1-docker.md:
+docs/6-release-management/6.2.1-docker.md:
   category: Container Orchestration
   estReadingMinutes: 10
   exercises:
@@ -1120,7 +1013,7 @@ docs/7-release-management/7.3.1-docker.md:
         - Dockerhub
         - GitHub
         - GitHub Actions
-docs/7-release-management/7.3.2-helm.md:
+docs/6-release-management/6.2.2-helm.md:
   category: Container Orchestration
   estReadingMinutes: 15
   exercises:
@@ -1159,7 +1052,7 @@ docs/7-release-management/7.3.2-helm.md:
         - Kubernetes
         - Docker
         - GitHub
-docs/8-infrastructure-configuration-management/8.1.1-terraform-getting-started.md:
+docs/7-infrastructure-configuration-management/7.1.1-terraform-getting-started.md:
   category: Infrastructure as Code
   estReadingMinutes: 45
   exercises:
@@ -1172,7 +1065,7 @@ docs/8-infrastructure-configuration-management/8.1.1-terraform-getting-started.m
         - Terraform
         - AWS
         - Azure
-docs/8-infrastructure-configuration-management/8.1.2-terraform-backends.md:
+docs/7-infrastructure-configuration-management/7.1.2-terraform-backends.md:
   category: Infrastructure as Code
   estReadingMinutes: 20
   exercises:
@@ -1202,7 +1095,7 @@ docs/8-infrastructure-configuration-management/8.1.2-terraform-backends.md:
       technologies:
         - Terraform
         - GitHub Actions
-docs/8-infrastructure-configuration-management/8.1.3-terraform-modules.md:
+docs/7-infrastructure-configuration-management/7.1.3-terraform-modules.md:
   category: Infrastructure as Code
   estReadingMinutes: 15
   exercises:
@@ -1221,7 +1114,7 @@ docs/8-infrastructure-configuration-management/8.1.3-terraform-modules.md:
       technologies:
         - Terraform
         - AWS S3
-docs/8-infrastructure-configuration-management/8.2-ansible.md:
+docs/7-infrastructure-configuration-management/7.2-ansible.md:
   category: Infrastructure as Code
   estReadingMinutes: 15
   exercises:
@@ -1262,7 +1155,7 @@ docs/8-infrastructure-configuration-management/8.2-ansible.md:
         - Ansible
         - AWS EC2
         - GitHub self-hosted runner
-docs/8-infrastructure-configuration-management/8.3-terraform-providers.md:
+docs/7-infrastructure-configuration-management/7.3-terraform-providers.md:
   category: Infrastructure as Code
   estReadingMinutes: 20
   exercises:
@@ -1306,10 +1199,10 @@ docs/8-infrastructure-configuration-management/8.3-terraform-providers.md:
       technologies:
         - Terraform
         - Go
-docs/9-kubernetes-container-orchestration/9.1-kubectl-ref.md:
+docs/8-kubernetes-container-orchestration/8.1-kubectl-ref.md:
   category: Container Orchestration
   estReadingMinutes: 120
-docs/9-kubernetes-container-orchestration/9.2-volumes.md:
+docs/8-kubernetes-container-orchestration/8.2-volumes.md:
   category: Container Orchestration
   estReadingMinutes: 10
   exercises:
@@ -1330,7 +1223,7 @@ docs/9-kubernetes-container-orchestration/9.2-volumes.md:
       technologies:
         - Kubernetes
         - Jenkins
-docs/9-kubernetes-container-orchestration/9.2.1-stateful-sets.md:
+docs/8-kubernetes-container-orchestration/8.2.1-stateful-sets.md:
   category: Container Orchestration
   estReadingMinutes: 10
   exercises:
@@ -1342,7 +1235,7 @@ docs/9-kubernetes-container-orchestration/9.2.1-stateful-sets.md:
       technologies:
         - Kubernetes
         - StatefulSets
-docs/9-kubernetes-container-orchestration/9.3-probes.md:
+docs/8-kubernetes-container-orchestration/8.3-probes.md:
   category: Container Orchestration
   estReadingMinutes: 10
   exercises:
@@ -1371,7 +1264,7 @@ docs/9-kubernetes-container-orchestration/9.3-probes.md:
       estMinutes: 45
       technologies:
         - Kubernetes
-docs/9-kubernetes-container-orchestration/9.4-rbac.md:
+docs/8-kubernetes-container-orchestration/8.4-rbac.md:
   category: Container Orchestration
   estReadingMinutes: 15
   exercises:
@@ -1393,7 +1286,7 @@ docs/9-kubernetes-container-orchestration/9.4-rbac.md:
       technologies:
         - Docker
         - Kubernetes
-docs/9-kubernetes-container-orchestration/9.5-hpas.md:
+docs/8-kubernetes-container-orchestration/8.5-hpas.md:
   category: Container Orchestration
   estReadingMinutes: 15
   exercises:
@@ -1427,7 +1320,7 @@ docs/9-kubernetes-container-orchestration/9.5-hpas.md:
       technologies:
         - Docker
         - Kubernetes
-docs/9-kubernetes-container-orchestration/9.6-keda.md:
+docs/8-kubernetes-container-orchestration/8.6-keda.md:
   category: Container Orchestration
   estReadingMinutes: 20
   exercises:
@@ -1483,7 +1376,7 @@ docs/9-kubernetes-container-orchestration/9.6-keda.md:
         - KEDA
         - Redis
         - k6
-docs/9-kubernetes-container-orchestration/9.7-webhooks.md:
+docs/8-kubernetes-container-orchestration/8.7-webhooks.md:
   category: Container Orchestration
   estReadingMinutes: 15
   exercises:
@@ -1513,7 +1406,7 @@ docs/9-kubernetes-container-orchestration/9.7-webhooks.md:
       technologies:
         - Kubernetes
         - Python
-docs/9-kubernetes-container-orchestration/9.7.1-validating-admission-policy.md:
+docs/8-kubernetes-container-orchestration/8.7.1-validating-admission-policy.md:
   category: Container Orchestration
   estReadingMinutes: 35
   exercises:
@@ -1547,7 +1440,7 @@ docs/9-kubernetes-container-orchestration/9.7.1-validating-admission-policy.md:
         - Kubernetes
         - ValidatingAdmissionPolicy
         - CEL
-docs/9-kubernetes-container-orchestration/9.8.1-kustomize.md:
+docs/8-kubernetes-container-orchestration/8.8.1-kustomize.md:
   category: Container Orchestration
   estReadingMinutes: 20
   exercises:
@@ -1602,7 +1495,7 @@ docs/9-kubernetes-container-orchestration/9.8.1-kustomize.md:
       technologies:
         - Kubernetes
         - Kustomize
-docs/9-kubernetes-container-orchestration/9.8.2-helm.md:
+docs/8-kubernetes-container-orchestration/8.8.2-helm.md:
   category: Container Orchestration
   estReadingMinutes: 5
   exercises:
@@ -1622,7 +1515,7 @@ docs/9-kubernetes-container-orchestration/9.8.2-helm.md:
         - Kubernetes
         - Helm
         - Kustomize
-docs/9-kubernetes-container-orchestration/9.9-controllers.md:
+docs/8-kubernetes-container-orchestration/8.9-controllers.md:
   category: Container Orchestration
   estReadingMinutes: 45
   exercises:
@@ -1652,6 +1545,187 @@ docs/9-kubernetes-container-orchestration/9.9-controllers.md:
         - Kubernetes
         - k3d
         - client-go
+docs/9-platform-engineering/9.0-overview.md:
+  category: Platform Engineering
+  estReadingMinutes: 15
+docs/9-platform-engineering/9.1-backstage.md:
+  category: Platform Engineering
+  estReadingMinutes: 20
+  exercises:
+    - name: Create a GitHub Organization
+      description: >
+        This exercise involves creating a GitHub Organization to simulate an
+        integrated SCM environment, similar to what you would find in a
+        real-world development ecosystem. Each student will create their own
+        GitHub Organization following the provided instructions.
+      estMinutes: 30
+      technologies:
+        - GitHub
+    - name: Stand up local instance of Backstage
+      description: >
+        Students will set up a local instance of Backstage by following the
+        official Getting Started guide. This exercise covers starting the local
+        instance, familiarizing with the UI, and customizing the appearance of
+        the Backstage instance including logo and application name changes.
+        Extra credit is given for applying a custom theme. The customized
+        instance should then be pushed to a repo in the newly created GitHub
+        Organization.
+      estMinutes: 60
+      technologies:
+        - Backstage
+        - Docker
+    - name: Configure Authentication via GitHub
+      description: >
+        This exercise focuses on configuring authentication for the Backstage
+        instance using GitHub. Students will create an OAuth app within their
+        GitHub Organization and integrate it with Backstage for authentication
+        purposes. This includes not storing secrets in plain text and ensuring
+        secure authentication practices. Verification of login functionality
+        through GitHub is the final step to confirm successful integration.
+      estMinutes: 120
+      technologies:
+        - Backstage
+        - GitHub
+docs/9-platform-engineering/9.1.1-software-catalog.md:
+  category: Platform Engineering
+  estReadingMinutes: 20
+  exercises:
+    - name: Entity Registration
+      description: >
+        This exercise instructs students to register an entity to their local
+        Backstage instance.  The entity should correspond to a repo belonging to
+        a GitHub organization that the student owns.  This exercise will require
+        students to configure their Backstage instance to have the permissions
+        needed to access their GitHub organization and will help pave the way
+        for the following exercise.
+      estMinutes: 20
+      technologies:
+        - Backstage
+        - GitHub
+    - name: Catalog Ingestion
+      description: >
+        Students will configure their Backstage instance to automatically
+        perform read operations on a given GitHub organization and ingest
+        `catalog-info.yaml` files existing in that organization in order to
+        automatically register entities.  They will need to configure GitHub as
+        a catalog and ensure that their Backstage instance combs their
+        organization for the correct file(s) at an appropriate interval.
+      estMinutes: 80
+      technologies:
+        - Backstage
+        - GitHub
+    - name: Dependency Graphs
+      description: >
+        Students will fork two interdependent repos to their organization and
+        ensure that their Backstage instance recognizes the two repos while also
+        displaying the repos' interdependence via the "Relations" section of
+        their overviews in the UI.  This requires a thorough understanding of
+        the available fields in `catalog-info.yaml` files along with a Backstage
+        app's configuration file.
+      estMinutes: 120
+      technologies:
+        - Backstage
+        - GitHub
+    - name: OpenAPI Definitions
+      description: >
+        Here, students are required to provide an OpenAPI specification which
+        their Backstage instance can ingest and associate with a definition for
+        an API having source code in a repo owned by the student's
+        organization.  Students may use a repo that already has an OpenAPI spec
+        file or they may generate the necessary spec data from an API.
+      estMinutes: 30
+      technologies:
+        - Backstage
+        - GitHub
+docs/9-platform-engineering/9.1.2-techdocs.md:
+  category: Platform Engineering
+  estReadingMinutes: 10
+  exercises:
+    - name: Enable Documentation for an Existing Entity
+      description: >
+        This exercise instructs students to add the bare minimum amount of files
+        needed for their Backstage instance to generate an MkDocs site and
+        associate it with an entity in their Software Catalog.  Extra credit is
+        offered for studying Backstage's ability to search within TechDocs
+        stored in the Catalog -- the basic setup we point students towards in
+        this exercise can lead to a search-related bug which is valuable for
+        understanding the different ways Backstage can be configured to manage
+        TechDocs.
+      estMinutes: 40
+      technologies:
+        - GitHub
+        - Backstage
+docs/9-platform-engineering/9.1.3-software-templates.md:
+  category: Platform Engineering
+  estReadingMinutes: 20
+  exercises:
+    - name: Create a Simple Template
+      description: >
+        This exercise involves writing a custom Software Template and
+        configuring Backstage to register it as an entity that can be used from
+        the UI, and then using the template to publish a new repo in a GitHub
+        organization.  This can be achieved by following two separate guides in
+        Spotify's official Backstage docs: one for writing the Software
+        Template, and the other for providing Backstage with the necessary
+        permissions to publish new GitHub repos using the Template.  Some extra
+        time is allotted for misc. debugging, since it seems that Backstage is
+        in a transitory period and there's no telling whether their guides will
+        remain accurate.
+      estMinutes: 45
+      technologies:
+        - Backstage
+        - GitHub
+    - name: Write a Custom Action
+      description: >
+        Students are to become acquainted with the Scaffold plugin and extend
+        this plugin by writing a custom action which can be used in the custom
+        template they wrote in the previous exercise.  Some special instructions
+        are provided because the only available official guides are outdated.
+      estMinutes: 60
+      technologies:
+        - Backstage
+        - GitHub
+docs/9-platform-engineering/9.1.4-plugins.md:
+  category: Platform Engineering
+  estReadingMinutes: 10
+  exercises:
+    - name: Explore the Plugin Directory
+      description: >
+        Students receive an introduction to Backstage's plugin directory by
+        adding a plugin from the directory to their Backstage instance.  They
+        are encouraged to look through the plugin's source code and gain a basic
+        understanding of how it works.
+      estMinutes: 30
+      technologies:
+        - Backstage
+        - GitHub
+    - name: Write a Custom Plugin
+      description: >
+        Students will create their own Backstage plugin that exists outside of
+        Backstage's repo so it can be easily imported into any Backstage
+        instance.
+      estMinutes: 3000
+      technologies:
+        - Backstage
+        - TypeScript
+        - GitHub
+docs/9-platform-engineering/9.2-platforms.md:
+  category: Platform Engineering
+  estReadingMinutes: 15
+  exercises:
+    - name: Create a TVP (Thinnest Viable Platform)
+      description: >
+        Students will use Terraform, Terragrunt and a library/deploy repo
+        structure to create a core EKS platform with ArgoCD and External Secrets
+        Operators
+      estMinutes: 3000
+      technologies:
+        - AWS
+        - Terraform
+        - Terragrunt
+        - Kubernetes
+        - ArgoCD
+        - ExternalSecrets
 ---
 <!-- DO NOT EDIT ABOVE THIS COMMENT. -->
 <!-- MANAGED BY ./husky.sh/front-matter-condenser.js -->
