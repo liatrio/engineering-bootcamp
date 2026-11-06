@@ -1,8 +1,14 @@
 ---
-docs/1-ways-of-working/1.1-agile.md:
+docs/1-ways-of-working/1.1-devops.md:
+  category: Fundamentals
+  estReadingMinutes: 30
+docs/1-ways-of-working/1.2-liatrio-ways-of-working.md:
+  category: Fundamentals
+  estReadingMinutes: 15
+docs/1-ways-of-working/1.3-agile.md:
   category: Agile Development
   estReadingMinutes: 60
-docs/1-ways-of-working/1.1.4-scoping-and-refinement.md:
+docs/1-ways-of-working/1.3.4-scoping-and-refinement.md:
   category: Agile Development
   estReadingMinutes: 12
   exercises:
@@ -12,10 +18,10 @@ docs/1-ways-of-working/1.1.4-scoping-and-refinement.md:
         and boundaries, then refine it into a set of ready stories with
         acceptance criteria.
       estMinutes: 90
-docs/1-ways-of-working/1.2-work-tracking.md:
+docs/1-ways-of-working/1.3.6-work-tracking.md:
   category: Agile Development
   estReadingMinutes: 30
-docs/1-ways-of-working/1.3-pairprogramming.md:
+docs/1-ways-of-working/1.4-pairprogramming.md:
   category: Agile Development
   estReadingMinutes: 10
   exercises:
@@ -26,13 +32,7 @@ docs/1-ways-of-working/1.3-pairprogramming.md:
       estMinutes: 30
       technologies:
         - VSCode
-docs/1-ways-of-working/1.4-devops.md:
-  category: Fundamentals
-  estReadingMinutes: 30
-docs/1-ways-of-working/1.5-liatrio-ways-of-working.md:
-  category: Fundamentals
-  estReadingMinutes: 15
-docs/1-ways-of-working/1.6-external-resources.md:
+docs/1-ways-of-working/1.5-external-resources.md:
   category: Fundamentals
   estReadingMinutes: 50
 docs/2-version-control/2.0-overview.md:
