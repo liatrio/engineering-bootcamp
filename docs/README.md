@@ -1,8 +1,8 @@
 ---
 docs/1-ways-of-working/1.1-agile.md:
   category: Agile Development
-  estReadingMinutes: 90
-docs/1-ways-of-working/1.1.5-scoping-and-refinement.md:
+  estReadingMinutes: 60
+docs/1-ways-of-working/1.1.4-scoping-and-refinement.md:
   category: Agile Development
   estReadingMinutes: 25
   exercises:
@@ -17,18 +17,18 @@ docs/1-ways-of-working/1.2-work-tracking.md:
   estReadingMinutes: 30
 docs/1-ways-of-working/1.3-pairprogramming.md:
   category: Agile Development
-  estReadingMinutes: 20
+  estReadingMinutes: 10
   exercises:
     - name: Pair Programming
       description: >-
-        Using 'Live Share' or some equivillant try pair programming a 'Hello
+        Using 'Live Share' or some equivalent try pair programming a 'Hello
         World' app in the language of your choice
       estMinutes: 30
       technologies:
         - VSCode
 docs/1-ways-of-working/1.4-devops-defined.md:
   category: Fundamentals
-  estReadingMinutes: 33
+  estReadingMinutes: 30
 docs/1-ways-of-working/1.5-liatrio-ways-of-working.md:
   category: Fundamentals
   estReadingMinutes: 15
