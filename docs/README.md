@@ -354,7 +354,81 @@ docs/3-application-development/3.2.8-code-coverage.md:
 docs/3-application-development/3.2.9-code-styling.md:
   category: Software Quality
   estReadingMinutes: 30
-docs/3-application-development/3.3-layers.md:
+docs/3-application-development/3.3-observability.md:
+  category: Observability
+  estReadingMinutes: 15
+  exercises:
+    - name: Instrument a Flask API with OpenTelemetry
+      description: >-
+        Run a local Grafana observability stack, instrument the layered Flask
+        application with zero-code OpenTelemetry, and explore its traces,
+        metrics, and logs.
+      estMinutes: 45
+      technologies:
+        - OpenTelemetry
+        - Grafana
+        - Docker
+        - Python
+        - Flask
+docs/3-application-development/3.3.1-logging.md:
+  category: Observability
+  estReadingMinutes: 10
+  exercises:
+    - name: Add structured logs to a Flask API
+      description: >-
+        Add structured, leveled application logs to the layered Flask
+        application and correlate them with traces in Grafana.
+      estMinutes: 30
+      technologies:
+        - OpenTelemetry
+        - Grafana
+        - Loki
+        - Python
+docs/3-application-development/3.3.2-metrics.md:
+  category: Observability
+  estReadingMinutes: 10
+  exercises:
+    - name: Add custom metrics and a RED dashboard
+      description: >-
+        Add custom OpenTelemetry metrics to the layered Flask application, query
+        them with PromQL, and build a Grafana dashboard for rate, errors, and
+        duration.
+      estMinutes: 45
+      technologies:
+        - OpenTelemetry
+        - Grafana
+        - Prometheus
+        - Python
+docs/3-application-development/3.3.3-tracing.md:
+  category: Observability
+  estReadingMinutes: 10
+  exercises:
+    - name: Add manual spans to a Flask API
+      description: >-
+        Add manual OpenTelemetry spans and attributes to the service and data
+        layers of the layered Flask application, and use trace waterfalls in
+        Grafana Tempo to find errors and slow operations.
+      estMinutes: 30
+      technologies:
+        - OpenTelemetry
+        - Grafana
+        - Tempo
+        - Python
+docs/3-application-development/3.3.4-opentelemetry.md:
+  category: Observability
+  estReadingMinutes: 15
+  exercises:
+    - name: Configure OpenTelemetry resources and sampling
+      description: >-
+        Configure resource attributes and trace sampling for the layered Flask
+        application with OpenTelemetry environment variables, and compare what
+        sampling does to traces and metrics.
+      estMinutes: 30
+      technologies:
+        - OpenTelemetry
+        - Grafana
+        - Python
+docs/3-application-development/3.4-layers.md:
   category: Software Development
   estReadingMinutes: 30
   exercises:
@@ -376,7 +450,7 @@ docs/3-application-development/3.3-layers.md:
         - Python
         - Flask
         - SQLite
-docs/3-application-development/3.4.1-solid-principles.md:
+docs/3-application-development/3.5.1-solid-principles.md:
   category: Software Development
   estReadingMinutes: 120
   exercises:
@@ -401,7 +475,7 @@ docs/3-application-development/3.4.1-solid-principles.md:
       estMinutes: 45
       technologies:
         - Python
-docs/3-application-development/3.4.2-data-layer-patterns.md:
+docs/3-application-development/3.5.2-data-layer-patterns.md:
   category: Software Development
   estReadingMinutes: 45
   exercises:
