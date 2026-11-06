@@ -19,7 +19,7 @@
   - [1.1.5 - Sizing](1-ways-of-working/1.1.5-sizing.md)
 - [1.2 - Work Tracking](1-ways-of-working/1.2-work-tracking.md)
 - [1.3 - Pair Programming](1-ways-of-working/1.3-pairprogramming.md)
-- [1.4 - DevOps Defined](1-ways-of-working/1.4-devops-defined.md)
+- [1.4 - DevOps](1-ways-of-working/1.4-devops.md)
 - [1.5 - Liatrio's Ways of Working](1-ways-of-working/1.5-liatrio-ways-of-working.md)
 - [1.6 - External Resources](1-ways-of-working/1.6-external-resources.md)
 

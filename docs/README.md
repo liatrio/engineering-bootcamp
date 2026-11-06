@@ -26,7 +26,7 @@ docs/1-ways-of-working/1.3-pairprogramming.md:
       estMinutes: 30
       technologies:
         - VSCode
-docs/1-ways-of-working/1.4-devops-defined.md:
+docs/1-ways-of-working/1.4-devops.md:
   category: Fundamentals
   estReadingMinutes: 30
 docs/1-ways-of-working/1.5-liatrio-ways-of-working.md:
