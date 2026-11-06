@@ -1,3 +1,5 @@
+# Fixture: 'harness' and 'ecosystem' appear once as literal technical terms (test harness, Kubernetes ecosystem)
+# and once as a flourish ('harness the power'). Only the flourish should be flagged.
 schema_version: "1.1"
 name: domain-carveout-harness
 expected_outcome: |

@@ -49,7 +49,7 @@ function resolveScope() {
   let files = fileArgs;
   if (files.length === 0) {
     files = [
-      ...git(['diff', '--name-only', '--diff-filter=d', 'master', '--', 'docs/**/*.md']),
+      ...git(['diff', '--name-only', '--diff-filter=d', 'master...HEAD', '--', 'docs/**/*.md']),
       ...git(['ls-files', '--others', '--exclude-standard', '--', 'docs/**/*.md']),
     ];
   }

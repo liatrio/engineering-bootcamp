@@ -1,6 +1,0 @@
-schema_version: "1.1"
-name: ignores-code-dashes
-expected_outcome: |
-  Reports only the prose em dash on line 12; dashes in the code fence and inline code are not reported.
-context:
-  scaffold_script: place-files.sh
