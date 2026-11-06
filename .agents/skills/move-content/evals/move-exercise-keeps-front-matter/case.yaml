@@ -2,3 +2,5 @@ schema_version: "1.1"
 name: move-exercise-keeps-front-matter
 expected_outcome: |
   Identifies the exercise, moves its front-matter exercises entry with it, and confirms before editing.
+context:
+  scaffold_script: place-files.sh

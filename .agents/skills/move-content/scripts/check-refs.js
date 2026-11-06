@@ -5,8 +5,11 @@
  * Run from the repo root. Exit 1 if any check fails.
  *  (a) every quizdown embed id in docs/ resolves to a file under src/quizzes/
  *  (b) every sidebar-linked section has a front-matter key equal to its own path
- *  (c) with --old, no docs/ or src/ file still mentions that old path (file:line)
- * Sidebar-target existence and README sync are left to npm run compare-front-matter.
+ *  (c) with --old, no file in the repo (except docs/README.md, which refresh-front-matter regenerates)
+ *      still mentions that old path (file:line). Matches stop at path boundaries, so 1.3-x does not
+ *      match 1.3-x-extended and chapter-1/ does not match chapter-10/.
+ * Sidebar-target existence and README sync are left to npm run compare-front-matter; link and image
+ * resolution is left to npm run lint:links.
  */
 const fs = require('fs');
 const path = require('path');
@@ -24,10 +27,11 @@ for (let i = 0; i < args.length; i++) {
 }
 
 const problems = [];
+const p0 = (dir, name) => path.join(dir, name).split(path.sep).join('/');
 const walk = (dir, out = []) => {
   if (!fs.existsSync(dir)) return out;
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (e.name === 'node_modules' || e.name === '.git') continue;
+    if (e.name === 'node_modules' || e.name === '.git' || p0(dir, e.name) === '.agents/evals-workspace') continue;
     const p = path.join(dir, e.name);
     if (e.isDirectory()) walk(p, out); else out.push(p);
   }
@@ -68,14 +72,18 @@ for (const link of links) {
 
 // (c) stale references
 if (olds.length) {
-  const files = [...walk('docs'), ...walk('src')].filter(f => /\.(md|js|json|html|ya?ml|css)$/.test(f));
+  const skipDir = '.agents/skills/'; // skill tests and evals hold literal old paths on purpose
+  const files = walk('.').filter(f => /\.(md|js|json|html|ya?ml|css)$/.test(f) && f !== path.join('docs', 'README.md')
+    && !f.split(path.sep).join('/').replace(/^\.\//, '').startsWith(skipDir));
+  const esc = v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const res = olds.flatMap(old => [old, old.replace(/\.md$/, '')].filter(Boolean).map(v => ({
+    old, re: new RegExp('(?<![\\w-])' + esc(v) + (v.endsWith('/') ? '' : '(?![\\w-])')),
+  })));
   for (const f of files) {
     const lines = fs.readFileSync(f, 'utf8').split('\n');
     lines.forEach((l, i) => {
-      for (const old of olds) {
-        const variants = [old, old.replace(/\.md$/, '')];
-        if (variants.some(v => v && l.includes(v))) problems.push(`${f}:${i + 1}: stale reference to "${old}"`);
-      }
+      const hit = new Set(res.filter(r => r.re.test(l)).map(r => r.old));
+      for (const old of hit) problems.push(`${f}:${i + 1}: stale reference to "${old}"`);
     });
   }
 }

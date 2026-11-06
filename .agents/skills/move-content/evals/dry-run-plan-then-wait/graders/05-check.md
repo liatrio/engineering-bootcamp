@@ -4,4 +4,4 @@ focus: trace
 weight: 1
 ---
 
-The final message tells the user that the number left free at the old position is not closed up, or that a gap remains where 3.1 was
+The final message says the moved section's old number is filled because the sections between 3.1 and 3.3 each shift down by one, so no gap is left

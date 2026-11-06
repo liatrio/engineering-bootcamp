@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 'use strict';
 /*
- * move.js <old> <new> [--dry-run]
+ * move.js <old> <new> [--insert] [--dry-run]
  * move.js --exercise "<exercise name>" <old-section> <new-section> [--dry-run]
  *
  * <old>/<new> are numeric ids: a chapter (3), a section (3.2) or a sub-section (3.2.1).
+ * Within one parent, a move closes the gap it leaves: 3.2 -> 3.4 renames 3.3 and 3.4 to 3.2 and 3.3.
+ * --insert instead makes room at <new> (the occupied run from <new> shifts up by one, the gap at <old>
+ * stays open); use it when a new page is about to be written at <old>.
  * Run from the repo root. Only Node built-ins plus git are used.
  * See ../SKILL.md. Does not commit and never touches docs/README.md.
  */
@@ -20,6 +23,7 @@ const SIDEBAR = 'docs/_sidebar.md';
 
 const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
+const insertMode = args.includes('--insert');
 const exIdx = args.indexOf('--exercise');
 let exerciseName = null;
 if (exIdx >= 0) { exerciseName = args[exIdx + 1]; args.splice(exIdx, 2); }
@@ -61,7 +65,10 @@ if (exerciseName !== null) {
   const srcLines = read(src).split('\n');
   const sEnd = fmEnd(srcLines);
   const esc = exerciseName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const start = srcLines.findIndex((l, i) => i < sEnd && new RegExp(`^ {4}- name: ["']?${esc}["']?\\s*$`).test(l));
+  const inline = new RegExp(`^ {4}- name: ["']?${esc}["']?\\s*$`);
+  const nameLine = new RegExp(`^ {6}name: ["']?${esc}["']?\\s*$`);
+  let start = srcLines.findIndex((l, i) => i < sEnd && (inline.test(l) || (nameLine.test(l) && /^ {4}-\s*$/.test(srcLines[i - 1] || ''))));
+  if (start >= 0 && !inline.test(srcLines[start])) start--; // the entry opens on its own "    -" line
   if (start < 0) die(`exercise "${exerciseName}" not found in the front-matter of ${src}`);
   let end = start + 1;
   while (end < sEnd && (srcLines[end].trim() === '' || /^ {5,}/.test(srcLines[end]) || /^ {4}[^- ]/.test(srcLines[end]))) end++;
@@ -69,7 +76,7 @@ if (exerciseName !== null) {
   const newSrc = srcLines.slice();
   newSrc.splice(start, end - start);
   const exLine = newSrc.findIndex((l, i) => i < fmEnd(newSrc) && l === '  exercises:');
-  if (exLine >= 0 && !/^ {4}- /.test(newSrc[exLine + 1] || '')) newSrc.splice(exLine, 1); // list is now empty
+  if (exLine >= 0 && !/^ {4}-(\s|$)/.test(newSrc[exLine + 1] || '')) newSrc.splice(exLine, 1); // list is now empty
   const dstLines = read(dst).split('\n');
   const dEnd = fmEnd(dstLines);
   if (dEnd < 0) die(`${dst} has no front-matter`);
@@ -118,7 +125,13 @@ const lastOf = id => Number(id.split('.').pop());
 if (depth(OLD) > 1 && !idSet.has(parentOf(NEW))) die(`destination parent ${parentOf(NEW)} does not exist`);
 
 const maps = [{ old: OLD, new: NEW, role: 'moved' }];
-{
+if (!insertMode && parentOf(OLD) === parentOf(NEW) && lastOf(OLD) < lastOf(NEW)) {
+  const par = parentOf(NEW);
+  const mk = k => (par ? par + '.' : '') + k;
+  for (let n = lastOf(OLD) + 1; n <= lastOf(NEW); n++) {
+    if (idSet.has(mk(n))) maps.push({ old: mk(n), new: mk(n - 1), role: 'renumbered neighbour' });
+  }
+} else {
   // shift the contiguous run of occupied sibling slots starting at NEW (insert semantics)
   const par = parentOf(NEW);
   const mk = k => (par ? par + '.' : '') + k;
@@ -154,6 +167,39 @@ for (const f of docFiles) {
   if (np !== rel) fileMap[rel] = np;
 }
 if (!Object.keys(fileMap).length) die('nothing to move');
+
+// ---------------------------------------------------------------- images
+// A section that changes chapter keeps its page-relative `img/x.png` refs, so an image in the old chapter's
+// img/ must follow it. It moves only if every page that uses it moves to the same new chapter; otherwise
+// it is reported for a manual decision (shared images belong in the root img/).
+const ASSET = /\.(png|svg|webp|jpe?g|gif|pdf|ico)$/i;
+const imageRefs = text => {
+  const out = [];
+  for (const m of text.matchAll(/!\[[^\]]*\]\(\s*<?([^)\s>'"]+)/g)) out.push(m[1]);
+  for (const m of text.matchAll(/<img[^>]*\ssrc=["']([^"']+)["']/g)) out.push(m[1]);
+  return out.filter(h => !/^(https?:|data:|\/)/.test(h) && ASSET.test(h.split(/[?#]/)[0])).map(h => h.split(/[?#]/)[0]);
+};
+const imageWarnings = [];
+{
+  const pageRefs = {}; // docs-relative page -> resolved image paths
+  const users = {};    // resolved image path -> pages using it
+  for (const f of docFiles.filter(f => f.endsWith('.md') && f !== SIDEBAR)) {
+    const rel = f.slice(DOCS.length + 1);
+    pageRefs[rel] = imageRefs(read(f)).map(h => path.posix.normalize(path.posix.join(path.posix.dirname(rel), h)));
+    for (const r of pageRefs[rel]) (users[r] = users[r] || new Set()).add(rel);
+  }
+  const folderOf = p => p.split('/')[0];
+  for (const rel of Object.keys(pageRefs)) {
+    const to = fileMap[rel];
+    if (!to || folderOf(to) === folderOf(rel)) continue;
+    for (const img of pageRefs[rel]) {
+      if (fileMap[img] || !img.startsWith(folderOf(rel) + '/img/') || !exists(DOCS + '/' + img)) continue;
+      const sole = [...users[img]].every(u => fileMap[u] && folderOf(fileMap[u]) === folderOf(to));
+      if (sole) fileMap[img] = `${folderOf(to)}/img/${path.posix.basename(img)}`;
+      else imageWarnings.push(`${rel} moves to ${folderOf(to)} but shares ${DOCS}/${img} with pages that stay; move or copy it into the root img/ and update the refs by hand`);
+    }
+  }
+}
 
 // ---------------------------------------------------------------- quiz map
 const quizMap = {}; // quiz-relative old -> new
@@ -201,12 +247,8 @@ const gitMoves = [
 // ---------------------------------------------------------------- text edits (computed from OLD paths)
 const edits = []; // {file (new path), content, notes[]}
 
-function relLink(fromNewRel, targetNewRel, style) {
-  if (style.abs) return '/' + targetNewRel;
-  let r = path.posix.relative(path.posix.dirname(fromNewRel), targetNewRel);
-  if (style.dot && !r.startsWith('.')) r = './' + r;
-  return r;
-}
+// ](target) with optional Docsify attributes: "title", 'title', :ignore, :class=x
+const LINK = /\]\(([^)\s]+)((?:\s+(?:"[^"]*"|'[^']*'|:[^\s)]+))*)\)/g;
 
 for (const f of docFiles.filter(f => f.endsWith('.md') && f !== SIDEBAR)) {
   const oldRel = f.slice(DOCS.length + 1);
@@ -230,19 +272,33 @@ for (const f of docFiles.filter(f => f.endsWith('.md') && f !== SIDEBAR)) {
       notes.push(`quiz embed line ${i + 1}: ${id} -> ${quizMap[id]}`);
       return a + quizMap[id] + c;
     });
-    lines[i] = lines[i].replace(/\]\(([^)\s]+)((?:\s+"[^"]*")?)\)/g, (m, target, title) => {
+    lines[i] = lines[i].replace(LINK, (m, target, title) => {
       if (/^(https?:|mailto:|tel:|data:)/.test(target)) return m;
       let t = target, hashRoute = false;
       if (t.startsWith('#/')) { hashRoute = true; t = t.slice(1); } else if (t.startsWith('#')) return m;
       const si = t.search(/[?#]/);
       const base = si >= 0 ? t.slice(0, si) : t;
+      if (ASSET.test(base)) return m; // assets are page-relative and handled with the image pass
       const suffix = si >= 0 ? t.slice(si) : '';
-      const abs = base.startsWith('/');
-      const resolved = abs ? base.slice(1) : path.posix.normalize(path.posix.join(path.posix.dirname(oldRel), base));
-      const hit = fileMap[resolved] ? resolved : (fileMap[resolved + '.md'] ? resolved + '.md' : null);
-      if (!hit) return m;
+      const rooted = base.startsWith('/');
+      const pageStyle = /^\.\.?\//.test(base) || (!rooted && !hashRoute);
+      const fromRoot = base.replace(/^\/(docs\/)?/, '');
+      const fromPage = path.posix.normalize(path.posix.join(path.posix.dirname(oldRel), base));
+      const find = r => (fileMap[r] ? r : (fileMap[r + '.md'] ? r + '.md' : null));
+      let resolved = null, hit = null;
+      for (const r of /^\.\.?\//.test(base) ? [fromPage] : pageStyle ? [fromRoot, fromPage] : [fromRoot]) {
+        if (find(r)) { resolved = r; hit = find(r); break; }
+      }
+      if (!hit) { // an unmoved target from a moved page, written page-relative: make it docs-root-relative
+        const rel = pageStyle && !rooted && !hashRoute && fileMap[oldRel] && !docFiles.includes(DOCS + '/' + fromRoot) ? fromPage : null;
+        if (!rel || !docFiles.includes(DOCS + '/' + rel)) return m;
+        notes.push(`link line ${i + 1}: ${target} -> ${rel + suffix}`);
+        return `](${rel}${suffix}${title})`;
+      }
       const targetNew = hit !== resolved ? fileMap[hit].replace(/\.md$/, '') : fileMap[hit];
-      const out = hashRoute ? '#/' + targetNew : relLink(newRel, targetNew, { abs, dot: base.startsWith('./') });
+      const prefix = rooted ? (base.startsWith('/docs/') ? '/docs/' : '/') : '';
+      const out = hashRoute ? '#/' + targetNew : prefix + targetNew;
+      if (out + suffix === target) return m;
       notes.push(`link line ${i + 1}: ${target} -> ${out + suffix}`);
       return `](${out}${suffix}${title})`;
     });
@@ -352,7 +408,8 @@ if (sb) {
   fs.unlinkSync(a); fs.unlinkSync(b);
   for (const n of sb.notes) console.log('    ' + n);
 }
-console.log('\nNot touched: docs/README.md (run npm run refresh-front-matter), examples/, img/ (check image filenames that carry chapter numbers by hand).');
+for (const w of imageWarnings) console.log('WARNING: ' + w);
+console.log('\nNot touched: docs/README.md (run npm run refresh-front-matter), examples/, image filenames that carry chapter numbers (check by hand).');
 if (dryRun) process.exit(0);
 
 // ---------------------------------------------------------------- apply
