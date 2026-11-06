@@ -11,17 +11,17 @@
 - **Chapter 1 - Ways of Working**
 
 - [1.0 - Ways of Working](1-ways-of-working/1.0-overview.md)
-- [1.1 - Agile](1-ways-of-working/1.1-agile.md)
-  - [1.1.1 - Scrum](1-ways-of-working/1.1.1-scrum.md)
-  - [1.1.2 - Kanban](1-ways-of-working/1.1.2-kanban.md)
-  - [1.1.3 - Stories](1-ways-of-working/1.1.3-stories.md)
-  - [1.1.4 - Scoping & Refinement](1-ways-of-working/1.1.4-scoping-and-refinement.md)
-  - [1.1.5 - Sizing](1-ways-of-working/1.1.5-sizing.md)
-- [1.2 - Work Tracking](1-ways-of-working/1.2-work-tracking.md)
-- [1.3 - Pair Programming](1-ways-of-working/1.3-pairprogramming.md)
-- [1.4 - DevOps](1-ways-of-working/1.4-devops.md)
-- [1.5 - Liatrio's Ways of Working](1-ways-of-working/1.5-liatrio-ways-of-working.md)
-- [1.6 - External Resources](1-ways-of-working/1.6-external-resources.md)
+- [1.1 - DevOps](1-ways-of-working/1.1-devops.md)
+- [1.2 - Liatrio's Ways of Working](1-ways-of-working/1.2-liatrio-ways-of-working.md)
+- [1.3 - Agile](1-ways-of-working/1.3-agile.md)
+  - [1.3.1 - Scrum](1-ways-of-working/1.3.1-scrum.md)
+  - [1.3.2 - Kanban](1-ways-of-working/1.3.2-kanban.md)
+  - [1.3.3 - Stories](1-ways-of-working/1.3.3-stories.md)
+  - [1.3.4 - Scoping & Refinement](1-ways-of-working/1.3.4-scoping-and-refinement.md)
+  - [1.3.5 - Sizing](1-ways-of-working/1.3.5-sizing.md)
+  - [1.3.6 - Work Tracking](1-ways-of-working/1.3.6-work-tracking.md)
+- [1.4 - Pair Programming](1-ways-of-working/1.4-pairprogramming.md)
+- [1.5 - External Resources](1-ways-of-working/1.5-external-resources.md)
 
 - **Chapter 2**
 
