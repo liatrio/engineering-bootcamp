@@ -9,9 +9,9 @@ A learner's first hands-on contact with a tool. Same beginner-friendly framing a
 Files get renumbered. Find them by title; the path is only a convenience.
 
 - "Git Basics", Exercise "The Basics". Locate: `grep -rl '^# Git Basics' docs/`
-  Last known path: @docs/2-version-control/2.1.1-git-basics.md
+  Last known path (read when needed, do not preload): docs/2-version-control/2.1.1-git-basics.md
 - "Containers", Exercise 1. The title matches two pages; use the one with the exercise: `grep -rl '^## Exercise 1' docs/ | xargs grep -l '^# Containers'`
-  Last known path: @docs/4-virtual-machines-containers/4.4-containers.md
+  Last known path (read when needed, do not preload): docs/4-virtual-machines-containers/4.4-containers.md
 
 Read one before drafting.
 

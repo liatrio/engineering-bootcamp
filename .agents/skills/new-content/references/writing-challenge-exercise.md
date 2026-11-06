@@ -9,11 +9,11 @@ An open-ended scenario. Almost no explanation beyond the goal. The instructions 
 Files get renumbered. Find them by title; the path is only a convenience.
 
 - "KEDA", Exercises "HPAs" and "KEDA": scenario-driven, goal-level steps. Locate: `grep -rl '^# .*KEDA' docs/`
-  Last known path: @docs/9-kubernetes-container-orchestration/9.6-keda.md
+  Last known path (read when needed, do not preload): docs/9-kubernetes-container-orchestration/9.6-keda.md
 - "ECS", its exercise: brief explanation, links to official docs, `?>` hints instead of walkthroughs. Locate: `grep -rl '^# ECS' docs/`
-  Last known path: @docs/5-cloud-computing/5.2.6-ecs.md
+  Last known path (read when needed, do not preload): docs/5-cloud-computing/5.2.6-ecs.md
 - "Platforms", Exercise 1: a goal list with nested sub-goals. Locate: `grep -rl '^# Platforms' docs/`
-  Last known path: @docs/10-platform-engineering/10.2-platforms.md
+  Last known path (read when needed, do not preload): docs/10-platform-engineering/10.2-platforms.md
 
 Read one before drafting.
 

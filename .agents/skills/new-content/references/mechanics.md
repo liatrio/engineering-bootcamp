@@ -15,7 +15,7 @@ Run these after the content is drafted and the user is happy with it.
     - <existing technology string>
   ```
 
-- Reuse `category` and `technologies` strings from `docs/README.md`. Visualizations aggregate by exact match, so new spellings fragment the data.
+- Reuse `category` and `technologies` strings from `docs/README.md`. Visualizations aggregate by exact match, so new spellings fragment the data. If no existing string fits, use one new canonical label in the standard casing, and let `npm run refresh-front-matter` add it to `docs/README.md`.
 - List the existing strings with this command (run from the repo root) and pick from them:
 
   ```bash
@@ -26,7 +26,7 @@ Run these after the content is drafted and the user is happy with it.
 
 ## Sidebar
 
-- Add a new page to `docs/_sidebar.md` in the same change that creates the file. The pre-commit hook fails otherwise.
+- Add a new page to `docs/_sidebar.md` in the same change that creates the file. The pre-commit hook builds `docs/README.md` from sidebar links only, so an unlinked page is left out of the master record, and a sidebar link to a missing file fails the hook.
 
 ## Content conventions
 
@@ -35,7 +35,7 @@ Run these after the content is drafted and the user is happy with it.
 - Put a blank line between adjacent HTML and Markdown blocks.
 - Put gotchas and pointers in short `?>` hints so numbered steps stay terse.
 - Keep code fences to 10 lines or fewer. Longer code lives under `examples/` and is linked.
-- Link to other pages with relative paths (`../3-.../3.2-foo.md`), not Docsify hash paths.
+- Link to other pages with paths from the `docs/` root (`3-.../3.2-foo.md`), even within the same chapter, not page-relative paths or Docsify hash paths. Docsify resolves links from `/docs/`, not from the current page.
 - Use `docker compose` (v2), not `docker-compose`.
 - Link to official docs instead of explaining a tool in detail.
 

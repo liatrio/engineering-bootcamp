@@ -9,9 +9,9 @@ Reading content with no exercise. It introduces a concept to a beginner and sets
 Files get renumbered. Find them by title; the path is only a convenience.
 
 - "Branching" (the reading before its exercise). Locate: `grep -rl '^# Branching' docs/`
-  Last known path: @docs/2-version-control/2.1.2-branching.md
+  Last known path (read when needed, do not preload): docs/2-version-control/2.1.2-branching.md
 - "AI Agents". Locate: `grep -rl '^# AI Agents' docs/`
-  Last known path: @docs/3-AI-Engineering/3.1.2-ai-agents.md
+  Last known path (read when needed, do not preload): docs/3-AI-Engineering/3.1.2-ai-agents.md
 
 Read one before drafting.
 

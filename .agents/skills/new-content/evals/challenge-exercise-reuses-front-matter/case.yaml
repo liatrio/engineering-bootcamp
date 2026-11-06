@@ -1,4 +1,0 @@
-schema_version: "1.1"
-name: challenge-exercise-reuses-front-matter
-expected_outcome: |
-  Chooses the challenge format, drafts with a goal and vague instructions, adds sidebar and front-matter entries reusing existing category and technology strings.
