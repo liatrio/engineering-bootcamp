@@ -4,7 +4,7 @@ docs/1-ways-of-working/1.1-agile.md:
   estReadingMinutes: 60
 docs/1-ways-of-working/1.1.4-scoping-and-refinement.md:
   category: Agile Development
-  estReadingMinutes: 25
+  estReadingMinutes: 12
   exercises:
     - name: Scope and refine a feature request
       description: >-
