@@ -38,6 +38,7 @@
   - [2.2.3 - Projects](2-version-control/2.2.3-projects.md)
   - [2.2.4 - APIs](2-version-control/2.2.4-apis.md)
   - [2.2.5 - Security](2-version-control/2.2.5-security.md)
+- [2.3 - Versioning](2-version-control/2.3-versioning.md)
 
 - **Chapter 3**
 
@@ -112,16 +113,15 @@
 - **Chapter 6**
 
 - [6.0 - Release Management](6-release-management/6.0-overview.md)
-- [6.1 - Versioning](6-release-management/6.1-versioning.md)
-- [6.2 - Build Tools](6-release-management/6.2-build-tools.md)
-  - [6.2.1 - Maven](6-release-management/6.2.1-maven.md)
-  - [6.2.2 - Maven Integration](6-release-management/6.2.2-maven-integration.md)
-  - [6.2.3 - Make](6-release-management/6.2.3-make.md)
-  - [6.2.4 - Npm](6-release-management/6.2.4-npm.md)
-  - [6.2.5 - Go Releaser](6-release-management/6.2.5-go-releaser.md)
-- [6.3 - Containers](6-release-management/6.3-containers.md)
-  - [6.3.1 - Docker](6-release-management/6.3.1-docker.md)
-  - [6.3.2 - Helm](6-release-management/6.3.2-helm.md)
+- [6.1 - Build Tools](6-release-management/6.1-build-tools.md)
+  - [6.1.1 - Maven](6-release-management/6.1.1-maven.md)
+  - [6.1.2 - Maven Integration](6-release-management/6.1.2-maven-integration.md)
+  - [6.1.3 - Make](6-release-management/6.1.3-make.md)
+  - [6.1.4 - Npm](6-release-management/6.1.4-npm.md)
+  - [6.1.5 - Go Releaser](6-release-management/6.1.5-go-releaser.md)
+- [6.2 - Containers](6-release-management/6.2-containers.md)
+  - [6.2.1 - Docker](6-release-management/6.2.1-docker.md)
+  - [6.2.2 - Helm](6-release-management/6.2.2-helm.md)
 
 - **Chapter 7**
 

@@ -142,6 +142,17 @@ docs/2-version-control/2.2.5-security.md:
       estMinutes: 20
       technologies:
         - GitHub Security
+docs/2-version-control/2.3-versioning.md:
+  category: Version Control
+  estReadingMinutes: 5
+  exercises:
+    - name: Docker Image Versioning
+      description: >-
+        Build a few docker images and play with tagging them with semantic
+        versioning.
+      estMinutes: 30
+      technologies:
+        - Docker
 docs/3-application-development/3.0-overview.md:
   category: Software Development
   estReadingMinutes: 10
@@ -920,18 +931,7 @@ docs/5-cloud-computing/5.4-hello-devops.md:
         Using what you have leanred thus far create a production ready
         application
       estMinutes: 3000
-docs/6-release-management/6.1-versioning.md:
-  category: Version Control
-  estReadingMinutes: 5
-  exercises:
-    - name: Docker Image Versioning
-      description: >-
-        Build a few docker images and play with tagging them with semantic
-        versioning.
-      estMinutes: 30
-      technologies:
-        - Docker
-docs/6-release-management/6.2.1-maven.md:
+docs/6-release-management/6.1.1-maven.md:
   category: CI/CD
   estReadingMinutes: 20
   exercises:
@@ -942,7 +942,7 @@ docs/6-release-management/6.2.1-maven.md:
       estMinutes: 60
       technologies:
         - Maven
-docs/6-release-management/6.2.2-maven-integration.md:
+docs/6-release-management/6.1.2-maven-integration.md:
   category: CI/CD
   estReadingMinutes: 30
   exercises:
@@ -958,7 +958,7 @@ docs/6-release-management/6.2.2-maven-integration.md:
         - Maven
         - GitHub Actions
         - Nexus OSS
-docs/6-release-management/6.2.3-make.md:
+docs/6-release-management/6.1.3-make.md:
   category: CI/CD
   estReadingMinutes: 20
   exercises:
@@ -971,7 +971,7 @@ docs/6-release-management/6.2.3-make.md:
       estMinutes: 60
       technologies:
         - Make
-docs/6-release-management/6.2.4-npm.md:
+docs/6-release-management/6.1.4-npm.md:
   category: CI/CD
   estReadingMinutes: 15
   exercises:
@@ -984,7 +984,7 @@ docs/6-release-management/6.2.4-npm.md:
         - npm
         - Node.js
         - Java
-docs/6-release-management/6.2.5-go-releaser.md:
+docs/6-release-management/6.1.5-go-releaser.md:
   category: CI/CD
   estReadingMinutes: 5
   exercises:
@@ -998,7 +998,7 @@ docs/6-release-management/6.2.5-go-releaser.md:
         - Go Releaser
         - GitHub
         - GitHub Actions
-docs/6-release-management/6.3.1-docker.md:
+docs/6-release-management/6.2.1-docker.md:
   category: Container Orchestration
   estReadingMinutes: 10
   exercises:
@@ -1013,7 +1013,7 @@ docs/6-release-management/6.3.1-docker.md:
         - Dockerhub
         - GitHub
         - GitHub Actions
-docs/6-release-management/6.3.2-helm.md:
+docs/6-release-management/6.2.2-helm.md:
   category: Container Orchestration
   estReadingMinutes: 15
   exercises:
