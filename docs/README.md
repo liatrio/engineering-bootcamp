@@ -31,7 +31,7 @@ docs/1-ways-of-working/1.4-devops-defined.md:
   estReadingMinutes: 33
 docs/1-ways-of-working/1.5-liatrio-ways-of-working.md:
   category: Fundamentals
-  estReadingMinutes: 12
+  estReadingMinutes: 15
 docs/1-ways-of-working/1.6-external-resources.md:
   category: Fundamentals
   estReadingMinutes: 50
