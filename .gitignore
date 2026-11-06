@@ -54,3 +54,6 @@ examples/data-patterns/repository-exercise-starter/repository-exercise-starter
 
 # skill eval run output
 .agents/evals-workspace/
+
+# Skill eval run output
+.agents/skills/*/evals/results/
