@@ -28,10 +28,10 @@ docs/1-ways-of-working/1.3-pairprogramming.md:
         - VSCode
 docs/1-ways-of-working/1.4-devops-defined.md:
   category: Fundamentals
-  estReadingMinutes: 30
-docs/1-ways-of-working/1.5-liatrio-and-devops.md:
+  estReadingMinutes: 33
+docs/1-ways-of-working/1.5-liatrio-ways-of-working.md:
   category: Fundamentals
-  estReadingMinutes: 15
+  estReadingMinutes: 12
 docs/1-ways-of-working/1.6-external-resources.md:
   category: Fundamentals
   estReadingMinutes: 50
