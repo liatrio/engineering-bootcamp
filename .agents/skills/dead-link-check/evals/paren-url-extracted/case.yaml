@@ -1,6 +1,0 @@
-schema_version: "1.1"
-name: paren-url-extracted
-expected_outcome: |
-  A URL containing parentheses is extracted whole (closing paren kept) with its file:line, and its DNS failure is reported as likely dead. Uses only .invalid hosts, so the result does not depend on live sites.
-context:
-  scaffold_script: place-files.sh

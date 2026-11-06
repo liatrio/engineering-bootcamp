@@ -18,6 +18,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const net = require('net');
 const { spawn } = require('child_process');
 
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
@@ -57,7 +58,8 @@ function collectFiles(paths) {
     if (!fs.existsSync(p)) { console.error(`path not found: ${p}`); process.exit(2); }
     walk(p, out);
   }
-  return [...new Set(out.map((f) => path.normalize(f)))].filter((f) => f !== path.join('docs', 'README.md'));
+  const readme = path.resolve('docs', 'README.md');
+  return [...new Set(out.map((f) => path.normalize(f)))].filter((f) => path.resolve(f) !== readme);
 }
 
 // Blank out front-matter but keep its newlines so line numbers stay true.
@@ -67,12 +69,37 @@ function stripFrontMatter(src) {
 }
 
 const isHttp = (u) => /^https?:\/\//i.test(u);
-const isLocal = (u) => { try { return ['localhost', '127.0.0.1', '[::1]'].includes(new URL(u).host.replace(/:\d+$/, '')); } catch (e) { return false; } };
+const PRIVATE_RANGES = new net.BlockList();
+for (const [addr, bits] of [['0.0.0.0', 8], ['10.0.0.0', 8], ['127.0.0.0', 8], ['169.254.0.0', 16], ['172.16.0.0', 12], ['192.168.0.0', 16]]) PRIVATE_RANGES.addSubnet(addr, bits, 'ipv4');
+for (const [addr, bits] of [['::', 128], ['::1', 128], ['fc00::', 7], ['fe80::', 10]]) PRIVATE_RANGES.addSubnet(addr, bits, 'ipv6');
+
+// Hostnames that merely resolve to private addresses are not detected.
+function isPrivateHost(host) {
+  const h = host.replace(/^\[|\]$/g, '').toLowerCase();
+  const family = net.isIP(h);
+  return h === 'localhost' || (family !== 0 && PRIVATE_RANGES.check(h, family === 4 ? 'ipv4' : 'ipv6'));
+}
+const isLocal = (u) => { try { return isPrivateHost(new URL(u).hostname); } catch (e) { return false; } };
+
+const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };
+const decodeEntities = (s) => s.replace(/&(?:#x([0-9a-f]+)|#(\d+)|(amp|lt|gt|quot|apos));/gi, (_, hex, dec, name) =>
+  name ? ENTITIES[name.toLowerCase()] : String.fromCodePoint(parseInt(hex || dec, hex ? 16 : 10)));
+const BARE_URL = /https?:\/\/[^\s<>"'\]]+/g;
+// GFM autolink literal rules: trailing punctuation and an unbalanced ")" are not part of the URL.
+function trimBare(u) {
+  for (;;) {
+    const t = u.replace(/[?!.,:;*_~'"]+$/, '');
+    if (t.endsWith(')') && (t.match(/\)/g) || []).length > (t.match(/\(/g) || []).length) { u = t.slice(0, -1); continue; }
+    if (t === u) return u;
+    u = t;
+  }
+}
 
 // Depth-first walk over an mdast tree; avoids a direct dependency on unist-util-visit.
-function walkTree(node, fn) {
-  fn(node);
-  for (const child of node.children || []) walkTree(child, fn);
+function walkTree(node, fn, inLink = false) {
+  fn(node, inLink);
+  const link = inLink || node.type === 'link';
+  for (const child of node.children || []) walkTree(child, fn, link);
 }
 const HTML_ATTR = /\b(?:href|src)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))/gi;
 
@@ -87,15 +114,22 @@ async function extract(files, includeLocal) {
   for (const file of files) {
     const src = stripFrontMatter(fs.readFileSync(file, 'utf8'));
     const tree = processor.parse(src);
-    walkTree(tree, (node) => {
+    walkTree(tree, (node, inLink) => {
       const line = node.position && node.position.start.line;
-      if (['link', 'definition', 'image'].includes(node.type)) {
+      if (node.type === 'text' && !inLink) {
+        let m;
+        BARE_URL.lastIndex = 0;
+        while ((m = BARE_URL.exec(node.value))) {
+          const u = trimBare(m[0]);
+          if (isHttp(u) && (includeLocal || !isLocal(u))) uses.push({ url: u, file, line: line + node.value.slice(0, m.index).split('\n').length - 1 });
+        }
+      } else if (['link', 'definition', 'image'].includes(node.type)) {
         if (node.url && isHttp(node.url) && (includeLocal || !isLocal(node.url))) uses.push({ url: node.url, file, line });
       } else if (node.type === 'html') {
         let m;
         HTML_ATTR.lastIndex = 0;
         while ((m = HTML_ATTR.exec(node.value))) {
-          const u = (m[1] || m[2] || m[3] || '').trim();
+          const u = decodeEntities(m[1] || m[2] || m[3] || '').trim();
           if (!isHttp(u) || (!includeLocal && isLocal(u))) continue;
           const extra = node.value.slice(0, m.index).split('\n').length - 1;
           uses.push({ url: u, file, line: line + extra });
@@ -106,10 +140,27 @@ async function extract(files, includeLocal) {
   return uses;
 }
 
-function runCurl(url, timeout) {
+const MAX_REDIRS = 10;
+
+// Follows redirects by hand (not curl -L) so a redirect into a private, loopback or
+// link-local IP literal is refused before it is requested.
+async function runCurl(url, timeout) {
+  let cur = url;
+  for (let hops = 0; ; hops++) {
+    const r = await curlOnce(cur, timeout);
+    if (r.exit !== 0) return { exit: r.exit, out: '' };
+    const [code, next] = [r.out.split(' ')[0], r.out.split(' ').slice(1).join(' ')];
+    if (!/^3\d\d$/.test(code) || !next) return { exit: 0, out: `${code} ${hops} ${cur}` };
+    if (isLocal(next) && !isLocal(url)) return { exit: 0, out: `blocked ${hops + 1} ${next}` };
+    if (hops + 1 > MAX_REDIRS) return { exit: 47, out: '' };
+    cur = next;
+  }
+}
+
+function curlOnce(url, timeout) {
   return new Promise((resolve) => {
-    const args = ['-s', '-o', '/dev/null', '-w', '%{http_code} %{num_redirects} %{url_effective}\n',
-      '-A', UA, '-L', '--max-time', String(timeout), '--noproxy', '127.0.0.1,localhost', '--', url];
+    const args = ['-s', '-o', '/dev/null', '-w', '%{http_code} %{redirect_url}\n',
+      '-A', UA, '--max-time', String(timeout), '--noproxy', '127.0.0.1,localhost', '--', url];
     const p = spawn('curl', args);
     let out = '';
     p.stdout.on('data', (d) => (out += d));
@@ -123,10 +174,12 @@ function hostOf(u) { try { return new URL(u).hostname; } catch (e) { return ''; 
 function classify(url, exit, out) {
   const [code = '000', redirects = '0', ...rest] = out.split(' ');
   const finalUrl = rest.join(' ') || url;
+  if (code === 'blocked') return { url, exit, code: 0, redirects: parseInt(redirects, 10) || 0, final: finalUrl, status: 'blocked-redirect', class: 'needs-browser-check' };
   const r = { url, exit, code: parseInt(code, 10) || 0, redirects: parseInt(redirects, 10) || 0, final: finalUrl };
   if (exit === 6) { r.status = 'dns'; r.class = 'likely-dead'; }
   else if (exit === 51) { r.status = 'tls'; r.class = 'likely-dead'; } // cert issued for a different host
   else if (exit === 35 || exit === 60) { r.status = 'tls'; r.class = 'needs-browser-check'; } // may be a TLS-intercepting proxy
+  else if (exit === 47) { r.status = 'error'; r.class = 'needs-browser-check'; } // too many redirects
   else if (exit === 28) { r.status = 'timeout'; r.class = 'needs-browser-check'; }
   else if (exit !== 0) { r.status = 'error'; r.class = 'needs-browser-check'; }
   else {
@@ -157,6 +210,9 @@ function loadResults(file) {
   return map;
 }
 
+// Timeouts, connection errors and possible interception are transient; re-check them on resume.
+const isDefinitive = (r) => r.status !== 'timeout' && r.status !== 'error' && !(r.status === 'tls' && r.class === 'needs-browser-check');
+
 function summarize(rows) {
   const groups = new Map();
   for (const r of rows.filter((x) => x.class === 'redirect')) {
@@ -186,7 +242,7 @@ async function main() {
     byUrl.get(u.url).push({ file: u.file, line: u.line });
   }
   const done = loadResults(o.results);
-  const todo = [...byUrl.keys()].filter((u) => !done.has(u));
+  const todo = [...byUrl.keys()].filter((u) => !done.has(u) || !isDefinitive(done.get(u)));
   console.error(`files=${files.length} urls=${byUrl.size} already-recorded=${byUrl.size - todo.length} to-check=${todo.length}`);
   await pool(todo, o.concurrency, async (url) => {
     const { exit, out } = await runCurl(url, o.timeout);
@@ -218,4 +274,5 @@ async function main() {
   }
 }
 
-main().catch((e) => { console.error(e); process.exit(2); });
+module.exports = { isPrivateHost, decodeEntities, trimBare, isDefinitive };
+if (require.main === module) main().catch((e) => { console.error(e); process.exit(2); });
