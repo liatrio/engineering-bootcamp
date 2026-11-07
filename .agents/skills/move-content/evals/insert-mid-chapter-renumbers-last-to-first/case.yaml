@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: insert-mid-chapter-renumbers-last-to-first
+expected_outcome: |
+  Runs scripts/move.js 3.2 3.3 for real. Neighbors are renamed last to first with no filename collisions, quiz folders and embed ids follow, and check-refs.js passes.
+context:
+  scaffold_script: place-files.sh
