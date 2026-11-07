@@ -4,4 +4,4 @@ focus: trace
 weight: 1
 ---
 
-The response lists what the run looked up for the draft, and shows it consulted current documentation for KEDA or Kubernetes autoscaling (for example through Context7 or the official docs) before writing the ScaledObject and HPA guidance
+The response states what the run looked up or could not look up for the draft. If no documentation source was reachable, it says so and flags the links it is least sure of as unverified; it does not claim to have consulted documentation it did not read

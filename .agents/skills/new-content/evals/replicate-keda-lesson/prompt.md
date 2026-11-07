@@ -2,7 +2,7 @@
 tags: [engineering-bootcamp, on-demand]
 max_turns: 45
 timeout_seconds: 1200
-allowed_tools: [Read, Glob, Grep, Skill, Write, Edit, Bash(npm run:*), Bash(node .agents/skills/*/scripts/*:*)]
+allowed_tools: [Read, Glob, Grep, Skill, Write, Edit, Bash(ls:*), Bash(cat:*), Bash(grep:*), Bash(npm run:*), Bash(node .agents/skills/*/scripts/*:*)]
 disallowed_tools: [WebFetch, Agent]
 ---
 

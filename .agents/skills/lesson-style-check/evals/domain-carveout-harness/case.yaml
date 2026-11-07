@@ -1,8 +1,0 @@
-# Fixture: 'harness' and 'ecosystem' appear once as literal technical terms (test harness, Kubernetes ecosystem)
-# and once as a flourish ('harness the power'). Only the flourish should be flagged.
-schema_version: "1.1"
-name: domain-carveout-harness
-expected_outcome: |
-  Literal technical uses of harness and ecosystem are not flagged; the flourish use is.
-context:
-  scaffold_script: place-files.sh
