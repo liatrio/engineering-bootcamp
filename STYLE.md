@@ -40,6 +40,25 @@ Docsify and some Markdown viewers supports mixing HTML and Markdown elements in 
 
 Note the blank line between the `<center>` HTML tag and the `![<alt text>](img/<descriptive_image_name>.svg)` Markdown tag. Image paths are page-relative: `img/<descriptive_image_name>.svg` for the chapter's own images, `../../img/<descriptive_image_name>.svg` for site-wide assets in the root `img/` folder.
 
+### Callouts
+
+Callouts use GitHub-style alerts: a blockquote whose first line is the type marker. Docsify renders them as callout boxes, and GitHub renders them when the Markdown file is viewed in the repository.
+
+```markdown
+> [!TIP]
+> Use `kubectl explain <resource>` to see every field a manifest accepts.
+```
+
+Pick the type by what the reader needs:
+
+- `[!TIP]` — optional advice that helps the reader succeed. Most callouts are tips.
+- `[!NOTE]` — background the reader should keep in mind.
+- `[!IMPORTANT]` — information the reader needs to complete the exercise.
+- `[!WARNING]` — a risk the reader should know about before acting.
+- `[!CAUTION]` — an action with harmful consequences, such as leaking credentials.
+
+The Docsify v4 shorthand (`?>` and `!>`) is deprecated in Docsify v5; write the alert form instead. Styling for every type lives in [`css/common.css`](./css/common.css).
+
 ### Multi Column Layout
 
 Multi column layouts can be created using HTML div tags with following CSS classes:

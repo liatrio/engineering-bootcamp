@@ -149,3 +149,52 @@
 	align-items: center;
 	height: 100vh;
 }
+
+/*
+ * Docsify v5 callouts (`> [!TIP]`, `> [!WARNING]`, ...) render as `.callout.<type>`.
+ * docsify-themeable only styles v4's `.tip`/`.warn` (and paints `.tip` as "important"),
+ * so style every type here from the theme's notice variables, which also cover dark mode.
+ * NOTE/TIP take the info look; IMPORTANT/WARNING/CAUTION take the alert look.
+ */
+.markdown-section .callout {
+	--callout-border-color: var(--notice-tip-border-color);
+	--callout-background: var(--notice-tip-background);
+	--callout-icon: var(--notice-tip-before-background);
+	position: relative;
+	margin: 2em 0;
+	padding: var(--notice-padding);
+	border-width: var(--notice-border-width);
+	border-style: var(--notice-border-style);
+	border-color: var(--callout-border-color);
+	border-radius: var(--notice-border-radius);
+	background: var(--callout-background);
+	color: inherit;
+}
+
+.markdown-section .callout.important,
+.markdown-section .callout.warning,
+.markdown-section .callout.caution {
+	--callout-border-color: var(--notice-important-border-color);
+	--callout-background: var(--notice-important-background);
+	--callout-icon: var(--notice-important-before-background);
+}
+
+.markdown-section .callout::before {
+	content: "";
+	position: absolute;
+	top: 1em;
+	left: var(--notice-before-left);
+	width: var(--notice-before-width);
+	height: var(--notice-before-height);
+	margin: 0;
+	border-radius: var(--notice-before-border-radius);
+	background: var(--callout-icon);
+}
+
+.markdown-section .callout > :first-child {
+	margin-top: 0;
+}
+
+.markdown-section .callout > :last-child {
+	margin-bottom: 0;
+}
