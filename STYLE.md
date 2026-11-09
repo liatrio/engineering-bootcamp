@@ -51,11 +51,13 @@ Callouts use GitHub-style alerts: a blockquote whose first line is the type mark
 
 Pick the type by what the reader needs:
 
-- `[!TIP]` — optional advice that helps the reader succeed. Most callouts are tips.
-- `[!NOTE]` — background the reader should keep in mind.
-- `[!IMPORTANT]` — information the reader needs to complete the exercise.
+- `[!NOTE]` — background the reader should keep in mind: how something works, a known limitation, a question to reflect on.
+- `[!TIP]` — optional advice that helps the reader succeed: a shortcut, further reading, a troubleshooting hint.
+- `[!IMPORTANT]` — information the reader needs to complete the exercise: a required setting, a naming rule, a constraint such as "do not use `helm create`".
 - `[!WARNING]` — a risk the reader should know about before acting.
 - `[!CAUTION]` — an action with harmful consequences, such as leaking credentials.
+
+Leave out a leading `Note:` or `Hint:`; the alert type is the label.
 
 The Docsify v4 shorthand (`?>` and `!>`) is deprecated in Docsify v5; write the alert form instead. Styling for every type lives in [`css/common.css`](./css/common.css).
 

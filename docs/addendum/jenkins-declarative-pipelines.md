@@ -81,7 +81,7 @@ pipeline {
 
 - Performs some steps related to the 'Deploy' stage.
 
-> [!TIP]
+> [!NOTE]
 > Stage names can be anything, and there can be any number of stages. For further details on Jenkins pipelines, consult the [official documentation](https://jenkins.io/doc/book/pipeline/).
 
 ## Exercise
