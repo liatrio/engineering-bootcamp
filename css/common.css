@@ -151,44 +151,37 @@
 }
 
 /*
- * Docsify v5 callouts (`> [!TIP]`, `> [!WARNING]`, ...) render as `.callout.<type>`.
- * docsify-themeable only styles v4's `.tip`/`.warn` (and paints `.tip` as "important"),
- * so style every type here from the theme's notice variables, which also cover dark mode.
- * NOTE/TIP take the info look; IMPORTANT/WARNING/CAUTION take the alert look.
+ * Callouts: Docsify v5 renders `> [!TIP]`, `> [!WARNING]`, ... as `.callout.<type>`.
+ * docsify-themeable only styles v4's `.tip`/`.warn`, so every type is styled here.
+ * Each type's colour comes from css/light.css or css/dark.css (`--callout-<type>`);
+ * its icon is an SVG mask filled with that colour, with a distinct shape per type.
  */
 .markdown-section .callout {
-	--callout-border-color: var(--notice-tip-border-color);
-	--callout-background: var(--notice-tip-background);
-	--callout-icon: var(--notice-tip-before-background);
+	--callout-color: var(--callout-note);
+	--callout-icon: var(--callout-icon-note);
 	position: relative;
 	margin: 2em 0;
-	padding: var(--notice-padding);
-	border-width: var(--notice-border-width);
-	border-style: var(--notice-border-style);
-	border-color: var(--callout-border-color);
+	padding: 1em 1.5em 1em 3em;
+	border: 0 solid var(--callout-color);
+	border-left-width: 4px;
 	border-radius: var(--notice-border-radius);
-	background: var(--callout-background);
+	background: color-mix(in srgb, var(--callout-color) var(--callout-tint), transparent);
 	color: inherit;
-}
-
-.markdown-section .callout.important,
-.markdown-section .callout.warning,
-.markdown-section .callout.caution {
-	--callout-border-color: var(--notice-important-border-color);
-	--callout-background: var(--notice-important-background);
-	--callout-icon: var(--notice-important-before-background);
 }
 
 .markdown-section .callout::before {
 	content: "";
 	position: absolute;
-	top: 1em;
-	left: var(--notice-before-left);
-	width: var(--notice-before-width);
-	height: var(--notice-before-height);
+	top: 1.1em;
+	left: 0.9em;
+	width: 1.35em;
+	height: 1.35em;
 	margin: 0;
-	border-radius: var(--notice-before-border-radius);
-	background: var(--callout-icon);
+	padding: 0;
+	border-radius: 0;
+	background: var(--callout-color);
+	-webkit-mask: var(--callout-icon) center / contain no-repeat;
+	mask: var(--callout-icon) center / contain no-repeat;
 }
 
 .markdown-section .callout > :first-child {
@@ -197,4 +190,32 @@
 
 .markdown-section .callout > :last-child {
 	margin-bottom: 0;
+}
+
+.markdown-section .callout.tip {
+	--callout-color: var(--callout-tip);
+	--callout-icon: var(--callout-icon-tip);
+}
+
+.markdown-section .callout.important {
+	--callout-color: var(--callout-important);
+	--callout-icon: var(--callout-icon-important);
+}
+
+.markdown-section .callout.warning {
+	--callout-color: var(--callout-warning);
+	--callout-icon: var(--callout-icon-warning);
+}
+
+.markdown-section .callout.caution {
+	--callout-color: var(--callout-caution);
+	--callout-icon: var(--callout-icon-caution);
+}
+
+:root {
+	--callout-icon-note: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='8' cy='8' r='6.5'/%3E%3Cpath d='M8 7.25v4'/%3E%3Ccircle cx='8' cy='4.9' r='.9' fill='%23000' stroke='none'/%3E%3C/svg%3E");
+	--callout-icon-tip: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 1.75a4.25 4.25 0 0 0-2.5 7.7v1.55h5V9.45A4.25 4.25 0 0 0 8 1.75Z'/%3E%3Cpath d='M6 13.25h4M6.75 15h2.5'/%3E%3C/svg%3E");
+	--callout-icon-important: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 2.5h11v8.25H8.25L5 13.5v-2.75H2.5Z'/%3E%3Cpath d='M8 4.75v2.75'/%3E%3Ccircle cx='8' cy='9.1' r='.9' fill='%23000' stroke='none'/%3E%3C/svg%3E");
+	--callout-icon-warning: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 1.75 14.75 13.75H1.25Z'/%3E%3Cpath d='M8 6v3.5'/%3E%3Ccircle cx='8' cy='11.6' r='.9' fill='%23000' stroke='none'/%3E%3C/svg%3E");
+	--callout-icon-caution: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.25 1.5h5.5l3.75 3.75v5.5l-3.75 3.75h-5.5L1.5 10.75v-5.5Z'/%3E%3Cpath d='M8 4.75v3.75'/%3E%3Ccircle cx='8' cy='10.9' r='.9' fill='%23000' stroke='none'/%3E%3C/svg%3E");
 }

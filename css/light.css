@@ -3,3 +3,13 @@
 [class*="dark-mode"] {
   display: none !important;
 }
+
+/* Callout colours for light mode; the callout rules live in css/common.css. */
+:root {
+  --callout-note: #0969da;
+  --callout-tip: #1a7f37;
+  --callout-important: #8250df;
+  --callout-warning: #9a6700;
+  --callout-caution: #d1242f;
+  --callout-tint: 8%;
+}

@@ -59,7 +59,7 @@ Pick the type by what the reader needs:
 
 Leave out a leading `Note:` or `Hint:`; the alert type is the label. Keep plain `>` blockquotes for quotations, such as a cited definition or a quote from a person; anything else is a callout.
 
-The Docsify v4 shorthand (`?>` and `!>`) is deprecated in Docsify v5; write the alert form instead. Styling for every type lives in [`css/common.css`](./css/common.css).
+The Docsify v4 shorthand (`?>` and `!>`) is deprecated in Docsify v5; write the alert form instead. Each type has its own colour and icon: the colours are set per theme in [`css/light.css`](./css/light.css) and [`css/dark.css`](./css/dark.css), and the shared callout rules and icons live in [`css/common.css`](./css/common.css).
 
 ### Multi Column Layout
 
