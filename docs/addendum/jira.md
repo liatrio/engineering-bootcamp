@@ -10,7 +10,8 @@ At this point you should already have experience using Jira. Jira is available a
 1. Create a new local virtual host or container and open port 8080.
 2. Download [Jira Server](https://www.atlassian.com/software/jira/download) and copy the installer to your host.
 
-> Note: you may need to check with the requirements of the Jenkins Integration plugin used in the last exercise and install a compatible version of Jira server.
+> [!NOTE]
+> You may need to check with the requirements of the Jenkins Integration plugin used in the last exercise and install a compatible version of Jira server.
 
 3. Execute the Jira installer and follow the [instructions](https://confluence.atlassian.com/display/ALLDOC/Latest+JIRA+installation+documentation).
 4. Open the Jira web interface [http://localhost:8080](http://localhost:8080) and choose "Set it up for me".
