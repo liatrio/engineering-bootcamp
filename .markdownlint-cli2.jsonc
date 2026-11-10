@@ -1,0 +1,9 @@
+// markdownlint-cli2 options. Rule settings stay in .markdownlint.json, which
+// overrides any `config` here, so this file only loads the repo's custom rules.
+{
+  "customRules": [
+    "./.markdownlint/no-legacy-callouts.cjs",
+    "./.markdownlint/callout-types.cjs",
+    "./.markdownlint/no-lazy-blockquote-lines.cjs"
+  ]
+}

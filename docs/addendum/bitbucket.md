@@ -73,7 +73,8 @@ Follow these instructions to set up a webhook for the above Jenkins-Bitbucket co
 2. Ensure that the Jenkins URL is filled out, and the Repo Clone URL uses SSH
 3. Click Trigger Jenkins in the options of the webhook setup. If it successfully triggers then click _Enable_ (or _Save_) and you are done.
 
-  ?> If you get an error then check your IPs and other settings to verify everything is correct. Specificity is a highly important with this as there are multiple IP's flying around. Remember this is a per repo activity meaning you must do this for each and every repo.
+  > [!IMPORTANT]
+  > If you get an error then check your IPs and other settings to verify everything is correct. Specificity is a highly important with this as there are multiple IP's flying around. Remember this is a per repo activity meaning you must do this for each and every repo.
 
 4. Finished
   You have now completed the set up for the assignment. You should now test a push from your local repo and verify it triggers in Jenkins.

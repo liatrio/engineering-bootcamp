@@ -149,3 +149,85 @@
 	align-items: center;
 	height: 100vh;
 }
+
+/*
+ * Callouts: Docsify v5 renders `> [!TIP]`, `> [!WARNING]`, ... as `.callout.<type>`.
+ * docsify-themeable only styles v4's `.tip`/`.warn`, so every type is styled here.
+ * Each type's colour comes from css/light.css or css/dark.css (`--callout-<type>`).
+ * Docsify strips the `[!TYPE]` marker, so a plugin in index.html opens each callout
+ * with `<p class="callout-title">` naming its type, like GitHub's alert title. Before
+ * the title, an SVG mask filled with the type's colour draws an icon with a distinct shape.
+ */
+.markdown-section .callout {
+	--callout-color: var(--callout-note);
+	--callout-icon: var(--callout-icon-note);
+	margin: 2em 0;
+	padding: 1em 1.5em;
+	border: 0 solid var(--callout-color);
+	border-left-width: 4px;
+	border-radius: var(--notice-border-radius);
+	background: color-mix(in srgb, var(--callout-color) var(--callout-tint), transparent);
+	color: inherit;
+}
+
+/* docsify-themeable draws a badge in `.tip::before`; the title replaces it. */
+.markdown-section .callout::before {
+	content: none;
+}
+
+.markdown-section .callout-title {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	margin: 0 0 0.5em;
+	color: color-mix(in srgb, var(--callout-color), var(--callout-title-mix));
+	font-weight: 600;
+	line-height: 1.5;
+}
+
+.markdown-section .callout-title::before {
+	content: "";
+	flex: none;
+	width: 1.25em;
+	height: 1.25em;
+	background: var(--callout-color);
+	-webkit-mask: var(--callout-icon) center / contain no-repeat;
+	mask: var(--callout-icon) center / contain no-repeat;
+}
+
+.markdown-section .callout > :first-child,
+.markdown-section .callout-title + * {
+	margin-top: 0;
+}
+
+.markdown-section .callout > :last-child {
+	margin-bottom: 0;
+}
+
+.markdown-section .callout.tip {
+	--callout-color: var(--callout-tip);
+	--callout-icon: var(--callout-icon-tip);
+}
+
+.markdown-section .callout.important {
+	--callout-color: var(--callout-important);
+	--callout-icon: var(--callout-icon-important);
+}
+
+.markdown-section .callout.warning {
+	--callout-color: var(--callout-warning);
+	--callout-icon: var(--callout-icon-warning);
+}
+
+.markdown-section .callout.caution {
+	--callout-color: var(--callout-caution);
+	--callout-icon: var(--callout-icon-caution);
+}
+
+:root {
+	--callout-icon-note: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='8' cy='8' r='6.5'/%3E%3Cpath d='M8 7.25v4'/%3E%3Ccircle cx='8' cy='4.9' r='.9' fill='%23000' stroke='none'/%3E%3C/svg%3E");
+	--callout-icon-tip: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 1.75a4.25 4.25 0 0 0-2.5 7.7v1.55h5V9.45A4.25 4.25 0 0 0 8 1.75Z'/%3E%3Cpath d='M6 13.25h4M6.75 15h2.5'/%3E%3C/svg%3E");
+	--callout-icon-important: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 2.5h11v8.25H8.25L5 13.5v-2.75H2.5Z'/%3E%3Cpath d='M8 4.75v2.75'/%3E%3Ccircle cx='8' cy='9.1' r='.9' fill='%23000' stroke='none'/%3E%3C/svg%3E");
+	--callout-icon-warning: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 1.75 14.75 13.75H1.25Z'/%3E%3Cpath d='M8 6v3.5'/%3E%3Ccircle cx='8' cy='11.6' r='.9' fill='%23000' stroke='none'/%3E%3C/svg%3E");
+	--callout-icon-caution: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.25 1.5h5.5l3.75 3.75v5.5l-3.75 3.75h-5.5L1.5 10.75v-5.5Z'/%3E%3Cpath d='M8 4.75v3.75'/%3E%3Ccircle cx='8' cy='10.9' r='.9' fill='%23000' stroke='none'/%3E%3C/svg%3E");
+}

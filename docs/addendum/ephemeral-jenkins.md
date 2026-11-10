@@ -13,7 +13,9 @@ In previous sections, you have likely been using a more persistent Jenkins conta
 
 * ensure you have jdk and Maven installed in your container
 
- ?> Using the [official Jenkins image](https://hub.docker.com/r/jenkins/jenkins) will allow you to install plugins as part of the Docker build process.
+ > [!TIP]
+ > Using the [official Jenkins image](https://hub.docker.com/r/jenkins/jenkins) will allow you to install plugins as part of the Docker build process.
+
 2. Create a `.yaml` file for the [JCasC plugin](https://github.com/jenkinsci/configuration-as-code-plugin) that configures a basic Jenkins instance and the recommended plugins installed in the previous step.
 
 * create a user with admin permissions
