@@ -12,6 +12,6 @@
   --callout-warning: #d29922;
   --callout-caution: #f85149;
   --callout-tint: 14%;
-  /* Lightens each label so it keeps 4.5:1 contrast on the tint. */
-  --callout-label-mix: #fff 35%;
+  /* Lightens each callout title so it keeps 4.5:1 contrast on the tint. */
+  --callout-title-mix: #fff 35%;
 }

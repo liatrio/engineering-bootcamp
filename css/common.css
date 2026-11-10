@@ -154,15 +154,13 @@
  * Callouts: Docsify v5 renders `> [!TIP]`, `> [!WARNING]`, ... as `.callout.<type>`.
  * docsify-themeable only styles v4's `.tip`/`.warn`, so every type is styled here.
  * Each type's colour comes from css/light.css or css/dark.css (`--callout-<type>`).
- * Docsify strips the `[!TYPE]` marker, so each callout opens with its type's label,
- * like GitHub's alert title: generated text that screen readers announce. Beside it,
- * an SVG mask filled with the type's colour draws an icon with a distinct shape.
+ * Docsify strips the `[!TYPE]` marker, so a plugin in index.html opens each callout
+ * with `<p class="callout-title">` naming its type, like GitHub's alert title. Before
+ * the title, an SVG mask filled with the type's colour draws an icon with a distinct shape.
  */
 .markdown-section .callout {
 	--callout-color: var(--callout-note);
 	--callout-icon: var(--callout-icon-note);
-	--callout-label: "Note";
-	position: relative;
 	margin: 2em 0;
 	padding: 1em 1.5em;
 	border: 0 solid var(--callout-color);
@@ -172,31 +170,24 @@
 	color: inherit;
 }
 
-/* The label. Resets the badge that docsify-themeable draws in `.tip::before`. */
+/* docsify-themeable draws a badge in `.tip::before`; the title replaces it. */
 .markdown-section .callout::before {
-	content: var(--callout-label);
-	display: block;
-	position: static;
-	width: auto;
-	height: auto;
-	margin: 0 0 0.5em;
-	padding: 0 0 0 1.75em;
-	border-radius: 0;
-	background: none;
-	color: color-mix(in srgb, var(--callout-color), var(--callout-label-mix));
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: 600;
-	line-height: 1.5;
-	text-align: left;
+	content: none;
 }
 
-/* The icon, centred on the label's line: 1em padding + (1.5em line - 1.25em icon) / 2. */
-.markdown-section .callout::after {
+.markdown-section .callout-title {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	margin: 0 0 0.5em;
+	color: color-mix(in srgb, var(--callout-color), var(--callout-title-mix));
+	font-weight: 600;
+	line-height: 1.5;
+}
+
+.markdown-section .callout-title::before {
 	content: "";
-	position: absolute;
-	top: 1.125em;
-	left: 1.5em;
+	flex: none;
 	width: 1.25em;
 	height: 1.25em;
 	background: var(--callout-color);
@@ -204,7 +195,8 @@
 	mask: var(--callout-icon) center / contain no-repeat;
 }
 
-.markdown-section .callout > :first-child {
+.markdown-section .callout > :first-child,
+.markdown-section .callout-title + * {
 	margin-top: 0;
 }
 
@@ -215,25 +207,21 @@
 .markdown-section .callout.tip {
 	--callout-color: var(--callout-tip);
 	--callout-icon: var(--callout-icon-tip);
-	--callout-label: "Tip";
 }
 
 .markdown-section .callout.important {
 	--callout-color: var(--callout-important);
 	--callout-icon: var(--callout-icon-important);
-	--callout-label: "Important";
 }
 
 .markdown-section .callout.warning {
 	--callout-color: var(--callout-warning);
 	--callout-icon: var(--callout-icon-warning);
-	--callout-label: "Warning";
 }
 
 .markdown-section .callout.caution {
 	--callout-color: var(--callout-caution);
 	--callout-icon: var(--callout-icon-caution);
-	--callout-label: "Caution";
 }
 
 :root {

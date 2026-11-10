@@ -94,6 +94,23 @@
                         });
                     },
 
+                    // Callout titles: Docsify renders `> [!NOTE]` as
+                    // `<div class="callout note">` and drops the marker, so add
+                    // the type's name as text, like GitHub's alert title.
+                    // css/common.css styles `.callout-title` and its icon.
+                    function (hook) {
+                        hook.afterEach(function (html) {
+                            return html.replace(
+                                /<div class="callout (\w+)">/g,
+                                function (tag, type) {
+                                    const title =
+                                        type[0].toUpperCase() + type.slice(1);
+                                    return `${tag}<p class="callout-title">${title}</p>`;
+                                },
+                            );
+                        });
+                    },
+
                     // Quizdown
                     function (hook) {
                         hook.doneEach(function () {
