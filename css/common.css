@@ -153,15 +153,18 @@
 /*
  * Callouts: Docsify v5 renders `> [!TIP]`, `> [!WARNING]`, ... as `.callout.<type>`.
  * docsify-themeable only styles v4's `.tip`/`.warn`, so every type is styled here.
- * Each type's colour comes from css/light.css or css/dark.css (`--callout-<type>`);
- * its icon is an SVG mask filled with that colour, with a distinct shape per type.
+ * Each type's colour comes from css/light.css or css/dark.css (`--callout-<type>`).
+ * Docsify strips the `[!TYPE]` marker, so each callout opens with its type's label,
+ * like GitHub's alert title: generated text that screen readers announce. Beside it,
+ * an SVG mask filled with the type's colour draws an icon with a distinct shape.
  */
 .markdown-section .callout {
 	--callout-color: var(--callout-note);
 	--callout-icon: var(--callout-icon-note);
+	--callout-label: "Note";
 	position: relative;
 	margin: 2em 0;
-	padding: 1em 1.5em 1em 3em;
+	padding: 1em 1.5em;
 	border: 0 solid var(--callout-color);
 	border-left-width: 4px;
 	border-radius: var(--notice-border-radius);
@@ -169,16 +172,33 @@
 	color: inherit;
 }
 
+/* The label. Resets the badge that docsify-themeable draws in `.tip::before`. */
 .markdown-section .callout::before {
+	content: var(--callout-label);
+	display: block;
+	position: static;
+	width: auto;
+	height: auto;
+	margin: 0 0 0.5em;
+	padding: 0 0 0 1.75em;
+	border-radius: 0;
+	background: none;
+	color: color-mix(in srgb, var(--callout-color), var(--callout-label-mix));
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: 600;
+	line-height: 1.5;
+	text-align: left;
+}
+
+/* The icon, centred on the label's line: 1em padding + (1.5em line - 1.25em icon) / 2. */
+.markdown-section .callout::after {
 	content: "";
 	position: absolute;
-	top: 1.1em;
-	left: 0.9em;
-	width: 1.35em;
-	height: 1.35em;
-	margin: 0;
-	padding: 0;
-	border-radius: 0;
+	top: 1.125em;
+	left: 1.5em;
+	width: 1.25em;
+	height: 1.25em;
 	background: var(--callout-color);
 	-webkit-mask: var(--callout-icon) center / contain no-repeat;
 	mask: var(--callout-icon) center / contain no-repeat;
@@ -195,21 +215,25 @@
 .markdown-section .callout.tip {
 	--callout-color: var(--callout-tip);
 	--callout-icon: var(--callout-icon-tip);
+	--callout-label: "Tip";
 }
 
 .markdown-section .callout.important {
 	--callout-color: var(--callout-important);
 	--callout-icon: var(--callout-icon-important);
+	--callout-label: "Important";
 }
 
 .markdown-section .callout.warning {
 	--callout-color: var(--callout-warning);
 	--callout-icon: var(--callout-icon-warning);
+	--callout-label: "Warning";
 }
 
 .markdown-section .callout.caution {
 	--callout-color: var(--callout-caution);
 	--callout-icon: var(--callout-icon-caution);
+	--callout-label: "Caution";
 }
 
 :root {
