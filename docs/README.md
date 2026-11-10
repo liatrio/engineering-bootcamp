@@ -439,7 +439,7 @@ docs/3-application-development/3.3.4-opentelemetry.md:
         - OpenTelemetry
         - Grafana
         - Python
-docs/3-application-development/3.4-layers.md:
+docs/3-application-development/3.5-layers.md:
   category: Software Development
   estReadingMinutes: 30
   exercises:
@@ -461,7 +461,7 @@ docs/3-application-development/3.4-layers.md:
         - Python
         - Flask
         - SQLite
-docs/3-application-development/3.5.1-solid-principles.md:
+docs/3-application-development/3.6.1-solid-principles.md:
   category: Software Development
   estReadingMinutes: 120
   exercises:
@@ -486,7 +486,7 @@ docs/3-application-development/3.5.1-solid-principles.md:
       estMinutes: 45
       technologies:
         - Python
-docs/3-application-development/3.5.2-data-layer-patterns.md:
+docs/3-application-development/3.6.2-data-layer-patterns.md:
   category: Software Development
   estReadingMinutes: 45
   exercises:

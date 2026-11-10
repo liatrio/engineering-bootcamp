@@ -66,10 +66,10 @@
   - [3.3.2 - Metrics](3-application-development/3.3.2-metrics.md)
   - [3.3.3 - Tracing](3-application-development/3.3.3-tracing.md)
   - [3.3.4 - OpenTelemetry](3-application-development/3.3.4-opentelemetry.md)
-- [3.4 - Layers](3-application-development/3.4-layers.md)
-- [3.5 - Design Patterns](3-application-development/3.5-design-patterns.md)
-  - [3.5.1 - SOLID Principles](3-application-development/3.5.1-solid-principles.md)
-  - [3.5.2 - Data Layer Patterns](3-application-development/3.5.2-data-layer-patterns.md)
+- [3.5 - Layers](3-application-development/3.5-layers.md)
+- [3.6 - Design Patterns](3-application-development/3.6-design-patterns.md)
+  - [3.6.1 - SOLID Principles](3-application-development/3.6.1-solid-principles.md)
+  - [3.6.2 - Data Layer Patterns](3-application-development/3.6.2-data-layer-patterns.md)
 
 - **Chapter 4**
 - [4.0 - Virtual Machines & Containers](/4-virtual-machines-containers/4.0-overview.md)
