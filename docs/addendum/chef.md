@@ -75,8 +75,7 @@ You can get most of this information on:
 3. Upload Nginx cookbook to chef server
 4. Bootstrap a new AWS instance with Nginx cookbook.
 
-> ### Note:
->
+> [!NOTE]
 > - The server and workstation instances might be too much for a t2.micro or t2.small. A t2.medium is recommended.
 > - Vague steps on purpose - ask leader for clarification if need be
 > - There are more than one way to get to the same outcome - be prepared to talk about your method.

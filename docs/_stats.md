@@ -1,6 +1,8 @@
 ### Bootcamp Summary
 
-?> Weeks are calculated assuming 20 hours/week.
+> [!NOTE]
+> Weeks are calculated assuming 20 hours/week.
+
 <!-- This gets used by `src/docsify-plugins/generate-chart.js::bootcampTotals` -->
 | Total Hours            | Total Weeks            |
 |:-----------:           |:-----------:           |

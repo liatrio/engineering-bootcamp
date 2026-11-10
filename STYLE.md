@@ -40,6 +40,40 @@ Docsify and some Markdown viewers supports mixing HTML and Markdown elements in 
 
 Note the blank line between the `<center>` HTML tag and the `![<alt text>](img/<descriptive_image_name>.svg)` Markdown tag. Image paths are page-relative: `img/<descriptive_image_name>.svg` for the chapter's own images, `../../img/<descriptive_image_name>.svg` for site-wide assets in the root `img/` folder.
 
+### Callouts
+
+Callouts use GitHub-style alerts: a blockquote whose first line is the type marker. Docsify renders them as callout boxes, and GitHub renders them when the Markdown file is viewed in the repository.
+
+```markdown
+> [!TIP]
+> Use `kubectl explain <resource>` to see every field a manifest accepts.
+```
+
+Pick the type by what the reader needs:
+
+- `[!NOTE]` — background the reader should keep in mind: how something works, a known limitation, a question to reflect on.
+- `[!TIP]` — optional advice that helps the reader succeed: a shortcut, further reading, a troubleshooting hint.
+- `[!IMPORTANT]` — information the reader needs to complete the exercise: a required setting, a naming rule, a constraint such as "do not use `helm create`".
+- `[!WARNING]` — a risk the reader should know about before acting.
+- `[!CAUTION]` — an action with harmful consequences, such as leaking credentials.
+
+Leave out a leading `Note:` or `Hint:`: the callout already opens with its type's name, on the site as on GitHub. Keep plain `>` blockquotes for quotations, such as a cited definition or a quote from a person; anything else is a callout.
+
+Put a blank line before and after a callout. A line written straight after a callout without `>` joins it, so a following step such as `2. ...` renders inside the box. To keep a callout inside a list item, indent it to the item's text, such as three spaces under `1.`:
+
+```markdown
+1. Create the instance.
+
+   > [!TIP]
+   > Name it after yourself so others can find it.
+
+2. Connect to it.
+```
+
+`npm run lint:markdown` checks that callouts use one of the five types and that every line of a blockquote starts with `>`.
+
+The Docsify v4 shorthand (`?>` and `!>`) is deprecated in Docsify v5; write the alert form instead. Each type has its own title, colour and icon: a plugin in [`index.html`](./index.html) adds the title, the colours are set per theme in [`css/light.css`](./css/light.css) and [`css/dark.css`](./css/dark.css), and the shared callout rules and icons live in [`css/common.css`](./css/common.css).
+
 ### Multi Column Layout
 
 Multi column layouts can be created using HTML div tags with following CSS classes:
