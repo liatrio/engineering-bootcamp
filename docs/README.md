@@ -439,6 +439,69 @@ docs/3-application-development/3.3.4-opentelemetry.md:
         - OpenTelemetry
         - Grafana
         - Python
+docs/3-application-development/3.4-feature-flags.md:
+  category: Software Development
+  estReadingMinutes: 10
+  exercises:
+    - name: Ship a feature behind a flag
+      description: >-
+        Run flagd locally, put a new behavior in the layered Flask application
+        behind an OpenFeature flag, and release it by changing the flag instead
+        of redeploying.
+      estMinutes: 30
+      technologies:
+        - OpenFeature
+        - flagd
+        - Docker
+        - Python
+        - Flask
+docs/3-application-development/3.4.1-flag-types.md:
+  category: Software Development
+  estReadingMinutes: 10
+  exercises:
+    - name: Add a kill switch and retire a release flag
+      description: >-
+        Add an ops flag that pauses sign-ups in the layered Flask application,
+        test how the application behaves when flagd is unavailable, and remove a
+        release flag that has done its job.
+      estMinutes: 30
+      technologies:
+        - OpenFeature
+        - flagd
+        - Python
+        - Flask
+docs/3-application-development/3.4.2-rollouts-and-experiments.md:
+  category: Software Development
+  estReadingMinutes: 10
+  exercises:
+    - name: Roll out a change to a percentage of users
+      description: >-
+        Pass request context to OpenFeature, target beta users with flagd, and
+        roll a stricter validation rule out to a growing percentage of users.
+      estMinutes: 45
+      technologies:
+        - OpenFeature
+        - flagd
+        - Python
+        - Flask
+docs/3-application-development/3.4.3-openfeature.md:
+  category: Software Development
+  estReadingMinutes: 10
+  exercises:
+    - name: Trace and test flagged code
+      description: >-
+        Record flag evaluations in OpenTelemetry traces with an OpenFeature
+        hook, find them in Grafana Tempo, and test both sides of a flag with
+        OpenFeature's in-memory provider.
+      estMinutes: 45
+      technologies:
+        - OpenFeature
+        - flagd
+        - OpenTelemetry
+        - Grafana
+        - Tempo
+        - pytest
+        - Python
 docs/3-application-development/3.5-layers.md:
   category: Software Development
   estReadingMinutes: 30
