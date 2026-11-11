@@ -6,47 +6,47 @@ shuffleAnswers: true
 
 # What separates a component test from an integration test?
 
-- [x] A component test replaces everything outside the component with test doubles; an integration test uses a real dependency
-  > Both can exercise many units together. The difference is whether the external dependency is real.
-- [ ] A component test checks a single function; an integration test checks a whole service
-  > A component test checks many units working together, not a single function.
-- [ ] A component test runs in a browser; an integration test runs on a server
-  > Neither definition depends on where the test runs.
-- [ ] A component test is slower because it starts the whole service
-  > Component tests stay in-process with no real dependencies, so they're fast.
+- [x] Whether the dependencies outside the component are real
+  > A component test replaces them with test doubles. An integration test uses a real one, such as a database.
+- [ ] Whether the test drives the code through its interface
+  > Both can drive a public interface. The difference is the dependencies.
+- [ ] Whether more than one unit runs during the test
+  > Both exercise many units working together.
+- [ ] Whether the test runs inside the same process
+  > Integration tests can run in-process too. What matters is whether the dependency is real.
 
-# Why should a component test drive the service through its HTTP endpoints rather than calling its internal classes?
+# Why should a component test drive a web service through its HTTP endpoints rather than its internal classes?
 
-- [x] The tests drive the component the way real callers do, so they survive refactoring
-  > Internal classes can be renamed and restructured freely as long as the public interface behaves the same.
-- [ ] HTTP calls are faster than function calls
-  > They're not. The benefit is stability, not speed.
-- [ ] Internal classes can't be imported from test code
-  > They usually can. Doing so ties the tests to implementation details.
-- [ ] It removes the need for test doubles
+- [x] Internal classes can change without breaking the tests
+  > The tests drive the component the way real callers do, so they survive refactoring.
+- [ ] It removes the need for any test doubles in the test
   > Dependencies outside the component are still replaced with doubles.
+- [ ] HTTP requests run faster than calling the class methods directly
+  > They don't. The benefit is stability, not speed.
+- [ ] It exercises the real database behind the service
+  > The database is outside the component, so a component test replaces it.
 
 # In a component test of a web service, which of these should you replace with test doubles? Select all that apply.
 
-- [x] The database
+- [x] The database the service stores users in
   > It's outside the component.
-- [x] Another service the component calls over HTTP
+- [x] A payment service it calls over HTTP
   > It's outside the component.
-- [ ] The component's own validation layer
+- [ ] The service's own request validation
   > The component's own layers run for real. That's where bugs in how units fit together hide.
-- [ ] The component's routing
-  > Routing is part of the component and should run for real.
+- [ ] The service's own JSON serialization
+  > Serialization is part of the component and should run for real.
 
 # Your component tests pass when run one at a time but fail when the whole suite runs. What is the most likely cause?
 
-- [x] Tests share state, so the results depend on the order they run in
+- [x] State shared between tests, so the run order matters
   > Each test should start from a known state.
-- [ ] The tests run too fast
-  > Speed doesn't cause order-dependent failures.
-- [ ] The tests drive the public interface
-  > That's good practice and doesn't make tests depend on each other.
-- [ ] The test doubles are too simple
-  > Simple doubles are fine. Shared state between tests is the problem.
+- [ ] Test doubles that don't behave like the real service
+  > That would make tests fail (or pass) consistently, not only when run together.
+- [ ] Tests that check internal methods, not behavior
+  > That makes tests brittle under refactoring, not order-dependent.
+- [ ] A suite too large to run in a single process
+  > Size alone doesn't make one test's result depend on another.
 `;
 
 export { rawQuizdown }

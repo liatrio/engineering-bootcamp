@@ -6,46 +6,46 @@ shuffleAnswers: true
 
 # Which bug would an integration test catch that a unit test with a test double would miss?
 
-- [x] The database rejects a duplicate key that your code assumed it would accept
+- [x] The database rejects a duplicate key your code tried to save
   > A double only behaves the way you programmed it to. Only the real database enforces its constraints.
-- [ ] A validation rule allows an empty name
+- [ ] A validation rule accepts a name that's only whitespace
   > Business rules like this belong in faster unit and component tests.
-- [ ] A function returns the wrong total for two numbers
-  > That's a unit test's job.
-- [ ] A variable is misspelled
-  > Static analysis catches this instantly, without running anything.
+- [ ] A route returns \`200\` where the spec requires \`201\`
+  > A component test with doubles catches this. No real dependency is needed.
+- [ ] A refactor breaks a calculation in one of the service's helper functions
+  > A unit test catches this without any external system.
 
 # What is a narrow integration test?
 
-- [x] A test of only the code that talks to one external system, against a real instance of that system
-  > For example, a repository against its database, and nothing else.
-- [ ] A test that needs live versions of every service
+- [x] A test of the code that talks to one real external system
+  > For example, a repository against a real database, and nothing else.
+- [ ] A test of one service with every dependency faked out
+  > That's a component test. Integration tests use a real dependency.
+- [ ] A test that runs against live versions of every service
   > That's a broad integration test, which behaves much like an end-to-end test.
-- [ ] A test with every dependency replaced by a mock
-  > That's a unit or component test.
-- [ ] A test that covers only one line of code
-  > "Narrow" refers to one external boundary, not one line.
+- [ ] A test that checks a double still behaves like the real thing
+  > Fowler calls that a contract test.
 
 # Production runs PostgreSQL. Why is testing your repository against SQLite risky?
 
-- [x] The two differ in SQL syntax, types, and locking, so a test can pass on one while production fails on the other
-  > Use the same technology as production. Testcontainers can start a real PostgreSQL in a throwaway container.
-- [ ] SQLite is too slow for tests
-  > Speed isn't the issue. Behavioral differences are.
-- [ ] SQLite can't run inside a test process
-  > It can, which is why it's tempting.
-- [ ] There's no risk as long as both use SQL
-  > SQL dialects differ enough to hide real bugs.
+- [x] The two differ in SQL syntax, types, and locking
+  > A test can pass on one while production fails on the other. Testcontainers can start a real PostgreSQL instead.
+- [ ] SQLite can't run inside the same process as tests
+  > It can, which is what makes it tempting.
+- [ ] SQLite is much slower to start than a container
+  > Speed isn't the risk. Behavioral differences are.
+- [ ] SQLite tests can't start from a known state
+  > You can reset SQLite as easily as any other database.
 
-# Your integration suite is slow because it starts a database container for every test. What does the page recommend?
+# Your integration suite is slow because it starts a new database container for every test. What does the page recommend?
 
-- [x] Start containers once per test run, and give each test a known starting state
+- [x] Start containers once per run, and reset state between tests
   > For example, roll back a transaction after each test, or give each test its own data.
-- [ ] Replace the database with a mock
-  > That turns it back into a unit test and loses what the integration test was for.
-- [ ] Stop resetting state between tests
+- [ ] Start containers once per run, and keep state between tests
   > Tests would then depend on each other and on the order they run in.
-- [ ] Move the business-logic tests into the integration suite
+- [ ] Swap the container for an in-memory fake in most tests
+  > That loses the real-dependency check that the integration test exists for.
+- [ ] Move the validation tests into the integration suite
   > Business logic belongs in faster unit and component tests. That would make the suite slower.
 `;
 
