@@ -17,47 +17,47 @@ shuffleAnswers: true
 
 # A flag hides a half-built checkout page so the main branch can keep deploying. Which category is it, and how long should it live?
 
-- [x] Release; days or weeks, until the feature is released
-  > A release flag should have a removal date.
-- [ ] Permission; as long as the product exists
-  > Nobody is meant to have permanent access to a half-built page.
-- [ ] Ops; years, as a kill switch
-  > It isn't controlling operational behavior.
-- [ ] Experiment; until the results are in
-  > Nothing is being compared between groups.
+- [x] Release; until the feature is released
+  > Days or weeks. A release flag should have a removal date.
+- [ ] Release; for as long as the page exists
+  > Once the page is released, the flag is debt.
+- [ ] Ops; until the page has proven stable
+  > It isn't controlling operational behavior. It's hiding unfinished work.
+- [ ] Permission; until every user has access
+  > Nobody is meant to have access to a half-built page.
 
 # A kill switch turns off an expensive recommendation feature under heavy load. What default should the flag check in the code use?
 
-- [x] Feature available, so a failure in the flag system doesn't cause an outage of its own
+- [x] Feature on, so a flag-system failure doesn't cause an outage
   > The default is the behavior you'd want if the flag system failed.
-- [ ] Feature off, to be safe
+- [ ] Feature off, so a flag-system failure sheds the extra load
   > Then any flag-system failure would switch the feature off for everyone.
-- [ ] It doesn't matter, because the flag service is always available
-  > Flag services fail, and flags get deleted or misspelled.
-- [ ] Whatever the flag file currently says
-  > The default is used precisely when the flag file can't be read.
+- [ ] Whichever value the flag file had when the app was last deployed
+  > The code default is fixed in the code. It's used when the flag file can't be read.
+- [ ] Feature off, matching the release-flag rule for safety
+  > Release flags default to the old behavior. Kill switches usually default to the feature being available.
 
 # The flagd provider keeps the last values it received. When does a flag's code default matter most?
 
-- [x] When an application starts while the flag service is unavailable
-  > A running application keeps its cached values, but a new one has nothing to fall back on except the defaults.
-- [ ] Whenever the flag service restarts
-  > A running application keeps its last values through a short outage.
-- [ ] Every time a flag changes
-  > A change delivers a new value, not the default.
-- [ ] Never, because of the cache
-  > The cache only helps applications that were already running.
+- [x] When the app starts while flagd is unavailable
+  > A running app keeps its cached values, but a new one has nothing to fall back on except the defaults.
+- [ ] When flagd goes down while the app is running
+  > A running app keeps its last values through an outage.
+- [ ] When a flag's default variant changes in flagd
+  > A change delivers a new value from flagd, not the code default.
+- [ ] When flagd comes back after a long outage
+  > Once flagd is back, the app picks up its values again.
 
 # Which practices help keep flag debt low? Select all that apply.
 
-- [x] Add a removal task to the backlog when you create a release flag
+- [x] Add a removal task to the backlog with each release flag
   > Removal becomes planned work, not a favor.
-- [x] Record an owner and an expiry date with each flag
+- [x] Record an owner and an expiry date for each flag
   > Someone is responsible, and everyone knows when it should go.
 - [x] Limit how many flags a service may have at once
   > Adding a flag means removing another.
-- [ ] Keep released flags in place in case you need them again
-  > Flags that have done their job become dead code and confusion.
+- [ ] Delete a flag from flagd before removing its check
+  > Remove the code first. Otherwise the running code falls back to its default the moment the flag disappears.
 `;
 
 export { rawQuizdown }

@@ -8,56 +8,56 @@ shuffleAnswers: true
 
 - [x] The provider
   > The provider is the adapter between the OpenFeature API and the flag system. The flag checks stay the same.
-- [ ] Every flag check
+- [ ] The flag checks
   > Flag checks call the vendor-neutral API, so they don't change.
-- [ ] The evaluation context
-  > The context describes the request, whichever system evaluates the flags.
-- [ ] Nothing, not even configuration
-  > You still have to set the new vendor's provider.
+- [ ] The hooks
+  > Hooks such as the OpenTelemetry hook work with any provider.
+- [ ] The context
+  > The evaluation context describes the request, whichever system evaluates the flags.
 
 # One flag returns the reason \`STATIC\` and another \`TARGETING_MATCH\`. What's the difference?
 
-- [x] \`STATIC\` means the flag has no targeting rules; \`TARGETING_MATCH\` means a rule chose the variant
+- [x] \`STATIC\` flags have no rules; for the other, a rule chose
   > Call \`get_boolean_details(...)\` to see the reason.
-- [ ] \`STATIC\` means the flag is switched off
-  > A flag that's off can still be static.
-- [ ] \`TARGETING_MATCH\` means the evaluation failed
-  > Failures are reported with the reason \`ERROR\`.
-- [ ] \`STATIC\` means the value came from the code's default
-  > A code default is reported with a different reason.
+- [ ] \`STATIC\` flags are off; for the other, a rule turned it on
+  > A static flag can return any of its variants. It just has no targeting rules.
+- [ ] \`STATIC\` values are cached; the other came from flagd
+  > Caching is reported with its own reason, \`CACHED\`.
+- [ ] \`STATIC\` used the code default; the other used flagd
+  > When evaluation fails and the code default is used, the reason is \`ERROR\`.
 
 # What are OpenFeature hooks for?
 
-- [x] Code that runs before and after every evaluation, for cross-cutting concerns such as logging or telemetry
-  > The OpenTelemetry hook adds a \`feature_flag.evaluation\` event to the current span after each evaluation.
-- [ ] Choosing which variant a user gets
+- [x] Running code before and after every flag evaluation
+  > For cross-cutting concerns such as logging or telemetry. The OpenTelemetry hook adds a span event after each evaluation.
+- [ ] Choosing which variant each user should receive, per request
   > That's what targeting rules do.
-- [ ] Connecting to a flag management system
+- [ ] Connecting the API to a flag management system
   > That's the provider's job.
-- [ ] Storing flag definitions
-  > The flag management system stores them.
+- [ ] Merging the evaluation context from each level
+  > The SDK merges context itself before each evaluation.
 
 # How does flagd's in-process mode differ from RPC mode?
 
-- [x] flagd sends the flag definitions to the application, which evaluates them locally with no network call per evaluation
-  > Set \`FLAGD_RESOLVER=in-process\` to use it.
-- [ ] The application asks flagd for every evaluation over the network
+- [x] The app evaluates flags locally, with no call per evaluation
+  > flagd sends the flag definitions to the application. Set \`FLAGD_RESOLVER=in-process\` to use it.
+- [ ] The app calls flagd over the network for every evaluation
   > That's RPC mode, though flags without targeting rules are cached.
-- [ ] flagd runs inside the application's container
+- [ ] flagd runs as a library, inside the application's own process
   > The definitions come to the application. flagd still runs separately.
-- [ ] Flags can't change without restarting the application
+- [ ] The app reads flag changes only when it is restarted
   > flagd still sends changes to the application.
 
 # Why reset the in-memory provider after each test?
 
-- [x] The provider is global state, so one test's flags would leak into the next
+- [x] The provider is global, so flags leak into later tests
   > Otherwise results depend on the order the tests run in.
-- [ ] The in-memory provider only works once
+- [ ] The in-memory provider can only be set once per test run
   > It can be set as many times as you like.
-- [ ] To reconnect to flagd between tests
+- [ ] Each test has to reconnect to flagd before it runs
   > Tests shouldn't depend on a running flag service at all.
-- [ ] To clear the flag cache in flagd
-  > The in-memory provider doesn't use flagd.
+- [ ] The provider caches values that would go out of date between tests
+  > The problem is shared global state, not stale caching.
 `;
 
 export { rawQuizdown }

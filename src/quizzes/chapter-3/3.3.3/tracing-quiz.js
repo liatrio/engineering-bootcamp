@@ -8,45 +8,45 @@ shuffleAnswers: true
 
 - [x] Each span records its parent span's ID
   > The parent links give the tree, which tools draw as a waterfall.
-- [ ] Spans are sorted by start time
-  > Visualization tools position bars by time, but the parent links give the structure.
-- [ ] Each span has a unique name
-  > Names don't need to be unique, and they don't define relationships.
-- [ ] The backend guesses from the span names
-  > The relationships are recorded explicitly, not inferred.
+- [ ] Each span records the trace ID it belongs to
+  > The trace ID groups spans into one trace, but doesn't say which is whose parent.
+- [ ] The backend nests spans by start and end time
+  > Tools position bars by time, but the structure comes from the parent links.
+- [ ] Each span records the names of its child spans
+  > Children point to their parent, not the other way around.
 
 # A request goes from service A to service B over HTTP. How does service B continue the same trace?
 
-- [x] Service A sends a W3C \`traceparent\` header with the trace ID and parent span ID
-  > This is context propagation. OpenTelemetry's HTTP instrumentation sends and reads the header for you.
-- [ ] Service B looks up the trace in the tracing backend
+- [x] A sends a \`traceparent\` header with the trace context
+  > The W3C Trace Context header carries the trace ID and parent span ID. OpenTelemetry's HTTP instrumentation sends and reads it for you.
+- [ ] B looks up A's active trace in the tracing backend
   > The context travels with the request, not through the backend.
-- [ ] Both services use the same service name
-  > Services have their own names. The header carries the trace context.
-- [ ] Service B starts a new trace, and the backend joins them by timestamp
+- [ ] Both services share the same \`service.name\` resource
+  > Each service has its own name. The header carries the trace context.
+- [ ] The backend joins the two traces later, by matching their timestamps
   > Without propagation, you get two unrelated traces.
 
 # You have automatic spans for incoming HTTP requests and database queries. Where should you add manual spans?
 
-- [x] Operations that matter to your application, such as validation or business rules
+- [x] Around validation and business rules in your code
   > Add attributes that help you search too, such as an order ID or customer tier.
-- [ ] Around every line of code
-  > A span per line is noise.
-- [ ] Around the incoming HTTP request
-  > The instrumentation library already creates that span.
-- [ ] Nowhere; automatic spans are always enough
-  > They give you the skeleton, but not the operations specific to your application.
+- [ ] Around each outgoing HTTP call your service makes
+  > Instrumentation libraries already create spans for outgoing HTTP calls.
+- [ ] Around every function, so nothing is ever missed
+  > A span per function or line is noise. Keep spans to significant operations.
+- [ ] Around the request handler, to time the whole request
+  > The incoming request already has an automatic span.
 
 # Which of these does a span record? Select all that apply.
 
-- [x] Start and end times
+- [x] Its start and end times
   > Every span is a timed operation.
 - [x] Attributes, such as \`http.route\`
   > Key-value details that help you search and understand the operation.
-- [x] A status: unset, OK, or error
-  > It marks whether the operation failed.
-- [ ] Every log line in the application
-  > Logs are a separate signal, though they can carry the trace ID to link them.
+- [x] Events, such as an exception
+  > Events mark things that happened during the operation.
+- [ ] The IDs of all its child spans
+  > Each span records its *parent's* ID. Children aren't listed on the parent.
 `;
 
 export { rawQuizdown }
