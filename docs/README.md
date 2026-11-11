@@ -187,10 +187,10 @@ docs/3-application-development/3.1.5-networking.md:
     - name: hello network
       description: explore the network of your local computer
       estMinutes: 15
-docs/3-application-development/3.2-code-quality.md:
+docs/3-application-development/3.4-code-quality.md:
   category: Software Quality
   estReadingMinutes: 10
-docs/3-application-development/3.2.1-testing-concepts.md:
+docs/3-application-development/3.4.1-testing-concepts.md:
   category: Software Quality
   estReadingMinutes: 20
   exercises:
@@ -202,7 +202,7 @@ docs/3-application-development/3.2.1-testing-concepts.md:
       technologies:
         - Go
         - Python
-docs/3-application-development/3.2.10-test-automation.md:
+docs/3-application-development/3.4.10-test-automation.md:
   category: Software Quality
   estReadingMinutes: 5
   exercises:
@@ -212,7 +212,7 @@ docs/3-application-development/3.2.10-test-automation.md:
       technologies:
         - GitHub Actions
         - Go
-docs/3-application-development/3.2.11-sonarqube.md:
+docs/3-application-development/3.4.11-sonarqube.md:
   category: Software Quality
   estReadingMinutes: 10
   exercises:
@@ -224,10 +224,10 @@ docs/3-application-development/3.2.11-sonarqube.md:
       technologies:
         - SonarQube
         - GitHub Actions
-docs/3-application-development/3.2.12-code-review.md:
+docs/3-application-development/3.4.12-code-review.md:
   category: Software Quality
   estReadingMinutes: 10
-docs/3-application-development/3.2.13-pre-commit.md:
+docs/3-application-development/3.4.13-pre-commit.md:
   category: Software Quality
   estReadingMinutes: 12
   exercises:
@@ -254,7 +254,7 @@ docs/3-application-development/3.2.13-pre-commit.md:
         - GitHub Actions
         - Taskfile.dev
         - pre-commit
-docs/3-application-development/3.2.2-unit-testing.md:
+docs/3-application-development/3.4.2-unit-testing.md:
   category: Software Quality
   estReadingMinutes: 20
   exercises:
@@ -264,7 +264,7 @@ docs/3-application-development/3.2.2-unit-testing.md:
       technologies:
         - Go
         - TDD
-docs/3-application-development/3.2.3-test-doubles.md:
+docs/3-application-development/3.4.3-test-doubles.md:
   category: Software Quality
   estReadingMinutes: 10
   exercises:
@@ -290,7 +290,7 @@ docs/3-application-development/3.2.3-test-doubles.md:
       technologies:
         - Node.js
         - Jest
-docs/3-application-development/3.2.4-component-testing.md:
+docs/3-application-development/3.4.4-component-testing.md:
   category: Software Quality
   estReadingMinutes: 10
   exercises:
@@ -303,7 +303,7 @@ docs/3-application-development/3.2.4-component-testing.md:
         - Python
         - Flask
         - pytest
-docs/3-application-development/3.2.5-integration-testing.md:
+docs/3-application-development/3.4.5-integration-testing.md:
   category: Software Quality
   estReadingMinutes: 10
   exercises:
@@ -319,7 +319,7 @@ docs/3-application-development/3.2.5-integration-testing.md:
         - PostgreSQL
         - Testcontainers
         - Docker
-docs/3-application-development/3.2.6-contract-testing.md:
+docs/3-application-development/3.4.6-contract-testing.md:
   category: Software Quality
   estReadingMinutes: 10
   exercises:
@@ -334,7 +334,7 @@ docs/3-application-development/3.2.6-contract-testing.md:
         - Node.js
         - Jest
         - Docker
-docs/3-application-development/3.2.7-end-to-end-testing.md:
+docs/3-application-development/3.4.7-end-to-end-testing.md:
   category: Software Quality
   estReadingMinutes: 20
   exercises:
@@ -350,7 +350,7 @@ docs/3-application-development/3.2.7-end-to-end-testing.md:
       technologies:
         - Playwright
         - Python
-docs/3-application-development/3.2.8-code-coverage.md:
+docs/3-application-development/3.4.8-code-coverage.md:
   category: Software Quality
   estReadingMinutes: 20
   exercises:
@@ -362,10 +362,10 @@ docs/3-application-development/3.2.8-code-coverage.md:
       technologies:
         - Node.js
         - Jest
-docs/3-application-development/3.2.9-code-styling.md:
+docs/3-application-development/3.4.9-code-styling.md:
   category: Software Quality
   estReadingMinutes: 30
-docs/3-application-development/3.3-observability.md:
+docs/3-application-development/3.5-observability.md:
   category: Observability
   estReadingMinutes: 15
   exercises:
@@ -381,7 +381,7 @@ docs/3-application-development/3.3-observability.md:
         - Docker
         - Python
         - Flask
-docs/3-application-development/3.3.1-logging.md:
+docs/3-application-development/3.5.1-logging.md:
   category: Observability
   estReadingMinutes: 10
   exercises:
@@ -395,7 +395,7 @@ docs/3-application-development/3.3.1-logging.md:
         - Grafana
         - Loki
         - Python
-docs/3-application-development/3.3.2-metrics.md:
+docs/3-application-development/3.5.2-metrics.md:
   category: Observability
   estReadingMinutes: 10
   exercises:
@@ -410,7 +410,7 @@ docs/3-application-development/3.3.2-metrics.md:
         - Grafana
         - Prometheus
         - Python
-docs/3-application-development/3.3.3-tracing.md:
+docs/3-application-development/3.5.3-tracing.md:
   category: Observability
   estReadingMinutes: 10
   exercises:
@@ -425,7 +425,7 @@ docs/3-application-development/3.3.3-tracing.md:
         - Grafana
         - Tempo
         - Python
-docs/3-application-development/3.3.4-opentelemetry.md:
+docs/3-application-development/3.5.4-opentelemetry.md:
   category: Observability
   estReadingMinutes: 15
   exercises:
@@ -439,7 +439,7 @@ docs/3-application-development/3.3.4-opentelemetry.md:
         - OpenTelemetry
         - Grafana
         - Python
-docs/3-application-development/3.4-feature-flags.md:
+docs/3-application-development/3.6-feature-flags.md:
   category: Software Development
   estReadingMinutes: 10
   exercises:
@@ -455,7 +455,7 @@ docs/3-application-development/3.4-feature-flags.md:
         - Docker
         - Python
         - Flask
-docs/3-application-development/3.4.1-flag-types.md:
+docs/3-application-development/3.6.1-flag-types.md:
   category: Software Development
   estReadingMinutes: 10
   exercises:
@@ -470,7 +470,7 @@ docs/3-application-development/3.4.1-flag-types.md:
         - flagd
         - Python
         - Flask
-docs/3-application-development/3.4.2-rollouts-and-experiments.md:
+docs/3-application-development/3.6.2-rollouts-and-experiments.md:
   category: Software Development
   estReadingMinutes: 10
   exercises:
@@ -484,7 +484,7 @@ docs/3-application-development/3.4.2-rollouts-and-experiments.md:
         - flagd
         - Python
         - Flask
-docs/3-application-development/3.4.3-openfeature.md:
+docs/3-application-development/3.6.3-openfeature.md:
   category: Software Development
   estReadingMinutes: 10
   exercises:
@@ -502,7 +502,7 @@ docs/3-application-development/3.4.3-openfeature.md:
         - Tempo
         - pytest
         - Python
-docs/3-application-development/3.5-layers.md:
+docs/3-application-development/3.2-layers.md:
   category: Software Development
   estReadingMinutes: 30
   exercises:
@@ -524,7 +524,7 @@ docs/3-application-development/3.5-layers.md:
         - Python
         - Flask
         - SQLite
-docs/3-application-development/3.6.1-solid-principles.md:
+docs/3-application-development/3.3.1-solid-principles.md:
   category: Software Development
   estReadingMinutes: 120
   exercises:
@@ -549,7 +549,7 @@ docs/3-application-development/3.6.1-solid-principles.md:
       estMinutes: 45
       technologies:
         - Python
-docs/3-application-development/3.6.2-data-layer-patterns.md:
+docs/3-application-development/3.3.2-data-layer-patterns.md:
   category: Software Development
   estReadingMinutes: 45
   exercises:
