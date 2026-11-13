@@ -1,0 +1,117 @@
+# Builds and tests the Company app used throughout Chapter 3: the starter, and
+# every milestone applied on top of it (see examples/company-app/MILESTONES.md).
+# A milestone only passes if `starter + milestone` is a complete, working repo.
+name: company-app
+
+on:
+  pull_request:
+    paths:
+      - "examples/company-app/**"
+      - ".github/workflows/company-app.yml"
+  push:
+    branches: [master]
+    paths:
+      - "examples/company-app/**"
+      - ".github/workflows/company-app.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.milestone }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        milestone:
+          [starter, M1-design, M2-assignments-mvp, M3-tested, M4-quality-automation, M5-observable, M6-flagged]
+    env:
+      APP: ${{ github.workspace }}/app
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Assemble starter + milestone
+        run: |
+          rsync -a examples/company-app/starter/ "$APP"/
+          if [ "${{ matrix.milestone }}" != starter ]; then
+            M=examples/company-app/milestones/${{ matrix.milestone }}
+            rsync -a --exclude DELETED.txt "$M"/ "$APP"/
+            if [ -f "$M/DELETED.txt" ]; then
+              while read -r path; do [ -n "$path" ] && rm -rf "$APP/$path"; done < "$M/DELETED.txt"
+            fi
+          fi
+          ls "$APP"
+
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          dotnet-version: "10.0.x"
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: app/notifications-service/go.mod
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+
+      - name: employees-service
+        working-directory: app/employees-service
+        run: dotnet test
+
+      - name: assignments-service
+        if: hashFiles('app/assignments-service/**/*.csproj') != ''
+        working-directory: app/assignments-service
+        run: dotnet test
+
+      - name: projects-service
+        working-directory: app/projects-service
+        run: |
+          uv sync --locked
+          uv run ruff check .
+          uv run pytest
+
+      - name: notifications-service
+        working-directory: app/notifications-service
+        run: |
+          go vet ./...
+          go test -race ./...
+
+      - name: web
+        working-directory: app/web
+        run: |
+          npm ci
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run build
+
+      - name: Start the app
+        working-directory: app
+        run: |
+          docker compose up --build -d
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:8080/api/employees >/dev/null && curl -sf http://localhost:8080/api/projects >/dev/null; then
+              echo "app is up"; exit 0
+            fi
+            sleep 3
+          done
+          docker compose ps; docker compose logs --tail 50; exit 1
+
+      - name: End-to-end tests
+        working-directory: app/web
+        env:
+          BASE_URL: http://localhost:8080
+        run: |
+          npx playwright install --with-deps chromium
+          npx playwright test
+
+      - name: Logs on failure
+        if: failure()
+        working-directory: app
+        run: docker compose logs --tail 100
+
+      - name: Stop the app
+        if: always()
+        working-directory: app
+        run: docker compose down -v
