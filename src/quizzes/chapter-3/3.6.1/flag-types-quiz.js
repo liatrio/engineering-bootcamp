@@ -37,16 +37,16 @@ shuffleAnswers: true
 - [ ] Feature off, matching the release-flag rule for safety
   > Release flags default to the old behavior. Kill switches usually default to the feature being available.
 
-# The flagd provider keeps the last values it received. When does a flag's code default matter most?
+# flagd stops while employees-service is running. The code checks \`GetBooleanValueAsync("employee-events", true)\`, and the flag file says \`"off"\`. What happens when an employee is created?
 
-- [x] When the app starts while flagd is unavailable
-  > A running app keeps its cached values, but a new one has nothing to fall back on except the defaults.
-- [ ] When flagd goes down while the app is running
-  > A running app keeps its last values through an outage.
-- [ ] When a flag's default variant changes in flagd
-  > A change delivers a new value from flagd, not the code default.
-- [ ] When flagd comes back after a long outage
-  > Once flagd is back, the app picks up its values again.
+- [x] The event is published, because the code default is used
+  > The .NET flagd provider, used without a cache, returns the code default as soon as flagd can't be reached.
+- [ ] The event isn't published, because the file says off
+  > The service can't read the file. Only flagd can, and flagd is down.
+- [ ] The request fails, because the flag can't be evaluated
+  > A failed evaluation doesn't throw. It returns the default, with the reason \`ERROR\`.
+- [ ] The event isn't published, because the last value is cached
+  > Some providers cache, but this one, as the Company app uses it, asks flagd every time.
 
 # Which practices help keep flag debt low? Select all that apply.
 

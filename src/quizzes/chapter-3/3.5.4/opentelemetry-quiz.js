@@ -69,6 +69,17 @@ shuffleAnswers: true
   > \`service.name\` should stay stable across versions. The version has its own attribute.
 - [ ] As a metric attribute, on the request counter only
   > That only covers one metric, not traces and logs.
+
+# employees-service samples 25% of root traces and calls projects-service over HTTP. projects-service uses \`parentbased_always_on\`. What fraction of those calls does projects-service keep?
+
+- [x] About 25%, because it follows the \`sampled\` flag it receives
+  > A parent-based sampler only decides for root spans. Otherwise it follows the decision in \`traceparent\`.
+- [ ] All of them, because its own sampler keeps every trace
+  > "Always on" applies only to traces it starts itself. These calls arrive with a parent.
+- [ ] Only the ones that fail, because errors are always kept
+  > Head sampling decides before anyone knows the outcome. Keeping every error needs tail sampling.
+- [ ] None of them, because it can't see employees-service's sampler
+  > It doesn't need to. The decision travels in the \`traceparent\` header.
 `;
 
 export { rawQuizdown }

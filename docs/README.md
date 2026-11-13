@@ -187,411 +187,544 @@ docs/3-application-development/3.1.5-networking.md:
     - name: hello network
       description: explore the network of your local computer
       estMinutes: 15
+docs/3-application-development/3.2-application-architecture.md:
+  category: Software Development
+  estReadingMinutes: 15
+  exercises:
+    - name: Run the Company app
+      description: >-
+        Set up the team repository from the Company app starter, run the whole
+        app with Docker Compose, and explore how its services, database, message
+        broker, and telemetry fit together.
+      estMinutes: 45
+      technologies:
+        - Docker
+        - Docker Compose
+        - GitHub
+        - RabbitMQ
+        - Grafana
+docs/3-application-development/3.2.1-foundational-layers.md:
+  category: Software Development
+  estReadingMinutes: 25
+  exercises:
+    - name: Map the foundational layers
+      description: >-
+        Find each foundational layer in employees-service and web, map the same
+        layers in projects-service, and record the foundation decisions for
+        assignments-service in the team's AGENTS.md.
+      estMinutes: 45
+      technologies:
+        - .NET
+        - React
+        - TypeScript
+        - Python
+docs/3-application-development/3.2.2-vertical-slices.md:
+  category: Software Development
+  estReadingMinutes: 20
+  exercises:
+    - name: Plan vertical slices
+      description: >-
+        Read the Employees slice in employees-service and web, sketch a
+        Departments slice without writing code, and plan the files, endpoints,
+        and tests of the Assignments slice in the team's AGENTS.md and design
+        document.
+      estMinutes: 45
+      technologies:
+        - .NET
+        - React
+        - Design Patterns
+docs/3-application-development/3.2.3-microservices-and-service-boundaries.md:
+  category: Software Development
+  estReadingMinutes: 20
+  exercises:
+    - name: Map service boundaries
+      description: >-
+        Map what each Company app service owns, references, calls, publishes,
+        and consumes; work out what would break if assignments read the
+        employees database directly; and decide which data assignments-service
+        owns and which it only references.
+      estMinutes: 45
+      technologies:
+        - PostgreSQL
+        - RabbitMQ
+        - Design Patterns
+docs/3-application-development/3.2.4-service-communication.md:
+  category: Software Development
+  estReadingMinutes: 25
+  exercises:
+    - name: Trace requests and finish the service design
+      description: >-
+        Follow Create Employee through the web app, proxy, employees-service,
+        PostgreSQL, RabbitMQ, and notifications-service; follow a project update
+        and explain why it publishes no event; then finish the team's AGENTS.md,
+        Assignments design, and OpenAPI sketch (milestone M1).
+      estMinutes: 60
+      technologies:
+        - .NET
+        - React
+        - RabbitMQ
+        - OpenAPI
+docs/3-application-development/3.3-building-a-service.md:
+  category: Software Development
+  estReadingMinutes: 10
+  exercises:
+    - name: Plan the M2 work
+      description: >-
+        Split the assignments-service build into issues by slice, name an owner
+        for Program.cs and for EF Core migrations, and agree how the team keeps
+        the service running after every merge.
+      estMinutes: 20
+      technologies:
+        - GitHub
+        - .NET
+docs/3-application-development/3.3.1-scaffolding-a-web-api.md:
+  category: Software Development
+  estReadingMinutes: 15
+  exercises:
+    - name: Scaffold the assignments service
+      description: >-
+        Install the .NET 10 SDK, probe how employees-service handles missing
+        configuration and a dependency outage, then scaffold assignments-service
+        with configuration from the environment, health endpoints, the templated
+        Dockerfile, and a compose block, and see it behind the proxy.
+      estMinutes: 60
+      technologies:
+        - .NET
+        - Docker
+        - Docker Compose
+docs/3-application-development/3.3.2-controllers-endpoints-and-api-design.md:
+  category: Software Development
+  estReadingMinutes: 20
+  exercises:
+    - name: Design and build the assignments endpoints
+      description: >-
+        Read the employees endpoints, add a status filter to the
+        projects-service list endpoint with tests, then build the assignments
+        CRUD endpoints with DTOs, validation, Problem Details, 201 with
+        Location, 409 for duplicates, and an OpenAPI document.
+      estMinutes: 60
+      technologies:
+        - .NET
+        - Python
+        - OpenAPI
+docs/3-application-development/3.3.3-dependency-injection-and-solid.md:
+  category: Software Development
+  estReadingMinutes: 20
+  exercises:
+    - name: Inject dependencies into the services
+      description: >-
+        Refactor employees-service to take an injected TimeProvider instead of
+        calling DateTime.UtcNow, then split assignments-service's rules from its
+        storage behind an IAssignmentStore interface, register each class with
+        the right lifetime, and observe what wrong lifetimes do.
+      estMinutes: 45
+      technologies:
+        - .NET
+        - Design Patterns
+docs/3-application-development/3.3.4-data-and-persistence.md:
+  category: Software Development
+  estReadingMinutes: 25
+  exercises:
+    - name: Persist assignments with EF Core
+      description: >-
+        Inspect the employees database and watch PostgreSQL enforce a unique
+        index, then give assignments-service an EF Core entity configuration, a
+        DbContext, its first migration, a unique index against duplicates, and a
+        store that replaces the in-memory one.
+      estMinutes: 60
+      technologies:
+        - .NET
+        - EF Core
+        - PostgreSQL
+docs/3-application-development/3.3.5-calling-other-services.md:
+  category: Software Development
+  estReadingMinutes: 20
+  exercises:
+    - name: Validate IDs against other services
+      description: >-
+        Observe how a stopped service and a hung service fail differently, then
+        give assignments-service typed HttpClients for employees-service and
+        projects-service with timeouts, retries, and a circuit breaker, mapping
+        a 404 to a 400 validation error and an outage to a 503.
+      estMinutes: 60
+      technologies:
+        - .NET
+        - Docker Compose
+docs/3-application-development/3.3.6-publishing-and-consuming-events.md:
+  category: Software Development
+  estReadingMinutes: 20
+  exercises:
+    - name: Publish and consume events
+      description: >-
+        Watch an event get lost when RabbitMQ is down after employees-service
+        commits, then make assignments-service publish assignment.created after
+        each insert and consume employee.deleted from a durable queue,
+        idempotently, to finish milestone M2.
+      estMinutes: 60
+      technologies:
+        - .NET
+        - RabbitMQ
+        - Go
 docs/3-application-development/3.4-code-quality.md:
   category: Software Quality
-  estReadingMinutes: 10
+  estReadingMinutes: 12
 docs/3-application-development/3.4.1-testing-concepts.md:
   category: Software Quality
   estReadingMinutes: 20
   exercises:
-    - name: Classify a test suite
+    - name: Map the Company app's tests
       description: >-
-        Classify the tests in two example projects by type, and decide where
-        each would sit on the testing pyramid and the testing trophy.
+        Run every test suite in the starter, classify a set of its tests by type
+        and by where they sit on the pyramid and the trophy, then write the test
+        plan for assignments-service.
       estMinutes: 30
       technologies:
-        - Go
+        - .NET
         - Python
+        - Go
+        - TypeScript
 docs/3-application-development/3.4.10-test-automation.md:
   category: Software Quality
-  estReadingMinutes: 5
+  estReadingMinutes: 15
   exercises:
-    - name: Create a GitHub Action to test a Go project
-      description: Create a GitHub Action that will run Unit Tests when a change is pushed
-      estMinutes: 180
+    - name: Build the team repository's CI
+      description: >-
+        Read the bootcamp's own Company app workflow, make a failing test block
+        a pull request with a required status check, then build a GitHub Actions
+        workflow with one path-filtered job per service and an end-to-end job
+        for the whole app.
+      estMinutes: 60
       technologies:
         - GitHub Actions
-        - Go
+        - GitHub
+        - Docker Compose
 docs/3-application-development/3.4.11-sonarqube.md:
   category: Software Quality
-  estReadingMinutes: 10
+  estReadingMinutes: 12
   exercises:
-    - name: Setup SonarQube and GitHub Integration
+    - name: Analyze assignments-service with SonarQube
       description: >-
-        Create a SonarQube server and add GitHub action to run SonarQube in our
-        build pipeline.
-      estMinutes: 180
+        Run SonarQube locally and scan projects-service, then analyze
+        assignments-service with SonarQube Cloud from the team's CI, importing
+        the coverlet coverage report so the quality gate sees real coverage.
+      estMinutes: 60
       technologies:
         - SonarQube
         - GitHub Actions
+        - .NET
+        - Docker
 docs/3-application-development/3.4.12-code-review.md:
   category: Software Quality
-  estReadingMinutes: 10
+  estReadingMinutes: 15
+  exercises:
+    - name: Set up and practice code review on the team repository
+      description: >-
+        Read M4's pull request template, review a teammate's real pull request
+        with a checklist and labelled comments, then add the template, review
+        rules, and stricter merge rules to the team repository.
+      estMinutes: 45
+      technologies:
+        - GitHub
 docs/3-application-development/3.4.13-pre-commit.md:
   category: Software Quality
   estReadingMinutes: 12
   exercises:
-    - name: Create a basic Git pre-commit hook
-      description: Implement a simple shell pre-commit hook that runs a fast check.
-      estMinutes: 20
+    - name: Add pre-commit hooks to the team repository
+      description: >-
+        Install pre-commit and watch it block a commit containing a secret, then
+        give the Company app monorepo one .pre-commit-config.yaml that runs file
+        hygiene checks, gitleaks, ruff, dotnet format, gofmt, and the web linter
+        on the files each commit touches.
+      estMinutes: 45
       technologies:
+        - pre-commit
         - Git
-        - Bash
-    - name: Configure pre-commit to run local tasks
-      description: >-
-        Add a .pre-commit-config.yaml that delegates to Taskfile targets for
-        formatting and linting.
-      estMinutes: 60
-      technologies:
-        - pre-commit
-        - Taskfile.dev
-    - name: Align local hooks with CI
-      description: >-
-        Reuse the same Taskfile targets from pre-commit in a GitHub Actions
-        workflow.
-      estMinutes: 30
-      technologies:
-        - GitHub Actions
-        - Taskfile.dev
-        - pre-commit
+        - Python
+        - .NET
 docs/3-application-development/3.4.2-unit-testing.md:
   category: Software Quality
-  estReadingMinutes: 20
+  estReadingMinutes: 15
   exercises:
-    - name: Solve a problem in Go with TDD
-      description: Solve a given problem in Go using test-driven development (TDD).
-      estMinutes: 120
+    - name: Add business rules test-first
+      description: >-
+        Read the unit tests in employees-service and projects-service, add the
+        project status-transition rule to projects-service with
+        red-green-refactor, then test-drive the allocation and end-date rules
+        into assignments-service.
+      estMinutes: 45
       technologies:
-        - Go
+        - .NET
+        - Python
+        - pytest
         - TDD
 docs/3-application-development/3.4.3-test-doubles.md:
   category: Software Quality
-  estReadingMinutes: 10
+  estReadingMinutes: 15
   exercises:
-    - name: Practice Test Doubles
-      description: >
-        Leverage mocking to test the user and repo checking functions. The code
-        now exposes only two user and two repo check functions. Your tests
-        should mock all API calls, cover both positive and negative scenarios,
-        and use Jest's best practices for mocking and restoring. No real API
-        calls should be made; focus on verifying the logic of the exported
-        functions only.
-      estMinutes: 60
+    - name: Replace dependencies with fakes
+      description: >-
+        Identify the test doubles in the starter, give employees-service's unit
+        tests a FakeTimeProvider so they can assert exact timestamps, then build
+        fake Employees and Projects clients for assignments-service and test its
+        validation and outage handling with them.
+      estMinutes: 45
       technologies:
-        - Node.js
-        - Jest
-    - name: Spying on Functions
-      description: >
-        Use Jest spies to verify that when a repo name is invalid or not found,
-        console.error is called and console.log is not. Write a test for the
-        error case of getRepoInfo() using mocks and spies to check the correct
-        error handling behavior.
-      estMinutes: 30
-      technologies:
-        - Node.js
-        - Jest
+        - .NET
 docs/3-application-development/3.4.4-component-testing.md:
   category: Software Quality
-  estReadingMinutes: 10
+  estReadingMinutes: 15
   exercises:
-    - name: Component test a Flask API
+    - name: Component test an ASP.NET Core API
       description: >-
-        Write component tests for a layered Flask application through its HTTP
-        interface, and isolate the tests from shared state.
-      estMinutes: 60
+        Read employees-service's component tests, expose and fix the shared
+        in-memory store that makes their results depend on test order, add the
+        missing DELETE test, then component-test every assignments-service
+        endpoint with fakes at each edge.
+      estMinutes: 45
       technologies:
-        - Python
-        - Flask
-        - pytest
+        - .NET
 docs/3-application-development/3.4.5-integration-testing.md:
   category: Software Quality
   estReadingMinutes: 10
   exercises:
-    - name: Integration test a repository
+    - name: Integration test against PostgreSQL with Testcontainers
       description: >-
-        Run one shared test suite against an in-memory fake and a real SQLite
-        database, find where the fake diverges, and optionally extend the suite
-        to PostgreSQL with Testcontainers.
-      estMinutes: 90
+        Read the Testcontainers tests in the starter, prove that
+        employees-service's database enforces unique emails regardless of case,
+        then write integration tests for assignments-service's migrations,
+        mapping, unique index, and bulk delete on a real PostgreSQL.
+      estMinutes: 60
       technologies:
-        - Go
-        - SQLite
+        - .NET
         - PostgreSQL
         - Testcontainers
         - Docker
 docs/3-application-development/3.4.6-contract-testing.md:
   category: Software Quality
-  estReadingMinutes: 10
+  estReadingMinutes: 15
   exercises:
-    - name: Consumer-driven contract testing with Pact
+    - name: Consumer-driven contracts across three languages
       description: >-
-        Work through the Pact JS workshop to write consumer contract tests,
-        verify them against a provider, and share contracts through a Pact
-        Broker.
-      estMinutes: 180
+        Follow the web to projects-service Pact contract from consumer test to
+        provider verification, add the missing POST interaction, then write
+        PactNet consumer tests for assignments-service's calls to
+        employees-service and projects-service and verify them in both
+        providers.
+      estMinutes: 90
       technologies:
         - Pact
-        - Node.js
-        - Jest
+        - .NET
+        - Python
+        - pytest
+        - TypeScript
         - Docker
 docs/3-application-development/3.4.7-end-to-end-testing.md:
   category: Software Quality
-  estReadingMinutes: 20
+  estReadingMinutes: 15
   exercises:
-    - name: Create end-to-end tests with Selenium in Python
-      description: Create end-to-end tests for the bootcamp using Selenium in Python.
-      estMinutes: 120
-      technologies:
-        - Selenium
-        - Python
-    - name: Create end-to-end tests with Playwright in Python
-      description: Create end-to-end tests for the bootcamp using Playwright in Python.
-      estMinutes: 60
+    - name: End-to-end journeys with Playwright
+      description: >-
+        Run the starter's Playwright journey against the whole Company app, add
+        a create-a-project journey, then add a journey that assigns an employee
+        to a project through the Assignments page.
+      estMinutes: 45
       technologies:
         - Playwright
-        - Python
+        - TypeScript
+        - Docker Compose
 docs/3-application-development/3.4.8-code-coverage.md:
   category: Software Quality
-  estReadingMinutes: 20
+  estReadingMinutes: 15
   exercises:
-    - name: Achieve 100% code coverage
+    - name: Add a coverage gate to assignments-service
       description: >-
-        Install node dependencies for code coverage (jest) and get 100% code
-        coverage for a given module and tests.
+        Read the pytest-cov report and gate in projects-service and cover its
+        untested error branch, then add coverlet to assignments-service, use the
+        report to find the riskiest untested code, test it, and hold the service
+        to an 80% line-coverage gate.
       estMinutes: 60
       technologies:
-        - Node.js
-        - Jest
+        - Python
+        - pytest
+        - .NET
+        - Testcontainers
 docs/3-application-development/3.4.9-code-styling.md:
   category: Software Quality
-  estReadingMinutes: 30
+  estReadingMinutes: 15
+  exercises:
+    - name: Turn on analyzers and formatting for assignments-service
+      description: >-
+        Run each starter service's formatter and linter, enable ruff's bugbear
+        rules in projects-service and fix the finding, then give
+        assignments-service the recommended .NET analyzers, an .editorconfig,
+        and a dotnet format check, and fix what they report.
+      estMinutes: 45
+      technologies:
+        - Python
+        - .NET
+        - Go
+        - TypeScript
 docs/3-application-development/3.5-observability.md:
   category: Observability
   estReadingMinutes: 15
   exercises:
-    - name: Instrument a Flask API with OpenTelemetry
+    - name: Explore the Company app's telemetry
       description: >-
-        Run a local Grafana observability stack, instrument the layered Flask
-        application with zero-code OpenTelemetry, and explore its traces,
-        metrics, and logs.
-      estMinutes: 45
+        Put the Company app under k6 load, explore the traces, metrics, and logs
+        every starter service already sends to Grafana, find what
+        assignments-service is missing, and wire OpenTelemetry into it by
+        copying the employees-service setup.
+      estMinutes: 60
       technologies:
         - OpenTelemetry
         - Grafana
-        - Docker
+        - Docker Compose
+        - k6
+        - .NET
         - Python
-        - Flask
+        - Go
+        - React
 docs/3-application-development/3.5.1-logging.md:
   category: Observability
   estReadingMinutes: 10
   exercises:
-    - name: Add structured logs to a Flask API
+    - name: Follow requests through structured logs
       description: >-
-        Add structured, leveled application logs to the layered Flask
-        application and correlate them with traces in Grafana.
-      estMinutes: 30
+        Compare the structured logs the .NET, Python, and Go starters write,
+        follow one employee deletion through three services by its trace ID in
+        Loki, and make assignments-service's logs trace-correlated and worth
+        reading.
+      estMinutes: 45
       technologies:
         - OpenTelemetry
         - Grafana
         - Loki
+        - .NET
         - Python
+        - Go
 docs/3-application-development/3.5.2-metrics.md:
   category: Observability
-  estReadingMinutes: 10
+  estReadingMinutes: 12
   exercises:
-    - name: Add custom metrics and a RED dashboard
+    - name: Business metrics and a RED dashboard
       description: >-
-        Add custom OpenTelemetry metrics to the layered Flask application, query
-        them with PromQL, and build a Grafana dashboard for rate, errors, and
-        duration.
-      estMinutes: 45
+        Compare the HTTP metrics the .NET, Python, and Go starters emit, add a
+        company.projects.created counter to projects-service with a test, add
+        company.assignments.created to assignments-service, and build a RED
+        dashboard for the whole app in Grafana.
+      estMinutes: 60
       technologies:
         - OpenTelemetry
         - Grafana
         - Prometheus
+        - .NET
         - Python
+        - pytest
 docs/3-application-development/3.5.3-tracing.md:
   category: Observability
-  estReadingMinutes: 10
+  estReadingMinutes: 12
   exercises:
-    - name: Add manual spans to a Flask API
+    - name: Follow and extend distributed traces
       description: >-
-        Add manual OpenTelemetry spans and attributes to the service and data
-        layers of the layered Flask application, and use trace waterfalls in
-        Grafana Tempo to find errors and slow operations.
-      estMinutes: 30
+        Follow a trace from the browser through the Company app's services and
+        across RabbitMQ, add the missing publish span to employees-service's
+        delete, and add a validate employee and project span to
+        assignments-service, then use it to find a slow dependency and wasted
+        retries.
+      estMinutes: 60
       technologies:
         - OpenTelemetry
         - Grafana
         - Tempo
-        - Python
+        - .NET
+        - Go
+        - RabbitMQ
 docs/3-application-development/3.5.4-opentelemetry.md:
   category: Observability
   estReadingMinutes: 15
   exercises:
-    - name: Configure OpenTelemetry resources and sampling
+    - name: Configure resources and sampling across services
       description: >-
-        Configure resource attributes and trace sampling for the layered Flask
-        application with OpenTelemetry environment variables, and compare what
-        sampling does to traces and metrics.
-      estMinutes: 30
+        Compare how the .NET, Python, Go, and browser starters configure
+        OpenTelemetry, turn on head sampling in employees-service under k6 load
+        and see how the decision travels over HTTP but not over RabbitMQ, then
+        set resource attributes and a sampling decision for assignments-service
+        to finish milestone M5.
+      estMinutes: 60
       technologies:
         - OpenTelemetry
         - Grafana
-        - Python
+        - Prometheus
+        - Docker Compose
+        - k6
+        - .NET
 docs/3-application-development/3.6-feature-flags.md:
   category: Software Development
-  estReadingMinutes: 10
+  estReadingMinutes: 12
   exercises:
-    - name: Ship a feature behind a flag
+    - name: Ship features behind flags
       description: >-
-        Run flagd locally, put a new behavior in the layered Flask application
-        behind an OpenFeature flag, and release it by changing the flag instead
-        of redeploying.
-      estMinutes: 30
+        Release projects-service's description rule by editing the flag file,
+        add OpenFeature and an employee-events flag to employees-service, and
+        put assignments-service's assignment.created publishing behind the
+        assignment-notifications release flag.
+      estMinutes: 45
       technologies:
         - OpenFeature
         - flagd
-        - Docker
+        - .NET
         - Python
-        - Flask
+        - Docker Compose
 docs/3-application-development/3.6.1-flag-types.md:
   category: Software Development
   estReadingMinutes: 10
   exercises:
-    - name: Add a kill switch and retire a release flag
+    - name: Kill switches and safe defaults
       description: >-
-        Add an ops flag that pauses sign-ups in the layered Flask application,
-        test how the application behaves when flagd is unavailable, and remove a
-        release flag that has done its job.
-      estMinutes: 30
+        Classify the Company app's flags, test what employees-service's
+        employee-events flag does when flagd fails, and add an
+        assignments-writes kill switch to assignments-service that returns 503
+        for writes while reads keep working.
+      estMinutes: 45
       technologies:
         - OpenFeature
         - flagd
-        - Python
-        - Flask
+        - .NET
+        - Docker Compose
 docs/3-application-development/3.6.2-rollouts-and-experiments.md:
   category: Software Development
   estReadingMinutes: 10
   exercises:
-    - name: Roll out a change to a percentage of users
+    - name: Roll out a rule to a percentage of users
       description: >-
-        Pass request context to OpenFeature, target beta users with flagd, and
-        roll a stricter validation rule out to a growing percentage of users.
+        Explore flagd's fractional targeting directly over HTTP, then roll
+        assignments-service's 100% allocation rule out to a growing percentage
+        of users with the allocation-check flag, targeted by the X-User-Id
+        header and falling back to the employee ID.
       estMinutes: 45
       technologies:
         - OpenFeature
         - flagd
-        - Python
-        - Flask
+        - .NET
 docs/3-application-development/3.6.3-openfeature.md:
   category: Software Development
-  estReadingMinutes: 10
+  estReadingMinutes: 12
   exercises:
     - name: Trace and test flagged code
       description: >-
-        Record flag evaluations in OpenTelemetry traces with an OpenFeature
-        hook, find them in Grafana Tempo, and test both sides of a flag with
-        OpenFeature's in-memory provider.
-      estMinutes: 45
+        Record flag evaluations as span events with OpenFeature's trace hook,
+        watch a rollout and a misconfigured provider in Grafana Tempo, and test
+        every flag in employees-service and assignments-service with
+        OpenFeature's in-memory provider to finish milestone M6.
+      estMinutes: 60
       technologies:
         - OpenFeature
         - flagd
         - OpenTelemetry
         - Grafana
         - Tempo
-        - pytest
+        - .NET
         - Python
-docs/3-application-development/3.2-layers.md:
-  category: Software Development
-  estReadingMinutes: 30
-  exercises:
-    - name: Compare tightly coupled vs layered architecture
-      description: >-
-        Run both example applications, examine their structure, and understand
-        the architectural differences.
-      estMinutes: 60
-      technologies:
-        - Python
-        - Flask
-    - name: Refactor storage backend from in-memory to SQLite
-      description: >-
-        Switch the data storage in both examples from in-memory to SQLite,
-        comparing the effort required in tightly coupled vs layered
-        implementations.
-      estMinutes: 90
-      technologies:
-        - Python
-        - Flask
-        - SQLite
-docs/3-application-development/3.3.1-solid-principles.md:
-  category: Software Development
-  estReadingMinutes: 120
-  exercises:
-    - name: Refactor a class to follow SRP
-      description: >-
-        Take a provided monolithic class and refactor it into multiple classes,
-        each with a single responsibility.
-      estMinutes: 60
-      technologies:
-        - Python
-    - name: Apply Open/Closed Principle to payment processing
-      description: >-
-        Extend a payment system to support new payment methods without modifying
-        existing code.
-      estMinutes: 60
-      technologies:
-        - Python
-    - name: Implement Dependency Injection
-      description: >-
-        Refactor tightly coupled code to use dependency injection, making it
-        testable and flexible.
-      estMinutes: 45
-      technologies:
-        - Python
-docs/3-application-development/3.3.2-data-layer-patterns.md:
-  category: Software Development
-  estReadingMinutes: 45
-  exercises:
-    - name: Extend the Repository with FindByEmail
-      description: >-
-        Add a FindByEmail method to the UserRepository interface and implement
-        it in both SQLite and in-memory repositories with tests.
-      estMinutes: 15
-      technologies:
-        - Go
-        - SQLite
-        - Design Patterns
-    - name: Add Timestamp Tracking to Active Record
-      description: >-
-        Extend the Active Record User model to automatically track CreatedAt and
-        UpdatedAt timestamps, updating schema, insert/update methods, and tests.
-      estMinutes: 15
-      technologies:
-        - Go
-        - SQLite
-        - Design Patterns
-    - name: Refactor Direct Data Access to Repository Pattern
-      description: >-
-        Convert a tightly coupled application with direct database access
-        scattered throughout the codebase to use the Repository Pattern with
-        proper abstraction.
-      estMinutes: 90
-      technologies:
-        - Go
-        - SQLite
-        - Design Patterns
-    - name: AI-Assisted Refactoring with Spec-Driven Development
-      description: >-
-        Use an AI agent with Spec-Driven Development to refactor the starter
-        code using precise pattern vocabulary, then compare AI and manual
-        approaches.
-      estMinutes: 60
-      technologies:
-        - Go
-        - SQLite
-        - Design Patterns
-        - AI Collaboration
 docs/4-virtual-machines-containers/4.0-overview.md:
   category: Virtualization
   estReadingMinutes: 5
