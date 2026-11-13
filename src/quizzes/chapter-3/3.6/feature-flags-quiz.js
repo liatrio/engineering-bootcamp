@@ -15,7 +15,7 @@ shuffleAnswers: true
 - [ ] Deploying is automated; releasing needs a code review
   > Changing a flag doesn't go through code review, which is why you need to control who can change flags.
 
-# In \`client.get_boolean_value("sorted-users", False)\`, when is \`False\` used?
+# In \`flags.GetBooleanValueAsync("assignment-notifications", false)\`, when is \`false\` used?
 
 - [x] When the flag can't be evaluated, such as when flagd is down
   > The default runs whenever evaluation fails, so choose it deliberately.

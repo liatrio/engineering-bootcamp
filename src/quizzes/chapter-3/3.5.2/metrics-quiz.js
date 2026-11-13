@@ -26,37 +26,37 @@ shuffleAnswers: true
 - [ ] The average can't be split by route
   > Both can be broken down by attributes.
 
-# A teammate wants to add a \`user_id\` attribute to the request counter so they can see requests per user. What is the problem?
+# A teammate wants to add an \`employee.id\` attribute to \`company.assignments.created\` so they can see assignments per employee. What is the problem?
 
 - [x] Each user would become a separate time series
   > That's high cardinality, and it can overwhelm the metrics backend. Put unbounded values in logs and traces instead.
-- [ ] Counters can only carry the standard HTTP attributes
+- [ ] Counters can only carry semantic-convention attributes
   > Counters can carry any attributes. The number of distinct values is the problem.
-- [ ] User IDs would make the counter go down
+- [ ] Employee IDs would make the counter go down
   > Attributes don't change whether a counter can decrease.
 - [ ] The counter would need a histogram instead
   > The kind of metric doesn't matter. Any metric with this attribute has the problem.
 
-# Following OpenTelemetry's naming guidelines, which name and unit should a counter of users created by the \`user-api\` application have?
+# Following OpenTelemetry's naming guidelines, which name and unit should a counter of timesheets submitted in the Company app have?
 
-- [x] \`user_api.user.created\`, unit \`{user}\`
-  > Dot-separated namespaces prefixed with the app name, and the unit on the instrument.
-- [ ] \`user_api.user.created_total\`, unit \`{user}\`
+- [x] \`company.timesheets.submitted\`, unit \`{timesheet}\`
+  > Dot-separated namespaces under the app's own prefix, and the unit on the instrument.
+- [ ] \`company.timesheets.submitted_total\`, unit \`{timesheet}\`
   > The guidelines say not to add a \`_total\` suffix. The instrument type already marks a counter.
-- [ ] \`user_api.users.created\`, unit \`user\`
-  > Counts of things use a curly-brace unit, such as \`{user}\`.
-- [ ] \`user.created\`, unit \`{user}\`
-  > Without an application prefix, it could clash with a semantic convention added later.
+- [ ] \`company.timesheets.submitted\`, unit \`timesheet\`
+  > Counts of things use a curly-brace unit, such as \`{timesheet}\`.
+- [ ] \`timesheets.submitted\`, unit \`{timesheet}\`
+  > Without the app's own prefix, it could clash with a semantic convention added later.
 
-# Prometheus receives the OpenTelemetry counter \`user_api.user.created\` with unit \`{user}\`. What name do you use in PromQL?
+# Prometheus receives the OpenTelemetry counter \`company.projects.created\` with unit \`{project}\`. What name do you use in PromQL?
 
-- [x] \`user_api_user_created_total\`
+- [x] \`company_projects_created_total\`
   > Dots become underscores, the curly-brace unit is dropped, and counters gain \`_total\`.
-- [ ] \`user_api_user_created_user_total\`
+- [ ] \`company_projects_created_project_total\`
   > A curly-brace unit is dropped rather than appended.
-- [ ] \`user_api_user_created\`
+- [ ] \`company_projects_created\`
   > Counters gain a \`_total\` suffix in Prometheus.
-- [ ] \`user_api.user.created_total\`
+- [ ] \`company.projects.created_total\`
   > Prometheus replaces the dots with underscores.
 `;
 

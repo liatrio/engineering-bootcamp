@@ -18,7 +18,7 @@ shuffleAnswers: true
 # One flag returns the reason \`STATIC\` and another \`TARGETING_MATCH\`. What's the difference?
 
 - [x] \`STATIC\` flags have no rules; for the other, a rule chose
-  > Call \`get_boolean_details(...)\` to see the reason.
+  > In .NET, call \`GetBooleanDetailsAsync(...)\` to see the reason.
 - [ ] \`STATIC\` flags are off; for the other, a rule turned it on
   > A static flag can return any of its variants. It just has no targeting rules.
 - [ ] \`STATIC\` values are cached; the other came from flagd
@@ -42,7 +42,7 @@ shuffleAnswers: true
 - [x] The app evaluates flags locally, with no call per evaluation
   > flagd sends the flag definitions to the application. Set \`FLAGD_RESOLVER=in-process\` to use it.
 - [ ] The app calls flagd over the network for every evaluation
-  > That's RPC mode, though flags without targeting rules are cached.
+  > That's RPC mode. Some providers cache flags without targeting rules, but each uncached evaluation is a call.
 - [ ] flagd runs as a library, inside the application's own process
   > The definitions come to the application. flagd still runs separately.
 - [ ] The app reads flag changes only when it is restarted
