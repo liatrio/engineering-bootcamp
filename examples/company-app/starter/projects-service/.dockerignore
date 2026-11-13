@@ -1,0 +1,13 @@
+.venv
+.pytest_cache
+.ruff_cache
+.coverage
+htmlcov
+**/__pycache__
+tests
+scripts
+.env
+Dockerfile
+.dockerignore
+README.md
+openapi.yaml

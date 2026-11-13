@@ -1,6 +1,6 @@
 # DevOps resource struct module
 
-#### This module is used and consumed by the devops rest api and custom terraform provider for bootcamp section 7.1.4. Its purpose is to organize the structure of the resources defined in this bootcamp section in order to lessen the strain in having to set up structures for client-side communication for the terraform custom provider to talk to the devops api.
+#### This module is used and consumed by the devops rest api and custom terraform provider for bootcamp section 7.3. Its purpose is to organize the structure of the resources defined in this bootcamp section in order to lessen the strain in having to set up structures for client-side communication for the terraform custom provider to talk to the devops api.
 
 ## How to import module for the resources built in go:
 

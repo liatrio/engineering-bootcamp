@@ -6,7 +6,7 @@ Canonical agent instructions for Liatrio's Engineering Bootcamp — a Docsify-ba
 
 | Term | What it means in this repo |
 | --- | --- |
-| Chapter | Top-level `docs/<chapter>/` directory, where `<chapter>` is `N-<topic>` (1–11). One per major topic (fundamentals, virtualization, CI/CD, etc.). |
+| Chapter | Top-level `docs/<chapter>/` directory, where `<chapter>` is `N-<topic>` (1–9). One per major topic (fundamentals, virtualization, CI/CD, etc.). |
 | Section | Sub-page inside a chapter: `docs/<chapter>/<section>.md`, where `<section>` is `N.X-<topic>`. Numbering appears in the filename. |
 | Exercise | Hands-on unit inside a section, described in that section's YAML front-matter. |
 | Front-matter | YAML block at top of a section file listing `category`, `estReadingMinutes`, `exercises[]`, `technologies[]`. Drives learning-metric visualizations. |
@@ -50,7 +50,9 @@ Docker:
 - `docker run -d -p 3000:3000 --name engineering-bootcamp engineering-bootcamp`
 - `docker compose up -d` / `docker compose down` (v2 syntax — see decision table below).
 
-There is no unit-test suite for the docs themselves. Go modules under `examples/` (e.g. `examples/terraform-provider/devops-api/`, `examples/data-patterns/`) do have `go test`; run it when touching those modules.
+There is no unit-test suite for the docs themselves. Code under `examples/` has its own tests; run them when touching it (e.g. `go test` in `examples/terraform-provider/devops-api/`).
+
+`examples/company-app/` is the multi-service app Chapter 3 is built on. Read `examples/company-app/SPEC.md` (the contract and the deliberate gaps exercises close) and `MILESTONES.md` before changing it. Keep `starter/` and every `milestones/Mn/` overlay working together: the `company-app` workflow tests `starter + Mn` for each milestone, and a docs change to an exercise usually needs the matching milestone change.
 
 ## Front-matter System
 

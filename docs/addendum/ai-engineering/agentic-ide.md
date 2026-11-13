@@ -1,0 +1,324 @@
+---
+docs/addendum/ai-engineering/agentic-ide.md:
+  category: AI Engineering
+  estReadingMinutes: 20
+  exercises:
+    - name: VSCode MCP Server
+      description: Build an MCP server from scratch using VSCode in Agent mode and register it with an MCP client
+      estMinutes: 240
+      technologies:
+        - VSCode
+        - MCP
+        - Python
+        - LLM
+    - name: Windsurf MCP Server
+      description: Build an MCP server using Windsurf IDE, applying best practices learned from the VSCode exercise
+      estMinutes: 180
+      technologies:
+        - Windsurf
+        - MCP
+        - Python
+        - LLM
+---
+# Agentic IDEs
+
+Agentic IDEs represent the next evolution of development environments, integrating AI capabilities directly into the coding workflow. These intelligent environments go beyond traditional code completion to provide proactive assistance, automated refactoring, and contextual understanding of codebases.
+
+## What is an Agentic IDE?
+
+An Agentic IDE is a development environment that:
+- Understands code context and intent
+- Proactively suggests improvements
+- Can automate repetitive tasks
+- Learns from developer interactions
+- Integrates with development workflows
+
+Popular Examples:
+
+- [GitHub Copilot](https://github.com/features/copilot)
+- [Windsurf Cascade](https://windsurf.com/)
+- [Zed](https://www.zed.dev/)
+- [Cursor](https://www.cursor.com/)
+- [Claude Code](https://claude.ai/code) - Command-line AI agent from Anthropic featuring robust context management, /context monitoring, structured workflows through slash commands, and integration with development tools
+
+As of the time of writing each of these are all very close in feature sets though some excel in different areas. All currently support a free tier though as you start exploring agentic development you will likely run into the limits of the free tier.
+
+## Key Features
+
+While the features of agentic IDEs can vary, there are some common features that are typically available. These include rule/instruction files, workflows, and MCP servers (which were covered previously). All major agentic IDEs have native support for MCP servers.
+
+| Feature                         | Description                                            | Key Capabilities                                                                                              |
+|---------------------------------|--------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| **Intelligent Code Completion** | Advanced code suggestions that understand context      | • Context-aware suggestions<br>• Whole-line and multi-line completions<br>• API and documentation integration |
+| **Automated Refactoring**       | Tools to improve and modernize code                    | • Code quality improvements<br>• Pattern recognition and application<br>• Technical debt identification       |
+| **Natural Language Interfaces** | Conversational AI assistance for development tasks     | • Conversational coding assistance<br>• Documentation generation<br>• Bug explanation and fixes               |
+| **Contextual Understanding**    | Deep awareness of codebase structure and relationships | • Codebase awareness<br>• Dependency analysis<br>• Architectural insights                                     |
+
+### Rule/Instruction Files
+
+Rule and instruction files standardize your team's development practices by embedding them directly into your codebase. These files (like `.rules` or `.github/copilot-instructions.md`) automatically inform AI assistants about your project's context and conventions.
+
+Key aspects:
+
+1. **Version-Controlled Standards**: Store coding conventions, architecture patterns, and documentation requirements in version control alongside your code. This ensures everyone works with the same guidelines and changes are tracked through code review.
+
+2. **Structured Guidance**: Organize instructions in Markdown with clear sections for different concerns (coding standards, architecture, error handling). The AI uses this context to generate more relevant suggestions.
+
+3. **Targeted Application**: Apply rules globally, per-language, or to specific paths. For example, React component patterns only apply to your frontend directory.
+
+4. **Team Synchronization**: New team members immediately benefit from the collective knowledge embedded in these files, reducing onboarding time and maintaining consistency.
+
+```markdown
+# Project Standards
+
+## JavaScript
+- Use ES6+ features
+- Prefer named exports
+- Document public APIs with JSDoc
+
+## React
+- Use functional components with hooks
+- Follow React Query for data fetching
+- Implement error boundaries
+
+## Error Handling
+- Use custom error classes
+- Log errors with context
+- Provide user-friendly messages
+```
+
+This approach turns tribal knowledge into executable guidance that evolves with your codebase.
+
+#### Best Practices
+
+1. **Clarity and Specificity**
+   - Keep instructions concise and specific
+   - Use structured formatting (bullet points, numbered lists, sections)
+   - Avoid vague or general instructions already built into AI models
+
+2. **Organization**
+   - Group related instructions using clear headings or XML-style tags
+   - Prioritize the most important guidelines
+   - Include specific examples where helpful
+
+3. **Maintenance**
+   - Keep instruction files updated as project conventions evolve
+   - Version control instruction files alongside code
+   - Review and refine based on AI output quality
+
+#### Example Rulefile
+
+```markdown
+# Project Coding Standards
+
+## General Guidelines
+- Use descriptive variable and function names
+- Implement early returns to reduce nesting
+- Add documentation for all public functions and classes
+
+## Language-Specific Standards
+- JavaScript: Use ES6+ features, avoid var, prefer const
+- CSS: Follow BEM naming convention for classes
+- Python: Follow PEP 8 style guide
+
+## Architecture Patterns
+- Implement repository pattern for data access
+- Use dependency injection for service components
+- Follow CQRS pattern for complex operations
+```
+
+Rulefiles for common tech stacks can be found at various online repositories and directories that share community-created instruction templates.
+
+### Workflows
+
+An emerging feature in agentic IDEs is the concept of workflows or prompt files. These files capture and automate common AI-assisted development patterns, allowing teams to standardize and version control their AI interactions.
+
+Key benefits include:
+
+- **Consistent Execution**: Ensure the same prompt structure and context is used every time (as consistent as you can get with a nondeterministic system)
+- **Version Control**: Track changes to prompts and their evolution over time
+- **Knowledge Sharing**: Share effective prompt patterns across the team
+- **Reproducibility**: Maintain a history of what prompts produced which results
+
+Example workflow file structure:
+
+```yaml
+# .prompts/generate-test.yaml
+name: Generate Unit Test
+description: Creates a unit test for the selected function
+context:
+  - current-file
+  - test-file
+prompt: |
+  Write a comprehensive unit test for the following function.
+  Focus on edge cases and error conditions.
+  Use the testing framework from the existing test files.
+
+  Function to test:
+  {{selected_code}}
+```
+
+Workflows can be triggered through command palettes or custom keybindings, making complex AI-assisted patterns accessible to the entire team. This approach moves beyond one-off prompts to create reusable, maintainable AI interaction patterns that grow with your codebase.
+
+## Exercise 1 - Structured MCP Server Development with SDD
+
+This exercise applies the SDD (Spec-Driven Development) methodology you learned in [AI Development for Software Engineers](addendum/ai-engineering/agentic-best-practices.md) to build an MCP server with AI assistance. Rather than exploratory "vibing," you'll follow a structured four-stage workflow: Generate Specification → Task Breakdown → Execute with Management → Validate Implementation.
+
+This structured approach helps you manage complexity, track progress, prevent context rot, and create verifiable proof of functionality at each stage.
+
+**Note:** While this exercise uses VSCode as the primary environment, you may also use Claude Code or other AI assistants. If using Claude Code, leverage the `/context` command to monitor context utilization throughout the exercise.
+
+### Context Management Tips
+
+Before diving into the exercise, keep these context management practices in mind:
+
+- **Monitor Context Utilization**: Use `/context` (in Claude Code) or similar features in your AI assistant to track context window usage
+- **Trigger Compaction at 60%**: When context utilization exceeds 60%, trigger intentional compaction by summarizing completed work and starting fresh
+- **Progressive Disclosure**: Load MCP documentation on-demand rather than front-loading everything. Reference the [MCP Full Text](https://modelcontextprotocol.io/llms-full.txt) and [Python MCP SDK](https://raw.githubusercontent.com/modelcontextprotocol/python-sdk/refs/heads/main/README.md) as needed during development
+- **Avoid Context Rot**: The 40%+ utilization "dumb zone" causes performance degradation. Stay aware of this threshold and compact proactively
+
+For detailed coverage of these concepts, see [AI Best Practices](addendum/ai-engineering/ai-best-practices.md#understanding-context-windows).
+
+### Proof Artifacts
+
+While proof artifacts are optional for this exercise, creating them is excellent practice for real-world development:
+
+- **What They Are**: Evidence demonstrating your implementation works (screenshots, CLI output, test results, configuration examples)
+- **Why They Matter**: Provide verification checkpoints, enable troubleshooting, and support validation against your original spec
+- **What to Collect**: Screenshots of your MCP server running, CLI output from MCP Inspector tests, configuration files showing client registration, examples of successful tool invocations
+
+These artifacts become invaluable when debugging issues or demonstrating functionality to stakeholders.
+
+### Steps
+
+Follow these four SDD stages to build your MCP server:
+
+#### Stage 1: Generate Specification (SDD Stage 1)
+
+1. **Set Up Environment**: Install VSCode and if you have access to Copilot paid plans, log into that account (check with your org or use an education account). Alternatively, you can use Claude Code if preferred.
+
+2. **Brainstorm Your Spec**: Using the [MCP Full Text](https://modelcontextprotocol.io/llms-full.txt) and [Python MCP SDK](https://raw.githubusercontent.com/modelcontextprotocol/python-sdk/refs/heads/main/README.md) as reference, work with your AI assistant to create a comprehensive specification. Focus on:
+   - What problem your MCP server will solve
+   - What tools/resources it will expose
+   - How clients will interact with it
+   - Success criteria and constraints
+
+3. **Ask Clarifying Questions**: Before finalizing the spec, ensure you understand:
+   - MCP protocol requirements and standards
+   - Python SDK patterns and best practices
+   - Testing approaches (MCP Inspector usage)
+   - Client registration requirements
+
+4. **Create Developer-Ready Specification**: Convert your brainstormed ideas into a clear, actionable specification that includes:
+   - Feature requirements
+   - Technical architecture
+   - API/tool definitions
+   - Testing strategy
+   - Success criteria
+
+**Checkpoint**: You should have a written specification document before proceeding to Stage 2.
+
+#### Stage 2: Task Breakdown (SDD Stage 2)
+
+5. **Break Down Into Parent Tasks**: Divide your spec into parent tasks representing demoable units. For example:
+   - Parent Task 1: Create minimal MCP server scaffold that responds to protocol handshake
+   - Parent Task 2: Implement first tool/resource with basic functionality
+   - Parent Task 3: Add error handling and validation
+   - Parent Task 4: Implement remaining tools/resources
+
+6. **Identify Relevant Files**: For each parent task, identify which files you'll need to create or modify (server implementation, configuration, tests, etc.)
+
+7. **Create Sub-Tasks with Proof Artifacts**: Break each parent task into actionable sub-tasks. Define what proof artifacts will demonstrate completion:
+   - Example: "Create server.py with protocol initialization" → Proof: CLI output showing successful server startup
+   - Example: "Implement calculator tool" → Proof: MCP Inspector output showing tool invocation and result
+
+**Checkpoint**: You should have a structured task list with proof artifacts defined before implementing.
+
+#### Stage 3: Execute with Management (SDD Stage 3)
+
+8. **Implement Incrementally**: Work through tasks one at a time following this pattern:
+   - Start with the smallest running MCP server, then add functionality incrementally
+   - Test frequently using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector)
+   - Commit after completing each parent task with clear commit messages
+   - Collect proof artifacts as you go (screenshots, CLI output, test results)
+
+9. **Monitor Context and Compact**: Throughout implementation:
+   - Check context utilization regularly (aim to stay below 60%)
+   - When approaching 60%, trigger intentional compaction: summarize completed work, document remaining tasks, start fresh conversation
+   - Use progressive disclosure: load documentation snippets only when needed
+
+10. **Practice Verification Checkpoints**: After each parent task:
+    - Run tests to verify functionality
+    - Review proof artifacts to confirm requirements met
+    - Commit changes before moving to next task
+
+**Checkpoint**: You should have a working, tested MCP server with commits showing incremental progress.
+
+#### Stage 4: Validate Implementation (SDD Stage 4)
+
+11. **Test Against Original Spec**: Review your completed MCP server against the specification from Stage 1:
+    - Does it solve the problem you defined?
+    - Does it implement all required tools/resources?
+    - Does it meet success criteria?
+
+12. **Register and Integration Test**: Register your MCP server with an MCP client (Claude Desktop, Windsurf, VSCode, etc.) and perform end-to-end testing:
+    - Verify client recognizes your server
+    - Test all tools/resources through the client interface
+    - Validate error handling and edge cases
+
+13. **Review Proof Artifacts**: If you collected proof artifacts, review them to ensure they demonstrate all required functionality
+
+14. **Document Learnings**: Note what worked well, what challenges you encountered, and what you'd do differently next time
+
+**Checkpoint**: You should have a fully functional, validated MCP server registered with a client and demonstrating all specified capabilities.
+
+## Exercise 2 - Structured MCP Server Development with Windsurf IDE
+
+Now let's experience another agentic IDE while applying the same SDD methodology. Windsurf was an early mover in the agentic IDE space and in many ways has shaped the experience that is being mirrored in competitors. Go [here to download Windsurf](https://windsurf.com/).
+
+This exercise applies the identical SDD workflow from Exercise 1 but in a different development environment. This helps you understand how the structured approach transcends specific tools.
+
+**Note:** As with Exercise 1, you may use Claude Code or other AI assistants instead of Windsurf if preferred. Monitor context utilization using available tools (e.g., `/context` in Claude Code).
+
+### Steps
+
+Follow the same four-stage SDD workflow from Exercise 1:
+
+#### Stage 1: Generate Specification
+
+1. **Set Up Windsurf**: Install Windsurf IDE and configure your preferred AI assistant
+2. **Brainstorm Your Spec**: Use the [MCP Full Text](https://modelcontextprotocol.io/llms-full.txt) and [Python MCP SDK](https://raw.githubusercontent.com/modelcontextprotocol/python-sdk/refs/heads/main/README.md) to create your specification
+3. **Ask Clarifying Questions**: Ensure you understand requirements, patterns, and testing approaches
+4. **Create Developer-Ready Specification**: Document features, architecture, APIs, testing strategy, and success criteria
+
+#### Stage 2: Task Breakdown
+
+5. **Break Down Into Parent Tasks**: Divide your spec into demoable units with clear deliverables
+6. **Identify Relevant Files**: Map tasks to specific files you'll create or modify
+7. **Create Sub-Tasks with Proof Artifacts**: Define actionable sub-tasks and specify what evidence demonstrates completion
+
+#### Stage 3: Execute with Management
+
+8. **Implement Incrementally**: Build one task at a time, test frequently with [MCP Inspector](https://github.com/modelcontextprotocol/inspector), commit after each parent task
+9. **Monitor Context and Compact**: Track context utilization, compact at 60%+, use progressive disclosure
+10. **Practice Verification Checkpoints**: Test, review proof artifacts, commit before proceeding
+
+#### Stage 4: Validate Implementation
+
+11. **Test Against Original Spec**: Verify your MCP server meets all specification requirements
+12. **Register and Integration Test**: Register with an MCP client and perform end-to-end testing
+13. **Review Proof Artifacts**: Ensure all evidence demonstrates required functionality
+14. **Document Learnings**: Compare your experience with Exercise 1—what worked better in Windsurf? What was more challenging?
+
+**Key Reflection**: As you work through this exercise, note how the SDD methodology remains consistent even as the development environment changes. The structured approach you learned in [AI Development for Software Engineers](addendum/ai-engineering/agentic-best-practices.md) applies universally across tools.
+
+## Deliverables
+
+- What worked well when applying the SDD workflow to MCP server development?
+- How did following the four-stage methodology (Generate Spec → Task Breakdown → Execute → Validate) compare to exploratory development?
+- Did you experience context rot during the exercise? How did you manage it?
+- What proof artifacts did you collect, and how did they help verify your implementation?
+- Which Agentic IDE did you prefer, and why?
+- How did monitoring context utilization affect your development process?
+- What challenges did you encounter when breaking down your spec into tasks with proof artifacts?
+- What would you do differently if you were to repeat this exercise?

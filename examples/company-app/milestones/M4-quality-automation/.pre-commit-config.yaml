@@ -1,0 +1,60 @@
+# Fast checks that run on `git commit`, before anything reaches CI.
+# Set up once per clone:  pipx install pre-commit && pre-commit install
+# Run on everything:      pre-commit run --all-files
+#
+# Keep hooks fast (seconds). Tests and coverage belong in CI, not here: a hook
+# that takes a minute gets skipped with --no-verify, and then it checks nothing.
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+        exclude: ^.*/pacts/.*\.json$   # written by Pact; regenerated, never hand-edited
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+      - id: check-json
+        exclude: ^\.devcontainer/devcontainer\.json$   # JSON with comments, which the checker rejects
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: detect-private-key
+
+  # Secrets: catches API keys and passwords before they enter history,
+  # where removing them means rewriting it.
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+
+  # Python: the same ruff version as projects-service. Ruff finds
+  # projects-service/pyproject.toml itself, so the rules match `uv run ruff check`.
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.5
+    hooks:
+      - id: ruff-check
+        files: ^projects-service/
+
+  - repo: local
+    hooks:
+      # .NET: formatting and code style from assignments-service/.editorconfig.
+      - id: dotnet-format-assignments
+        name: dotnet format (assignments-service)
+        language: system
+        entry: dotnet format assignments-service/AssignmentsService.slnx --verify-no-changes
+        files: ^assignments-service/.*\.cs$
+        pass_filenames: false
+
+      # Go: gofmt is the formatting standard; there is nothing to configure.
+      - id: gofmt
+        name: gofmt (notifications-service)
+        language: system
+        entry: bash -c 'out=$(gofmt -l "$@"); [ -z "$out" ] || { echo "$out"; exit 1; }' --
+        files: ^notifications-service/.*\.go$
+
+      # Web: ESLint and Prettier with the project's own config.
+      - id: web-lint
+        name: eslint + prettier (web)
+        language: system
+        entry: npm --prefix web run lint
+        files: ^web/
+        pass_filenames: false

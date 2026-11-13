@@ -1,0 +1,234 @@
+# CI for the Company app: one job per service, each running only when that
+# service (or something it depends on) changed, plus an end-to-end job that
+# runs the whole app with compose. Every job must pass before merging.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# A new push to the same branch cancels the run it replaces.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Decide which jobs to run. A pull request that only touches web/ shouldn't
+  # wait for the Python and .NET suites.
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      employees: ${{ steps.filter.outputs.employees }}
+      assignments: ${{ steps.filter.outputs.assignments }}
+      projects: ${{ steps.filter.outputs.projects }}
+      notifications: ${{ steps.filter.outputs.notifications }}
+      web: ${{ steps.filter.outputs.web }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: filter
+        with:
+          # Providers also rerun when a consumer's pact file changes, because
+          # their contract tests verify those files.
+          filters: |
+            employees:
+              - 'employees-service/**'
+              - 'assignments-service/pacts/**'
+              - '.github/workflows/ci.yml'
+            assignments:
+              - 'assignments-service/**'
+              - '.github/workflows/ci.yml'
+            projects:
+              - 'projects-service/**'
+              - 'assignments-service/pacts/**'
+              - 'web/pacts/**'
+              - '.github/workflows/ci.yml'
+            notifications:
+              - 'notifications-service/**'
+              - '.github/workflows/ci.yml'
+            web:
+              - 'web/**'
+              - '.github/workflows/ci.yml'
+
+  employees:
+    needs: changes
+    if: needs.changes.outputs.employees == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: employees-service
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          global-json-file: employees-service/global.json
+      # Unit, component, integration (Testcontainers: the runner has Docker),
+      # and the Pact provider verification of assignments-service's contract.
+      - run: dotnet test
+
+  assignments:
+    needs: changes
+    if: needs.changes.outputs.assignments == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: assignments-service
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # SonarQube uses history for "new code"
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          global-json-file: assignments-service/global.json
+      - name: Formatting
+        run: dotnet format --verify-no-changes
+      # GitHub sets CI=true, so Directory.Build.props turns analyzer and
+      # style warnings into errors here.
+      - name: Build with analyzers
+        run: dotnet build
+      # Below 80%, the run fails with exit code 14 and only "error: 1" in the
+      # summary. The reason ("Coverage thresholds not met") is in the
+      # diagnostic log this step writes to TestResults/diag/ (uploaded below);
+      # locally, add the same --diagnostic flags to see it.
+      - name: Test with coverage gate (80% of lines)
+        run: >
+          dotnet test --no-build
+          --coverlet --coverlet-output-format opencover --coverlet-output-format cobertura
+          --coverlet-include "[AssignmentsService]*"
+          --coverlet-exclude-by-file "**/Migrations/*.cs"
+          --coverlet-threshold 80 --coverlet-threshold-type line
+          --diagnostic --diagnostic-output-directory TestResults/diag
+      # A contract test that changed the pact file means the contract changed.
+      # Fail so the change is committed (and the providers' CI runs against it).
+      - name: Pact files are up to date
+        run: git diff --exit-code -- pacts/
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: assignments-coverage
+          path: assignments-service/TestResults/
+      # Runs only when the repository has a SONAR_TOKEN secret. Settings
+      # (project key, organization, exclusions) live in sonar-project.properties
+      # at the repository root.
+      - name: SonarQube analysis
+        if: env.SONAR_TOKEN != ''
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          prop() { grep "^$1=" ../sonar-project.properties | cut -d= -f2-; }
+          dotnet tool install --global dotnet-sonarscanner --version 12.1.0
+          dotnet sonarscanner begin \
+            /k:"$(prop sonar.projectKey)" /o:"$(prop sonar.organization)" \
+            /d:sonar.host.url="$(prop sonar.host.url)" /d:sonar.token="$SONAR_TOKEN" \
+            /d:sonar.exclusions="$(prop sonar.exclusions)" \
+            /d:sonar.cs.opencover.reportsPaths="TestResults/coverage.opencover.*.xml"
+          dotnet build --no-incremental
+          dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
+
+  projects:
+    needs: changes
+    if: needs.changes.outputs.projects == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: projects-service
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+      - run: uv sync --locked
+      - run: uv run ruff check .
+      # Unit, integration (Testcontainers), and Pact provider verification,
+      # with the coverage gate from pyproject.toml.
+      - run: uv run pytest
+
+  notifications:
+    needs: changes
+    if: needs.changes.outputs.notifications == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: notifications-service
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: notifications-service/go.mod
+      - run: test -z "$(gofmt -l .)" || (gofmt -l . && exit 1)
+      - run: go vet ./...
+      - run: go test -race ./...
+      - run: go test -tags integration ./internal/consumer/
+
+  web:
+    needs: changes
+    if: needs.changes.outputs.web == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test # unit + Pact consumer tests
+      - run: npm run build
+
+  # The whole app, built from this commit, driven through the browser. It runs
+  # on every pull request: a change in one service can break a journey that
+  # crosses several, and only this job would notice.
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Start the app
+        run: |
+          docker compose up --build -d
+          for _ in $(seq 1 60); do
+            if curl -sf localhost:5101/readyz >/dev/null && curl -sf localhost:5102/readyz >/dev/null \
+              && curl -sf localhost:5103/readyz >/dev/null && curl -sf localhost:5104/readyz >/dev/null \
+              && curl -sf localhost:8080/ >/dev/null; then
+              echo "app is ready"; exit 0
+            fi
+            sleep 3
+          done
+          docker compose ps; exit 1
+      - name: Playwright
+        working-directory: web
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          npm run test:e2e
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: failure()
+        with:
+          name: playwright-report
+          path: web/playwright-report/
+      - name: Service logs
+        if: failure()
+        run: docker compose logs --tail 200
+      - name: Stop the app
+        if: always()
+        run: docker compose down -v
