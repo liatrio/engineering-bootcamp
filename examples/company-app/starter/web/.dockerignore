@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+playwright-report
+test-results
+blob-report
+logs
+.env*
+!.env.example
+Dockerfile
+.dockerignore
+*.tsbuildinfo
