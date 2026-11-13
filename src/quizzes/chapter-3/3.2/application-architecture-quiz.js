@@ -4,7 +4,7 @@ shuffleQuestions: true
 shuffleAnswers: true
 ---
 
-# A team asks you to scale their API from 2 to 10 replicas. What do you most need to know about the application first?
+# A team wants to run 10 copies (replicas) of their API instead of 2. What do you most need to know about the application first?
 
 - [x] Whether it keeps session or cache state in memory
   > State held in one replica's memory is invisible to the others, so requests that land on a different replica behave differently.
@@ -15,16 +15,16 @@ shuffleAnswers: true
 - [ ] Whether its container image runs as a non-root user
   > That is a security property worth checking, but it doesn't affect whether the app scales out correctly.
 
-# After a rolling deploy, old and new pods briefly share one database. Which change is most likely to cause an outage?
+# Your team will run the same app in three environments, each with its own database password. What do you most need to know about the application?
 
-- [x] A migration drops a column the old version still reads
-  > The old pods keep serving traffic during the rollout and fail when the column disappears.
-- [ ] A migration adds a nullable column the new version reads
-  > The old version ignores a column it doesn't know about, so adding one is backward compatible.
-- [ ] The new version logs at a more detailed level than before
-  > Noisier logs cost storage, but they don't break requests to the old pods.
-- [ ] The new version adds an index to a frequently queried table
-  > Building an index can slow writes for a while, but the old version keeps working.
+- [x] How it reads its settings, such as env vars
+  > If the app reads its settings from the environment, each environment can supply its own password without changing or rebuilding the code.
+- [ ] Which database library it uses to send queries
+  > The library talks to the database, but the question is where the password comes from.
+- [ ] Whether its tests run against a real database
+  > That matters for test quality, not for supplying a different password per environment.
+- [ ] Which port its web server listens on by default
+  > The port is one setting among many. The real question is how the app receives all of them.
 
 # In the Company app, why does the browser send every request to the frontend-proxy instead of calling each service's port?
 
@@ -50,7 +50,7 @@ shuffleAnswers: true
 
 # A teammate's coding agent generates a new service that works in every local test. What is the most valuable thing you bring to reviewing it?
 
-- [x] Spotting platform risks, such as state kept in memory
+- [x] Spotting hidden risks, such as state kept in memory
   > Generating code is cheap. Judging whether it opens a connection per request or loses state on restart still needs fundamentals.
 - [ ] Rewriting it by hand so the team knows it isn't generated
   > Who typed the code doesn't matter. Whether it behaves correctly does.
