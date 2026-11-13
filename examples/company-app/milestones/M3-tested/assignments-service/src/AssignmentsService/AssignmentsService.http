@@ -1,0 +1,29 @@
+# Requests you can send from VS Code (REST Client) or Rider/Visual Studio.
+# Start the app first: docker compose up -d, or dotnet run with the "http" profile.
+@host = http://localhost:5103
+@ada = 11111111-1111-4111-8111-111111111111
+@platform = aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa
+
+GET {{host}}/api/assignments
+
+###
+
+POST {{host}}/api/assignments
+Content-Type: application/json
+
+{
+  "employeeId": "{{ada}}",
+  "projectId": "{{platform}}",
+  "role": "Tech Lead",
+  "allocationPercent": 50,
+  "startDate": "2026-02-01",
+  "endDate": null
+}
+
+###
+
+GET {{host}}/api/assignments?employeeId={{ada}}
+
+###
+
+GET {{host}}/readyz

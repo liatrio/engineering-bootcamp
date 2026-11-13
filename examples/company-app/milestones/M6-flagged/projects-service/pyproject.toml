@@ -1,0 +1,62 @@
+[project]
+name = "projects-service"
+version = "0.1.0"
+description = "Projects API for the Company teaching app (FastAPI + SQLAlchemy + PostgreSQL)"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "alembic==1.20.1",
+    "fastapi==0.162.7",
+    "openfeature-provider-flagd==0.6.1",
+    "openfeature-sdk==0.10.0",
+    "opentelemetry-distro==0.66b2",
+    "opentelemetry-exporter-otlp==1.45.2",
+    "opentelemetry-instrumentation-fastapi==0.66b2",
+    "opentelemetry-instrumentation-logging==0.66b2",
+    "opentelemetry-instrumentation-psycopg==0.66b2",
+    "opentelemetry-instrumentation-sqlalchemy==0.66b2",
+    "psycopg[binary]==3.3.9",
+    "pydantic==2.14.3",
+    "pydantic-settings==2.16.3",
+    "python-json-logger==4.2.0",
+    "sqlalchemy==2.0.57",
+    "uvicorn==0.54.0",
+]
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "httpx2==2.16.0",
+    "pact-python==3.4.0",
+    "pytest==9.2.0",
+    "pytest-cov==7.1.0",
+    "pyyaml==6.0.3",
+    "ruff==0.17.5",
+    "testcontainers[postgres]==4.15.0",
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+# pycodestyle errors, pyflakes, import sorting, and flake8-bugbear (likely bugs).
+select = ["E", "F", "I", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=app --cov-report=term-missing"
+markers = [
+    "integration: needs Docker (starts a PostgreSQL container with Testcontainers)",
+    "contract: Pact provider verification against ../web/pacts and ../assignments-service/pacts",
+]
+filterwarnings = ["ignore::DeprecationWarning:testcontainers.*"]
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["app/__main__.py"]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true

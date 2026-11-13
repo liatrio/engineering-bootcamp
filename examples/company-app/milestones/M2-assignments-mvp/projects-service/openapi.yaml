@@ -1,0 +1,364 @@
+openapi: 3.1.0
+info:
+  title: Projects API
+  description: Projects in the Company app. Errors are RFC 9457 Problem Details.
+  version: 1.0.0
+paths:
+  /healthz:
+    get:
+      tags:
+      - health
+      summary: 'Liveness: the process is up'
+      operationId: healthz
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+  /readyz:
+    get:
+      tags:
+      - health
+      summary: 'Readiness: the database is reachable'
+      operationId: readyz
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+        '503':
+          description: Database unreachable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /api/projects:
+    get:
+      tags:
+      - projects
+      summary: List projects
+      operationId: list_projects
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/ProjectStatus'
+          - type: 'null'
+          description: Only projects with this status
+          title: Status
+        description: Only projects with this status
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProjectRead'
+                title: Response List Projects
+        '401':
+          description: Missing or invalid bearer token (only when AUTH_TOKEN is set)
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+    post:
+      tags:
+      - projects
+      summary: Create a project
+      operationId: create_project
+      security:
+      - HTTPBearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectWrite'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectRead'
+        '401':
+          description: Missing or invalid bearer token (only when AUTH_TOKEN is set)
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '400':
+          description: Validation failure
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: Duplicate name
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /api/projects/{project_id}:
+    get:
+      tags:
+      - projects
+      summary: Get a project
+      operationId: get_project
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Project Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectRead'
+        '401':
+          description: Missing or invalid bearer token (only when AUTH_TOKEN is set)
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Unknown project ID
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+    put:
+      tags:
+      - projects
+      summary: Replace a project
+      operationId: update_project
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Project Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectWrite'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectRead'
+        '401':
+          description: Missing or invalid bearer token (only when AUTH_TOKEN is set)
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '400':
+          description: Validation failure
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Unknown project ID
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: Duplicate name
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+    delete:
+      tags:
+      - projects
+      summary: Delete a project
+      operationId: delete_project
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Project Id
+      responses:
+        '204':
+          description: Successful Response
+        '401':
+          description: Missing or invalid bearer token (only when AUTH_TOKEN is set)
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Unknown project ID
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+components:
+  schemas:
+    HealthStatus:
+      properties:
+        status:
+          type: string
+          title: Status
+          default: ok
+      type: object
+      title: HealthStatus
+    ProjectRead:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+        startDate:
+          type: string
+          format: date
+          title: Startdate
+        status:
+          $ref: '#/components/schemas/ProjectStatus'
+        createdAt:
+          type: string
+          format: date-time
+          title: Createdat
+        updatedAt:
+          type: string
+          format: date-time
+          title: Updatedat
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - startDate
+      - status
+      - createdAt
+      - updatedAt
+      title: ProjectRead
+    ProjectStatus:
+      type: string
+      enum:
+      - planned
+      - active
+      - completed
+      title: ProjectStatus
+    ProjectWrite:
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Name
+        description:
+          type: string
+          maxLength: 500
+          title: Description
+          default: ''
+        startDate:
+          type: string
+          format: date
+          title: Startdate
+        status:
+          $ref: '#/components/schemas/ProjectStatus'
+          default: planned
+      type: object
+      required:
+      - name
+      - startDate
+      title: ProjectWrite
+      description: Body for POST and PUT. PUT replaces every writable field, so it
+        uses the same shape.
+      examples:
+      - description: Native app for field staff
+        name: Mobile App
+        startDate: '2026-04-01'
+        status: planned
+    ProblemDetails:
+      description: RFC 9457 Problem Details, served as application/problem+json.
+      properties:
+        type:
+          default: about:blank
+          title: Type
+          type: string
+        title:
+          title: Title
+          type: string
+        status:
+          title: Status
+          type: integer
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: null
+          title: Detail
+        instance:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: null
+          title: Instance
+        errors:
+          anyOf:
+          - additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+          - type: 'null'
+          default: null
+          description: Field name to messages; only on validation failures.
+          title: Errors
+        traceId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: null
+          title: Traceid
+      required:
+      - title
+      - status
+      title: ProblemDetails
+      type: object
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      description: Only enforced when AUTH_TOKEN is set.
+      scheme: bearer

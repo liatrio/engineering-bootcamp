@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "PORT": "5103",
+        "ConnectionStrings__Default": "Host=localhost;Port=5433;Database=assignments;Username=postgres;Password=postgres",
+        "RABBITMQ_URL": "amqp://guest:guest@localhost:5672/",
+        "EMPLOYEES_URL": "http://localhost:5101",
+        "PROJECTS_URL": "http://localhost:5102"
+      }
+    }
+  }
+}
