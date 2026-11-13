@@ -1,0 +1,17 @@
+<!-- Settings shared by every project in assignments-service (src and tests). -->
+<Project>
+  <PropertyGroup>
+    <!-- The recommended set of .NET analyzers, plus the code-style rules in
+         .editorconfig, checked on every build. -->
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <!-- Warnings fail the build in CI (GitHub Actions sets CI=true), but stay
+         warnings on your machine so you can experiment before tidying up. -->
+    <TreatWarningsAsErrors Condition="'$(CI)' == 'true'">true</TreatWarningsAsErrors>
+    <!-- The compiler only reports unused usings (IDE0005) when it is also
+         reading XML doc comments. We want the first, not a warning for every
+         public member without a comment (CS1591). -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+</Project>

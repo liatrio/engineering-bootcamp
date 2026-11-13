@@ -1,0 +1,68 @@
+{
+  "consumer": {
+    "name": "assignments-service"
+  },
+  "interactions": [
+    {
+      "description": "a request for a project that does not exist",
+      "pending": false,
+      "providerStates": [
+        {
+          "name": "no project with id {id} exists",
+          "params": {
+            "id": "99999999-9999-4999-8999-999999999999"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/api/projects/99999999-9999-4999-8999-999999999999"
+      },
+      "response": {
+        "status": 404
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
+      "description": "a request for a project that exists",
+      "pending": false,
+      "providerStates": [
+        {
+          "name": "projects exist"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/api/projects/aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+      },
+      "response": {
+        "body": {
+          "content": {
+            "id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    }
+  ],
+  "metadata": {
+    "pactRust": {
+      "ffi": "0.4.27",
+      "models": "1.2.8"
+    },
+    "pactSpecification": {
+      "version": "4.0"
+    }
+  },
+  "provider": {
+    "name": "projects-service"
+  }
+}

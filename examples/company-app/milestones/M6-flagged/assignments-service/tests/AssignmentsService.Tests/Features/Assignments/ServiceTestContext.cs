@@ -1,0 +1,48 @@
+using AssignmentsService.Features.Assignments;
+using AssignmentsService.Tests.Fakes;
+using Microsoft.Extensions.Time.Testing;
+
+namespace AssignmentsService.Tests.Features.Assignments;
+
+/// <summary>
+/// An AssignmentService wired to fresh fakes. Each test class creates its own,
+/// and xUnit creates a new test class instance per test, so no state is shared.
+/// </summary>
+public abstract class ServiceTestContext : IAsyncLifetime
+{
+    protected InMemoryAssignmentStore Store { get; } = new();
+    protected FakeEmployeesClient Employees { get; } = new();
+    protected FakeProjectsClient Projects { get; } = new();
+    protected FakeEventPublisher Events { get; } = new();
+    protected FakeTimeProvider Clock { get; } = new(TestData.Now);
+    protected TestFlags Flags { get; } = new();
+    protected AssignmentService Service { get; private set; } = null!;
+
+    // Binding the in-memory flag provider is asynchronous, so the service is
+    // built here rather than in a constructor.
+    public async ValueTask InitializeAsync() =>
+        Service = new AssignmentService(Store, Employees, Projects, Events, await Flags.CreateClientAsync(), Clock);
+
+    public ValueTask DisposeAsync()
+    {
+        GC.SuppressFinalize(this);
+        return ValueTask.CompletedTask;
+    }
+
+    protected static CancellationToken Ct => TestContext.Current.CancellationToken;
+
+    protected static AssignmentRequest Request(
+        Guid? employeeId = null,
+        Guid? projectId = null,
+        int allocation = 50,
+        string start = "2026-03-01",
+        string? end = null) => new()
+        {
+            EmployeeId = employeeId ?? TestData.Ada,
+            ProjectId = projectId ?? TestData.Platform,
+            Role = "Developer",
+            AllocationPercent = allocation,
+            StartDate = DateOnly.Parse(start),
+            EndDate = end is null ? null : DateOnly.Parse(end),
+        };
+}

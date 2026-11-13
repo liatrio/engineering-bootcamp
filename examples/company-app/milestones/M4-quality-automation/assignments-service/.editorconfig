@@ -1,0 +1,37 @@
+# Code style for assignments-service. `dotnet format --verify-no-changes`
+# checks these in CI and in the pre-commit hook; the build reports them too
+# (EnforceCodeStyleInBuild in Directory.Build.props).
+root = true
+
+[*]
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+
+[*.{csproj,props,slnx,json,yaml,yml}]
+indent_size = 2
+
+[*.cs]
+indent_size = 4
+
+# Usings: System first, outside the namespace; file-scoped namespaces.
+dotnet_sort_system_directives_first = true
+csharp_using_directive_placement = outside_namespace:warning
+csharp_style_namespace_declarations = file_scoped:warning
+
+# Prefer var when the type is obvious, braces always, expression-bodied members where they fit.
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_prefer_braces = true:warning
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+
+# Unused usings are noise in review.
+dotnet_diagnostic.IDE0005.severity = warning
+
+# Tests name methods as sentences with underscores.
+[tests/**.cs]
+dotnet_diagnostic.CA1707.severity = none
+
+# EF Core generates migrations; don't hold them to hand-written standards.
+[**/Migrations/*.cs]
+generated_code = true

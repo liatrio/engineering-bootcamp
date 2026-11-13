@@ -1,0 +1,135 @@
+# The whole Company app on one machine: `docker compose up --build -d`, then
+# open http://localhost:8080. Chapter 4 explains how this file works; for now,
+# it's how you run the app.
+
+x-otel: &otel
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-lgtm:4318
+  OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+  OTEL_METRIC_EXPORT_INTERVAL: "5000"
+
+services:
+  frontend-proxy:
+    image: nginx:1.27-alpine
+    ports: ["8080:8080"]
+    volumes:
+      - ./infra/proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on: [web, employees-service, projects-service, assignments-service, notifications-service]
+
+  web:
+    build: ./web
+
+  employees-service:
+    build: ./employees-service
+    ports: ["5101:8080"]
+    environment:
+      <<: *otel
+      OTEL_SERVICE_NAME: employees-service
+      ConnectionStrings__Default: Host=postgres;Database=employees;Username=postgres;Password=postgres
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672/
+      FLAGD_HOST: flagd
+      SEED_DATA: "true"
+      ENABLE_PROVIDER_STATES: ${ENABLE_PROVIDER_STATES:-false}
+      AUTH_TOKEN: ${AUTH_TOKEN:-}
+    depends_on:
+      postgres: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+
+  projects-service:
+    build: ./projects-service
+    ports: ["5102:8000"]
+    environment:
+      <<: *otel
+      OTEL_SERVICE_NAME: projects-service
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@postgres:5432/projects
+      FLAGD_HOST: flagd
+      FLAGD_PORT: "8013"
+      SEED_DATA: "true"
+      ENABLE_PROVIDER_STATES: ${ENABLE_PROVIDER_STATES:-false}
+      AUTH_TOKEN: ${AUTH_TOKEN:-}
+    depends_on:
+      postgres: { condition: service_healthy }
+      flagd: { condition: service_started }
+
+  assignments-service:
+    build: ./assignments-service
+    ports: ["5103:8080"]
+    environment:
+      <<: *otel
+      OTEL_SERVICE_NAME: assignments-service
+      ConnectionStrings__Default: Host=postgres;Database=assignments;Username=postgres;Password=postgres
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672/
+      EMPLOYEES_URL: http://employees-service:8080
+      PROJECTS_URL: http://projects-service:8000
+      FLAGD_HOST: flagd
+      SEED_DATA: "false"
+      AUTH_TOKEN: ${AUTH_TOKEN:-}
+    depends_on:
+      postgres: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+
+  notifications-service:
+    build: ./notifications-service
+    ports: ["5104:8080"]
+    environment:
+      <<: *otel
+      OTEL_SERVICE_NAME: notifications-service
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672/
+      AUTH_TOKEN: ${AUTH_TOKEN:-}
+    depends_on:
+      rabbitmq: { condition: service_healthy }
+
+  postgres:
+    image: postgres:17-alpine
+    ports: ["5433:5432"]
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./infra/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    ports: ["5672:5672", "15672:15672"]
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "check_port_connectivity"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  flagd:
+    image: ghcr.io/open-feature/flagd:v0.18.2
+    command: start --uri file:/flags/flags.flagd.json
+    ports: ["8013:8013"]
+    volumes:
+      - ./infra/flagd:/flags:ro
+
+  otel-lgtm:
+    image: grafana/otel-lgtm:0.11.10
+    ports: ["3001:3000", "4317:4317", "4318:4318"]
+
+  # Background traffic: docker compose --profile load up -d load
+  load:
+    image: grafana/k6:1.3.0
+    profiles: [load]
+    command: run /scripts/load.js
+    volumes:
+      - ./infra/k6:/scripts:ro
+    depends_on: [frontend-proxy]
+
+  # Stretch goal in 3.4.6: docker compose --profile broker up -d pact-broker
+  pact-broker:
+    image: pactfoundation/pact-broker:2.124.0-pactbroker2.112.0
+    profiles: [broker]
+    ports: ["9292:9292"]
+    environment:
+      PACT_BROKER_DATABASE_URL: sqlite:////tmp/pact_broker.sqlite
+      PACT_BROKER_PORT: "9292"
+
+volumes:
+  postgres-data:
