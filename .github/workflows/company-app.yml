@@ -59,10 +59,13 @@ jobs:
         working-directory: app/employees-service
         run: dotnet test
 
+      # M2 has a service but no tests yet (learners add them in 3.4), so build it;
+      # from M3 on, run its tests.
       - name: assignments-service
         if: hashFiles('app/assignments-service/**/*.csproj') != ''
         working-directory: app/assignments-service
-        run: dotnet test
+        run: |
+          if ls tests/*/*.csproj >/dev/null 2>&1; then dotnet test; else dotnet build; fi
 
       - name: projects-service
         working-directory: app/projects-service
