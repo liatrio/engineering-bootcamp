@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 670" role="img" aria-label="A grid. Eight horizontal bands are the employees-service foundation, built once: routing, auth, validation, error handling, data access, observability, testing, and conventions, each labelled with the foundation piece that implements it. Two vertical columns cut through every band. The solid Employees column shows the one small thing the Employees feature wrote for each band, such as a controller, a request type with data annotations, a thrown ConflictException, a DbSet, one counter, and its tests. The dashed Departments column, which you sketch in the Practice step, has the same eight cells with the same shape."><title>A grid. Eight horizontal bands are the employees-service foundation, built once: routing, auth, validation, error handling, data access, observability, testing, and conventions, each labelled with the foundation piece that implements it. Two vertical columns cut through every band. The solid Employees column shows the one small thing the Employees feature wrote for each band, such as a controller, a request type with data annotations, a thrown ConflictException, a DbSet, one counter, and its tests. The dashed Departments column, which you sketch in the Practice step, has the same eight cells with the same shape.</title>
+<text x="10" y="22" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#555555" text-anchor="start" letter-spacing="0.8">FOUNDATION · built once in Infrastructure/ and Program.cs</text>
+<text x="790" y="22" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#555555" text-anchor="end" letter-spacing="0.8">FEATURES · one column each</text>
+<rect x="10" y="84" width="780" height="54" rx="4" fill="#f1f1f1" stroke="#d0d0d0" stroke-width="1"/>
+<text x="22" y="107" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#262626" text-anchor="start">Routing</text>
+<text x="22" y="126" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="start">app.MapControllers()</text>
+<rect x="10" y="144" width="780" height="54" rx="4" fill="#f8f8f8" stroke="#d0d0d0" stroke-width="1"/>
+<text x="22" y="167" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#262626" text-anchor="start">Auth</text>
+<text x="22" y="186" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="start">BearerTokenMiddleware</text>
+<rect x="10" y="204" width="780" height="54" rx="4" fill="#f1f1f1" stroke="#d0d0d0" stroke-width="1"/>
+<text x="22" y="227" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#262626" text-anchor="start">Validation</text>
+<text x="22" y="246" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="start">[ApiController] returns 400s</text>
+<rect x="10" y="264" width="780" height="54" rx="4" fill="#f8f8f8" stroke="#d0d0d0" stroke-width="1"/>
+<text x="22" y="287" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#262626" text-anchor="start">Error handling</text>
+<text x="22" y="306" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="start">GlobalExceptionHandler</text>
+<rect x="10" y="324" width="780" height="54" rx="4" fill="#f1f1f1" stroke="#d0d0d0" stroke-width="1"/>
+<text x="22" y="347" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#262626" text-anchor="start">Data access</text>
+<text x="22" y="366" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="start">EmployeesDbContext</text>
+<rect x="10" y="384" width="780" height="54" rx="4" fill="#f8f8f8" stroke="#d0d0d0" stroke-width="1"/>
+<text x="22" y="407" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#262626" text-anchor="start">Observability</text>
+<text x="22" y="426" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="start">TelemetryExtensions</text>
+<rect x="10" y="444" width="780" height="54" rx="4" fill="#f1f1f1" stroke="#d0d0d0" stroke-width="1"/>
+<text x="22" y="467" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#262626" text-anchor="start">Testing</text>
+<text x="22" y="486" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="start">ComponentTestApp, PostgresTestApp</text>
+<rect x="10" y="504" width="780" height="54" rx="4" fill="#f8f8f8" stroke="#d0d0d0" stroke-width="1"/>
+<text x="22" y="527" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" font-style="normal" fill="#262626" text-anchor="start">Conventions</text>
+<text x="22" y="546" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="start">Features/&lt;Name&gt;/</text>
+<rect x="268" y="34" width="252" height="534" rx="10" fill="#24ae1d" fill-opacity="0.09" stroke="#24ae1d" stroke-width="2"/>
+<text x="394.0" y="56" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" font-style="normal" fill="#24ae1d" text-anchor="middle">Employees</text>
+<text x="394.0" y="73" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="normal" font-style="normal" fill="#555555" text-anchor="middle">built in the starter</text>
+<text x="394.0" y="108" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="normal" fill="#262626" text-anchor="middle">EmployeesController</text>
+<text x="394.0" y="126" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="middle">→ /api/employees</text>
+<text x="394.0" y="168" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="normal" fill="#262626" text-anchor="middle">(nothing)</text>
+<text x="394.0" y="186" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="middle">/api/* is already protected</text>
+<text x="394.0" y="228" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="normal" fill="#262626" text-anchor="middle">EmployeeRequest</text>
+<text x="394.0" y="246" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="middle">[Required] [EmailAddress]</text>
+<text x="394.0" y="288" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="normal" fill="#262626" text-anchor="middle">throw ConflictException</text>
+<text x="394.0" y="306" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="middle">duplicate email becomes a 409</text>
+<text x="394.0" y="348" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="normal" fill="#262626" text-anchor="middle">DbSet&lt;Employee&gt;</text>
+<text x="394.0" y="366" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="middle">+ EmployeeConfiguration, EmployeeStore</text>
+<text x="394.0" y="408" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="normal" fill="#262626" text-anchor="middle">company.employees.created</text>
+<text x="394.0" y="426" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="middle">one business counter</text>
+<text x="394.0" y="468" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="normal" fill="#262626" text-anchor="middle">EmployeesApiTests</text>
+<text x="394.0" y="486" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="middle">+ service and database tests</text>
+<text x="394.0" y="528" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="normal" fill="#262626" text-anchor="middle">Features/Employees/</text>
+<text x="394.0" y="546" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="normal" fill="#555555" text-anchor="middle">9 files</text>
+<rect x="532" y="34" width="252" height="534" rx="10" fill="#24ae1d" fill-opacity="0.05" stroke="#24ae1d" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="658.0" y="56" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" font-style="italic" fill="#24ae1d" text-anchor="middle">Departments</text>
+<text x="658.0" y="73" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="normal" font-style="italic" fill="#555555" text-anchor="middle">you sketch this in Practice</text>
+<text x="658.0" y="108" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="italic" fill="#262626" text-anchor="middle">DepartmentsController</text>
+<text x="658.0" y="126" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="italic" fill="#555555" text-anchor="middle">→ /api/departments</text>
+<text x="658.0" y="168" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="italic" fill="#262626" text-anchor="middle">(nothing)</text>
+<text x="658.0" y="186" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="italic" fill="#555555" text-anchor="middle">/api/* is already protected</text>
+<text x="658.0" y="228" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="italic" fill="#262626" text-anchor="middle">DepartmentRequest</text>
+<text x="658.0" y="246" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="italic" fill="#555555" text-anchor="middle">[Required] name</text>
+<text x="658.0" y="288" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="italic" fill="#262626" text-anchor="middle">throw ConflictException</text>
+<text x="658.0" y="306" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="italic" fill="#555555" text-anchor="middle">duplicate name becomes a 409</text>
+<text x="658.0" y="348" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="italic" fill="#262626" text-anchor="middle">DbSet&lt;Department&gt;</text>
+<text x="658.0" y="366" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="italic" fill="#555555" text-anchor="middle">+ DepartmentConfiguration</text>
+<text x="658.0" y="408" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="italic" fill="#262626" text-anchor="middle">(nothing yet)</text>
+<text x="658.0" y="426" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="italic" fill="#555555" text-anchor="middle">add a counter if the business needs one</text>
+<text x="658.0" y="468" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="italic" fill="#262626" text-anchor="middle">DepartmentsApiTests</text>
+<text x="658.0" y="486" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="italic" fill="#555555" text-anchor="middle">same shared test apps</text>
+<text x="658.0" y="528" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="13" font-weight="normal" font-style="italic" fill="#262626" text-anchor="middle">Features/Departments/</text>
+<text x="658.0" y="546" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="normal" font-style="italic" fill="#555555" text-anchor="middle">about 7 files</text>
+<text x="400" y="602" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#555555" text-anchor="middle">Every cell is a line or two. The bands did the work; each column only says what makes its feature different.</text>
+<text x="400" y="624" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#555555" text-anchor="middle">Departments isn't built yet, but the grid already tells you its shape.</text>
+<text x="400" y="654" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#262626" text-anchor="middle">Read down a column to see one feature. Read across a band to see one rule applied everywhere.</text>
+</svg>
