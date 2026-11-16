@@ -196,7 +196,7 @@ docs/3-application-development/3.2-application-architecture.md:
         Set up the team repository from the Company app starter, run the whole
         app with Docker Compose, and explore how its services, database, message
         broker, and telemetry fit together.
-      estMinutes: 45
+      estMinutes: 50
       technologies:
         - Docker
         - Docker Compose

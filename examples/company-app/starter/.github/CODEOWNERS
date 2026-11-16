@@ -1,0 +1,23 @@
+# Who owns each service. GitHub asks a service's owners to review every pull
+# request that changes it, and your ruleset can require one of them to approve.
+#
+# To set it up (Chapter 3.2):
+#   1. Replace each <placeholder> with a teammate's GitHub username,
+#      including the @, for example @octocat.
+#   2. Remove the "# " at the start of each rule below.
+#
+# List two people per service, an owner and a backup. GitHub never counts an
+# approval on your own pull request, so a service with a single owner would
+# block that owner's own changes. When several lines match a file, the last
+# one wins, and every owner for a path must be on the same line.
+
+# Everything not listed below belongs to the whole team.
+# *                        <teammate> <teammate> <teammate>
+
+# /employees-service/      <owner> <backup>
+# /projects-service/       <owner> <backup>
+# /notifications-service/  <owner> <backup>
+# /web/                    <owner> <backup>
+
+# The service you build together belongs to everyone.
+# /assignments-service/    <teammate> <teammate> <teammate>
