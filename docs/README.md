@@ -487,16 +487,18 @@ docs/3-application-development/3.4.5-integration-testing.md:
   category: Software Quality
   estReadingMinutes: 10
   exercises:
-    - name: Integration test against PostgreSQL with Testcontainers
+    - name: Integration tests with Testcontainers
       description: >-
-        Read the Testcontainers tests in the starter, prove that
-        employees-service's database enforces unique emails regardless of case,
-        then write integration tests for assignments-service's migrations,
-        mapping, unique index, and bulk delete on a real PostgreSQL.
+        Read the Testcontainers tests in the starter, prove against a real
+        RabbitMQ that notifications-service drops a malformed message and keeps
+        consuming, then write integration tests for assignments-service's
+        migrations, mapping, unique index, and bulk delete on a real PostgreSQL.
       estMinutes: 60
       technologies:
         - .NET
+        - Go
         - PostgreSQL
+        - RabbitMQ
         - Testcontainers
         - Docker
 docs/3-application-development/3.4.6-contract-testing.md:
@@ -627,8 +629,8 @@ docs/3-application-development/3.5.3-tracing.md:
     - name: Follow and extend distributed traces
       description: >-
         Follow a trace from the browser through the Company app's services and
-        across RabbitMQ, add the missing publish span to employees-service's
-        delete, and add a validate employee and project span to
+        across RabbitMQ, mark notifications-service's span as an error when it
+        drops a bad message, and add a validate employee and project span to
         assignments-service, then use it to find a slow dependency and wasted
         retries.
       estMinutes: 60

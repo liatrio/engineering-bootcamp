@@ -223,13 +223,13 @@ The starters are complete and best-practice, apart from these small, documented 
 | 3.4.2 | projects | No status-transition rule, and no test for one. Learners add, test-first: `planned → active → completed` only, never backwards; an invalid move returns 409. |
 | 3.4.3 | employees | Service tests can't control timestamps (follows from 3.3.3); learners use `FakeTimeProvider` |
 | 3.4.4 | employees | Component tests share **one static in-memory fake repository**, so results depend on test order. No test for `DELETE` of an unknown ID. |
-| 3.4.5 | employees | Integration tests (Testcontainers PostgreSQL) don't cover the unique-email database constraint |
+| 3.4.5 | notifications | The integration test (Testcontainers RabbitMQ, build tag `integration`) covers only a valid message. Nothing proves against a real broker that a malformed message is dropped from the queue and the consumer keeps processing other event types. |
 | 3.4.6 | web → projects | The Pact consumer covers `GET /api/projects` and `GET /api/projects/{id}`, but not `POST /api/projects`, which the UI uses |
 | 3.4.7 | web | Playwright covers creating an employee, not creating a project |
 | 3.4.8 | projects | Coverage threshold set to 80%; `services/project_service.py` has an untested error branch |
 | 3.4.9 | projects | ruff runs a minimal rule set; learners enable `B` (bugbear) and fix what it finds (one finding is planted) |
 | 3.5 | projects | No custom business metric (employees has `company.employees.created`; projects has nothing similar) |
-| 3.5.3 | employees | `DELETE` creates no manual span around publishing the event (create and update do) |
+| 3.5.3 | notifications | A malformed message is logged at error level and dropped, but its consumer span isn't marked as an error (no `RecordError`, no error status), so the trace looks healthy |
 | 3.6 | employees | No flag around event publishing. Learners add an ops flag, `employee-events`, as a kill switch. |
 
 ## Versions

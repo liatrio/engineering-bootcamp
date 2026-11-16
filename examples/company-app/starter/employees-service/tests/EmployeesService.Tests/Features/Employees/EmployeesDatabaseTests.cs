@@ -4,6 +4,7 @@ using EmployeesService.Features.Employees;
 using EmployeesService.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 
 namespace EmployeesService.Tests.Features.Employees;
 
@@ -75,4 +76,48 @@ public sealed class EmployeesDatabaseTests(PostgresTestApp app) : IClassFixture<
         var gone = await _client.GetAsync($"/api/employees/{created.Id}", Ct);
         Assert.Equal(HttpStatusCode.NotFound, gone.StatusCode);
     }
+
+    [Fact]
+    public async Task The_database_rejects_an_email_that_differs_only_in_case()
+    {
+        // Straight to the DbContext, past EmployeeService's own check: this
+        // proves the unique index on the lower-cased email exists, so the rule
+        // holds even when two requests race past the service's check.
+        await using var scope = app.Services.CreateAsyncScope();
+        var db = scope.ServiceProvider.GetRequiredService<EmployeesDbContext>();
+        db.Employees.AddRange(Row("Hedy@example.com"), Row("hedy@EXAMPLE.com"));
+
+        var ex = await Assert.ThrowsAsync<DbUpdateException>(() => db.SaveChangesAsync(Ct));
+
+        Assert.Equal(PostgresErrorCodes.UniqueViolation, Assert.IsType<PostgresException>(ex.InnerException).SqlState);
+    }
+
+    [Fact]
+    public async Task The_api_returns_409_for_a_duplicate_email_in_another_case()
+    {
+        var first = await _client.PostAsJsonAsync("/api/employees", NewEmployee("Mary@example.com"), Ct);
+        var second = await _client.PostAsJsonAsync("/api/employees", NewEmployee("mary@example.com"), Ct);
+
+        Assert.Equal(HttpStatusCode.Created, first.StatusCode);
+        Assert.Equal(HttpStatusCode.Conflict, second.StatusCode);
+    }
+
+    private static object NewEmployee(string email) => new
+    {
+        name = "Mary Jackson",
+        email,
+        title = "Engineer",
+        department = "Engineering",
+    };
+
+    private static Employee Row(string email) => new()
+    {
+        Id = Guid.NewGuid(),
+        Name = "Hedy Lamarr",
+        Email = email,
+        Title = "Inventor",
+        Department = "Research",
+        CreatedAt = DateTime.UtcNow,
+        UpdatedAt = DateTime.UtcNow,
+    };
 }

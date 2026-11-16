@@ -95,7 +95,11 @@ public sealed class EmployeeService(IEmployeeStore store, IEventPublisher events
             throw new NotFoundException(nameof(Employee), id);
         }
 
-        await PublishAsync(DeletedEvent, new { id });
+        using (var activity = ServiceTelemetry.ActivitySource.StartActivity("publish " + DeletedEvent))
+        {
+            activity?.SetTag("employee.id", id);
+            await PublishAsync(DeletedEvent, new { id });
+        }
     }
 
     private async Task EnsureEmailIsFreeAsync(string email, Guid? exceptId, CancellationToken ct)

@@ -14,7 +14,6 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/metric"
 	semconv "go.opentelemetry.io/otel/semconv/v1.43.0"
 	"go.opentelemetry.io/otel/trace"
@@ -197,8 +196,6 @@ func (c *Consumer) Handle(ctx context.Context, d amqp.Delivery) {
 
 	var env events.Envelope
 	if err := json.Unmarshal(d.Body, &env); err != nil {
-		span.RecordError(err)
-		span.SetStatus(codes.Error, "malformed message")
 		c.log.ErrorContext(ctx, "dropping malformed message", "error", err,
 			"routing_key", d.RoutingKey, "body_size", len(d.Body))
 		if err := d.Nack(false, false); err != nil {
