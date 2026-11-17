@@ -11,6 +11,9 @@
   --theme-color   : #24AE1D;
   --selection-color      : #c3e788;
   --sidebar-width: 22rem;
+	
+  /* Docsify v5 reads this to tell phones from desktop; docsify-themeable doesn't define it. */
+  --_mobile-breakpoint: 47.99em;
 }
 
 .pagination-item, .pagination-item-title, .pagination-item-label {
@@ -231,3 +234,13 @@
 	--callout-icon-warning: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 1.75 14.75 13.75H1.25Z'/%3E%3Cpath d='M8 6v3.5'/%3E%3Ccircle cx='8' cy='11.6' r='.9' fill='%23000' stroke='none'/%3E%3C/svg%3E");
 	--callout-icon-caution: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.25 1.5h5.5l3.75 3.75v5.5l-3.75 3.75h-5.5L1.5 10.75v-5.5Z'/%3E%3Cpath d='M8 4.75v3.75'/%3E%3Ccircle cx='8' cy='10.9' r='.9' fill='%23000' stroke='none'/%3E%3C/svg%3E");
 }
+
+/*
+ * Sidebar toggle: Docsify v5 toggles `.sidebar.show`, but docsify-themeable
+ * only reacts to v4's `body.close`, so the burger button did nothing.
+ */
+.sidebar.show { transform: translateX(var(--sidebar-width)); }
+.sidebar:not(.show) { transform: translateX(0); }
+.sidebar:not(.show) + .content { margin-left: 0; }
+body:has(.sidebar.show) .sidebar-toggle { transform: translateX(var(--sidebar-width)); }
+body:has(.sidebar:not(.show)) .sidebar-toggle { transform: translateX(0); }
