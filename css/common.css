@@ -151,6 +151,25 @@
 }
 
 /*
+ * Search: docsify-themeable hides `.results-panel` until v4's search plugin adds
+ * `.show`. The v5 plugin never adds it and hides the panel with `:empty` instead,
+ * so show the panel whenever it holds results.
+ */
+.sidebar .search .results-panel:not(:empty) {
+	display: block;
+}
+
+/* v5's clear button labels itself with `.visually-hidden`, which only v5's core theme defines. */
+.search .visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+/*
  * Callouts: Docsify v5 renders `> [!TIP]`, `> [!WARNING]`, ... as `.callout.<type>`.
  * docsify-themeable only styles v4's `.tip`/`.warn`, so every type is styled here.
  * Each type's colour comes from css/light.css or css/dark.css (`--callout-<type>`).
