@@ -2,8 +2,6 @@
 
 Canonical skills for this repo. `.claude/skills` and `.github/skills` are symlinks to this directory; add new skills here only.
 
-On Windows, enable symlinks before cloning (`git config --global core.symlinks true`, plus Developer Mode or an elevated shell). Without them `.claude/skills` and `.github/skills` check out as plain text files and skills are not discovered.
-
 ## new-content
 
 Adds new bootcamp content: an intro lesson (reading only), an intro exercise (hand-held, with numbered steps and hints), or a challenge exercise (open-ended scenario). It is interactive and does not draft until it has interviewed you about the topic, agreed a placement in the sidebar, and picked a format. It then drafts from a golden example and handles the mechanics: front-matter, sidebar, quiz embed, `npm run refresh-front-matter`, `npm run lint`, and a `lesson-style-check` pass.
@@ -44,10 +42,56 @@ Example prompts:
 - "Run dead-link-check on chapter 7 and apply the fixes for moved URLs."
 - "Several links to the AWS docs are failing. Are they dead or just blocking curl?"
 
+# Contributing
+
+Add a new skill or change an existing one through a PR from a feature branch, as with any other change in this repo (see `AGENTS.md` for branch and commit conventions).
+
+## Add a new skill
+
+1. Create `.agents/skills/<skill-name>/` with a `SKILL.md`. Its front-matter needs a `name` that matches the folder and a `description` that says what the skill does and when to use it. Keep the body short and link to `references/` files for detail that is only needed sometimes.
+2. Put any deterministic work in `scripts/` so the skill calls a script instead of re-deriving the logic each run.
+3. Add evals under `<skill-name>/evals/` (see [Evals](#evals)). A new skill needs at least one case for each behavior it promises.
+4. Add a section for the skill to this README with a short description and example prompts.
+5. Do not create the skill under `.claude/skills` or `.github/skills`. Those are symlinks to this directory.
+
+## Update an existing skill
+
+1. Edit `SKILL.md`, `references/` or `scripts/` as needed.
+2. Add or adjust eval cases so they cover the changed behavior. If you change a script's output or a skill's flow, update any grader that depends on it.
+3. Update this README if the skill's description or example prompts no longer match.
+4. Run the skill's evals locally and confirm they pass before you open the PR.
+
 ## Evals
 
-Each skill keeps eval cases under `<skill>/evals/<case>/` (`case.yaml`, `prompt.md`, `graders/`, optional `files/` and a scaffold script). Run them with `claude plugin eval <path> --scaffold --model <model> --max-cost-usd <usd>`.
+Each skill keeps eval cases under `<skill>/evals/<case>/`:
+
+- `case.yaml`: the case name and `expected_outcome`.
+- `prompt.md`: the prompt given to the agent. Its frontmatter sets `max_turns`, `timeout_seconds`, `allowed_tools` and `disallowed_tools`.
+- `graders/`: the checks that decide pass or fail.
+- `files/` and `place-files.sh`: optional fixtures and the scaffold script that places them.
+
+Rules for writing cases:
 
 - Scaffold scripts run in a fresh empty temp dir, not in your checkout. Each case's `place-files.sh` is a short stub that sources `_shared/evals/lib.sh`, because the eval runner rejects scaffold paths outside the case dir and does not tell the script which case it is running. The library refuses to run in the repo checkout, in an existing git repo, or in a non-empty dir.
-- `prompt.md` frontmatter sets `max_turns`, `timeout_seconds`, `allowed_tools` and `disallowed_tools`. Give a case only the tools it needs: answer-only cases get read tools, script cases get a `Bash(node .agents/skills/<skill>/scripts/*:*)` pattern, and only cases that expect a file change get `Write` or `Edit`.
+- Give a case only the tools it needs: answer-only cases get read tools, script cases get a `Bash(node .agents/skills/<skill>/scripts/*:*)` pattern, and only cases that expect a file change get `Write` or `Edit`.
 - The model is not set in the case. Pass `--model` so results are comparable between runs.
+
+## Run evals locally
+
+From the repo root, run a single skill or a single case:
+
+```bash
+claude plugin eval .agents/skills/<skill> --scaffold --model <model> --max-cost-usd <usd>
+claude plugin eval .agents/skills/<skill>/evals/<case> --scaffold --model <model> --max-cost-usd <usd>
+```
+
+- Use the same `--model` the other cases were last run with so results compare.
+- Set `--max-cost-usd` to cap spend; eval runs call the model and cost money.
+- Results are written to `<skill>/evals/results/<timestamp>/`. Read the report for any failing case, fix the skill or the grader, and re-run.
+- Run the evals for every skill you changed. If you changed `_shared/evals/lib.sh`, run them for all skills.
+
+## Merge requirements
+
+- `npm run lint` passes (markdownlint, links and spelling).
+- The evals for every changed skill pass locally.
+- The evals must also pass in CI before a PR can merge. A manual GitHub Actions workflow that runs them is planned; once it exists, run it on your PR and link the passing run in the description.
