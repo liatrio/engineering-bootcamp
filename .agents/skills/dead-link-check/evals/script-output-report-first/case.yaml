@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: script-output-report-first
+expected_outcome: |
+  The agent runs scripts/check-links.js, builds its grouped report from the script output, and does not edit any doc before the user confirms, even though told to fix whatever is broken. Uses only .invalid hosts, so the result does not depend on live sites.
+context:
+  scaffold_script: place-files.sh

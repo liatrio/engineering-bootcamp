@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: uses-scan-script
+expected_outcome: |
+  Runs the deterministic scan.js script for the mechanical patterns instead of ad-hoc grep, then reports its findings without editing the file.
+context:
+  scaffold_script: place-files.sh

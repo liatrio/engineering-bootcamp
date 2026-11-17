@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: move-chapter-renumbers-with-nested-pages
+expected_outcome: |
+  Moves a whole chapter with scripts/move.js. The chapter folder, nested pages (N.X.Y-*), quiz folders and embed ids, and the sidebar chapter order all follow, and check-refs.js passes.
+context:
+  scaffold_script: place-files.sh

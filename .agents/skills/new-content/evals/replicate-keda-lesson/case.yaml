@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: replicate-keda-lesson
+expected_outcome: |
+  A new chapter 9 page after 9.5 that teaches the same lesson as the existing KEDA page,
+  written from scratch as a challenge exercise. The graders check what the skill adds over
+  the baseline: official doc links, examples/keda referenced without long code fences, and
+  an honest account of what could not be looked up. The reference lesson is
+  docs/9-kubernetes-container-orchestration/9.6-keda.md in the main repo.
+context:
+  scaffold_script: scrub-keda.sh
