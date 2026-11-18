@@ -1,0 +1,127 @@
+openapi: 3.1.0
+info:
+  title: Notifications Service
+  version: 1.0.0
+  description: |
+    Read model of Company events. Consumes every event on the `company.events`
+    RabbitMQ exchange and keeps the latest 100 in memory (lost on restart).
+servers:
+  - url: http://localhost:5104
+    description: docker compose host port
+paths:
+  /api/notifications:
+    get:
+      operationId: listNotifications
+      summary: List the latest notifications, newest first
+      description: Returns at most 100 notifications. Requires a bearer token only when `AUTH_TOKEN` is set.
+      security:
+        - {}
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Notifications, newest first (an empty array when none).
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 100
+                items:
+                  $ref: "#/components/schemas/Notification"
+        "401":
+          description: "`AUTH_TOKEN` is set and the request has no valid bearer token."
+          headers:
+            WWW-Authenticate:
+              schema:
+                type: string
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+  /healthz:
+    get:
+      operationId: liveness
+      summary: Liveness. 200 whenever the process is up.
+      responses:
+        "200":
+          description: The process is up.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status:
+                    type: string
+                    const: ok
+  /readyz:
+    get:
+      operationId: readiness
+      summary: Readiness. 200 only while connected to RabbitMQ.
+      responses:
+        "200":
+          description: Connected to RabbitMQ and consuming.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Readiness"
+              example: { status: ok, rabbitmq: connected }
+        "503":
+          description: Not connected to RabbitMQ (yet).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Readiness"
+              example: { status: unavailable, rabbitmq: disconnected }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Notification:
+      type: object
+      required: [id, type, message, occurredAt, traceId]
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The event's `eventId`, or a generated UUID if the event had none.
+        type:
+          type: string
+          description: Event type, e.g. `employee.created`.
+          examples: [employee.created]
+        message:
+          type: string
+          examples: [Employee Ada Lovelace was created]
+        occurredAt:
+          type: string
+          format: date-time
+          description: The event's `occurredAt` (UTC), or the receive time if missing.
+        traceId:
+          type: string
+          pattern: "^([0-9a-f]{32})?$"
+          description: W3C trace ID of the consumer span (continues the publisher's trace when the message carried `traceparent`). Empty if none.
+          examples: [4bf92f3577b34da6a3ce929d0e0e4736]
+    Readiness:
+      type: object
+      required: [status, rabbitmq]
+      properties:
+        status:
+          type: string
+          enum: [ok, unavailable]
+        rabbitmq:
+          type: string
+          enum: [connected, disconnected]
+    ProblemDetails:
+      type: object
+      description: RFC 9457 Problem Details.
+      required: [type, title, status]
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string

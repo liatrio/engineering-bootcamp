@@ -1,0 +1,133 @@
+# Design sketch for assignments-service, written before any code (3.2).
+# Once the service exists, this file is replaced by the document the running
+# service serves at /openapi/v1.yaml.
+openapi: 3.1.1
+info:
+  title: Assignments API
+  version: 0.1.0
+  description: >
+    Which employee works on which project, in what role, for how much of their
+    time. Checks employees-service and projects-service before saving.
+paths:
+  /api/assignments:
+    get:
+      summary: List assignments
+      parameters:
+        - name: employeeId
+          in: query
+          schema: { type: string, format: uuid }
+        - name: projectId
+          in: query
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Matching assignments
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Assignment' }
+    post:
+      summary: Assign an employee to a project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AssignmentRequest' }
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema: { type: string }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Assignment' }
+        '400': { $ref: '#/components/responses/ValidationProblem' }
+        '409': { $ref: '#/components/responses/Problem' }
+        '503': { $ref: '#/components/responses/Problem' }
+  /api/assignments/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      summary: Get one assignment
+      responses:
+        '200':
+          description: The assignment
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Assignment' }
+        '404': { $ref: '#/components/responses/Problem' }
+    put:
+      summary: Replace an assignment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AssignmentRequest' }
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Assignment' }
+        '400': { $ref: '#/components/responses/ValidationProblem' }
+        '404': { $ref: '#/components/responses/Problem' }
+        '409': { $ref: '#/components/responses/Problem' }
+        '503': { $ref: '#/components/responses/Problem' }
+    delete:
+      summary: Remove an assignment
+      responses:
+        '204': { description: Deleted }
+        '404': { $ref: '#/components/responses/Problem' }
+components:
+  schemas:
+    AssignmentRequest:
+      type: object
+      required: [employeeId, projectId, role, allocationPercent, startDate]
+      properties:
+        employeeId: { type: string, format: uuid }
+        projectId: { type: string, format: uuid }
+        role: { type: string, minLength: 1, maxLength: 100 }
+        allocationPercent: { type: integer, minimum: 1, maximum: 100 }
+        startDate: { type: string, format: date }
+        endDate:
+          type: [string, 'null']
+          format: date
+    Assignment:
+      allOf:
+        - $ref: '#/components/schemas/AssignmentRequest'
+        - type: object
+          required: [id, createdAt, updatedAt]
+          properties:
+            id: { type: string, format: uuid }
+            createdAt: { type: string, format: date-time }
+            updatedAt: { type: string, format: date-time }
+    ProblemDetails:
+      type: object
+      properties:
+        type: { type: string }
+        title: { type: string }
+        status: { type: integer }
+        detail: { type: string }
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items: { type: string }
+  responses:
+    Problem:
+      description: Problem Details (404 unknown ID, 409 conflict, 503 a dependency is unavailable)
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemDetails' }
+    ValidationProblem:
+      description: >
+        Invalid body, or an employeeId / projectId that does not exist
+        (errors.employeeId, errors.projectId)
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemDetails' }

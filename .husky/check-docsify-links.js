@@ -203,13 +203,13 @@ const siteCode = (n) => /\.(js|css|html)$/.test(n);
 const siteRootRefs = [path.join(ROOT, 'index.html'), ...walk(path.join(ROOT, 'src'), siteCode), ...walk(path.join(ROOT, 'css'), siteCode)]
     .map((f) => fs.readFileSync(f, 'utf8'))
     .join('\n');
-const imgDirs = [
-    path.join(ROOT, 'img'),
-    ...fs
-        .readdirSync(DOCS, { withFileTypes: true })
+// Every img/ folder under docs/, including nested ones like docs/addendum/<topic>/img/.
+const findImgDirs = (dir) =>
+    fs
+        .readdirSync(dir, { withFileTypes: true })
         .filter((e) => e.isDirectory())
-        .map((e) => path.join(DOCS, e.name, 'img')),
-];
+        .flatMap((e) => (e.name === 'img' ? [path.join(dir, e.name)] : findImgDirs(path.join(dir, e.name))));
+const imgDirs = [path.join(ROOT, 'img'), ...findImgDirs(DOCS)];
 for (const img of imgDirs.flatMap((d) => walk(d, () => true))) {
     const repoPath = path.relative(ROOT, img).split(path.sep).join('/');
     if (usedAssets.has(img) || siteRootRefs.includes(repoPath)) continue;

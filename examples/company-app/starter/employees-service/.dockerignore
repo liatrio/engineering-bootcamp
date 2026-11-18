@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+**/.vs/
+**/.vscode/
+**/*.user
+tests/
+Dockerfile
+.dockerignore
+README.md
+openapi.yaml

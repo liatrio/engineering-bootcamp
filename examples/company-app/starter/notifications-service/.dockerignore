@@ -1,0 +1,9 @@
+# Keep the build context small and free of local artefacts.
+.git
+.verify
+*.md
+Dockerfile
+.dockerignore
+*.test
+*.out
+coverage*

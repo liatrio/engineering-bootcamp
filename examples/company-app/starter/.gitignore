@@ -1,0 +1,8 @@
+# Local overrides (ports, extra services) stay on your machine.
+compose.override.yaml
+.env
+# Editor and OS files
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json

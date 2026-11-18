@@ -1,0 +1,68 @@
+{
+  "consumer": {
+    "name": "assignments-service"
+  },
+  "interactions": [
+    {
+      "description": "a request for an employee that does not exist",
+      "pending": false,
+      "providerStates": [
+        {
+          "name": "no employee with id {id} exists",
+          "params": {
+            "id": "99999999-9999-4999-8999-999999999999"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/api/employees/99999999-9999-4999-8999-999999999999"
+      },
+      "response": {
+        "status": 404
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
+      "description": "a request for an employee that exists",
+      "pending": false,
+      "providerStates": [
+        {
+          "name": "employees exist"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/api/employees/11111111-1111-4111-8111-111111111111"
+      },
+      "response": {
+        "body": {
+          "content": {
+            "id": "11111111-1111-4111-8111-111111111111"
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    }
+  ],
+  "metadata": {
+    "pactRust": {
+      "ffi": "0.4.27",
+      "models": "1.2.8"
+    },
+    "pactSpecification": {
+      "version": "4.0"
+    }
+  },
+  "provider": {
+    "name": "employees-service"
+  }
+}

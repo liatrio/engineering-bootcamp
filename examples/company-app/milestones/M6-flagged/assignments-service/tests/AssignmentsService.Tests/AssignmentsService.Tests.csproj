@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <!-- xUnit v3 test projects are executables that run on Microsoft.Testing.Platform (see global.json). -->
+    <OutputType>Exe</OutputType>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.MTP" Version="10.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.15" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" Version="10.11.0" />
+    <PackageReference Include="PactNet" Version="5.0.1" />
+    <PackageReference Include="Testcontainers.PostgreSql" Version="4.16.0" />
+    <PackageReference Include="Testcontainers.RabbitMq" Version="4.16.0" />
+    <PackageReference Include="xunit.v3" Version="4.0.3" />
+    <!-- The flagd provider depends on System.Formats.Cbor 8.0.0, which has a
+         known vulnerability (GHSA-vmv3-wvjp-wqpj). The app itself gets the
+         patched copy from the ASP.NET Core shared framework; this test project
+         doesn't, so it references the patched version directly. -->
+    <PackageReference Include="System.Formats.Cbor" Version="10.0.15" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AssignmentsService\AssignmentsService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>
