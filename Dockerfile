@@ -29,8 +29,9 @@ COPY --from=build /build/dist /usr/local/docsify/dist
 EXPOSE 3000
 WORKDIR /usr/local/docsify
 
-## Container entry point
-ENTRYPOINT [ "docsify", "serve", "--port", "3000" ]
+## Container entry point. docsify serve binds to localhost by default, which is
+## unreachable through a published port, so bind to all interfaces.
+ENTRYPOINT [ "docsify", "serve", "--host", "0.0.0.0", "--port", "3000" ]
 
 ## Container entry point default arguments
 CMD [ "." ]
