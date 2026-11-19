@@ -16,8 +16,6 @@ export async function fetchMetadata(): Promise<BootcampMetadata | null> {
 }
 
 const stripFrontMatter = (hook: DocsifyHook) => {
-  // Invoked on each page load before new markdown is transformed to HTML.
-  // Supports asynchronous tasks (see beforeEach documentation for details).
   hook.beforeEach((markdown, next) => {
     const { content } = matter(markdown);
 

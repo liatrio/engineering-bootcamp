@@ -10,5 +10,5 @@
     "skipLibCheck": true,
     "types": []
   },
-  "include": ["src/*.ts", "src/docksify-plugins/*.ts"]
+  "include": ["src/*.ts", "src/docsify-plugins/*.ts"]
 }

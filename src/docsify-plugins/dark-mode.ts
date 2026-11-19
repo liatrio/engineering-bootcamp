@@ -4,7 +4,6 @@ const STORAGE_KEY = 'dark_mode';
 const SWITCH_ID = 'dark_mode_switch';
 
 function applyTheme(dark: boolean) {
-  // The theme links are declared in index.html.
   (document.getElementById('light-theme') as HTMLLinkElement).disabled = dark;
   (document.getElementById('dark-theme') as HTMLLinkElement).disabled = !dark;
 }

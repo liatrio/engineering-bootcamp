@@ -1,4 +1,4 @@
-import 'docsify-edit-on-github'; // side effect: defines window.EditOnGithubPlugin
+import 'docsify-edit-on-github';
 import type { DocsifyConfig } from './types';
 
 // Must be the first import in src/index.ts so registerPlugin() in the other
@@ -12,7 +12,7 @@ const config: DocsifyConfig = {
   basePath: '/docs/',
   maxLevel: 0,
   auto2top: true,
-  search: 'auto', // default
+  search: 'auto',
   pagination: {
     previousText: 'Previous Page',
     nextText: 'Next Page',
