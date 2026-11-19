@@ -27,7 +27,8 @@ Canonical agent instructions for Liatrio's Engineering Bootcamp — a Docsify-ba
 - `.husky/pre-commit` — Regenerates the master record (`front-matter-condenser.js update`), then runs `npm run lint`, the same checks as CI.
 - `.husky/front-matter-condenser.js` — Reconciles section front-matter into `docs/README.md`.
 - `.husky/check-docsify-links.js` — Link and image checker behind `npm run lint:links`.
-- `.github/workflows/` — CI: `markdown-linter.yml` (markdownlint, links, spelling) and `test-front-matter.yml` (`compare-front-matter`) on PRs; `static.yml` builds and deploys the site to GitHub Pages on push to `master`.
+- `.github/workflows/` — CI: `markdown-linter.yml` (markdownlint, links, spelling) and `test-front-matter.yml` (`compare-front-matter`) on PRs; `static.yml` builds and deploys the site to GitHub Pages on push to `master`; `actions-lock.yml` runs `gh actions-lock --verify` on PRs touching workflows.
+- `.github/workflows/actions.lock` — Machine-generated lockfile pinning every workflow `uses:` to a commit SHA. Workflows reference tag refs (`actions/checkout@v7.0.1`), not SHAs.
 - `STYLE.md` — Contributor style guide (front-matter template, HTML-in-markdown rules, multi-column grids).
 
 ## Commands
@@ -42,6 +43,7 @@ Copy these verbatim; do not paraphrase.
 - `npm run lint:markdown` — markdownlint-cli2 over all `.md` (see `package.json` for excluded directories).
 - `npm run lint:links` — check that every internal link, `#anchor`, and image in `docs/` resolves the way Docsify serves it, and that every file in an `img/` folder is used. Delete an image when you remove its last reference.
 - `npm run lint:spelling` — cspell over all `.md`. Add legitimate new words to `.cspell.json`.
+- `gh actions-lock` — regenerate `.github/workflows/actions.lock` (`--verify` is the read-only check CI runs). Needs the `gh-actions-lock` extension: `gh extension install https://github.com/github/gh-actions-lock`.
 - `npm run refresh-front-matter` — regenerate `docs/README.md` from current section front-matter.
 - `npm run compare-front-matter` — read-only comparison; used by CI.
 
@@ -115,6 +117,7 @@ When multiple valid patterns exist, pick per this table.
 - Never rewrite history on `master` (`push --force`, `reset --hard`, filter-branch). Feature-branch force-push is fine before review.
 - Never bypass the Husky pre-commit hook (`git commit --no-verify`) to work around front-matter validation. Fix the front-matter or run `npm run refresh-front-matter` and commit the regenerated master record.
 - Never hand-edit `docs/README.md`'s front-matter block; it is machine-generated.
+- Never hand-edit `.github/workflows/actions.lock`; rerun `gh actions-lock` whenever you add or change a workflow `uses:` and commit the result.
 - Never delete a chapter or renumber sidebar entries without also fixing every cross-link; `npm run lint:links` lists the ones that broke.
 - Before deleting `examples/` code, confirm it is not referenced from any `docs/**/*.md` file.
 
