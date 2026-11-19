@@ -48,9 +48,10 @@ Copy these verbatim; do not paraphrase.
 
 Docker:
 
-- `docker build . -t engineering-bootcamp`
+- `docker build . -t engineering-bootcamp` — builds `dist/` in the image, so no local build is needed
 - `docker run -d -p 3000:3000 --name engineering-bootcamp engineering-bootcamp`
 - `docker compose up -d` / `docker compose down` (v2 syntax — see decision table below).
+  Compose mounts only `docs/`, `src/quizzes/`, `css/` and `img/`; changes under `src/*.ts` need `docker compose build`.
 
 There is no unit-test suite for the docs themselves. Go modules under `examples/` (e.g. `examples/terraform-provider/devops-api/`, `examples/data-patterns/`) do have `go test`; run it when touching those modules.
 

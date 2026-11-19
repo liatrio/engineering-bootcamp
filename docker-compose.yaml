@@ -4,5 +4,11 @@ services:
     build: .
     ports:
      - "3000:3000"
+    # Mount only the content so edits show up live. Mounting the whole repo
+    # would hide the dist/ built into the image behind the host's (maybe
+    # missing) dist/. Changes under src/*.ts need an image rebuild.
     volumes:
-     - ".:/usr/local/docsify"
+     - "./docs:/usr/local/docsify/docs"
+     - "./src/quizzes:/usr/local/docsify/src/quizzes"
+     - "./css:/usr/local/docsify/css"
+     - "./img:/usr/local/docsify/img"

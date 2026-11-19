@@ -1,0 +1,9 @@
+# dist/ is rebuilt in the image; a stale local one must not leak in.
+dist
+node_modules
+.git
+.claude
+.agents
+.idea
+.vscode
+examples
