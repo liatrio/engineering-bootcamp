@@ -75,7 +75,8 @@ Each skill's eval cases live under `.agents/evals/<skill>/<case>/`:
 Rules for writing cases:
 
 - Scaffold scripts run in a fresh empty temp dir, not in your checkout. Each case's `place-files.sh` is a short stub that sources `.agents/evals/_lib/lib.sh`, which holds the shared fixture builders. The library refuses to run in the repo checkout, in an existing git repo, or in a non-empty dir.
-- Give a case only the tools it needs: answer-only cases get read tools, script cases get a `Bash(node .agents/skills/<skill>/scripts/*:*)` pattern, and only cases that expect a file change get `Write` or `Edit`.
+- In `allowed_tools` and `--allow-tools`, write script patterns as `Bash(node .agents/skills/<skill>/scripts/*)`. A `:*` after a `*` is not read as a wildcard, so `scripts/*:*` silently denies the command in don't-ask mode, and a case can still pass if its grader only checks the response.
+- Give a case only the tools it needs: answer-only cases get read tools, script cases get a `Bash(node .agents/skills/<skill>/scripts/*)` pattern, and only cases that expect a file change get `Write` or `Edit`.
 - The model is not set in the case. Pass `--model` so results are comparable between runs.
 
 ## Run evals locally
@@ -84,9 +85,9 @@ From the repo root, run the whole suite or a single case. `--case` takes one glo
 
 ```bash
 claude plugin eval .agents --scaffold --trust-plugin --ablation none --model <model> --max-cost-usd <usd> \
-  --allow-tools 'Bash(node .agents/skills/dead-link-check/scripts/*:*)' \
-  'Bash(node .agents/skills/lesson-style-check/scripts/*:*)' \
-  'Bash(node .agents/skills/move-content/scripts/*:*)' \
+  --allow-tools 'Bash(node .agents/skills/dead-link-check/scripts/*)' \
+  'Bash(node .agents/skills/lesson-style-check/scripts/*)' \
+  'Bash(node .agents/skills/move-content/scripts/*)' \
   'Bash(git:*)' 'Bash(npm run:*)' 'Bash(ls:*)' 'Bash(cat:*)' 'Bash(head:*)' 'Bash(tail:*)' 'Bash(grep:*)' Edit Write
 claude plugin eval .agents --case '<case-name>' <same flags>
 ```
@@ -96,9 +97,9 @@ claude plugin eval .agents --case '<case-name>' <same flags>
 - Use the same `--model` the other cases were last run with so results compare.
 - Set `--max-cost-usd` to cap spend; eval runs call the model and cost money.
 - If a run stops with `Invalid API key`, unset `ANTHROPIC_API_KEY` or replace it with a valid one.
+- Discovery is recursive: any `evals/` folder under `.agents/` is picked up, including a local `.agents/evals-workspace/` left by skill-creator, which doubles the run. Move that folder out of `.agents/` before a full run; it does not exist in CI.
 - Results are written to `.agents/evals/results/<timestamp>/` and are gitignored. Read the report for any failing case, fix the skill or the grader, and re-run.
 - Run the evals for every skill you changed. If you changed `.agents/evals/_lib/lib.sh`, run the whole suite.
-- Known failing cases, which also fail on the previous layout and are not caused by it: `dead-link-check/script-output-report-first`, `move-content/insert-mid-chapter-renumbers-last-to-first` and `move-content/move-chapter-renumbers-with-nested-pages`. The agent's `Bash` call to `move.js` or `check-links.js` is denied in don't-ask mode even though the pattern is granted; the cause is not yet found.
 
 ## Merge requirements
 

@@ -2,7 +2,7 @@
 tags: [engineering-bootcamp]
 max_turns: 15
 timeout_seconds: 600
-allowed_tools: [Read, Glob, Grep, Skill, Bash(node .agents/skills/*/scripts/*:*), Bash(git:*), Bash(ls:*), Bash(cat:*), Bash(head:*), Bash(tail:*), Bash(grep:*)]
+allowed_tools: [Read, Glob, Grep, Skill, Bash(node .agents/skills/*/scripts/*), Bash(git:*), Bash(ls:*), Bash(cat:*), Bash(head:*), Bash(tail:*), Bash(grep:*)]
 disallowed_tools: [WebFetch, Agent]
 ---
 
