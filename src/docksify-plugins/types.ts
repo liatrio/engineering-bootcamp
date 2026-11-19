@@ -3,6 +3,7 @@ export interface DocsifyHook {
   beforeEach(
     callback: (markdown: string, next: (markdown: string) => void) => void | Promise<void>,
   ): void;
+  afterEach(callback: (html: string) => string): void;
   doneEach(callback: () => void): void;
 }
 

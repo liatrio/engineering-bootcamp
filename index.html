@@ -10,8 +10,8 @@
         />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-        <link rel="stylesheet" href="css/light.css" />
-        <link rel="stylesheet" href="css/dark.css" />
+        <link id="light-theme" rel="stylesheet" href="css/light.css" />
+        <link id="dark-theme" rel="stylesheet" href="css/dark.css" />
 
         <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
         <link rel="alternate icon" href="/img/favicon.ico" />
@@ -65,52 +65,6 @@
                         "https://github.com/liatrio/engineering-bootcamp/blob/master/docs/",
                     ),
 
-                    // Dark mode
-                    function (hook) {
-                        hook.doneEach(function (html, next) {
-                            const darkMode =
-                                localStorage.getItem("dark_mode") == "true";
-                            const darkModeSwitch =
-                                document.querySelector("#dark_mode_switch");
-                            darkModeSwitch.checked = darkMode;
-                            document.styleSheets[1].disabled = !darkMode;
-                            document.styleSheets[0].disabled = darkMode;
-                            darkModeSwitch.addEventListener(
-                                "change",
-                                (event) => {
-                                    document.styleSheets[1].disabled =
-                                        !darkModeSwitch.checked;
-                                    document.styleSheets[0].disabled =
-                                        darkModeSwitch.checked;
-                                    localStorage.setItem(
-                                        "dark_mode",
-                                        darkModeSwitch.checked
-                                            ? "true"
-                                            : "false",
-                                    );
-                                },
-                            );
-                            next(html);
-                        });
-                    },
-
-                    // Callout titles: Docsify renders `> [!NOTE]` as
-                    // `<div class="callout note">` and drops the marker, so add
-                    // the type's name as text, like GitHub's alert title.
-                    // css/common.css styles `.callout-title` and its icon.
-                    function (hook) {
-                        hook.afterEach(function (html) {
-                            return html.replace(
-                                /<div class="callout (\w+)">/g,
-                                function (tag, type) {
-                                    const title =
-                                        type[0].toUpperCase() + type.slice(1);
-                                    return `${tag}<p class="callout-title">${title}</p>`;
-                                },
-                            );
-                        });
-                    },
-
                     // Quizdown
                     function (hook) {
                         hook.doneEach(function () {
@@ -160,31 +114,6 @@
         <script src="//cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-docker.min.js"></script>
         <script src="//cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-hcl.min.js"></script>
         <script src="//cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-yaml.min.js"></script>
-
-        <script>
-            document.addEventListener("keydown", function (e) {
-                if (document.activeElement.nodeName === "INPUT") {
-                    return;
-                }
-                var key = e.which || e.keyCode;
-                switch (key) {
-                    // Left Arrow
-                    case 37:
-                        document
-                            .getElementsByClassName(
-                                "pagination-item--previous",
-                            )[0]
-                            .firstElementChild.click();
-                        break;
-                    // Right Arrow
-                    case 39:
-                        document
-                            .getElementsByClassName("pagination-item--next")[0]
-                            .firstElementChild.click();
-                        break;
-                }
-            });
-        </script>
 
         <!-- Import the bundled assets last so all other assets are loaded first -->
         <script src="dist/main.js"></script>

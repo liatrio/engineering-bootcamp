@@ -72,7 +72,7 @@ Put a blank line before and after a callout. A line written straight after a cal
 
 `npm run lint:markdown` checks that callouts use one of the five types and that every line of a blockquote starts with `>`.
 
-The Docsify v4 shorthand (`?>` and `!>`) is deprecated in Docsify v5; write the alert form instead. Each type has its own title, colour and icon: a plugin in [`index.html`](./index.html) adds the title, the colours are set per theme in [`css/light.css`](./css/light.css) and [`css/dark.css`](./css/dark.css), and the shared callout rules and icons live in [`css/common.css`](./css/common.css).
+The Docsify v4 shorthand (`?>` and `!>`) is deprecated in Docsify v5; write the alert form instead. Each type has its own title, colour and icon: a plugin in [`src/docksify-plugins/callouts.ts`](./src/docksify-plugins/callouts.ts) adds the title, the colours are set per theme in [`css/light.css`](./css/light.css) and [`css/dark.css`](./css/dark.css), and the shared callout rules and icons live in [`css/common.css`](./css/common.css).
 
 ### Multi Column Layout
 
