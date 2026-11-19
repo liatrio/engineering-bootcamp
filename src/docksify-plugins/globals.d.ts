@@ -1,4 +1,4 @@
-// Globals provided by the CDN scripts in index.html, typed to what the bundle calls.
+// Globals provided by the quizdown CDN scripts in index.html, typed to what the bundle calls.
 
 interface QuizdownExtension {}
 
@@ -18,6 +18,7 @@ declare const quizdown: Quizdown;
 declare const quizdownHighlight: QuizdownExtension;
 declare const quizdownKatex: QuizdownExtension;
 
+// Defined on window by the edit-on-github import in config.ts.
 declare const EditOnGithubPlugin: {
-  create(sourceUrl: string): import('./types').DocsifyPlugin;
+  create(sourceUrl: string): import("./types").DocsifyPlugin;
 };

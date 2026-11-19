@@ -1,9 +1,10 @@
+import 'docsify-edit-on-github'; // side effect: defines window.EditOnGithubPlugin
 import type { DocsifyConfig } from './types';
 
 // Must be the first import in src/index.ts so registerPlugin() in the other
-// modules prepends to the `plugins` array set here. The CDN plugins (search,
-// pagination, ...) load before the bundle and add themselves to an existing
-// `window.$docsify`, so merge into it instead of replacing it.
+// modules, and the third-party plugins in ./third-party.ts (which prepend
+// themselves to window.$docsify.plugins as an import side effect and throw
+// if window.$docsify is missing), find the config set here.
 const config: DocsifyConfig = {
   name: "Liatrio's Engineering Bootcamp",
   repo: 'liatrio/engineering-bootcamp',
@@ -26,5 +27,4 @@ const config: DocsifyConfig = {
   ],
 };
 
-const existing = window.$docsify ?? {};
-window.$docsify = { ...config, plugins: [...(existing.plugins ?? []), ...(config.plugins ?? [])] };
+window.$docsify = config;
