@@ -16,6 +16,8 @@
     "lint:links": "node .husky/check-docsify-links.js",
     "lint:spelling": "cspell --no-progress \"**/*.md\"",
     "typecheck:agents": "tsc -p .agents",
+    "lint:agents": "biome lint && npm run typecheck:agents",
+    "test:agents": "find .agents/skills -name '*.test.ts' -print0 | xargs -0 -n1 node",
     "prepare": "husky",
     "compare-front-matter": "node ./.husky/front-matter-condenser",
     "refresh-front-matter": "node ./.husky/front-matter-condenser update"
@@ -46,6 +48,7 @@
   "devDependencies": {
     "@babel/core": "^8.0.0",
     "@babel/preset-env": "^8.0.0",
+    "@biomejs/biome": "^2.6.8",
     "babel-loader": "^10.0.0",
     "cspell": "^10.0.0",
     "husky": "^9.0.11",

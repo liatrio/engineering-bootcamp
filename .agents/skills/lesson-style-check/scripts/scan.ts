@@ -19,11 +19,11 @@
  * Matching is done on markdown text nodes only, so code fences, inline code,
  * HTML, link URLs, and front-matter are never matched.
  */
-import fs from 'fs';
-import path from 'path';
-import { execFileSync } from 'child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 let matter: typeof import('gray-matter');
-try { matter = (await import('gray-matter')).default; } catch (e) {
+try { matter = (await import('gray-matter')).default; } catch {
   process.stderr.write('scan.ts: missing dependency gray-matter; run npm install from the repo root\n');
   process.exit(2);
 }
@@ -38,7 +38,7 @@ function git(args: string[]) {
     return execFileSync('git', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
       .split('\n')
       .filter(Boolean);
-  } catch (e) {
+  } catch {
     process.stderr.write(`scan.ts: git ${args[0]} failed; no branch scope available\n`);
     return [];
   }
@@ -138,10 +138,10 @@ function isTitleCase(text: string) {
 // Replace the front-matter block with bare newlines so line numbers stay correct.
 function blankFrontMatter(src: string) {
   if (!src.startsWith('---')) return src;
-  let parsed;
+  let parsed: ReturnType<typeof matter>;
   try {
     parsed = matter(src);
-  } catch (e) {
+  } catch {
     return src;
   }
   if (typeof parsed.matter !== 'string') return src;
@@ -154,8 +154,8 @@ function blankFrontMatter(src: string) {
 }
 
 async function main() {
-  let remark;
-  try { ({ remark } = await import('remark')); } catch (e) {
+  let remark: typeof import('remark').remark;
+  try { ({ remark } = await import('remark')); } catch {
     process.stderr.write('scan.ts: missing dependency remark; run npm install from the repo root\n');
     process.exit(2);
   }
@@ -175,8 +175,7 @@ async function main() {
       const v = node.value;
       const run = (re: RegExp, pattern: number, kind: string) => {
         re.lastIndex = 0;
-        let m;
-        while ((m = re.exec(v))) {
+        for (let m = re.exec(v); m; m = re.exec(v)) {
           add(lineAt(node, v, m.index), pattern, kind, excerpt(v, m.index, m[0].length));
         }
       };
@@ -189,8 +188,7 @@ async function main() {
       run(INTENSIFIER, 13, 'hit');
       // 14: collect per section, report only when 2+ share a section
       ANNOUNCER.lastIndex = 0;
-      let m;
-      while ((m = ANNOUNCER.exec(v))) {
+      for (let m = ANNOUNCER.exec(v); m; m = ANNOUNCER.exec(v)) {
         const opens = m[1] === '' ? parent && parent.children![0] === node : true;
         if (!opens) continue;
         const idx = m.index + m[1].length;
@@ -239,6 +237,6 @@ async function main() {
 
 main()
   .catch((e) => {
-    process.stderr.write(`scan.ts: error: ${e && e.message}\n`);
+    process.stderr.write(`scan.ts: error: ${e?.message}\n`);
     process.exitCode = 2;
   });

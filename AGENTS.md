@@ -43,6 +43,8 @@ Copy these verbatim; do not paraphrase.
 - `npm run lint:markdown` — markdownlint-cli2 over all `.md` (see `package.json` for excluded directories).
 - `npm run lint:links` — check that every internal link, `#anchor`, and image in `docs/` resolves the way Docsify serves it, and that every file in an `img/` folder is used. Delete an image when you remove its last reference.
 - `npm run lint:spelling` — cspell over all `.md`. Add legitimate new words to `.cspell.json`.
+- `npm run lint:agents` — Biome lint (`biome.json`) plus `tsc` over `.agents/skills/**/*.ts`. Not part of `npm run lint`.
+- `npm run test:agents` — runs every `*.test.ts` under `.agents/skills`. `.github/workflows/skills-ci.yml` runs both scripts on PRs that touch `.agents/`.
 - `gh actions-lock` — regenerate `.github/workflows/actions.lock` (`--verify` is the read-only check CI runs). Needs the `gh-actions-lock` extension: `gh extension install https://github.com/github/gh-actions-lock`.
 - `npm run refresh-front-matter` — regenerate `docs/README.md` from current section front-matter.
 - `npm run compare-front-matter` — read-only comparison; used by CI.

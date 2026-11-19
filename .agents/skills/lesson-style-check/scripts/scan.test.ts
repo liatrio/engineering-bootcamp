@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 // Fixture test for scan.ts. Run from the repo root:
 //   node .agents/skills/lesson-style-check/scripts/scan.test.ts
-import assert from 'assert';
-import fs from 'fs';
-import os from 'os';
-import path from 'path';
-import { spawnSync } from 'child_process';
+import assert from 'node:assert';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 
 const SCRIPT = path.join(import.meta.dirname, 'scan.ts');
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'scan-'));
