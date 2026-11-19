@@ -28,9 +28,13 @@
       "automerge": true
     },
     {
-      "description": "Keep the CDN copy of Docsify the site runs in step with the npm package the link checker mirrors",
+      "description": "Keep docsify and its plugins in one update; the link checker mirrors the installed docsify version",
       "matchPackageNames": [
-        "docsify"
+        "docsify",
+        "docsify-copy-code",
+        "docsify-edit-on-github",
+        "docsify-pagination",
+        "docsify-sidebar-collapse"
       ],
       "groupName": "docsify"
     }

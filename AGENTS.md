@@ -20,7 +20,7 @@ Canonical agent instructions for Liatrio's Engineering Bootcamp — a Docsify-ba
 - `docs/<chapter>/img/` — Images for that chapter's sections. The folder is unnumbered, so it moves with the chapter.
 - `docs/README.md` — Auto-generated master record. Regenerate with `npm run refresh-front-matter`; do not hand-edit the front-matter block.
 - `docs/_sidebar.md` — Navigation. Link every new section here; a sidebar entry pointing at a missing file makes the front-matter hook fail.
-- `src/` — Docsify config and plugins (TypeScript, entry `src/index.ts`; `index.html` holds only `<script src>` tags), quiz sources (plain `.js`, served as-is and imported by the browser at runtime, so a new quiz needs no rebuild), webpack entry points.
+- `src/` — Docsify config and plugins (TypeScript, entry `src/index.ts`), quiz sources (plain `.js`, served as-is and imported by the browser at runtime, so a new quiz needs no rebuild), webpack entry points. `index.html` has one `<script src="dist/main.js">`: docsify, its plugins, prism and quizdown come from `package.json` and are bundled, so the site is blank until `npm run build:dev` (or `npm start`) has produced `dist/`. Import order in `src/index.ts` matters (`config` first, `start` last).
 - `.agents/skills/` — Canonical repo skills; list the directory to see what is available. `.claude/skills` and `.github/skills` are symlinks to it; add new skills here only.
 - `examples/` — Runnable code referenced from exercises (Go modules, docker-compose files, etc.).
 - `img/` — Site-wide assets shared across chapters (goal icons, favicon). Section-specific images go in the chapter's `img/` folder.
