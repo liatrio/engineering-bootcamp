@@ -47,12 +47,11 @@ mk() {
   printf -- '---\n%s:\n  category: Demo\n  estReadingMinutes: 5\n---\n\n# %s\n\n%s\n' "$1" "$2" "$3" > "$1"
 }
 
-# build_move_fixture CASE_DIR: mini docs/ + sidebar + quizzes in a git repo, with the
-# move-content scripts installed. CASE_DIR is a move-content case dir.
+# build_move_fixture: mini docs/ + sidebar + quizzes in a git repo, with the move-content
+# scripts installed.
 build_move_fixture() {
-  local case_dir="$1"
   scaffold_guard
-  install_move_scripts "$case_dir"
+  install_skill_scripts move-content
   mkdir -p docs/3-demo src/quizzes/chapter-3/3.2 src/quizzes/chapter-3/3.3
 
   mk docs/3-demo/3.0-overview.md "Overview" "Intro."
@@ -90,12 +89,11 @@ seed_repo_copy() {
     docs src examples .husky package.json AGENTS.md STYLE.md .markdownlint.json .cspell.json 2>/dev/null) | tar -x
 }
 
-# build_chapter_fixture CASE_DIR: three chapters (2-aa, 3-bb, 4-cc) with nested pages and
-# one quiz, in a git repo, with the move-content scripts installed.
+# build_chapter_fixture: three chapters (2-aa, 3-bb, 4-cc) with nested pages and one quiz,
+# in a git repo, with the move-content scripts installed.
 build_chapter_fixture() {
-  local case_dir="$1"
   scaffold_guard
-  install_move_scripts "$case_dir"
+  install_skill_scripts move-content
   mkdir -p docs/2-aa docs/3-bb docs/4-cc src/quizzes/chapter-4/4.1
 
   mk docs/2-aa/2.1-a.md "A" "Chapter 2."
@@ -133,12 +131,7 @@ install_skill_scripts() {
   cp -R "$REPO_ROOT/.agents/skills/$1/scripts" ".agents/skills/$1/scripts"
 }
 
-# install_move_scripts: installs the move-content scripts from the checkout into the scratch dir.
-install_move_scripts() {
-  install_skill_scripts move-content
-}
-
-# install_link_checker CASE_DIR: installs check-links.js (no tests or fixtures) and a copy of the
+# install_link_checker: installs check-links.js (no tests or fixtures) and a copy of the
 # `remark` dependency closure from the checkout's node_modules into the scratch dir, so the
 # script runs there. Reads the checkout, writes only here.
 install_link_checker() {
