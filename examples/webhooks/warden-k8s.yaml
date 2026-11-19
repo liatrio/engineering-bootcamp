@@ -10,7 +10,7 @@ spec:
   containers:
     - name: warden
       image: REPO/webhooks:latest
-      imagePullPolicy: Always
+      imagePullPolicy: IfNotPresent
       volumeMounts:
         - name: certs
           mountPath: "/app/certs"
