@@ -43,6 +43,9 @@ __pypackages__/
 # Specs (internal planning artifacts)
 docs/specs/
 
+# Playwright MCP artifacts
+.playwright-mcp
+
 # Go build outputs (go build in module dirs)
 examples/keda/checkout-service/checkout-service
 examples/keda/order-processor/order-processor

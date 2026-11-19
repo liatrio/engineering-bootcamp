@@ -60,7 +60,7 @@ Add a new skill or change an existing one through a PR from a feature branch, as
 2. Add or adjust eval cases so they cover the changed behavior. If you change a script's output or a skill's flow, update any grader that depends on it.
 3. Update this README if the skill's description or example prompts no longer match.
 4. Run the skill's evals locally and confirm they pass before you open the PR.
-5. If you touched a script, run `npm run lint:agents` (Biome and `tsc`) and `npm run test:agents` (every `*.test.ts` under `skills/`). The `skills-ci` workflow runs both on PRs that change `.agents/`.
+5. If you touched a script, run `npm ci --prefix .agents` once, then `npm run lint:agents` (Biome and `tsc`) and `npm run test:agents` (every `*.test.ts` under `skills/`). The `skills-ci` workflow runs both on PRs that change `.agents/`.
 
 ## Evals
 

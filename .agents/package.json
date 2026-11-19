@@ -1,4 +1,13 @@
 {
   "private": true,
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "lint": "biome lint && npm run typecheck",
+    "typecheck": "tsc -p .",
+    "test": "find skills -name '*.test.ts' -print0 | xargs -0 -n1 node"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.8",
+    "typescript": "^7.0.2"
+  }
 }
