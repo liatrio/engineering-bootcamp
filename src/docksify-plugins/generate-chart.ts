@@ -4,8 +4,10 @@
  */
 
 import Chart from 'chart.js/auto';
+import type { TooltipItem } from 'chart.js';
 import { WordCloudController, WordElement, WordCloudChart } from 'chartjs-chart-wordcloud';
 import { fetchMetadata } from './read-metadata';
+import { registerPlugin, type BootcampMetadata, type DocsifyHook } from './types';
 
 // Register the wordCloud controller, element, and scale with Chart.js.
 // Starting in Chart.js 3 iirc they support 'tree shaking' which means
@@ -18,21 +20,21 @@ Chart.register(WordCloudController, WordElement);
  *
  * @param {string} canvasId - The ID of the canvas element to use for the chart.
  */
-function generateCategoryDoughnutChart(canvasId, bootcampMetadata) {
+function generateCategoryDoughnutChart(canvasId: string, bootcampMetadata: BootcampMetadata | null) {
     if (bootcampMetadata === null) {
         return;
     }
-    var canvas = document.getElementById(canvasId);
+    const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
 
     canvas.width = 400;
     canvas.height = 400;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d')!;
 
-    let categoryData = {};
+    const categoryData: Record<string, number> = {};
 
     // Aggrigate all time spent in each category.
     for (const doc of Object.values(bootcampMetadata)) {
-        if ('category' in doc && 'estReadingMinutes' in doc) {
+        if (doc.category !== undefined && doc.estReadingMinutes !== undefined) {
             // Create bucket for categories and add reading time
             if (doc.category in categoryData) {
                 categoryData[doc.category] += doc.estReadingMinutes;
@@ -40,17 +42,17 @@ function generateCategoryDoughnutChart(canvasId, bootcampMetadata) {
                 categoryData[doc.category] = doc.estReadingMinutes;
             }
 
-            if ('exercises' in doc) {
+            if (doc.exercises) {
                 doc.exercises.forEach(exercise => {
-                    if ('estMinutes' in exercise) {
-                        categoryData[doc.category] += exercise.estMinutes;
+                    if (exercise.estMinutes !== undefined) {
+                        categoryData[doc.category!] += exercise.estMinutes;
                     }
                 });
             }
         }
     }
 
-    const totalTime = Object.values(categoryData).reduce((acc, t) => { return acc + t }, 0);
+    const totalTime = Object.values(categoryData).reduce((acc: number, t) => { return acc + t }, 0);
 
     const data = {
         labels: Object.keys(categoryData),
@@ -76,9 +78,9 @@ function generateCategoryDoughnutChart(canvasId, bootcampMetadata) {
                     size: 30
                 },
                 callbacks: {
-                    label: (toolTip) => {
+                    label: (toolTip: TooltipItem<'doughnut'>) => {
                         let label = toolTip.dataset.label || '';
-                        let value = parseInt(toolTip.formattedValue * 100) + '%';
+                        let value = parseInt(String(Number(toolTip.formattedValue) * 100)) + '%';
                         return `${label}: ${value}`
                     }
                 }
@@ -93,7 +95,7 @@ function generateCategoryDoughnutChart(canvasId, bootcampMetadata) {
     });
 }
 
-function bootcampTotals(bootcampMetadata) {
+function bootcampTotals(bootcampMetadata: BootcampMetadata | null) {
     if (bootcampMetadata === null) {
         console.error("Chapter hours cannot be computed bootcampMetadata");
         return;
@@ -101,10 +103,10 @@ function bootcampTotals(bootcampMetadata) {
 
     let totalMinutes = 0;
     for (const section of Object.values(bootcampMetadata)) {
-        totalMinutes += 'estReadingMinutes' in section ? section.estReadingMinutes : 0;
-        if ('exercises' in section) {
+        totalMinutes += section.estReadingMinutes ?? 0;
+        if (section.exercises) {
             totalMinutes += section.exercises.reduce((acc, curTask) => {
-                return acc += curTask.estMinutes;
+                return acc + (curTask.estMinutes ?? 0);
             }, 0);
         }
     }
@@ -116,22 +118,22 @@ function bootcampTotals(bootcampMetadata) {
     // We target a 6 month bootcamp.
     const totalStyle = totalWeeks <= (6 * 4) ? 'green' : 'red'
 
-    const totalHoursElement = document.getElementById('total-hours');
+    const totalHoursElement = document.getElementById('total-hours')!;
     totalHoursElement.style.color = totalStyle;
-    totalHoursElement.innerText = totalHours;
+    totalHoursElement.innerText = String(totalHours);
 
-    const totalWeeksElement = document.getElementById('total-weeks');
+    const totalWeeksElement = document.getElementById('total-weeks')!;
     totalWeeksElement.style.color = totalStyle;
-    totalWeeksElement.innerText = totalWeeks;
+    totalWeeksElement.innerText = String(totalWeeks);
 }
 
-function populateChapterHours(bootcampMetadata) {
+function populateChapterHours(bootcampMetadata: BootcampMetadata | null) {
     if (bootcampMetadata === null) {
         console.error("Chapter hours cannot be computed bootcampMetadata");
         return;
     }
     const chapterRegex = /docs\/(.+)\/\d.+/;
-    const chaptersTotalMinutes = {};
+    const chaptersTotalMinutes: Record<string, number> = {};
 
 
     for (let [k, v] of Object.entries(bootcampMetadata)) {
@@ -139,15 +141,15 @@ function populateChapterHours(bootcampMetadata) {
         // Aggrigate the total time for this section of the bootcamp
         let sectionTotalMinutes = v['estReadingMinutes'] || 0;
         // Add exercise estimates to section total time
-        if ('exercises' in v) {
+        if (v.exercises) {
             sectionTotalMinutes += v.exercises.reduce((acc, currentValue) => {
-                return acc + currentValue.estMinutes;
+                return acc + (currentValue.estMinutes ?? 0);
             }, 0);
         }
 
         // Extract the chapter we are looping through
         const match = k.match(chapterRegex);
-        const chapter = match[1] || null;
+        const chapter = match![1];
 
         // Aggrigate total minutes of a chapter
         if (chapter in chaptersTotalMinutes) {
@@ -161,13 +163,16 @@ function populateChapterHours(bootcampMetadata) {
     // and the total number of minutes of exercises and reading in that chapter. Next we will populate the markdown table with hours.
     for (const [k, v] of Object.entries(chaptersTotalMinutes)) {
         const hours = Math.round(v / 60);
-        document.getElementById(k).innerText = hours;
-        document.getElementById(`${k}-weeks`).innerText = Math.ceil(hours / 20);
+        document.getElementById(k)!.innerText = String(hours);
+        document.getElementById(`${k}-weeks`)!.innerText = String(Math.ceil(hours / 20));
     }
 }
 
-function generateWordCloud(canvasId, bootcampMetadata) {
-    let techCount = {};
+function generateWordCloud(canvasId: string, bootcampMetadata: BootcampMetadata | null) {
+    if (bootcampMetadata === null) {
+        return;
+    }
+    const techCount: Record<string, number> = {};
 
     // max and min display sizes for each entry of the wordcloud
     const minSize = 15;
@@ -176,11 +181,11 @@ function generateWordCloud(canvasId, bootcampMetadata) {
     for (const doc of Object.values(bootcampMetadata)) {
         // Currently we only support exercise level technologies
         // So if we dont have exercises move on
-        if (!('exercises' in doc)) {
+        if (!doc.exercises) {
             continue;
         }
         for (const exercise of doc.exercises) {
-            if (!('technologies'in exercise)) {
+            if (!exercise.technologies) {
                 continue;
             }
 
@@ -209,17 +214,14 @@ function generateWordCloud(canvasId, bootcampMetadata) {
         ]
     }
 
-    var canvas = document.getElementById(canvasId);
+    const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
 
     canvas.width = 400;
     canvas.height = 500;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d')!;
     new WordCloudChart(ctx, {
         data: data,
         options: {
-            title: {
-                display: false,
-            },
             color: "#24ae1dff",
             plugins: {
                 // disabling tooltip-- it displayed the arbitrary number associated with
@@ -236,13 +238,13 @@ function generateWordCloud(canvasId, bootcampMetadata) {
 }
 
 // This should be filled by the before each hook
-let bootcampMetadata = null;
+let bootcampMetadata: BootcampMetadata | null = null;
 
 
 // Register chart generate on root document only after HTML has been appended to the DOM
 // Docsify custom plugin boilerplate found https://docsify.js.org/#/write-a-plugin?id=template
 (async function () {
-    var generateCharts = function (hook, _vm) {
+    const generateCharts = (hook: DocsifyHook) => {
 
         // Invoked on each page load before new markdown is transformed to HTML.
         hook.beforeEach(async function (markdown, next) {
@@ -259,7 +261,7 @@ let bootcampMetadata = null;
         });
 
         // Invoked on each page load before new markdown is transformed to HTML.
-        hook.doneEach(function (markdown) {
+        hook.doneEach(() => {
             switch (window.location.hash) {
                 case '#/':
                     generateCategoryDoughnutChart('category-doughnut-canvas', bootcampMetadata);
@@ -268,14 +270,13 @@ let bootcampMetadata = null;
                 case '#/_stats':
                     populateChapterHours(bootcampMetadata);
                     bootcampTotals(bootcampMetadata);
+                    break;
                 default:
                     break;
             }
-            return markdown;
         });
     };
 
     // Add plugin to docsify's plugin array
-    $docsify = $docsify || {};
-    $docsify.plugins = [].concat(generateCharts, $docsify.plugins || []);
+    registerPlugin(generateCharts);
 })();

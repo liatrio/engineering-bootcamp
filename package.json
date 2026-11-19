@@ -11,6 +11,7 @@
     "serve:docsify": "docsify serve --port 3000",
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",
+    "typecheck": "tsc -p .",
     "lint": "npm run lint:markdown && npm run lint:links && npm run lint:spelling",
     "lint:markdown": "markdownlint-cli2 \"**/*.md\" \"!**/node_modules/**\" \"!**/.venv/**\" \"!**/specs/**\" \"!**/.agents/evals-workspace/**\"",
     "lint:links": "node .husky/check-docsify-links.js",
@@ -45,6 +46,7 @@
   "devDependencies": {
     "@babel/core": "^8.0.0",
     "@babel/preset-env": "^8.0.0",
+    "@babel/preset-typescript": "^8.0.7",
     "babel-loader": "^10.0.0",
     "cspell": "^10.0.0",
     "husky": "^9.0.11",

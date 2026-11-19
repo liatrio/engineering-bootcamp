@@ -20,7 +20,7 @@ Canonical agent instructions for Liatrio's Engineering Bootcamp — a Docsify-ba
 - `docs/<chapter>/img/` — Images for that chapter's sections. The folder is unnumbered, so it moves with the chapter.
 - `docs/README.md` — Auto-generated master record. Regenerate with `npm run refresh-front-matter`; do not hand-edit the front-matter block.
 - `docs/_sidebar.md` — Navigation. Link every new section here; a sidebar entry pointing at a missing file makes the front-matter hook fail.
-- `src/` — Docsify plugins, quiz sources, webpack entry points.
+- `src/` — Docsify plugins (TypeScript, entry `src/index.ts`), quiz sources (plain `.js`), webpack entry points.
 - `.agents/skills/` — Canonical repo skills; list the directory to see what is available. `.claude/skills` and `.github/skills` are symlinks to it; add new skills here only.
 - `examples/` — Runnable code referenced from exercises (Go modules, docker-compose files, etc.).
 - `img/` — Site-wide assets shared across chapters (goal icons, favicon). Section-specific images go in the chapter's `img/` folder.
@@ -38,6 +38,7 @@ Copy these verbatim; do not paraphrase.
 - `npm start` — build dev bundle + serve Docsify on `http://localhost:3000`.
 - `npm run serve:docsify` — serve only, no rebuild.
 - `npm run build:dev` / `npm run build:prod` — webpack builds.
+- `npm run typecheck` — `tsc --noEmit` over the TypeScript in `src/`. Babel strips types at build time and does not check them.
 - `npm run lint` — runs `lint:markdown`, `lint:links` and `lint:spelling`. CI runs the same three scripts.
 - `npm run lint:markdown` — markdownlint-cli2 over all `.md` (see `package.json` for excluded directories).
 - `npm run lint:links` — check that every internal link, `#anchor`, and image in `docs/` resolves the way Docsify serves it, and that every file in an `img/` folder is used. Delete an image when you remove its last reference.
