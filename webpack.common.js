@@ -7,7 +7,8 @@ module.exports = {
   entry: './src/index.ts',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    clean: true
   },
   resolve: {
     alias: stdLibBrowser,
@@ -15,6 +16,13 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        // quizdown's package.json has "type": "module" but its prebuilt files are UMD;
+        // parse them as CommonJS/auto so webpack does not treat them as strict ESM.
+        test: /node_modules[\\/]quizdown[\\/]public[\\/]build[\\/].*\.js$/,
+        type: 'javascript/auto',
+        resolve: { fullySpecified: false }
+      },
       {
         test: /\.[jt]s$/,
         exclude: /node_modules/,
