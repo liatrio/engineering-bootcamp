@@ -97,7 +97,6 @@ claude plugin eval .agents --case '<case-name>' <same flags>
 - Use the same `--model` the other cases were last run with so results compare.
 - Set `--max-cost-usd` to cap spend; eval runs call the model and cost money.
 - If a run stops with `Invalid API key`, unset `ANTHROPIC_API_KEY` or replace it with a valid one.
-- Discovery is recursive: any `evals/` folder under `.agents/` is picked up, including a local `.agents/evals-workspace/` left by skill-creator, which doubles the run. Move that folder out of `.agents/` before a full run; it does not exist in CI.
 - Results are written to `.agents/evals/results/<timestamp>/` and are gitignored. Read the report for any failing case, fix the skill or the grader, and re-run.
 - Run the evals for every skill you changed. If you changed `.agents/evals/_lib/lib.sh`, run the whole suite.
 
