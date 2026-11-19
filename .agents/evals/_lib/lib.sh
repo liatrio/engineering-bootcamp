@@ -126,10 +126,16 @@ SB
   init_fixture_repo
 }
 
+# install_skill_scripts SKILL: installs a skill's scripts from the checkout into the scratch
+# dir, so `node .agents/skills/<skill>/scripts/...` resolves there.
+install_skill_scripts() {
+  mkdir -p ".agents/skills/$1"
+  cp -R "$REPO_ROOT/.agents/skills/$1/scripts" ".agents/skills/$1/scripts"
+}
+
 # install_move_scripts: installs the move-content scripts from the checkout into the scratch dir.
 install_move_scripts() {
-  mkdir -p .agents/skills/move-content
-  cp -R "$REPO_ROOT/.agents/skills/move-content/scripts" .agents/skills/move-content/scripts
+  install_skill_scripts move-content
 }
 
 # install_link_checker CASE_DIR: installs check-links.js (no tests or fixtures) and a copy of the

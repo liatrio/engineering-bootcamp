@@ -84,18 +84,21 @@ From the repo root, run the whole suite or a single case. `--case` takes one glo
 
 ```bash
 claude plugin eval .agents --scaffold --trust-plugin --ablation none --model <model> --max-cost-usd <usd> \
-  --allow-tools 'Bash(node .agents/skills/*/scripts/*:*)' 'Bash(git:*)' Edit Write \
-  'Bash(ls:*)' 'Bash(cat:*)' 'Bash(head:*)' 'Bash(tail:*)' 'Bash(grep:*)'
+  --allow-tools 'Bash(node .agents/skills/dead-link-check/scripts/*:*)' \
+  'Bash(node .agents/skills/lesson-style-check/scripts/*:*)' \
+  'Bash(node .agents/skills/move-content/scripts/*:*)' \
+  'Bash(git:*)' 'Bash(npm run:*)' 'Bash(ls:*)' 'Bash(cat:*)' 'Bash(head:*)' 'Bash(tail:*)' 'Bash(grep:*)' Edit Write
 claude plugin eval .agents --case '<case-name>' <same flags>
 ```
 
-- The `--allow-tools` grants are required. Without them the runner drops the `Bash(...)` patterns a case lists in its `allowed_tools`.
+- The `--allow-tools` grants are required: the runner drops any `Bash(...)` pattern in a case's `allowed_tools` that the operator did not grant. List the same patterns the cases use.
 - `--ablation none` skips the no-plugin baseline arm, which would double the number of runs and the cost.
 - Use the same `--model` the other cases were last run with so results compare.
 - Set `--max-cost-usd` to cap spend; eval runs call the model and cost money.
 - If a run stops with `Invalid API key`, unset `ANTHROPIC_API_KEY` or replace it with a valid one.
 - Results are written to `.agents/evals/results/<timestamp>/` and are gitignored. Read the report for any failing case, fix the skill or the grader, and re-run.
 - Run the evals for every skill you changed. If you changed `.agents/evals/_lib/lib.sh`, run the whole suite.
+- Known failing cases, which also fail on the previous layout and are not caused by it: `dead-link-check/script-output-report-first`, `move-content/insert-mid-chapter-renumbers-last-to-first` and `move-content/move-chapter-renumbers-with-nested-pages`. The agent's `Bash` call to `move.js` or `check-links.js` is denied in don't-ask mode even though the pattern is granted; the cause is not yet found.
 
 ## Merge requirements
 
