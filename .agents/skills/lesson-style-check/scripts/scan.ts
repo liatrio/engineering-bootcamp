@@ -24,7 +24,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 let matter: typeof import('gray-matter');
 try { matter = (await import('gray-matter')).default; } catch {
-  process.stderr.write('scan.ts: missing dependency gray-matter; run npm install from the repo root\n');
+  process.stderr.write('scan.ts: missing dependency gray-matter; run npm ci --prefix .agents\n');
   process.exit(2);
 }
 
@@ -156,7 +156,7 @@ function blankFrontMatter(src: string) {
 async function main() {
   let remark: typeof import('remark').remark;
   try { ({ remark } = await import('remark')); } catch {
-    process.stderr.write('scan.ts: missing dependency remark; run npm install from the repo root\n');
+    process.stderr.write('scan.ts: missing dependency remark; run npm ci --prefix .agents\n');
     process.exit(2);
   }
   const processor = remark();

@@ -114,7 +114,7 @@ const HTML_ATTR = /\b(?:href|src)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))/gi;
 async function extract(files: string[], includeLocal: boolean): Promise<Use[]> {
   let remark: typeof import('remark').remark;
   try { ({ remark } = await import('remark')); } catch {
-    process.stderr.write('check-links.ts: missing dependency remark; run npm install from the repo root\n');
+    process.stderr.write('check-links.ts: missing dependency remark; run npm ci --prefix .agents\n');
     process.exit(2);
   }
   const processor = remark();
