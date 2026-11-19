@@ -3,7 +3,7 @@
 # file that would leak it, so the run has to write the lesson from scratch.
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
-. "$HERE/../../../_shared/evals/lib.sh"
+. "$HERE/../../_lib/lib.sh"
 seed_repo_copy
 [ -f docs/9-kubernetes-container-orchestration/9.6-keda.md ] || { echo "seed copy is missing the KEDA page" >&2; exit 1; }
 rm -f docs/9-kubernetes-container-orchestration/9.6-keda.md

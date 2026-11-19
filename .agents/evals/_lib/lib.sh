@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 # Shared helpers for eval scaffold scripts. Source it from a case's place-files.sh:
 #
-#   . "$(dirname "$0")/../../../_shared/evals/lib.sh"
+#   . "$(dirname "$0")/../../_lib/lib.sh"
 #
 # `claude plugin eval --scaffold` runs the scaffold in a fresh empty temp dir. It does
-# not pass the case dir, so each case keeps a small stub that passes its own dir here.
-# Case dirs are `.agents/skills/<skill>/evals/<case>/`.
+# not pass the case dir, so each case keeps a small stub that sources this file and
+# passes its own dir to the helpers that read case files.
+# Case dirs are `.agents/evals/<skill>/<case>/`.
 set -euo pipefail
 
 SHARED_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
-REPO_ROOT="$(cd "$SHARED_DIR/../../../.." && pwd -P)"
+REPO_ROOT="$(cd "$SHARED_DIR/../../.." && pwd -P)"
 
 # Refuses to run anywhere that could hold real work: the repo checkout, an existing git
 # repo, or any non-empty directory.
@@ -125,17 +126,17 @@ SB
   init_fixture_repo
 }
 
-# install_move_scripts CASE_DIR: installs the move-content scripts, for a move-content case dir.
+# install_move_scripts: installs the move-content scripts from the checkout into the scratch dir.
 install_move_scripts() {
   mkdir -p .agents/skills/move-content
-  cp -R "$1/../../scripts" .agents/skills/move-content/scripts
+  cp -R "$REPO_ROOT/.agents/skills/move-content/scripts" .agents/skills/move-content/scripts
 }
 
 # install_link_checker CASE_DIR: installs check-links.js (no tests or fixtures) and a copy of the
 # `remark` dependency closure from the checkout's node_modules into the scratch dir, so the
-# script runs there. CASE_DIR is a dead-link-check case dir. Reads the checkout, writes only here.
+# script runs there. Reads the checkout, writes only here.
 install_link_checker() {
-  local case_dir="$1" list here
+  local list here
   here="$(pwd -P)"
   # Runs after copy_case_files, so the dir is not empty; refuse only the places that hold real work.
   if [ "$here" = "$REPO_ROOT" ] || [ "$here" = "$REPO_ROOT/.agents/skills" ] || [ -e .git ]; then
@@ -147,7 +148,7 @@ install_link_checker() {
     exit 1
   fi
   mkdir -p .agents/skills/dead-link-check/scripts
-  cp "$case_dir/../../scripts/check-links.js" .agents/skills/dead-link-check/scripts/
+  cp "$REPO_ROOT/.agents/skills/dead-link-check/scripts/check-links.js" .agents/skills/dead-link-check/scripts/
   list="$(cd "$REPO_ROOT" && node -e '
     const fs = require("fs"), path = require("path");
     const seen = new Set();

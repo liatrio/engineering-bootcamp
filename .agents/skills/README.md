@@ -50,7 +50,7 @@ Add a new skill or change an existing one through a PR from a feature branch, as
 
 1. Create `.agents/skills/<skill-name>/` with a `SKILL.md`. Its front-matter needs a `name` that matches the folder and a `description` that says what the skill does and when to use it. Keep the body short and link to `references/` files for detail that is only needed sometimes.
 2. Put any deterministic work in `scripts/` so the skill calls a script instead of re-deriving the logic each run.
-3. Add evals under `<skill-name>/evals/` (see [Evals](#evals)). A new skill needs at least one case for each behavior it promises.
+3. Add evals under `.agents/evals/<skill-name>/` (see [Evals](#evals)). A new skill needs at least one case for each behavior it promises.
 4. Add a section for the skill to this README with a short description and example prompts.
 5. Do not create the skill under `.claude/skills` or `.github/skills`. Those are symlinks to this directory.
 
@@ -63,7 +63,9 @@ Add a new skill or change an existing one through a PR from a feature branch, as
 
 ## Evals
 
-Each skill keeps eval cases under `<skill>/evals/<case>/`:
+`.agents/` is a Claude Code plugin (`.agents/.claude-plugin/plugin.json`), so `claude plugin eval` loads the skills in `skills/` and finds the cases in `.agents/evals/`. Only Claude Code reads `evals/` and the manifest. Other harnesses (Codex, Cursor, Copilot) read `skills/` and ignore them.
+
+Each skill's eval cases live under `.agents/evals/<skill>/<case>/`:
 
 - `case.yaml`: the case name and `expected_outcome`.
 - `prompt.md`: the prompt given to the agent. Its frontmatter sets `max_turns`, `timeout_seconds`, `allowed_tools` and `disallowed_tools`.
@@ -72,23 +74,28 @@ Each skill keeps eval cases under `<skill>/evals/<case>/`:
 
 Rules for writing cases:
 
-- Scaffold scripts run in a fresh empty temp dir, not in your checkout. Each case's `place-files.sh` is a short stub that sources `_shared/evals/lib.sh`, because the eval runner rejects scaffold paths outside the case dir and does not tell the script which case it is running. The library refuses to run in the repo checkout, in an existing git repo, or in a non-empty dir.
+- Scaffold scripts run in a fresh empty temp dir, not in your checkout. Each case's `place-files.sh` is a short stub that sources `.agents/evals/_lib/lib.sh`, which holds the shared fixture builders. The library refuses to run in the repo checkout, in an existing git repo, or in a non-empty dir.
 - Give a case only the tools it needs: answer-only cases get read tools, script cases get a `Bash(node .agents/skills/<skill>/scripts/*:*)` pattern, and only cases that expect a file change get `Write` or `Edit`.
 - The model is not set in the case. Pass `--model` so results are comparable between runs.
 
 ## Run evals locally
 
-From the repo root, run a single skill or a single case:
+From the repo root, run the whole suite or a single case. `--case` takes one glob on the case name, and braces are not expanded:
 
 ```bash
-claude plugin eval .agents/skills/<skill> --scaffold --model <model> --max-cost-usd <usd>
-claude plugin eval .agents/skills/<skill>/evals/<case> --scaffold --model <model> --max-cost-usd <usd>
+claude plugin eval .agents --scaffold --trust-plugin --ablation none --model <model> --max-cost-usd <usd> \
+  --allow-tools 'Bash(node .agents/skills/*/scripts/*:*)' 'Bash(git:*)' Edit Write \
+  'Bash(ls:*)' 'Bash(cat:*)' 'Bash(head:*)' 'Bash(tail:*)' 'Bash(grep:*)'
+claude plugin eval .agents --case '<case-name>' <same flags>
 ```
 
+- The `--allow-tools` grants are required. Without them the runner drops the `Bash(...)` patterns a case lists in its `allowed_tools`.
+- `--ablation none` skips the no-plugin baseline arm, which would double the number of runs and the cost.
 - Use the same `--model` the other cases were last run with so results compare.
 - Set `--max-cost-usd` to cap spend; eval runs call the model and cost money.
-- Results are written to `<skill>/evals/results/<timestamp>/`. Read the report for any failing case, fix the skill or the grader, and re-run.
-- Run the evals for every skill you changed. If you changed `_shared/evals/lib.sh`, run them for all skills.
+- If a run stops with `Invalid API key`, unset `ANTHROPIC_API_KEY` or replace it with a valid one.
+- Results are written to `.agents/evals/results/<timestamp>/` and are gitignored. Read the report for any failing case, fix the skill or the grader, and re-run.
+- Run the evals for every skill you changed. If you changed `.agents/evals/_lib/lib.sh`, run the whole suite.
 
 ## Merge requirements
 
