@@ -1,7 +1,6 @@
 #!/usr/bin/env node
-'use strict';
 /*
- * check-refs.js [--old <path>]...
+ * check-refs.ts [--old <path>]...
  * Run from the repo root. Exit 1 if any check fails.
  *  (a) every quizdown embed id in docs/ resolves to a file under src/quizzes/
  *  (b) every sidebar-linked section has a front-matter key equal to its own path
@@ -11,24 +10,24 @@
  * Sidebar-target existence and README sync are left to npm run compare-front-matter; link and image
  * resolution is left to npm run lint:links.
  */
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const args = process.argv.slice(2);
-const olds = [];
+const olds: string[] = [];
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--old') {
     if (!args[i + 1]) { console.error('--old needs a value'); process.exit(2); }
     olds.push(args[++i]);
   } else {
-    console.error('usage: check-refs.js [--old <path>]...');
+    console.error('usage: check-refs.ts [--old <path>]...');
     process.exit(2);
   }
 }
 
-const problems = [];
-const p0 = (dir, name) => path.join(dir, name).split(path.sep).join('/');
-const walk = (dir, out = []) => {
+const problems: string[] = [];
+const p0 = (dir: string, name: string) => path.join(dir, name).split(path.sep).join('/');
+const walk = (dir: string, out: string[] = []): string[] => {
   if (!fs.existsSync(dir)) return out;
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     if (e.name === 'node_modules' || e.name === '.git' || p0(dir, e.name) === '.agents/evals-workspace') continue;
@@ -61,8 +60,8 @@ for (const link of links) {
   const lines = fs.readFileSync(file, 'utf8').split('\n');
   if (lines[0] !== '---') continue; // many sections have no front-matter; nothing to check
   const end = lines.indexOf('---', 1);
-  const keys = [];
-  for (let i = 1; i < end; i++) if (/^\S.*:\s*$/.test(lines[i])) keys.push({ k: lines[i].replace(/:\s*$/, ''), line: i + 1 });
+  const keys: { k: string; line: number }[] = [];
+  for (let i = 1; i < end; i++) if (/^\S.*:\s*$/.test(lines[i]!)) keys.push({ k: lines[i]!.replace(/:\s*$/, ''), line: i + 1 });
   const own = `docs/${rel}`;
   if (!keys.some(x => x.k === own)) {
     const found = keys.length ? `"${keys.map(x => x.k).join(', ')}"` : 'missing';
@@ -75,7 +74,7 @@ if (olds.length) {
   const skipDir = '.agents/skills/'; // skill tests and evals hold literal old paths on purpose
   const files = walk('.').filter(f => /\.(md|js|json|html|ya?ml|css)$/.test(f) && f !== path.join('docs', 'README.md')
     && !f.split(path.sep).join('/').replace(/^\.\//, '').startsWith(skipDir));
-  const esc = v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const esc = (v: string) => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const res = olds.flatMap(old => [old, old.replace(/\.md$/, '')].filter(Boolean).map(v => ({
     old, re: new RegExp('(?<![\\w-])' + esc(v) + (v.endsWith('/') ? '' : '(?![\\w-])')),
   })));

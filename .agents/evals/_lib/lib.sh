@@ -128,10 +128,11 @@ SB
 # dir, so `node .agents/skills/<skill>/scripts/...` resolves there.
 install_skill_scripts() {
   mkdir -p ".agents/skills/$1"
+  cp "$REPO_ROOT/.agents/package.json" .agents/
   cp -R "$REPO_ROOT/.agents/skills/$1/scripts" ".agents/skills/$1/scripts"
 }
 
-# install_link_checker: installs check-links.js (no tests or fixtures) and a copy of the
+# install_link_checker: installs check-links.ts (no tests or fixtures) and a copy of the
 # `remark` dependency closure from the checkout's node_modules into the scratch dir, so the
 # script runs there. Reads the checkout, writes only here.
 install_link_checker() {
@@ -147,7 +148,8 @@ install_link_checker() {
     exit 1
   fi
   mkdir -p .agents/skills/dead-link-check/scripts
-  cp "$REPO_ROOT/.agents/skills/dead-link-check/scripts/check-links.js" .agents/skills/dead-link-check/scripts/
+  cp "$REPO_ROOT/.agents/package.json" .agents/
+  cp "$REPO_ROOT/.agents/skills/dead-link-check/scripts/check-links.ts" .agents/skills/dead-link-check/scripts/
   list="$(cd "$REPO_ROOT" && node -e '
     const fs = require("fs"), path = require("path");
     const seen = new Set();

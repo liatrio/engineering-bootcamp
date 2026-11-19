@@ -1,22 +1,22 @@
-'use strict';
-// Offline test: node .agents/skills/dead-link-check/scripts/check-links.test.js
+// Offline test: node .agents/skills/dead-link-check/scripts/check-links.test.ts
 // Serves fixtures from a local http server; needs only node and curl.
-const http = require('http');
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const assert = require('assert');
-const { execFile } = require('child_process');
-const { promisify } = require('util');
+import http from 'http';
+import type { AddressInfo } from 'net';
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
+import assert from 'assert';
+import { execFile } from 'child_process';
+import { promisify } from 'util';
 const execFileP = promisify(execFile);
 
-const SCRIPT = path.join(__dirname, 'check-links.js');
-const FIX = path.join(__dirname, 'fixtures');
+const SCRIPT = path.join(import.meta.dirname, 'check-links.ts');
+const FIX = path.join(import.meta.dirname, 'fixtures');
 
 const server = http.createServer((req, res) => {
-  const u = req.url;
-  const port = server.address().port;
-  const send = (code, headers = {}) => { res.writeHead(code, headers); res.end('x'); };
+  const u = req.url!;
+  const port = (server.address() as AddressInfo).port;
+  const send = (code: number, headers: Record<string, string> = {}) => { res.writeHead(code, headers); res.end('x'); };
   if (['/ok', '/wiki/Foo_(bar)', '/img.png', '/ref', '/html-href', '/new', '/bare', '/q?a=1&b=2'].includes(u)) return send(200);
   if (u === '/gone') return send(404);
   if (u === '/blocked') return send(403);
@@ -27,18 +27,18 @@ const server = http.createServer((req, res) => {
 });
 
 // Async on purpose: a sync spawn would block this process's event loop and starve the test server.
-async function run(cwd, args) {
+async function run(cwd: string, args: string[]): Promise<string> {
   return (await execFileP('node', [SCRIPT, '--include-local', ...args], { cwd, encoding: 'utf8' })).stdout;
 }
 
 server.listen(0, '127.0.0.1', async () => {
-  const port = server.address().port;
+  const port = (server.address() as AddressInfo).port;
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'dlc-'));
   fs.cpSync(FIX, tmp, { recursive: true });
   for (const f of fs.readdirSync(path.join(tmp, 'docs'))) {
     // Fixtures ship as .md.tmpl so `npm run lint` does not scan their deliberate HTML and unused refs.
     const p = path.join(tmp, 'docs', f);
-    fs.writeFileSync(p.replace(/\.tmpl$/, ''), fs.readFileSync(p, 'utf8').replace(/__PORT__/g, port));
+    fs.writeFileSync(p.replace(/\.tmpl$/, ''), fs.readFileSync(p, 'utf8').replace(/__PORT__/g, String(port)));
     fs.rmSync(p);
   }
   fs.writeFileSync(path.join(tmp, 'docs', 'slow.md'), `[slow](http://127.0.0.1:${port}/slow)\n[tls](https://127.0.0.1:${port}/x)\n`);
@@ -46,13 +46,13 @@ server.listen(0, '127.0.0.1', async () => {
   const results = path.join(tmp, 'results.jsonl');
   try {
     const out = await run(tmp, ['docs', '--results', results, '--timeout', '1']);
-    const rows = {};
+    const rows: Record<string, { status: string; redirects: string; final: string; class: string; where: string }> = {};
     for (const l of out.split('\n').slice(1)) {
       if (!l || l.startsWith('#')) break;
       const c = l.split('\t');
       rows[c[0]] = { status: c[1], redirects: c[2], final: c[3], class: c[4], where: c[5] };
     }
-    const at = (p) => rows[`http://127.0.0.1:${port}${p}`];
+    const at = (p: string) => rows[`http://127.0.0.1:${port}${p}`];
     assert.strictEqual(at('/ok').class, 'ok');
     assert.strictEqual(at('/wiki/Foo_(bar)').class, 'ok', 'parenthesised URL kept whole');
     assert.strictEqual(at('/wiki/Foo_(bar)').where, 'docs/page.md:8');
@@ -76,7 +76,7 @@ server.listen(0, '127.0.0.1', async () => {
     assert.strictEqual(at('/q?a=1&b=2').class, 'ok', 'HTML entities decoded in href');
 
     // resume: definitive results are skipped, timeouts and TLS errors are re-checked
-    const count = (txt, p) => txt.split('\n').filter((l) => l.includes(`"url":"http://127.0.0.1:${port}${p}"`)).length;
+    const count = (txt: string, p: string) => txt.split('\n').filter((l) => l.includes(`"url":"http://127.0.0.1:${port}${p}"`)).length;
     const before = fs.readFileSync(results, 'utf8');
     const second = await run(tmp, ['docs', '--results', results]);
     const after = fs.readFileSync(results, 'utf8');
@@ -84,7 +84,7 @@ server.listen(0, '127.0.0.1', async () => {
     assert.strictEqual(count(after, '/slow'), count(before, '/slow') + 1, 'timeout row re-checked');
     assert.ok(second.includes('/gone'));
 
-    const m = require('./check-links.js');
+    const m = await import('./check-links.ts');
     for (const h of ['127.0.0.1', '10.1.2.3', '172.16.0.1', '192.168.1.1', '169.254.169.254', '[::1]', 'localhost', 'fd00::1', 'fe80::1']) assert.ok(m.isPrivateHost(h), h);
     for (const h of ['8.8.8.8', '172.32.0.1', 'example.com', '1.2.3.4']) assert.ok(!m.isPrivateHost(h), h);
     assert.strictEqual(m.decodeEntities('a=1&amp;b=2&#38;c&#x26;d'), 'a=1&b=2&c&d');
@@ -97,7 +97,7 @@ server.listen(0, '127.0.0.1', async () => {
     assert.strictEqual(j.results[0].class, 'redirect');
     // local URLs are skipped unless --include-local is passed
     const { stdout: noLocal } = await execFileP('node', [SCRIPT, 'docs', '--json'], { cwd: tmp, encoding: 'utf8' });
-    assert.ok(JSON.parse(noLocal).results.every((r) => !/127\.0\.0\.1|localhost/.test(r.url)), 'localhost URLs skipped by default');
+    assert.ok(JSON.parse(noLocal).results.every((r: { url: string }) => !/127\.0\.0\.1|localhost/.test(r.url)), 'localhost URLs skipped by default');
     console.log('all check-links tests passed');
   } catch (e) {
     console.error(e);

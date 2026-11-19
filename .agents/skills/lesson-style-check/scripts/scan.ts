@@ -1,11 +1,10 @@
 #!/usr/bin/env node
-'use strict';
 /*
  * lesson-style-check mechanical scanner (read-only reporter). Exits 0 whether or not it
  * finds anything; exits 2 if it crashes, so a broken scan is never mistaken for a clean one.
  *
  * Usage (from repo root):
- *   node .agents/skills/lesson-style-check/scripts/scan.js [--json] [--headings] [files...]
+ *   node .agents/skills/lesson-style-check/scripts/scan.ts [--json] [--headings] [files...]
  *
  * With no files, scans markdown changed on the current branch versus master
  * plus untracked markdown under docs/. docs/README.md is always skipped.
@@ -20,12 +19,12 @@
  * Matching is done on markdown text nodes only, so code fences, inline code,
  * HTML, link URLs, and front-matter are never matched.
  */
-const fs = require('fs');
-const path = require('path');
-const { execFileSync } = require('child_process');
-let matter;
-try { matter = require('gray-matter'); } catch (e) {
-  process.stderr.write('scan.js: missing dependency gray-matter; run npm install from the repo root\n');
+import fs from 'fs';
+import path from 'path';
+import { execFileSync } from 'child_process';
+let matter: typeof import('gray-matter');
+try { matter = (await import('gray-matter')).default; } catch (e) {
+  process.stderr.write('scan.ts: missing dependency gray-matter; run npm install from the repo root\n');
   process.exit(2);
 }
 
@@ -34,13 +33,13 @@ const asJson = argv.includes('--json');
 const withHeadings = argv.includes('--headings');
 const fileArgs = argv.filter((a) => !a.startsWith('--'));
 
-function git(args) {
+function git(args: string[]) {
   try {
     return execFileSync('git', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
       .split('\n')
       .filter(Boolean);
   } catch (e) {
-    process.stderr.write(`scan.js: git ${args[0]} failed; no branch scope available\n`);
+    process.stderr.write(`scan.ts: git ${args[0]} failed; no branch scope available\n`);
     return [];
   }
 }
@@ -61,7 +60,7 @@ function resolveScope() {
     if (abs === readme || !f.endsWith('.md') || seen.has(abs)) continue;
     seen.add(abs);
     if (!fs.existsSync(abs)) {
-      process.stderr.write(`scan.js: skipping missing file ${f}\n`);
+      process.stderr.write(`scan.ts: skipping missing file ${f}\n`);
       continue;
     }
     out.push(f);
@@ -87,19 +86,28 @@ const MINOR = new Set(
 const HEADING_ALLOW = new Set(['learning objectives', 'deliverables']);
 
 // ---- helpers --------------------------------------------------------------
-function textOf(node) {
+interface MdNode {
+  type: string;
+  value: string;
+  depth: number;
+  children?: MdNode[];
+  position: { start: { line: number } };
+}
+interface Finding { file: string; line: number; pattern: number; kind: string; text: string }
+
+function textOf(node: MdNode): string {
   if (node.type === 'text' || node.type === 'inlineCode') return node.value;
   return (node.children || []).map(textOf).join('');
 }
 
-function headingText(node) {
+function headingText(node: MdNode): string {
   // text nodes only: inline code and HTML are ignored
   if (node.type === 'text') return node.value;
   if (node.type === 'inlineCode' || node.type === 'html') return '';
   return (node.children || []).map(headingText).join('');
 }
 
-function excerpt(value, idx, len) {
+function excerpt(value: string, idx: number, len: number) {
   const from = Math.max(0, idx - 30);
   const to = Math.min(value.length, idx + len + 30);
   return (
@@ -109,26 +117,26 @@ function excerpt(value, idx, len) {
   );
 }
 
-function lineAt(node, value, idx) {
+function lineAt(node: MdNode, value: string, idx: number) {
   let line = node.position.start.line;
   for (let i = 0; i < idx; i++) if (value[i] === '\n') line++;
   return line;
 }
 
-function isTitleCase(text) {
-  const words = text.trim().split(/\s+/).filter((w) => /[A-Za-z]/.test(w));
+function isTitleCase(text: string) {
+  const words = text.trim().split(/\s+/).filter((w: string) => /[A-Za-z]/.test(w));
   if (words.length < 2) return false;
-  const content = words.filter((w, i) => i === 0 || !MINOR.has(w.toLowerCase()));
+  const content = words.filter((w: string, i: number) => i === 0 || !MINOR.has(w.toLowerCase()));
   const rest = content.slice(1);
   if (rest.length === 0) return false;
-  const cap = (w) => /^[^A-Za-z]*[A-Z]/.test(w);
+  const cap = (w: string) => /^[^A-Za-z]*[A-Z]/.test(w);
   if (!content.every(cap)) return false;
   // need at least one non-first word that is a Capitalized word (not an ALL-CAPS acronym)
-  return rest.some((w) => /^[^A-Za-z]*[A-Z][a-z]/.test(w));
+  return rest.some((w: string) => /^[^A-Za-z]*[A-Z][a-z]/.test(w));
 }
 
 // Replace the front-matter block with bare newlines so line numbers stay correct.
-function blankFrontMatter(src) {
+function blankFrontMatter(src: string) {
   if (!src.startsWith('---')) return src;
   let parsed;
   try {
@@ -148,24 +156,24 @@ function blankFrontMatter(src) {
 async function main() {
   let remark;
   try { ({ remark } = await import('remark')); } catch (e) {
-    process.stderr.write('scan.js: missing dependency remark; run npm install from the repo root\n');
+    process.stderr.write('scan.ts: missing dependency remark; run npm install from the repo root\n');
     process.exit(2);
   }
   const processor = remark();
   const files = resolveScope();
-  const findings = [];
+  const findings: Finding[] = [];
 
   for (const file of files) {
     const src = fs.readFileSync(file, 'utf8');
     const tree = processor.parse(blankFrontMatter(src));
     let section = 0;
-    const announcers = new Map(); // section index -> openers found
+    const announcers = new Map<number, { line: number; text: string }[]>(); // section index -> openers found
 
-    const add = (line, pattern, kind, text) => findings.push({ file, line, pattern, kind, text });
+    const add = (line: number, pattern: number, kind: string, text: string) => findings.push({ file, line, pattern, kind, text });
 
-    const scanText = (node, parent) => {
+    const scanText = (node: MdNode, parent?: MdNode | null) => {
       const v = node.value;
-      const run = (re, pattern, kind) => {
+      const run = (re: RegExp, pattern: number, kind: string) => {
         re.lastIndex = 0;
         let m;
         while ((m = re.exec(v))) {
@@ -183,15 +191,15 @@ async function main() {
       ANNOUNCER.lastIndex = 0;
       let m;
       while ((m = ANNOUNCER.exec(v))) {
-        const opens = m[1] === '' ? parent && parent.children[0] === node : true;
+        const opens = m[1] === '' ? parent && parent.children![0] === node : true;
         if (!opens) continue;
         const idx = m.index + m[1].length;
         if (!announcers.has(section)) announcers.set(section, []);
-        announcers.get(section).push({ line: lineAt(node, v, idx), text: excerpt(v, idx, m[2].length + 1) });
+        announcers.get(section)!.push({ line: lineAt(node, v, idx), text: excerpt(v, idx, m[2].length + 1) });
       }
     };
 
-    const walk = (node, parent) => {
+    const walk = (node: MdNode, parent?: MdNode | null) => {
       if (node.type === 'heading') {
         section++;
         if (node.depth <= 3) {
@@ -201,15 +209,15 @@ async function main() {
           }
         }
       }
-      if (node.type === 'paragraph' && node.children[0] && node.children[0].type === 'strong') {
-        const s = node.children[0];
+      if (node.type === 'paragraph' && node.children![0] && node.children![0].type === 'strong') {
+        const s = node.children![0];
         const t = textOf(s).trim();
         if (/^[A-Z]/.test(t) && /\.$/.test(t)) add(s.position.start.line, 1, 'hit', t);
       }
       if (node.type === 'text') scanText(node, parent);
       for (const c of node.children || []) walk(c, node);
     };
-    walk(tree, null);
+    walk(tree as unknown as MdNode, null);
 
     for (const list of announcers.values()) {
       if (list.length >= 2) for (const a of list) add(a.line, 14, 'hit', a.text);
@@ -226,11 +234,11 @@ async function main() {
       process.stdout.write(`${f.file}:${f.line}:${f.pattern}:${f.kind}:${f.text.replace(/\n/g, ' ')}\n`);
     }
   }
-  process.stderr.write(`scan.js: ${files.length} file(s), ${findings.length} finding(s)\n`);
+  process.stderr.write(`scan.ts: ${files.length} file(s), ${findings.length} finding(s)\n`);
 }
 
 main()
   .catch((e) => {
-    process.stderr.write(`scan.js: error: ${e && e.message}\n`);
+    process.stderr.write(`scan.ts: error: ${e && e.message}\n`);
     process.exitCode = 2;
   });

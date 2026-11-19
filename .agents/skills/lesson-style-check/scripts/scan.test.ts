@@ -1,14 +1,13 @@
 #!/usr/bin/env node
-'use strict';
-// Fixture test for scan.js. Run from the repo root:
-//   node .agents/skills/lesson-style-check/scripts/scan.test.js
-const assert = require('assert');
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const { spawnSync } = require('child_process');
+// Fixture test for scan.ts. Run from the repo root:
+//   node .agents/skills/lesson-style-check/scripts/scan.test.ts
+import assert from 'assert';
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
+import { spawnSync } from 'child_process';
 
-const SCRIPT = path.join(__dirname, 'scan.js');
+const SCRIPT = path.join(import.meta.dirname, 'scan.ts');
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'scan-'));
 const file = path.join(tmp, 'section.md');
 fs.writeFileSync(file, [
@@ -31,12 +30,12 @@ fs.writeFileSync(file, [
   '',
 ].join('\n'));
 
-const run = (...args) => spawnSync('node', [SCRIPT, ...args], { encoding: 'utf8' });
+const run = (...args: string[]) => spawnSync('node', [SCRIPT, ...args], { encoding: 'utf8' });
 try {
   const r = run(file);
   assert.strictEqual(r.status, 0);
   const lines = r.stdout.trim().split('\n').map((l) => l.split(':').slice(-4, -1).join(':'));
-  const has = (line, pattern) => r.stdout.split('\n').some((l) => l.includes(`:${line}:${pattern}:`));
+  const has = (line: number, pattern: number) => r.stdout.split('\n').some((l) => l.includes(`:${line}:${pattern}:`));
   assert.ok(has(6, 1), 'bold lead-in sentence (trailing period) reported');
   assert.ok(!r.stdout.split('\n').some((l) => l.includes(':8:1:')), 'bold question is not a lead-in');
   assert.ok(has(10, 4), 'prose em dash reported');

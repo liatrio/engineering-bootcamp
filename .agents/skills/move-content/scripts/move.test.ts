@@ -1,27 +1,26 @@
 #!/usr/bin/env node
-'use strict';
-// Smoke test for move.js and check-refs.js on a throwaway git repo. Run from the repo root:
-//   node .agents/skills/move-content/scripts/move.test.js
-const assert = require('assert');
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const { spawnSync } = require('child_process');
+// Smoke test for move.ts and check-refs.ts on a throwaway git repo. Run from the repo root:
+//   node .agents/skills/move-content/scripts/move.test.ts
+import assert from 'assert';
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
+import { spawnSync } from 'child_process';
 
-const MOVE = path.join(__dirname, 'move.js');
-const REFS = path.join(__dirname, 'check-refs.js');
-const tmps = [];
-let tmp;
+const MOVE = path.join(import.meta.dirname, 'move.ts');
+const REFS = path.join(import.meta.dirname, 'check-refs.ts');
+const tmps: string[] = [];
+let tmp: string;
 const fresh = () => { tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'move-')); tmps.push(tmp); sh('git', ['init', '-q']); };
 const commit = () => { sh('git', ['add', '-A']); sh('git', ['-c', 'user.email=t@t', '-c', 'user.name=t', 'commit', '-qm', 'fixture']); };
-const exists = (p) => fs.existsSync(path.join(tmp, p));
-const read = (p) => fs.readFileSync(path.join(tmp, p), 'utf8');
-const sh = (cmd, args) => spawnSync(cmd, args, { cwd: tmp, encoding: 'utf8' });
-const node = (script, ...args) => sh('node', [script, ...args]);
-const write = (p, s) => { fs.mkdirSync(path.dirname(path.join(tmp, p)), { recursive: true }); fs.writeFileSync(path.join(tmp, p), s); };
-const page = (file, title, body) =>
+const exists = (p: string) => fs.existsSync(path.join(tmp, p));
+const read = (p: string) => fs.readFileSync(path.join(tmp, p), 'utf8');
+const sh = (cmd: string, args: string[]) => spawnSync(cmd, args, { cwd: tmp, encoding: 'utf8' });
+const node = (script: string, ...args: string[]) => sh('node', [script, ...args]);
+const write = (p: string, s: string) => { fs.mkdirSync(path.dirname(path.join(tmp, p)), { recursive: true }); fs.writeFileSync(path.join(tmp, p), s); };
+const page = (file: string, title: string, body: string) =>
   write(file, `---\n${file}:\n  category: Demo\n  estReadingMinutes: 5\n---\n\n# ${title}\n\n${body}\n`);
-const quiz = (id) => `<div class="quizdown">\n  <div id="chapter-3/${id}/q.js"></div>\n</div>`;
+const quiz = (id: string) => `<div class="quizdown">\n  <div id="chapter-3/${id}/q.js"></div>\n</div>`;
 
 try {
   fresh();

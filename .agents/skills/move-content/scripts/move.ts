@@ -1,8 +1,7 @@
 #!/usr/bin/env node
-'use strict';
 /*
- * move.js <old> <new> [--insert] [--dry-run]
- * move.js --exercise "<exercise name>" <old-section> <new-section> [--dry-run]
+ * move.ts <old> <new> [--insert] [--dry-run]
+ * move.ts --exercise "<exercise name>" <old-section> <new-section> [--dry-run]
  *
  * <old>/<new> are numeric ids: a chapter (3), a section (3.2) or a sub-section (3.2.1).
  * Within one parent, a move closes the gap it leaves: 3.2 -> 3.4 renames 3.3 and 3.4 to 3.2 and 3.3.
@@ -11,10 +10,10 @@
  * Run from the repo root. Only Node built-ins plus git are used.
  * See ../SKILL.md. Does not commit and never touches docs/README.md.
  */
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const { execFileSync } = require('child_process');
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
+import { execFileSync } from 'child_process';
 
 const ROOT = process.cwd();
 const DOCS = 'docs';
@@ -25,43 +24,43 @@ const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
 const insertMode = args.includes('--insert');
 const exIdx = args.indexOf('--exercise');
-let exerciseName = null;
+let exerciseName: string | null = null;
 if (exIdx >= 0) { exerciseName = args[exIdx + 1]; args.splice(exIdx, 2); }
 const pos = args.filter(a => !a.startsWith('--'));
 
-function die(msg) { console.error(`error: ${msg}`); process.exit(1); }
-if (pos.length !== 2) die('usage: move.js <old> <new> [--dry-run]  |  move.js --exercise "<name>" <old-section> <new-section> [--dry-run]');
-const [OLD, NEW] = pos;
+function die(msg: string): never { console.error(`error: ${msg}`); process.exit(1); }
+if (pos.length !== 2) die('usage: move.ts <old> <new> [--dry-run]  |  move.ts --exercise "<name>" <old-section> <new-section> [--dry-run]');
+const [OLD, NEW] = pos as [string, string];
 for (const id of [OLD, NEW]) if (!/^\d+(\.\d+){0,2}$/.test(id)) die(`"${id}" is not a chapter/section id like 3, 3.2 or 3.2.1`);
 
-const git = (...a) => execFileSync('git', a, { cwd: ROOT, encoding: 'utf8' });
-const read = p => fs.readFileSync(path.join(ROOT, p), 'utf8');
-const exists = p => fs.existsSync(path.join(ROOT, p));
-const tracked = dir => git('ls-files', dir).split('\n').filter(Boolean);
-const natCmp = (a, b) => a.localeCompare(b, undefined, { numeric: true });
-function cmpId(a, b) {
+const git = (...a: string[]) => execFileSync('git', a, { cwd: ROOT, encoding: 'utf8' });
+const read = (p: string) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+const exists = (p: string) => fs.existsSync(path.join(ROOT, p));
+const tracked = (dir: string) => git('ls-files', dir).split('\n').filter(Boolean);
+const natCmp = (a: string, b: string) => a.localeCompare(b, undefined, { numeric: true });
+function cmpId(a: string, b: string): number {
   const x = a.split('.').map(Number), y = b.split('.').map(Number);
   for (let i = 0; i < Math.max(x.length, y.length); i++) {
     if (x[i] === undefined) return -1;
     if (y[i] === undefined) return 1;
-    if (x[i] !== y[i]) return x[i] - y[i];
+    if (x[i] !== y[i]) return x[i]! - y[i]!;
   }
   return 0;
 }
-const entryId = name => { const m = name.match(/^(\d+(?:\.\d+)*)(?=[-.])/); return m ? m[1] : null; };
+const entryId = (name: string) => { const m = name.match(/^(\d+(?:\.\d+)*)(?=[-.])/); return m ? m[1] : null; };
 
 // ---------------------------------------------------------------- exercise move
 if (exerciseName !== null) {
   if (!exerciseName) die('--exercise needs a name');
-  const findSection = id => tracked(DOCS).find(f => {
+  const findSection = (id: string) => tracked(DOCS).find(f => {
     const parts = f.split('/');
-    return parts.length === 3 && parts[2].endsWith('.md') && parts[2].startsWith(id + '-') && /^\d+-/.test(parts[1]);
+    return parts.length === 3 && parts[2]!.endsWith('.md') && parts[2]!.startsWith(id + '-') && /^\d+-/.test(parts[1]);
   });
   const src = findSection(OLD), dst = findSection(NEW);
   if (!src) die(`no section file for ${OLD}`);
   if (!dst) die(`no section file for ${NEW}`);
   if (src === dst) die('source and target are the same section');
-  const fmEnd = ls => { let n = 0; for (let i = 0; i < ls.length; i++) if (ls[i] === '---' && ++n === 2) return i; return -1; };
+  const fmEnd = (ls: string[]) => { let n = 0; for (let i = 0; i < ls.length; i++) if (ls[i] === '---' && ++n === 2) return i; return -1; };
   const srcLines = read(src).split('\n');
   const sEnd = fmEnd(srcLines);
   const esc = exerciseName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -90,7 +89,7 @@ if (exerciseName !== null) {
   }
   console.log(`${dryRun ? '[dry-run] ' : ''}exercise "${exerciseName}": ${src} -> ${dst}`);
   console.log('front-matter block moved:\n' + block.map(l => '  | ' + l).join('\n'));
-  console.log('NOTE: only the front-matter entry moves. Move the exercise body text between the two pages by hand, then run check-refs.js and npm run refresh-front-matter.');
+  console.log('NOTE: only the front-matter entry moves. Move the exercise body text between the two pages by hand, then run check-refs.ts and npm run refresh-front-matter.');
   if (!dryRun) {
     fs.writeFileSync(path.join(ROOT, src), newSrc.join('\n'));
     fs.writeFileSync(path.join(ROOT, dst), newDst.join('\n'));
@@ -100,7 +99,7 @@ if (exerciseName !== null) {
 
 // ---------------------------------------------------------------- node mappings
 const docFiles = tracked(DOCS);
-const folderByNum = {};
+const folderByNum: Record<string, string> = {};
 for (const f of docFiles) {
   const p = f.split('/');
   const m = p.length > 2 && p[1].match(/^(\d+)-/);
@@ -115,39 +114,39 @@ for (const f of docFiles) {
   const c = id.split('.');
   for (let i = 2; i <= c.length; i++) idSet.add(c.slice(0, i).join('.'));
 }
-const depth = id => id.split('.').length;
+const depth = (id: string) => id.split('.').length;
 if (depth(OLD) !== depth(NEW)) die('old and new must be the same level (chapter, section or sub-section)');
 if (OLD === NEW) die('old and new are the same');
 if (NEW.startsWith(OLD + '.')) die('cannot move into itself');
 if (!idSet.has(OLD)) die(`${OLD} does not exist under docs/`);
-const parentOf = id => id.split('.').slice(0, -1).join('.');
-const lastOf = id => Number(id.split('.').pop());
+const parentOf = (id: string) => id.split('.').slice(0, -1).join('.');
+const lastOf = (id: string) => Number(id.split('.').pop());
 if (depth(OLD) > 1 && !idSet.has(parentOf(NEW))) die(`destination parent ${parentOf(NEW)} does not exist`);
 
 const maps = [{ old: OLD, new: NEW, role: 'moved' }];
 if (!insertMode && parentOf(OLD) === parentOf(NEW) && lastOf(OLD) < lastOf(NEW)) {
   const par = parentOf(NEW);
-  const mk = k => (par ? par + '.' : '') + k;
+  const mk = (k: number) => (par ? par + '.' : '') + k;
   for (let n = lastOf(OLD) + 1; n <= lastOf(NEW); n++) {
     if (idSet.has(mk(n))) maps.push({ old: mk(n), new: mk(n - 1), role: 'renumbered neighbour' });
   }
 } else {
   // shift the contiguous run of occupied sibling slots starting at NEW (insert semantics)
   const par = parentOf(NEW);
-  const mk = k => (par ? par + '.' : '') + k;
+  const mk = (k: number) => (par ? par + '.' : '') + k;
   let n = lastOf(NEW);
   while (idSet.has(mk(n)) && mk(n) !== OLD) {
     maps.push({ old: mk(n), new: mk(n + 1), role: 'renumbered neighbour' });
     n++;
   }
 }
-function mapId(id) {
+function mapId(id: string): string {
   for (const m of maps) if (id === m.old || id.startsWith(m.old + '.')) return m.new + id.slice(m.old.length);
   return id;
 }
 
 // ---------------------------------------------------------------- docs file map
-const fileMap = {}; // docs-relative old -> new
+const fileMap: Record<string, string> = {}; // docs-relative old -> new
 for (const f of docFiles) {
   const rel = f.slice(DOCS.length + 1);
   const parts = rel.split('/');
@@ -173,22 +172,22 @@ if (!Object.keys(fileMap).length) die('nothing to move');
 // img/ must follow it. It moves only if every page that uses it moves to the same new chapter; otherwise
 // it is reported for a manual decision (shared images belong in the root img/).
 const ASSET = /\.(png|svg|webp|jpe?g|gif|pdf|ico)$/i;
-const imageRefs = text => {
-  const out = [];
+const imageRefs = (text: string) => {
+  const out: string[] = [];
   for (const m of text.matchAll(/!\[[^\]]*\]\(\s*<?([^)\s>'"]+)/g)) out.push(m[1]);
   for (const m of text.matchAll(/<img[^>]*\ssrc=["']([^"']+)["']/g)) out.push(m[1]);
   return out.filter(h => !/^(https?:|data:|\/)/.test(h) && ASSET.test(h.split(/[?#]/)[0])).map(h => h.split(/[?#]/)[0]);
 };
-const imageWarnings = [];
+const imageWarnings: string[] = [];
 {
-  const pageRefs = {}; // docs-relative page -> resolved image paths
-  const users = {};    // resolved image path -> pages using it
+  const pageRefs: Record<string, string[]> = {}; // docs-relative page -> resolved image paths
+  const users: Record<string, Set<string>> = {};    // resolved image path -> pages using it
   for (const f of docFiles.filter(f => f.endsWith('.md') && f !== SIDEBAR)) {
     const rel = f.slice(DOCS.length + 1);
     pageRefs[rel] = imageRefs(read(f)).map(h => path.posix.normalize(path.posix.join(path.posix.dirname(rel), h)));
     for (const r of pageRefs[rel]) (users[r] = users[r] || new Set()).add(rel);
   }
-  const folderOf = p => p.split('/')[0];
+  const folderOf = (p: string) => p.split('/')[0];
   for (const rel of Object.keys(pageRefs)) {
     const to = fileMap[rel];
     if (!to || folderOf(to) === folderOf(rel)) continue;
@@ -202,7 +201,7 @@ const imageWarnings = [];
 }
 
 // ---------------------------------------------------------------- quiz map
-const quizMap = {}; // quiz-relative old -> new
+const quizMap: Record<string, string> = {}; // quiz-relative old -> new
 for (const f of tracked(QUIZ)) {
   const rel = f.slice(QUIZ.length + 1);
   const parts = rel.split('/');
@@ -215,23 +214,23 @@ for (const f of tracked(QUIZ)) {
 }
 
 // ---------------------------------------------------------------- ordered git mv plan
-function orderMoves(pairs, prefix) {
+function orderMoves(pairs: [string, string][], prefix: string): { from: string; to: string }[] {
   const pending = pairs.map(([a, b]) => ({ from: prefix + a, to: prefix + b })).sort((x, y) => natCmp(y.from, x.from));
   const occupied = new Set(pending.map(p => p.from));
-  const vacated = new Set(); // sources already planned away; the disk still shows them as existing
-  const out = [];
+  const vacated = new Set<string>(); // sources already planned away; the disk still shows them as existing
+  const out: { from: string; to: string }[] = [];
   let tmp = 0;
   while (pending.length) {
     const i = pending.findIndex(p => !occupied.has(p.to));
     if (i < 0) { // cycle: park the first one under a temporary name
-      const p = pending[0];
+      const p = pending[0]!;
       const t = `${p.from}.mvtmp${tmp++}`;
       out.push({ from: p.from, to: t });
       occupied.delete(p.from); occupied.add(t); vacated.add(p.from);
       p.from = t;
       continue;
     }
-    const p = pending.splice(i, 1)[0];
+    const p = pending.splice(i, 1)[0]!;
     if (exists(p.to) && !occupied.has(p.to) && !vacated.has(p.to)) die(`destination already exists and is not part of the move: ${p.to}`);
     out.push(p);
     occupied.delete(p.from); occupied.add(p.to);
@@ -245,7 +244,7 @@ const gitMoves = [
 ];
 
 // ---------------------------------------------------------------- text edits (computed from OLD paths)
-const edits = []; // {file (new path), content, notes[]}
+const edits: { file: string; content: string; notes: string[]; sidebar?: boolean; orig?: string }[] = []; // {file (new path), content, notes[]}
 
 // ](target) with optional Docsify attributes: "title", 'title', :ignore, :class=x
 const LINK = /\]\(([^)\s]+)((?:\s+(?:"[^"]*"|'[^']*'|:[^\s)]+))*)\)/g;
@@ -255,7 +254,7 @@ for (const f of docFiles.filter(f => f.endsWith('.md') && f !== SIDEBAR)) {
   const newRel = fileMap[oldRel] || oldRel;
   const orig = read(f);
   const lines = orig.split('\n');
-  const notes = [];
+  const notes: string[] = [];
   if (fileMap[oldRel]) { // front-matter key: line-level replace, never re-serialise the YAML
     let n = 0;
     for (let i = 0; i < lines.length && n < 2; i++) {
@@ -267,12 +266,12 @@ for (const f of docFiles.filter(f => f.endsWith('.md') && f !== SIDEBAR)) {
     }
   }
   for (let i = 0; i < lines.length; i++) {
-    lines[i] = lines[i].replace(/(<div id=")([^"]+)(">)/g, (m, a, id, c) => {
+    lines[i] = lines[i].replace(/(<div id=")([^"]+)(">)/g, (m: string, a: string, id: string, c: string) => {
       if (!quizMap[id]) return m;
       notes.push(`quiz embed line ${i + 1}: ${id} -> ${quizMap[id]}`);
       return a + quizMap[id] + c;
     });
-    lines[i] = lines[i].replace(LINK, (m, target, title) => {
+    lines[i] = lines[i].replace(LINK, (m: string, target: string, title: string) => {
       if (/^(https?:|mailto:|tel:|data:)/.test(target)) return m;
       let t = target, hashRoute = false;
       if (t.startsWith('#/')) { hashRoute = true; t = t.slice(1); } else if (t.startsWith('#')) return m;
@@ -284,8 +283,8 @@ for (const f of docFiles.filter(f => f.endsWith('.md') && f !== SIDEBAR)) {
       const pageStyle = /^\.\.?\//.test(base) || (!rooted && !hashRoute);
       const fromRoot = base.replace(/^\/(docs\/)?/, '');
       const fromPage = path.posix.normalize(path.posix.join(path.posix.dirname(oldRel), base));
-      const find = r => (fileMap[r] ? r : (fileMap[r + '.md'] ? r + '.md' : null));
-      let resolved = null, hit = null;
+      const find = (r: string) => (fileMap[r] ? r : (fileMap[r + '.md'] ? r + '.md' : null));
+      let resolved: string | null = null, hit: string | null = null;
       for (const r of /^\.\.?\//.test(base) ? [fromPage] : pageStyle ? [fromRoot, fromPage] : [fromRoot]) {
         if (find(r)) { resolved = r; hit = find(r); break; }
       }
@@ -308,9 +307,10 @@ for (const f of docFiles.filter(f => f.endsWith('.md') && f !== SIDEBAR)) {
 }
 
 // ---------------------------------------------------------------- sidebar
-function rewriteSidebar(text) {
-  const notes = [];
-  const touched = new Set();
+interface Block { lines: string[]; lead?: string[]; trail?: string[]; entries?: string[] }
+function rewriteSidebar(text: string) {
+  const notes: string[] = [];
+  const touched = new Set<string>();
   let lines = text.split('\n').map(l => {
     const h = l.match(/^(- \*\*Chapter )(\d+)(\*\*\s*)$/);
     if (h) {
@@ -318,11 +318,11 @@ function rewriteSidebar(text) {
       if (n !== h[2]) { touched.add(n); touched.add(h[2]); return `${h[1]}${n}${h[3]}`; }
       return l;
     }
-    return l.replace(/^(\s*- \[)([^\]]*)(\]\()(\/?)([^)]+\.md)(\))/, (m, a, label, b, slash, p, c) => {
+    return l.replace(/^(\s*- \[)([^\]]*)(\]\()(\/?)([^)]+\.md)(\))/, (m: string, a: string, label: string, b: string, slash: string, p: string, c: string) => {
       if (!fileMap[p]) return m;
       const oid = entryId(p.split('/')[1] || '');
       const nid = oid ? mapId(oid) : null;
-      if (oid) { touched.add(oid.split('.')[0]); touched.add(nid.split('.')[0]); }
+      if (oid) { touched.add(oid.split('.')[0]!); touched.add(nid!.split('.')[0]!); }
       let nl = label;
       if (oid && label.startsWith(oid) && !/^[\d.]/.test(label.slice(oid.length))) nl = nid + label.slice(oid.length);
       return `${a}${nl}${b}${slash}${fileMap[p]}${c}`;
@@ -330,10 +330,10 @@ function rewriteSidebar(text) {
   });
   const headIdx = lines.map((l, i) => (/^- \*\*(Chapter \d+|Addendum)\*\*\s*$/.test(l) ? i : -1)).filter(i => i >= 0);
   const pre = lines.slice(0, headIdx[0]);
-  const blocks = headIdx.map((s, k) => ({ lines: lines.slice(s, k + 1 < headIdx.length ? headIdx[k + 1] : lines.length) }));
-  const chapOf = b => { const m = b.lines[0].match(/Chapter (\d+)/); return m ? m[1] : null; };
+  const blocks: Block[] = headIdx.map((s, k) => ({ lines: lines.slice(s, k + 1 < headIdx.length ? headIdx[k + 1] : lines.length) }));
+  const chapOf = (b: Block) => { const m = b.lines[0].match(/Chapter (\d+)/); return m ? m[1] : null; };
   const entryRe = /^(\s*)- \[([^\]]*)\]\(\/?([^)]+\.md)\)/;
-  const pool = [];
+  const pool: { line: string; id: string | null; indent: string; block: Block }[] = [];
   for (const b of blocks) {
     const c = chapOf(b);
     if (!c || !touched.has(c)) continue;
@@ -349,15 +349,15 @@ function rewriteSidebar(text) {
     while (j > i && !body[j - 1].trim()) b.trail.unshift(body[--j]);
     b.entries = body.slice(i, j);
     for (const l of b.entries) {
-      const m = l.match(entryRe);
-      pool.push({ line: l, id: entryId(m[3].split('/')[1] || ''), indent: m[1], block: b });
+      const m = l.match(entryRe)!;
+      pool.push({ line: l, id: entryId(m[3]!.split('/')[1] || ''), indent: m[1]!, block: b });
     }
   }
-  const placed = new Set();
+  const placed = new Set<(typeof pool)[number]>();
   for (const b of blocks) {
     if (!b.entries) continue;
     const c = chapOf(b);
-    const mine = pool.filter(e => e.id && e.id.split('.')[0] === c).sort((x, y) => cmpId(x.id, y.id));
+    const mine = pool.filter(e => e.id && e.id.split('.')[0] === c).sort((x, y) => cmpId(x.id!, y.id!));
     const noId = pool.filter(e => !e.id && e.block === b);
     b.entries = [...mine, ...noId].map(e => {
       if (!e.id) return e.line;
@@ -371,12 +371,12 @@ function rewriteSidebar(text) {
   if (maps.some(m => depth(m.old) === 1)) {
     const sorted = blocks.filter(chapOf).sort((a, b) => Number(chapOf(a)) - Number(chapOf(b)));
     let k = 0;
-    for (let i = 0; i < blocks.length; i++) if (chapOf(blocks[i])) blocks[i] = sorted[k++];
+    for (let i = 0; i < blocks.length; i++) if (chapOf(blocks[i])) blocks[i] = sorted[k++]!;
   }
   const out = [...pre];
   for (const b of blocks) {
     out.push(b.lines[0]);
-    if (b.entries) out.push(...b.lead, ...b.entries, ...b.trail); else out.push(...b.lines.slice(1));
+    if (b.entries) out.push(...b.lead!, ...b.entries, ...b.trail!); else out.push(...b.lines.slice(1));
   }
   return { content: out.join('\n'), notes };
 }
@@ -399,12 +399,12 @@ for (const e of edits) {
   console.log(`  ${e.file}`);
   for (const n of e.notes) console.log(`    ${n}`);
 }
-const sb = edits.find(e => e.sidebar);
+const sb = edits.find(e => e.sidebar) as (typeof edits)[number] & { orig: string } | undefined;
 if (sb) {
   console.log(`  ${SIDEBAR} (diff)`);
   const a = path.join(os.tmpdir(), `sb-old-${process.pid}`), b = a + '-new';
   fs.writeFileSync(a, sb.orig); fs.writeFileSync(b, sb.content);
-  try { execFileSync('diff', ['-u', a, b], { encoding: 'utf8' }); } catch (e) { console.log((e.stdout || '').split('\n').slice(2).map(l => '    ' + l).join('\n')); }
+  try { execFileSync('diff', ['-u', a, b], { encoding: 'utf8' }); } catch (e) { console.log(((e as { stdout?: string }).stdout || '').split('\n').slice(2).map(l => '    ' + l).join('\n')); }
   fs.unlinkSync(a); fs.unlinkSync(b);
   for (const n of sb.notes) console.log('    ' + n);
 }
@@ -425,4 +425,4 @@ for (const m of gitMoves) { // drop emptied directories
   }
 }
 for (const e of edits) fs.writeFileSync(path.join(ROOT, e.file), e.content);
-console.log('\nDone. Next: check-refs.js --old <old paths>, npm run refresh-front-matter, npm run compare-front-matter, npm run lint');
+console.log('\nDone. Next: check-refs.ts --old <old paths>, npm run refresh-front-matter, npm run compare-front-matter, npm run lint');

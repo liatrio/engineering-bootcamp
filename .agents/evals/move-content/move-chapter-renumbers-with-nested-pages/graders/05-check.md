@@ -4,4 +4,4 @@ focus: trace
 weight: 1
 ---
 
-The trace shows check-refs.js run after the move and printing check-refs: ok
+The trace shows check-refs.ts run after the move and printing check-refs: ok
