@@ -26,11 +26,10 @@ for (let i = 0; i < args.length; i++) {
 }
 
 const problems: string[] = [];
-const p0 = (dir: string, name: string) => path.join(dir, name).split(path.sep).join('/');
 const walk = (dir: string, out: string[] = []): string[] => {
   if (!fs.existsSync(dir)) return out;
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (e.name === 'node_modules' || e.name === '.git' || p0(dir, e.name) === '.agents/evals-workspace') continue;
+    if (e.name === 'node_modules' || e.name === '.git') continue;
     const p = path.join(dir, e.name);
     if (e.isDirectory()) walk(p, out); else out.push(p);
   }
