@@ -9,9 +9,23 @@ export interface DocsifyHook {
 
 export type DocsifyPlugin = (hook: DocsifyHook, vm: unknown) => void;
 
+/** The `window.$docsify` options this site sets. */
+export interface DocsifyConfig {
+  name?: string;
+  repo?: string;
+  loadSidebar?: boolean;
+  basePath?: string;
+  maxLevel?: number;
+  auto2top?: boolean;
+  search?: string;
+  pagination?: { previousText?: string; nextText?: string; crossChapter?: boolean };
+  alias?: Record<string, string>;
+  plugins?: DocsifyPlugin[];
+}
+
 declare global {
   interface Window {
-    $docsify?: { plugins?: DocsifyPlugin[] };
+    $docsify?: DocsifyConfig;
   }
 }
 

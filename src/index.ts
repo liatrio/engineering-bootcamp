@@ -1,5 +1,7 @@
+import './docksify-plugins/config'
 import './docksify-plugins/read-metadata'
 import './docksify-plugins/generate-chart'
 import './docksify-plugins/dark-mode'
 import './docksify-plugins/callouts'
 import './docksify-plugins/keyboard-nav'
+import './docksify-plugins/quizdown'
