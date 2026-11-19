@@ -1,4 +1,5 @@
 import './docksify-plugins/config'
+import './docksify-plugins/prism'
 import './docksify-plugins/read-metadata'
 import './docksify-plugins/generate-chart'
 import './docksify-plugins/dark-mode'
