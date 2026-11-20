@@ -41,4 +41,4 @@ const rawQuizdown = `
    > MCP doesn't typically use GraphQL as a transport layer.
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

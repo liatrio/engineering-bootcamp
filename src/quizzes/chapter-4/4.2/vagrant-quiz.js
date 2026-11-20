@@ -27,4 +27,4 @@ shuffleAnswers: true
 1. [ ] Either tool can create machine images and VMs, we just paired them because they go well together
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

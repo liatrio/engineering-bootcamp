@@ -43,4 +43,4 @@ shuffleQuestions: true
 	> Packer actually *is* capable of creating VMs for multiple platform types all at once. This is one of its many strengths 
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

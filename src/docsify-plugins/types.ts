@@ -1,8 +1,6 @@
 /** Docsify plugin hook registration, limited to the hooks this site uses. */
 export interface DocsifyHook {
-  beforeEach(
-    callback: (markdown: string, next: (markdown: string) => void) => void | Promise<void>,
-  ): void;
+  beforeEach(callback: (markdown: string, next: (markdown: string) => void) => void | Promise<void>): void;
   afterEach(callback: (html: string) => string): void;
   doneEach(callback: () => void): void;
 }

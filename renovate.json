@@ -1,17 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
+  "extends": ["config:recommended"],
   "automerge": true,
   "customManagers": [
     {
       "customType": "regex",
       "description": "Versioned npm packages loaded from unpkg or jsdelivr by the site",
-      "managerFilePatterns": [
-        "/^index\\.html$/",
-        "/^css/[^/]+\\.css$/"
-      ],
+      "managerFilePatterns": ["/^index\\.html$/", "/^css/[^/]+\\.css$/"],
       "matchStrings": [
         "(?:unpkg\\.com|cdn\\.jsdelivr\\.net/npm)/(?<depName>(?:@[\\w.-]+/)?[\\w.-]+)@(?<currentValue>\\d+\\.\\d+\\.\\d+)"
       ],
@@ -21,20 +16,12 @@
   ],
   "packageRules": [
     {
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
     },
     {
       "description": "Keep docsify and its plugins in one update; the link checker mirrors the installed docsify version",
-      "matchPackageNames": [
-        "docsify",
-        "docsify-copy-code",
-        "docsify-edit-on-github",
-        "docsify-pagination"
-      ],
+      "matchPackageNames": ["docsify", "docsify-copy-code", "docsify-edit-on-github", "docsify-pagination"],
       "groupName": "docsify"
     }
   ]

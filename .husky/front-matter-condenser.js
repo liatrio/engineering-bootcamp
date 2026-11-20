@@ -11,7 +11,6 @@ const SIDEBAR_PATH = path.join(__dirname, '../docs/_sidebar.md');
 
 async function main() {
     try {
-
         // See if we should update the master record
         const args = process.argv.slice(2);
         let update = false;
@@ -23,16 +22,16 @@ async function main() {
         // create a list of all markdown files that might contain front-matter
         const sidebar = fs.readFileSync(SIDEBAR_PATH, 'utf8');
 
-        const markdownFiles = sidebar.match(/\([^\)]+\.md\)/g);
+        const markdownFiles = sidebar.match(/\([^)]+\.md\)/g);
 
         // Remove parentheses and filter out addendum items
         const cleanedFiles = markdownFiles
-            .map(file => file.slice(1, -1))
-            .filter(file => !file.startsWith('addendum'))
-            .map(file => path.join(__dirname, '../docs/',  file ));
+            .map((file) => file.slice(1, -1))
+            .filter((file) => !file.startsWith('addendum'))
+            .map((file) => path.join(__dirname, '../docs/', file));
 
         // Read the master record and extract just the front matter.
-        let { data: masterRecord, content } = matter(fs.readFileSync(MASTER_RECORD_PATH, 'utf8'));
+        const { data: masterRecord, content } = matter(fs.readFileSync(MASTER_RECORD_PATH, 'utf8'));
 
         // Object where we will rebuild the master record
         let data = {};
@@ -61,12 +60,8 @@ async function main() {
         }
 
         // Create an array of key-value pairs and then sorts them alphabetically by the keys.
-        const sortedEntries = Object.entries(data).sort(
-            (a, b) => a[0].localeCompare(b[0])
-        );
-        const sortedMasterEntries = Object.entries(masterRecord).sort(
-            (a, b) => a[0].localeCompare(b[0])
-        );
+        const sortedEntries = Object.entries(data).sort((a, b) => a[0].localeCompare(b[0]));
+        const sortedMasterEntries = Object.entries(masterRecord).sort((a, b) => a[0].localeCompare(b[0]));
 
         // Create a new object from the sorted entries
         const sortedData = Object.fromEntries(sortedEntries);
@@ -89,14 +84,15 @@ async function main() {
                 console.error(`${yellow}Please review changes to ./docs/README.md${reset}`);
                 process.exit(1);
             }
-            console.error(`${yellow}Front matter missing from master record. Locally run \`npm run refresh-front-matter\`${reset}`);
+            console.error(
+                `${yellow}Front matter missing from master record. Locally run \`npm run refresh-front-matter\`${reset}`,
+            );
             process.exit(1);
         } else {
             // Continue with the commit.
             console.log(`${green}No changes to master record, proceeding with commit.${reset}`);
             process.exit(0);
         }
-
     } catch (error) {
         console.error('An error occurred:', error);
         process.exit(1);

@@ -159,8 +159,14 @@ function checkPage(file, rel, href) {
         }
         if (!fs.existsSync(resolved)) {
             const fix = hint([
-                [path.join(path.dirname(file), page), (p) => ` — links resolve from docs/, use "${path.relative(DOCS, p)}"`],
-                [path.join(ROOT, page.replace(/^\//, '')), (p) => ` — not under docs/, use ${REPO_TREE_URL}${path.relative(ROOT, p)}`],
+                [
+                    path.join(path.dirname(file), page),
+                    (p) => ` — links resolve from docs/, use "${path.relative(DOCS, p)}"`,
+                ],
+                [
+                    path.join(ROOT, page.replace(/^\//, '')),
+                    (p) => ` — not under docs/, use ${REPO_TREE_URL}${path.relative(ROOT, p)}`,
+                ],
             ]);
             problems.push(`${rel}: dead link "${href}"${fix}`);
             return;
@@ -189,7 +195,10 @@ for (const file of walk(DOCS)) {
         const target = href.split(/[?#]/)[0];
         if (ASSET.test(target)) {
             if (bang) checkAsset(file, rel, target);
-            else problems.push(`${rel}: "${href}" links to a local file, which Docsify routes as a page and 404s — embed it as an image or link to a public URL`);
+            else
+                problems.push(
+                    `${rel}: "${href}" links to a local file, which Docsify routes as a page and 404s — embed it as an image or link to a public URL`,
+                );
         } else {
             checkPage(file, rel, href);
         }
@@ -200,7 +209,11 @@ for (const file of walk(DOCS)) {
 // (`docs/<chapter>/img/<name>.png`, `/img/favicon.svg`), so match those as
 // repo-relative paths.
 const siteCode = (n) => /\.(js|css|html)$/.test(n);
-const siteRootRefs = [path.join(ROOT, 'index.html'), ...walk(path.join(ROOT, 'src'), siteCode), ...walk(path.join(ROOT, 'css'), siteCode)]
+const siteRootRefs = [
+    path.join(ROOT, 'index.html'),
+    ...walk(path.join(ROOT, 'src'), siteCode),
+    ...walk(path.join(ROOT, 'css'), siteCode),
+]
     .map((f) => fs.readFileSync(f, 'utf8'))
     .join('\n');
 const imgDirs = [
