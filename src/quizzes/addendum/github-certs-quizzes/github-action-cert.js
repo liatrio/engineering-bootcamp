@@ -235,19 +235,19 @@ on:
 > https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
 1. [x] Use \`concurrency\` on workflow level
 \`\`\`yaml
-concurrency: \$\{\{ github.workflow \}\}
+concurrency: $\{{ github.workflow }}
 \`\`\`
 1. [ ] Use \`queue\` on workflow level
 \`\`\`yaml
-queue: \$\{\{ github.workflow \}\}
+queue: $\{{ github.workflow }}
 \`\`\`
 1. [ ] Use \`order\` on workflow level
 \`\`\`yaml
-order: \$\{\{ github.workflow \}\}
+order: $\{{ github.workflow }}
 \`\`\`
 1. [ ] Use \`parallel\` on workflow level
 \`\`\`yaml
-parallel: \$\{\{ github.workflow \}\}
+parallel: $\{{ github.workflow }}
 \`\`\`
 
 # Your Pull Request analysis workflow uses multiple code analysis tools and takes about 20minutes to fully complete. It is triggered on \`pull_request\` event with \`branches\` filter set to \`master\`. Therefore if a developer pushes multiple commits within few minutes multiple workflows are running in parallel. How can You stop all previous workflow runs and only run the one with latest changes?
@@ -255,13 +255,13 @@ parallel: \$\{\{ github.workflow \}\}
 1. [x] Use concurrency with cancel-in-progress
 \`\`\`yaml
   concurrency:
-    group: \$\{\{ github.workflow }}-\$\{\{ github.ref \}\}
+    group: $\{{ github.workflow }}-$\{{ github.ref }}
     cancel-in-progress: true
 \`\`\`
 1. [ ] Use concurrency
 \`\`\`yaml
   concurrency:
-    group: \$\{\{ github.ref \}\}
+    group: $\{{ github.ref }}
 \`\`\`
 > This would queue runs on that github ref. It will not stop previous runs
 
@@ -290,12 +290,12 @@ parallel: \$\{\{ github.workflow \}\}
     job2:
       needs: job1
     job3:
-      if: \$\{\{ always() \}\}
+      if: $\{{ always() }}
       needs: [job1, job2]
 \`\`\`
 > https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-not-requiring-successful-dependent-jobs
 1. [x] job3 will run after job1 and job2 have completed, regardless of whether they were successful
-1. [ ] You cannot use \`if: \$\{\{ always() \}\}\` and \`needs\` together. The workflow will fail on startup.
+1. [ ] You cannot use \`if: $\{{ always() }}\` and \`needs\` together. The workflow will fail on startup.
 1. [ ] job3 will run after job1 and job2 have been successfully completed
 1. [ ] job3 will run after both job1 and job2 have failed
 
@@ -310,10 +310,10 @@ parallel: \$\{\{ github.workflow \}\}
 \`\`\`
 > https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
 - [x] \`if: github.repository == 'my-org/my-repo'\`
-- [x] \`if: \$\{\{ github.repository == 'my-org/my-repo' \}\}\`
-- [ ] \`if: \$\{\{ github.organization == 'my-org' && github.repository == 'my-repo' \}\}\`
+- [x] \`if: $\{{ github.repository == 'my-org/my-repo' }}\`
+- [ ] \`if: $\{{ github.organization == 'my-org' && github.repository == 'my-repo' }}\`
 > https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
-- [ ] \`if: \$\{\{ github.org == 'my-org' && github.repository == 'my-repo' \}\}\`
+- [ ] \`if: $\{{ github.org == 'my-org' && github.repository == 'my-repo' }}\`
 > https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
 
 # What Github-hosted runner types are available to use?
@@ -406,10 +406,10 @@ parallel: \$\{\{ github.workflow \}\}
 \`\`\`
 > https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
 1. [x] \`run: echo "$action_state"\`
-1. [ ] \`run: echo "\$\{\{ steps.step_one.outputs.action_state \}\}"\`
+1. [ ] \`run: echo "$\{{ steps.step_one.outputs.action_state }}"\`
 > That would be the case if \`action_state\` was written to \`$GITHUB_OUTPUT\`
 1. [ ] \`run: echo "$steps.step_one.outputs.action_state"\`
-1. [ ] \`run: echo "\$\{\{ action_state \}\}"\`
+1. [ ] \`run: echo "$\{{ action_state }}"\`
 
 # Is this statement true? \`Workflows can be reused, but a reusable workflow cannot call another reusable workflow.\`
 > https://docs.github.com/en/actions/using-workflows/reusing-workflows#nesting-reusable-workflows
@@ -605,12 +605,12 @@ Metadata examples: name, description, outputs or required inputs
 - [ ] \`GITHUB_ORGANIZATION\`
 - [ ] \`GITHUB_TOKEN\`
 
-# Your organization defines a secret \`SomeSecret\`, however when You reference that secret in a workflow using \`\$\{\{ secrets.SomeSecret \}\}\` it provides a different value than expected. What may be the reason for that?
+# Your organization defines a secret \`SomeSecret\`, however when You reference that secret in a workflow using \`$\{{ secrets.SomeSecret }}\` it provides a different value than expected. What may be the reason for that?
 > https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#naming-your-secrets
 1. [x] The secret \`SomeSecret\` is also declared in repository scope
 1. [ ] The secret \`SomeSecret\` is also declared in enterprise scope
 > If a secret with the same name exists at multiple levels, the secret at the lowest level takes precedence.
-1. [ ] \`\$\{\{ secrets.SomeSecret \}\}\` expression is only used for repository scoped secrets
+1. [ ] \`$\{{ secrets.SomeSecret }}\` expression is only used for repository scoped secrets
 1. [ ] You need to use the GitHub API to access organization scoped secrets
 
 # Which is a correct way to print a debug message?
@@ -620,4 +620,5 @@ Metadata examples: name, description, outputs or required inputs
 1. [ ] \`echo "::debug::message=Watch out here!"\`
 1. [ ] \`echo "Watch out here!" >> $GITHUB_DEBUG\`
 `;
-export { rawQuizdown }
+
+export { rawQuizdown };

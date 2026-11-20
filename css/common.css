@@ -1,21 +1,21 @@
 :root {
-  --font-family: 'Open Sans', sans-serif;
-  --font-family-mono: 'Inconsolata', monospace;
+  --font-family: "Open Sans", sans-serif;
+  --font-family-mono: "Inconsolata", monospace;
   --font-size: 14px;
   --font-weight-mono: 500;
 
-  --theme-color: #24AE1D;
+  --theme-color: #24ae1d;
   --sidebar-width: 22rem;
 
   --callout-tint: 8%;
 }
 
-:root[data-theme='dark'] {
+:root[data-theme="dark"] {
   --callout-tint: 14%;
 }
 
 /* The brand green is 2.9:1 on white, so text in that colour uses a darker shade in light mode. */
-:root:not([data-theme='dark']) {
+:root:not([data-theme="dark"]) {
   --sidebar-link-color-active: #1b7f16;
   --link-color-hover: #1b7f16;
 }
@@ -27,8 +27,8 @@
 }
 
 /* The light and dark variants of an image pair up through these classes. */
-:root:not([data-theme='dark']) [class*='dark-mode'],
-:root[data-theme='dark'] [class*='light-mode'] {
+:root:not([data-theme="dark"]) [class*="dark-mode"],
+:root[data-theme="dark"] [class*="light-mode"] {
   display: none !important;
 }
 
@@ -36,24 +36,28 @@
  * v5's chevron class marks page links that expand to their headings. subMaxLevel is 0,
  * so no page link expands: only chapter groups keep a chevron, plus the active page's dot.
  */
-body[class*='sidebar-chevron'] .sidebar-nav li:not(.active) > a.page-link {
+body[class*="sidebar-chevron"] .sidebar-nav li:not(.active) > a.page-link {
   background: none;
 }
 
-.pagination-item, .pagination-item-title, .pagination-item-label {
-    opacity: .8 !important;
-    transition: all .2s;
-    transition-property: all;
-    transition-duration: 0.2s;
-    transition-timing-function: ease;
-    transition-delay: 0s;
+.pagination-item,
+.pagination-item-title,
+.pagination-item-label {
+  opacity: 0.8 !important;
+  transition: all 0.2s;
+  transition-property: all;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
 }
 
 .pagination-item:hover {
-    opacity: 1 !important;
+  opacity: 1 !important;
 }
 
-.grid2, .grid3, .grid4 {
+.grid2,
+.grid3,
+.grid4 {
   width: 100%;
 }
 
@@ -121,60 +125,60 @@ body[class*='sidebar-chevron'] .sidebar-nav li:not(.active) > a.page-link {
 }
 
 #dark_mode .fas.fa-sun {
-  margin-right: .5ex;
+  margin-right: 0.5ex;
 }
 
 #dark_mode .fas.fa-moon {
-  margin-left: .5ex;
+  margin-left: 0.5ex;
 }
 
-#dark_mode input[type=checkbox]{
-	height: 0;
-	width: 0;
-	visibility: hidden;
+#dark_mode input[type="checkbox"] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
 }
 
 #dark_mode label {
-	cursor: pointer;
-	text-indent: -9999px;
-	width: 48px;
-	height: 24px;
-	background: grey;
-	display: inline-block;
-	border-radius: 24px;
-	position: relative;
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 48px;
+  height: 24px;
+  background: grey;
+  display: inline-block;
+  border-radius: 24px;
+  position: relative;
 }
 
 #dark_mode label:after {
-	content: '';
-	position: absolute;
-	top: 3px;
-	left: 3px;
-	width: 18px;
-	height: 18px;
-	background: #fff;
-	border-radius: 18px;
-	transition: 0.3s;
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 18px;
+  transition: 0.3s;
 }
 
 #dark_mode input:checked + label {
-	background: var(--theme-color);
+  background: var(--theme-color);
 }
 
 #dark_mode input:checked + label:after {
-	left: calc(100% - 3px);
-	transform: translateX(-100%);
+  left: calc(100% - 3px);
+  transform: translateX(-100%);
 }
 
 #dark_mode label:active:after {
-	width: 42px;
+  width: 42px;
 }
 
 #dark_mode body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 /*
@@ -189,18 +193,24 @@ body[class*='sidebar-chevron'] .sidebar-nav li:not(.active) > a.page-link {
  * because core-dark.css sets `--callout-border-color` with a more specific selector.
  */
 .markdown-section .callout {
-	--callout-badge: #1f6feb;
-	border-color: var(--callout-badge);
-	background: color-mix(in srgb, var(--callout-badge) var(--callout-tint), var(--color-bg));
+  --callout-badge: #1f6feb;
+  border-color: var(--callout-badge);
+  background: color-mix(in srgb, var(--callout-badge) var(--callout-tint), var(--color-bg));
 }
 
 .markdown-section .callout::before {
-	background-color: var(--callout-badge);
+  background-color: var(--callout-badge);
 }
 
-.markdown-section .callout.tip { --callout-badge: #238636; }
-.markdown-section .callout.important { --callout-badge: #8957e5; }
-.markdown-section .callout.caution { --callout-badge: #da3633; }
+.markdown-section .callout.tip {
+  --callout-badge: #238636;
+}
+.markdown-section .callout.important {
+  --callout-badge: #8957e5;
+}
+.markdown-section .callout.caution {
+  --callout-badge: #da3633;
+}
 
 /*
  * v5's warning icon is an amber badge with a brown glyph, but its data URI holds an
@@ -208,12 +218,13 @@ body[class*='sidebar-chevron'] .sidebar-nav li:not(.active) > a.page-link {
  * caution glyph, white like the other types, on the same badge colour scheme.
  */
 .markdown-section .callout.warning {
-	--callout-badge: #9a6700;
-	--callout-charm-bg: var(--callout-badge) center no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='13' height='13' fill='white'%3E%3Cpath d='M10 14C10 15.1 9.1 16 8 16 6.9 16 6 15.1 6 14 6 12.9 6.9 12 8 12 9.1 12 10 12.9 10 14Z'/%3E%3Cpath d='M10 1.6C10 1.2 9.8 0.9 9.6 0.7 9.2 0.3 8.6 0 8 0 7.4 0 6.8 0.2 6.5 0.6 6.2 0.9 6 1.2 6 1.6 6 1.7 6 1.8 6 1.9L6.8 9.6C6.9 9.9 7 10.1 7.2 10.2 7.4 10.4 7.7 10.5 8 10.5 8.3 10.5 8.6 10.4 8.8 10.3 9 10.1 9.1 9.9 9.2 9.6L10 1.9C10 1.8 10 1.7 10 1.6Z'/%3E%3C/svg%3E");
+  --callout-badge: #9a6700;
+  --callout-charm-bg: var(--callout-badge) center no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='13' height='13' fill='white'%3E%3Cpath d='M10 14C10 15.1 9.1 16 8 16 6.9 16 6 15.1 6 14 6 12.9 6.9 12 8 12 9.1 12 10 12.9 10 14Z'/%3E%3Cpath d='M10 1.6C10 1.2 9.8 0.9 9.6 0.7 9.2 0.3 8.6 0 8 0 7.4 0 6.8 0.2 6.5 0.6 6.2 0.9 6 1.2 6 1.6 6 1.7 6 1.8 6 1.9L6.8 9.6C6.9 9.9 7 10.1 7.2 10.2 7.4 10.4 7.7 10.5 8 10.5 8.3 10.5 8.6 10.4 8.8 10.3 9 10.1 9.1 9.9 9.2 9.6L10 1.9C10 1.8 10 1.7 10 1.6Z'/%3E%3C/svg%3E");
 }
 
 .markdown-section .callout-title {
-	margin: 0 0 0.5em;
-	font-weight: var(--strong-font-weight);
-	line-height: var(--callout-charm-size);
+  margin: 0 0 0.5em;
+  font-weight: var(--strong-font-weight);
+  line-height: var(--callout-charm-size);
 }

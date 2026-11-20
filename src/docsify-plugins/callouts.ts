@@ -1,4 +1,4 @@
-import { registerPlugin, type DocsifyHook } from './types';
+import { type DocsifyHook, registerPlugin } from './types';
 
 // Docsify renders `> [!NOTE]` as `<div class="callout note">` and drops the
 // marker, so add the type's name as text, like GitHub's alert title.

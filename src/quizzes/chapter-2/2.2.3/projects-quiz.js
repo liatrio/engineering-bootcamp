@@ -10,4 +10,4 @@ const rawQuizdown = `
 1. [ ] Neither are true
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

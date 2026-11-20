@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { execFileSync } from 'child_process';
 /*
  * lesson-style-check mechanical scanner (read-only reporter). Exits 0 whether or not it
  * finds anything; exits 2 if it crashes, so a broken scan is never mistaken for a clean one.
@@ -21,9 +22,11 @@
  */
 import fs from 'fs';
 import path from 'path';
-import { execFileSync } from 'child_process';
+
 let matter: typeof import('gray-matter');
-try { matter = (await import('gray-matter')).default; } catch (e) {
+try {
+  matter = (await import('gray-matter')).default;
+} catch (e) {
   process.stderr.write('scan.ts: missing dependency gray-matter; run npm install from the repo root\n');
   process.exit(2);
 }
@@ -93,7 +96,13 @@ interface MdNode {
   children?: MdNode[];
   position: { start: { line: number } };
 }
-interface Finding { file: string; line: number; pattern: number; kind: string; text: string }
+interface Finding {
+  file: string;
+  line: number;
+  pattern: number;
+  kind: string;
+  text: string;
+}
 
 function textOf(node: MdNode): string {
   if (node.type === 'text' || node.type === 'inlineCode') return node.value;
@@ -110,11 +119,7 @@ function headingText(node: MdNode): string {
 function excerpt(value: string, idx: number, len: number) {
   const from = Math.max(0, idx - 30);
   const to = Math.min(value.length, idx + len + 30);
-  return (
-    (from > 0 ? '...' : '') +
-    value.slice(from, to).replace(/\s+/g, ' ').trim() +
-    (to < value.length ? '...' : '')
-  );
+  return (from > 0 ? '...' : '') + value.slice(from, to).replace(/\s+/g, ' ').trim() + (to < value.length ? '...' : '');
 }
 
 function lineAt(node: MdNode, value: string, idx: number) {
@@ -124,7 +129,10 @@ function lineAt(node: MdNode, value: string, idx: number) {
 }
 
 function isTitleCase(text: string) {
-  const words = text.trim().split(/\s+/).filter((w: string) => /[A-Za-z]/.test(w));
+  const words = text
+    .trim()
+    .split(/\s+/)
+    .filter((w: string) => /[A-Za-z]/.test(w));
   if (words.length < 2) return false;
   const content = words.filter((w: string, i: number) => i === 0 || !MINOR.has(w.toLowerCase()));
   const rest = content.slice(1);
@@ -155,7 +163,9 @@ function blankFrontMatter(src: string) {
 
 async function main() {
   let remark;
-  try { ({ remark } = await import('remark')); } catch (e) {
+  try {
+    ({ remark } = await import('remark'));
+  } catch (e) {
     process.stderr.write('scan.ts: missing dependency remark; run npm install from the repo root\n');
     process.exit(2);
   }
@@ -169,7 +179,8 @@ async function main() {
     let section = 0;
     const announcers = new Map<number, { line: number; text: string }[]>(); // section index -> openers found
 
-    const add = (line: number, pattern: number, kind: string, text: string) => findings.push({ file, line, pattern, kind, text });
+    const add = (line: number, pattern: number, kind: string, text: string) =>
+      findings.push({ file, line, pattern, kind, text });
 
     const scanText = (node: MdNode, parent?: MdNode | null) => {
       const v = node.value;
@@ -224,9 +235,7 @@ async function main() {
     }
   }
 
-  findings.sort((a, b) =>
-    a.file === b.file ? a.line - b.line || a.pattern - b.pattern : a.file < b.file ? -1 : 1,
-  );
+  findings.sort((a, b) => (a.file === b.file ? a.line - b.line || a.pattern - b.pattern : a.file < b.file ? -1 : 1));
   if (asJson) {
     process.stdout.write(JSON.stringify(findings, null, 2) + '\n');
   } else {
@@ -237,8 +246,7 @@ async function main() {
   process.stderr.write(`scan.ts: ${files.length} file(s), ${findings.length} finding(s)\n`);
 }
 
-main()
-  .catch((e) => {
-    process.stderr.write(`scan.ts: error: ${e && e.message}\n`);
-    process.exitCode = 2;
-  });
+main().catch((e) => {
+  process.stderr.write(`scan.ts: error: ${e && e.message}\n`);
+  process.exitCode = 2;
+});

@@ -39,4 +39,4 @@ shuffleAnswers: true
 
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

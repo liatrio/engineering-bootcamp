@@ -25,4 +25,4 @@ shuffleAnswers: true
 	> This will never be the case. GitHub actions by nature need a runner to execute them
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

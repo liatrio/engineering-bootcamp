@@ -50,4 +50,4 @@ You may choose to explore more about permissions [here](https://mason.gmu.edu/~m
 1. [ ] Group has Read and Write permissions
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

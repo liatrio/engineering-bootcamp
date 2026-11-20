@@ -92,4 +92,4 @@ permissions:
   > Sure, why not!
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };
