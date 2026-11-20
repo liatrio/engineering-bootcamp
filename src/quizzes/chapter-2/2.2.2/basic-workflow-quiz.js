@@ -32,4 +32,4 @@ shuffleAnswers: true
 	> Good. Typically you'd want to have both of the above triggers. Manual is very useful for development and testing as it reduces TOIL, while a push trigger is necessary for automation
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

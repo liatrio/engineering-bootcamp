@@ -39,4 +39,4 @@ shuffleAnswers: true
     > Not quite. You don't even need a values file to source and inflate a Helm Chart, as all values have defaults.
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

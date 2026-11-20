@@ -149,4 +149,4 @@ UPDATE products SET quantity = ? WHERE id = ? AND version = ?
 	> Not quite. Pessimistic Locking is about concurrency control, not storage abstraction.
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

@@ -118,4 +118,4 @@ shuffleAnswers: true
 	> Not quite. Pragmatism matters. Premature abstraction is worse than premature optimization. Code should be easy to change when needed, not pre-changed for every possible future.
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

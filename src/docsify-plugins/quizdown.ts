@@ -1,4 +1,4 @@
-import { registerPlugin, type DocsifyHook } from './types';
+import { type DocsifyHook, registerPlugin } from './types';
 
 const config = {
   locale: 'en',
@@ -28,10 +28,7 @@ const quizzes = (hook: DocsifyHook) => {
           quizdown.createApp(module.rawQuizdown, node, config);
         })
         .catch((error) => {
-          console.error(
-            "Error importing quiz, make sure the file name matches the quizdown inner div's id: ",
-            error,
-          );
+          console.error("Error importing quiz, make sure the file name matches the quizdown inner div's id: ", error);
         });
     }
   });

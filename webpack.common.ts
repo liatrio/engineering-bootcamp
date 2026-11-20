@@ -1,18 +1,18 @@
-const path = require('path');
-const stdLibBrowser = require('node-stdlib-browser');
-const { NodeProtocolUrlPlugin } = require('node-stdlib-browser/helpers/webpack/plugin');
-const webpack = require('webpack');
+import path from 'node:path';
+import stdLibBrowser from 'node-stdlib-browser';
+import { NodeProtocolUrlPlugin } from 'node-stdlib-browser/helpers/webpack/plugin';
+import webpack, { type Configuration } from 'webpack';
 
-module.exports = {
+const config: Configuration = {
   entry: './src/index.ts',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
-    clean: true
+    path: path.resolve(import.meta.dirname, 'dist'),
+    clean: true,
   },
   resolve: {
     alias: stdLibBrowser,
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
   },
   module: {
     rules: [
@@ -21,14 +21,14 @@ module.exports = {
         // parse them as CommonJS/auto so webpack does not treat them as strict ESM.
         test: /node_modules[\\/]quizdown[\\/]public[\\/]build[\\/].*\.js$/,
         type: 'javascript/auto',
-        resolve: { fullySpecified: false }
+        resolve: { fullySpecified: false },
       },
       {
         // Docsify's theme stylesheets are linked from index.html. Emitting them next
         // to main.js keeps them at the installed docsify version, with no CDN.
         test: /docsify[\\/]dist[\\/]themes[\\/].*\.min\.css$/,
         type: 'asset/resource',
-        generator: { filename: 'themes/[name][ext]' }
+        generator: { filename: 'themes/[name][ext]' },
       },
       {
         test: /\.[jt]s$/,
@@ -36,17 +36,19 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-typescript']
-          }
-        }
-      }
-    ]
+            presets: ['@babel/preset-env', '@babel/preset-typescript'],
+          },
+        },
+      },
+    ],
   },
   plugins: [
     new NodeProtocolUrlPlugin(),
     new webpack.ProvidePlugin({
       process: stdLibBrowser.process,
-      Buffer: [stdLibBrowser.buffer, 'Buffer']
-    })
-  ]
+      Buffer: [stdLibBrowser.buffer, 'Buffer'],
+    }),
+  ],
 };
+
+export default config;

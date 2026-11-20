@@ -1,4 +1,4 @@
-import { registerPlugin, type DocsifyHook } from './types';
+import { type DocsifyHook, registerPlugin } from './types';
 
 const STORAGE_KEY = 'dark_mode';
 const SWITCH_ID = 'dark_mode_switch';
@@ -7,9 +7,7 @@ const DARK_SHEET_ID = 'dark-theme';
 // Visitors who never used the switch get their operating system's setting.
 function isDark() {
   const stored = localStorage.getItem(STORAGE_KEY);
-  return stored === null
-    ? window.matchMedia('(prefers-color-scheme: dark)').matches
-    : stored === 'true';
+  return stored === null ? window.matchMedia('(prefers-color-scheme: dark)').matches : stored === 'true';
 }
 
 // core-dark.css sets its variables on :root unconditionally, so the sheet is

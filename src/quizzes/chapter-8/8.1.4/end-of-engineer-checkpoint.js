@@ -29,4 +29,4 @@ shuffleAnswers: true
 - [ ] To update the Terraform state.
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

@@ -36,4 +36,4 @@ shuffleAnswers: true
 2. [x] False
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };
