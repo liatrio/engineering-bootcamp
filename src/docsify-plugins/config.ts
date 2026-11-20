@@ -9,6 +9,7 @@ const config: DocsifyConfig = {
   name: "Liatrio's Engineering Bootcamp",
   repo: 'liatrio/engineering-bootcamp',
   loadSidebar: true,
+  collapsibleSidebarGroups: true,
   basePath: '/docs/',
   maxLevel: 0,
   auto2top: true,

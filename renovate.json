@@ -33,8 +33,7 @@
         "docsify",
         "docsify-copy-code",
         "docsify-edit-on-github",
-        "docsify-pagination",
-        "docsify-sidebar-collapse"
+        "docsify-pagination"
       ],
       "groupName": "docsify"
     }

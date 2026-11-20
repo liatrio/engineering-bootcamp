@@ -2,10 +2,23 @@ import { registerPlugin, type DocsifyHook } from './types';
 
 const STORAGE_KEY = 'dark_mode';
 const SWITCH_ID = 'dark_mode_switch';
+const DARK_SHEET_ID = 'dark-theme';
 
+// Visitors who never used the switch get their operating system's setting.
+function isDark() {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored === null
+    ? window.matchMedia('(prefers-color-scheme: dark)').matches
+    : stored === 'true';
+}
+
+// core-dark.css sets its variables on :root unconditionally, so the sheet is
+// switched on and off through its media attribute. css/common.css reads
+// `data-theme` for the rules that differ between modes.
 function applyTheme(dark: boolean) {
-  (document.getElementById('light-theme') as HTMLLinkElement).disabled = dark;
-  (document.getElementById('dark-theme') as HTMLLinkElement).disabled = !dark;
+  const sheet = document.getElementById(DARK_SHEET_ID) as HTMLLinkElement;
+  sheet.media = dark ? 'all' : 'not all';
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
 }
 
 // The switch lives in the sidebar, which Docsify re-renders, so listen on the
@@ -20,14 +33,15 @@ document.addEventListener('change', (event) => {
   localStorage.setItem(STORAGE_KEY, dark ? 'true' : 'false');
 });
 
+// Apply the saved theme as soon as the bundle runs, before Docsify renders.
+applyTheme(isDark());
+
 const darkMode = (hook: DocsifyHook) => {
   hook.doneEach(() => {
-    const dark = localStorage.getItem(STORAGE_KEY) === 'true';
     const darkModeSwitch = document.getElementById(SWITCH_ID) as HTMLInputElement | null;
     if (darkModeSwitch) {
-      darkModeSwitch.checked = dark;
+      darkModeSwitch.checked = isDark();
     }
-    applyTheme(dark);
   });
 };
 

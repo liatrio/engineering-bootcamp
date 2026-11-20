@@ -1,19 +1,43 @@
 :root {
-  --base-font-size: 14px;
-  --base-font-family: 'Open Sans', sans-serif;
+  --font-family: 'Open Sans', sans-serif;
+  --font-family-mono: 'Inconsolata', monospace;
+  --font-size: 14px;
+  --font-weight-mono: 500;
 
-  --code-font-family: 'Inconsolata', monospace;
-  --code-font-size: 14px;
-  --code-font-weight: 500;
-
-  --blockquote-em-font-style: italic;
-
-  --theme-color   : #24AE1D;
-  --selection-color      : #c3e788;
+  --theme-color: #24AE1D;
   --sidebar-width: 22rem;
-	
-  /* Docsify v5 reads this to tell phones from desktop; docsify-themeable doesn't define it. */
-  --_mobile-breakpoint: 47.99em;
+
+  --callout-tint: 8%;
+}
+
+:root[data-theme='dark'] {
+  --callout-tint: 14%;
+}
+
+/* The brand green is 2.9:1 on white, so text in that colour uses a darker shade in light mode. */
+:root:not([data-theme='dark']) {
+  --sidebar-link-color-active: #1b7f16;
+  --link-color-hover: #1b7f16;
+}
+
+/* The default placeholder is under 4.5:1 in both modes. */
+.sidebar .search input::placeholder {
+  color: var(--color-mono-7);
+  opacity: 1;
+}
+
+/* The light and dark variants of an image pair up through these classes. */
+:root:not([data-theme='dark']) [class*='dark-mode'],
+:root[data-theme='dark'] [class*='light-mode'] {
+  display: none !important;
+}
+
+/*
+ * v5's chevron class marks page links that expand to their headings. subMaxLevel is 0,
+ * so no page link expands: only chapter groups keep a chevron, plus the active page's dot.
+ */
+body[class*='sidebar-chevron'] .sidebar-nav li:not(.active) > a.page-link {
+  background: none;
 }
 
 .pagination-item, .pagination-item-title, .pagination-item-label {
@@ -29,7 +53,7 @@
     opacity: 1 !important;
 }
 
-.grid2, .grid3, .grid3 {
+.grid2, .grid3, .grid4 {
   width: 100%;
 }
 
@@ -154,112 +178,42 @@
 }
 
 /*
- * Search: docsify-themeable hides `.results-panel` until v4's search plugin adds
- * `.show`. The v5 plugin never adds it and hides the panel with `:empty` instead,
- * so show the panel whenever it holds results.
- */
-.sidebar .search .results-panel:not(:empty) {
-	display: block;
-}
-
-/* v5's clear button labels itself with `.visually-hidden`, which only v5's core theme defines. */
-.search .visually-hidden {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
-	clip-path: inset(50%);
-	white-space: nowrap;
-}
-
-/*
- * Callouts: Docsify v5 renders `> [!TIP]`, `> [!WARNING]`, ... as `.callout.<type>`.
- * docsify-themeable only styles v4's `.tip`/`.warn`, so every type is styled here.
- * Each type's colour comes from css/light.css or css/dark.css (`--callout-<type>`).
- * Docsify strips the `[!TYPE]` marker, so the plugin in src/docsify-plugins/callouts.ts opens each callout
- * with `<p class="callout-title">` naming its type, like GitHub's alert title. Before
- * the title, an SVG mask filled with the type's colour draws an icon with a distinct shape.
+ * Callouts: Docsify v5 renders `> [!TIP]`, `> [!WARNING]`, ... as `.callout.<type>` and
+ * its theme draws a coloured icon badge. The plugin in src/docsify-plugins/callouts.ts
+ * opens each callout with `<p class="callout-title">` naming its type, like GitHub's
+ * alert title. The title's line box matches the badge so the two line up.
+ *
+ * v5's badge and border colours miss 3:1 against the page in places, so each type gets
+ * one `--callout-badge` colour that holds 3:1 against both the light and dark page and
+ * 3:1 against the white icon drawn on it. The border and background are set as properties
+ * because core-dark.css sets `--callout-border-color` with a more specific selector.
  */
 .markdown-section .callout {
-	--callout-color: var(--callout-note);
-	--callout-icon: var(--callout-icon-note);
-	margin: 2em 0;
-	padding: 1em 1.5em;
-	border: 0 solid var(--callout-color);
-	border-left-width: 4px;
-	border-radius: var(--notice-border-radius);
-	background: color-mix(in srgb, var(--callout-color) var(--callout-tint), transparent);
-	color: inherit;
+	--callout-badge: #1f6feb;
+	border-color: var(--callout-badge);
+	background: color-mix(in srgb, var(--callout-badge) var(--callout-tint), var(--color-bg));
 }
 
-/* docsify-themeable draws a badge in `.tip::before`; the title replaces it. */
 .markdown-section .callout::before {
-	content: none;
+	background-color: var(--callout-badge);
+}
+
+.markdown-section .callout.tip { --callout-badge: #238636; }
+.markdown-section .callout.important { --callout-badge: #8957e5; }
+.markdown-section .callout.caution { --callout-badge: #da3633; }
+
+/*
+ * v5's warning icon is an amber badge with a brown glyph, but its data URI holds an
+ * unescaped `#`, which cuts the SVG off and leaves the badge empty. This is v5's
+ * caution glyph, white like the other types, on the same badge colour scheme.
+ */
+.markdown-section .callout.warning {
+	--callout-badge: #9a6700;
+	--callout-charm-bg: var(--callout-badge) center no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='13' height='13' fill='white'%3E%3Cpath d='M10 14C10 15.1 9.1 16 8 16 6.9 16 6 15.1 6 14 6 12.9 6.9 12 8 12 9.1 12 10 12.9 10 14Z'/%3E%3Cpath d='M10 1.6C10 1.2 9.8 0.9 9.6 0.7 9.2 0.3 8.6 0 8 0 7.4 0 6.8 0.2 6.5 0.6 6.2 0.9 6 1.2 6 1.6 6 1.7 6 1.8 6 1.9L6.8 9.6C6.9 9.9 7 10.1 7.2 10.2 7.4 10.4 7.7 10.5 8 10.5 8.3 10.5 8.6 10.4 8.8 10.3 9 10.1 9.1 9.9 9.2 9.6L10 1.9C10 1.8 10 1.7 10 1.6Z'/%3E%3C/svg%3E");
 }
 
 .markdown-section .callout-title {
-	display: flex;
-	align-items: center;
-	gap: 0.5em;
 	margin: 0 0 0.5em;
-	color: color-mix(in srgb, var(--callout-color), var(--callout-title-mix));
-	font-weight: 600;
-	line-height: 1.5;
+	font-weight: var(--strong-font-weight);
+	line-height: var(--callout-charm-size);
 }
-
-.markdown-section .callout-title::before {
-	content: "";
-	flex: none;
-	width: 1.25em;
-	height: 1.25em;
-	background: var(--callout-color);
-	-webkit-mask: var(--callout-icon) center / contain no-repeat;
-	mask: var(--callout-icon) center / contain no-repeat;
-}
-
-.markdown-section .callout > :first-child,
-.markdown-section .callout-title + * {
-	margin-top: 0;
-}
-
-.markdown-section .callout > :last-child {
-	margin-bottom: 0;
-}
-
-.markdown-section .callout.tip {
-	--callout-color: var(--callout-tip);
-	--callout-icon: var(--callout-icon-tip);
-}
-
-.markdown-section .callout.important {
-	--callout-color: var(--callout-important);
-	--callout-icon: var(--callout-icon-important);
-}
-
-.markdown-section .callout.warning {
-	--callout-color: var(--callout-warning);
-	--callout-icon: var(--callout-icon-warning);
-}
-
-.markdown-section .callout.caution {
-	--callout-color: var(--callout-caution);
-	--callout-icon: var(--callout-icon-caution);
-}
-
-:root {
-	--callout-icon-note: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='8' cy='8' r='6.5'/%3E%3Cpath d='M8 7.25v4'/%3E%3Ccircle cx='8' cy='4.9' r='.9' fill='%23000' stroke='none'/%3E%3C/svg%3E");
-	--callout-icon-tip: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 1.75a4.25 4.25 0 0 0-2.5 7.7v1.55h5V9.45A4.25 4.25 0 0 0 8 1.75Z'/%3E%3Cpath d='M6 13.25h4M6.75 15h2.5'/%3E%3C/svg%3E");
-	--callout-icon-important: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 2.5h11v8.25H8.25L5 13.5v-2.75H2.5Z'/%3E%3Cpath d='M8 4.75v2.75'/%3E%3Ccircle cx='8' cy='9.1' r='.9' fill='%23000' stroke='none'/%3E%3C/svg%3E");
-	--callout-icon-warning: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 1.75 14.75 13.75H1.25Z'/%3E%3Cpath d='M8 6v3.5'/%3E%3Ccircle cx='8' cy='11.6' r='.9' fill='%23000' stroke='none'/%3E%3C/svg%3E");
-	--callout-icon-caution: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.25 1.5h5.5l3.75 3.75v5.5l-3.75 3.75h-5.5L1.5 10.75v-5.5Z'/%3E%3Cpath d='M8 4.75v3.75'/%3E%3Ccircle cx='8' cy='10.9' r='.9' fill='%23000' stroke='none'/%3E%3C/svg%3E");
-}
-
-/*
- * Sidebar toggle: Docsify v5 toggles `.sidebar.show`, but docsify-themeable
- * only reacts to v4's `body.close`, so the burger button did nothing.
- */
-.sidebar.show { transform: translateX(var(--sidebar-width)); }
-.sidebar:not(.show) { transform: translateX(0); }
-.sidebar:not(.show) + .content { margin-left: 0; }
-body:has(.sidebar.show) .sidebar-toggle { transform: translateX(var(--sidebar-width)); }
-body:has(.sidebar:not(.show)) .sidebar-toggle { transform: translateX(0); }
