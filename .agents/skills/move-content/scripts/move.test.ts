@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 // Smoke test for move.ts and check-refs.ts on a throwaway git repo. Run from the repo root:
 //   node .agents/skills/move-content/scripts/move.test.ts
-import assert from 'assert';
-import fs from 'fs';
-import os from 'os';
-import path from 'path';
-import { spawnSync } from 'child_process';
+import assert from 'node:assert';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 
 const MOVE = path.join(import.meta.dirname, 'move.ts');
 const REFS = path.join(import.meta.dirname, 'check-refs.ts');

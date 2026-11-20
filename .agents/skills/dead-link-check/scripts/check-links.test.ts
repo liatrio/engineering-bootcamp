@@ -1,13 +1,13 @@
 // Offline test: node .agents/skills/dead-link-check/scripts/check-links.test.ts
 // Serves fixtures from a local http server; needs only node and curl.
-import http from 'http';
-import type { AddressInfo } from 'net';
-import fs from 'fs';
-import os from 'os';
-import path from 'path';
-import assert from 'assert';
-import { execFile } from 'child_process';
-import { promisify } from 'util';
+import http from 'node:http';
+import type { AddressInfo } from 'node:net';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import assert from 'node:assert';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 const execFileP = promisify(execFile);
 
 const SCRIPT = path.join(import.meta.dirname, 'check-links.ts');

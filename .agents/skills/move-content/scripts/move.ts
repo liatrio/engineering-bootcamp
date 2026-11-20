@@ -10,10 +10,10 @@
  * Run from the repo root. Only Node built-ins plus git are used.
  * See ../SKILL.md. Does not commit and never touches docs/README.md.
  */
-import fs from 'fs';
-import os from 'os';
-import path from 'path';
-import { execFileSync } from 'child_process';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 const ROOT = process.cwd();
 const DOCS = 'docs';
@@ -185,7 +185,10 @@ const imageWarnings: string[] = [];
   for (const f of docFiles.filter(f => f.endsWith('.md') && f !== SIDEBAR)) {
     const rel = f.slice(DOCS.length + 1);
     pageRefs[rel] = imageRefs(read(f)).map(h => path.posix.normalize(path.posix.join(path.posix.dirname(rel), h)));
-    for (const r of pageRefs[rel]) (users[r] = users[r] || new Set()).add(rel);
+    for (const r of pageRefs[rel]) {
+      users[r] = users[r] || new Set();
+      users[r].add(rel);
+    }
   }
   const folderOf = (p: string) => p.split('/')[0];
   for (const rel of Object.keys(pageRefs)) {
@@ -311,7 +314,7 @@ interface Block { lines: string[]; lead?: string[]; trail?: string[]; entries?: 
 function rewriteSidebar(text: string) {
   const notes: string[] = [];
   const touched = new Set<string>();
-  let lines = text.split('\n').map(l => {
+  const lines = text.split('\n').map(l => {
     const h = l.match(/^(- \*\*Chapter )(\d+)(\*\*\s*)$/);
     if (h) {
       const n = mapId(h[2]);
@@ -364,7 +367,7 @@ function rewriteSidebar(text: string) {
       const want = depth(e.id) - 2;
       return Math.round(e.indent.length / 2) === want ? e.line : '  '.repeat(want) + e.line.trimStart();
     });
-    [...mine, ...noId].forEach(e => placed.add(e));
+    for (const e of [...mine, ...noId]) placed.add(e);
   }
   const lost = pool.filter(e => !placed.has(e));
   if (lost.length) notes.push(`WARNING: sidebar entries with no chapter block to live in: ${lost.map(e => e.id).join(', ')}`);
@@ -420,7 +423,7 @@ for (const m of gitMoves) {
 for (const m of gitMoves) { // drop emptied directories
   let d = path.dirname(m.from);
   while (d && d !== '.' && d !== DOCS && d !== 'src' && d !== QUIZ) {
-    try { fs.rmdirSync(path.join(ROOT, d)); } catch (e) { break; }
+    try { fs.rmdirSync(path.join(ROOT, d)); } catch { break; }
     d = path.dirname(d);
   }
 }

@@ -10,8 +10,8 @@
  * Sidebar-target existence and README sync are left to npm run compare-front-matter; link and image
  * resolution is left to npm run lint:links.
  */
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const args = process.argv.slice(2);
 const olds: string[] = [];

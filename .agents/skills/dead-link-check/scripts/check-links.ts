@@ -15,11 +15,11 @@
  * --timeout S      curl --max-time seconds (default 10)
  * --json           emit JSON instead of TSV + summary
  */
-import fs from 'fs';
-import path from 'path';
-import net from 'net';
-import { spawn } from 'child_process';
-import { fileURLToPath } from 'url';
+import fs from 'node:fs';
+import path from 'node:path';
+import net from 'node:net';
+import { spawn } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
 const MIGRATION_MIN_FILES = 3;
@@ -87,7 +87,7 @@ function isPrivateHost(host: string): boolean {
   const family = net.isIP(h);
   return h === 'localhost' || (family !== 0 && PRIVATE_RANGES.check(h, family === 4 ? 'ipv4' : 'ipv6'));
 }
-const isLocal = (u: string) => { try { return isPrivateHost(new URL(u).hostname); } catch (e) { return false; } };
+const isLocal = (u: string) => { try { return isPrivateHost(new URL(u).hostname); } catch { return false; } };
 
 const ENTITIES: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };
 const decodeEntities = (s: string): string => s.replace(/&(?:#x([0-9a-f]+)|#(\d+)|(amp|lt|gt|quot|apos));/gi, (_: string, hex: string | undefined, dec: string | undefined, name: string | undefined) =>
@@ -113,8 +113,8 @@ const HTML_ATTR = /\b(?:href|src)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))/gi;
 
 async function extract(files: string[], includeLocal: boolean): Promise<Use[]> {
   let remark: typeof import('remark').remark;
-  try { ({ remark } = await import('remark')); } catch (e) {
-    process.stderr.write('check-links.ts: missing dependency remark; run npm install from the repo root\n');
+  try { ({ remark } = await import('remark')); } catch {
+    process.stderr.write('check-links.ts: missing dependency remark; run npm ci --prefix .agents\n');
     process.exit(2);
   }
   const processor = remark();
@@ -125,18 +125,16 @@ async function extract(files: string[], includeLocal: boolean): Promise<Use[]> {
     walkTree(tree, (node, inLink) => {
       const line = node.position!.start.line;
       if (node.type === 'text' && !inLink) {
-        let m;
         BARE_URL.lastIndex = 0;
-        while ((m = BARE_URL.exec(node.value!))) {
+        for (let m = BARE_URL.exec(node.value!); m; m = BARE_URL.exec(node.value!)) {
           const u = trimBare(m[0]);
           if (isHttp(u) && (includeLocal || !isLocal(u))) uses.push({ url: u, file, line: line + node.value!.slice(0, m.index).split('\n').length - 1 });
         }
       } else if (['link', 'definition', 'image'].includes(node.type)) {
         if (node.url && isHttp(node.url) && (includeLocal || !isLocal(node.url))) uses.push({ url: node.url, file, line });
       } else if (node.type === 'html') {
-        let m;
         HTML_ATTR.lastIndex = 0;
-        while ((m = HTML_ATTR.exec(node.value!))) {
+        for (let m = HTML_ATTR.exec(node.value!); m; m = HTML_ATTR.exec(node.value!)) {
           const u = decodeEntities(m[1] || m[2] || m[3] || '').trim();
           if (!isHttp(u) || (!includeLocal && isLocal(u))) continue;
           const extra = node.value!.slice(0, m.index).split('\n').length - 1;
@@ -177,7 +175,7 @@ function curlOnce(url: string, timeout: number): Promise<CurlOut> {
   });
 }
 
-function hostOf(u: string): string { try { return new URL(u).hostname; } catch (e) { return ''; } }
+function hostOf(u: string): string { try { return new URL(u).hostname; } catch { return ''; } }
 
 function classify(url: string, exit: number | null, out: string): LinkResult {
   const [code = '000', redirects = '0', ...rest] = out.split(' ');
@@ -212,7 +210,7 @@ function loadResults(file: string | null): Map<string, LinkResult> {
   if (file && fs.existsSync(file)) {
     for (const l of fs.readFileSync(file, 'utf8').split('\n')) {
       if (!l.trim()) continue;
-      try { const r = JSON.parse(l); map.set(r.url, r); } catch (e) { /* partial line from an interrupted run */ }
+      try { const r = JSON.parse(l); map.set(r.url, r); } catch { /* partial line from an interrupted run */ }
     }
   }
   return map;
@@ -228,7 +226,7 @@ function summarize(rows: Row[]) {
     const key = `${from} -> ${to}`;
     const g = groups.get(key) || { urls: 0, files: new Set(), sameHost: from === to };
     g.urls++;
-    r.uses.forEach((u) => g.files.add(u.file));
+    for (const u of r.uses) g.files.add(u.file);
     groups.set(key, g);
   }
   const redirectGroups = [...groups.entries()].map(([key, g]) => ({
