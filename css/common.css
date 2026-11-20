@@ -176,7 +176,7 @@
  * Callouts: Docsify v5 renders `> [!TIP]`, `> [!WARNING]`, ... as `.callout.<type>`.
  * docsify-themeable only styles v4's `.tip`/`.warn`, so every type is styled here.
  * Each type's colour comes from css/light.css or css/dark.css (`--callout-<type>`).
- * Docsify strips the `[!TYPE]` marker, so a plugin in index.html opens each callout
+ * Docsify strips the `[!TYPE]` marker, so the plugin in src/docsify-plugins/callouts.ts opens each callout
  * with `<p class="callout-title">` naming its type, like GitHub's alert title. Before
  * the title, an SVG mask filled with the type's colour draws an icon with a distinct shape.
  */

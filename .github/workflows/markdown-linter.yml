@@ -31,3 +31,6 @@ jobs:
       - name: Spell check
         if: ${{ !cancelled() }}
         run: npm run lint:spelling
+      - name: Typecheck
+        if: ${{ !cancelled() }}
+        run: npm run typecheck

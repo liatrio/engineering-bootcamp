@@ -11,6 +11,7 @@
     "serve:docsify": "docsify serve --port 3000",
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",
+    "typecheck": "tsc -p .",
     "lint": "npm run lint:markdown && npm run lint:links && npm run lint:spelling",
     "lint:markdown": "markdownlint-cli2 \"**/*.md\" \"!**/node_modules/**\" \"!**/.venv/**\" \"!**/specs/**\"",
     "lint:links": "node .husky/check-docsify-links.js",
@@ -37,15 +38,21 @@
   "dependencies": {
     "chart.js": "^4.3.0",
     "chartjs-chart-wordcloud": "^4.2.0",
-    "docsify": "^5.0.0",
+    "docsify": "5.1.0",
     "docsify-cli": "^5.0.0",
-    "docsify-sidebar-collapse": "^1.3.5",
+    "docsify-copy-code": "3.0.2",
+    "docsify-edit-on-github": "1.0.3",
+    "docsify-pagination": "2.10.1",
+    "docsify-sidebar-collapse": "1.3.5",
     "gray-matter": "^4.0.3",
-    "node-stdlib-browser": "^1.2.0"
+    "node-stdlib-browser": "^1.2.0",
+    "prismjs": "1.30.0",
+    "quizdown": "0.6.0"
   },
   "devDependencies": {
     "@babel/core": "^8.0.0",
     "@babel/preset-env": "^8.0.0",
+    "@babel/preset-typescript": "^8.0.7",
     "babel-loader": "^10.0.0",
     "cspell": "^10.0.0",
     "husky": "^9.0.11",

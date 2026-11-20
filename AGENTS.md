@@ -20,7 +20,7 @@ Canonical agent instructions for Liatrio's Engineering Bootcamp — a Docsify-ba
 - `docs/<chapter>/img/` — Images for that chapter's sections. The folder is unnumbered, so it moves with the chapter.
 - `docs/README.md` — Auto-generated master record. Regenerate with `npm run refresh-front-matter`; do not hand-edit the front-matter block.
 - `docs/_sidebar.md` — Navigation. Link every new section here; a sidebar entry pointing at a missing file makes the front-matter hook fail.
-- `src/` — Docsify plugins, quiz sources, webpack entry points.
+- `src/` — Docsify config and plugins (TypeScript, entry `src/index.ts`), quiz sources (plain `.js`, served as-is and imported by the browser at runtime, so a new quiz needs no rebuild), webpack entry points. `index.html` has one `<script src="dist/main.js">`: docsify, its plugins, prism and quizdown come from `package.json` and are bundled, so the site is blank until `npm run build:dev` (or `npm start`) has produced `dist/`. Import order in `src/index.ts` matters (`config` first, `start` last).
 - `.agents/skills/` — Canonical repo skills; list the directory to see what is available. `.claude/skills` and `.github/skills` are symlinks to it; add new skills here only.
 - `examples/` — Runnable code referenced from exercises (Go modules, docker-compose files, etc.).
 - `img/` — Site-wide assets shared across chapters (goal icons, favicon). Section-specific images go in the chapter's `img/` folder.
@@ -38,6 +38,7 @@ Copy these verbatim; do not paraphrase.
 - `npm start` — build dev bundle + serve Docsify on `http://localhost:3000`.
 - `npm run serve:docsify` — serve only, no rebuild.
 - `npm run build:dev` / `npm run build:prod` — webpack builds.
+- `npm run typecheck` — `tsc --noEmit` over the TypeScript in `src/`. Babel strips types at build time and does not check them.
 - `npm run lint` — runs `lint:markdown`, `lint:links` and `lint:spelling`. CI runs the same three scripts.
 - `npm run lint:markdown` — markdownlint-cli2 over all `.md` (see `package.json` for excluded directories).
 - `npm run lint:links` — check that every internal link, `#anchor`, and image in `docs/` resolves the way Docsify serves it, and that every file in an `img/` folder is used. Delete an image when you remove its last reference.
@@ -47,9 +48,10 @@ Copy these verbatim; do not paraphrase.
 
 Docker:
 
-- `docker build . -t engineering-bootcamp`
+- `docker build . -t engineering-bootcamp` — builds `dist/` in the image, so no local build is needed
 - `docker run -d -p 3000:3000 --name engineering-bootcamp engineering-bootcamp`
 - `docker compose up -d` / `docker compose down` (v2 syntax — see decision table below).
+  Compose mounts only `docs/`, `src/quizzes/`, `css/` and `img/`; changes under `src/*.ts` need `docker compose build`.
 
 There is no unit-test suite for the docs themselves. Go modules under `examples/` (e.g. `examples/terraform-provider/devops-api/`, `examples/data-patterns/`) do have `go test`; run it when touching those modules.
 
