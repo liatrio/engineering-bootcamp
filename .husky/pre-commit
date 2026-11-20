@@ -1,7 +1,7 @@
 ## Condense section front-matter into the master record (docs/README.md).
 ## Exits 1 when the master record changed, so the commit stops for you to stage it.
 echo "\033[33mStarting front matter precommit hook...\033[0m"
-node .husky/front-matter-condenser.js update
+node .husky/front-matter-condenser.ts update
 
 ## Markdown lint, Docsify links and images, and spelling: the same checks CI runs.
 echo "\033[33mStarting linter precommit hook...\033[0m"
