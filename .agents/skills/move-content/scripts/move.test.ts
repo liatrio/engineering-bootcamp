@@ -31,11 +31,11 @@ try {
   write('src/quizzes/chapter-3/3.2/q.js', 'const rawQuizdown = `# Q2`;\n');
   write('src/quizzes/chapter-3/3.3/q.js', 'const rawQuizdown = `# Q3`;\n');
   write('docs/_sidebar.md', [
-    '- [Welcome](/)', '', '- **Chapter 3**', '',
-    '- [3.1 - First](3-demo/3.1-first.md)',
-    '- [3.2 - Second](3-demo/3.2-second.md)',
-    '- [3.3 - Third](3-demo/3.3-third.md)',
-    '  - [3.3.1 - Third deep](3-demo/3.3.1-third-deep.md)', '',
+    '- [Welcome](/)', '', '- **Chapter 3**',
+    '  - [3.1 - First](3-demo/3.1-first.md)',
+    '  - [3.2 - Second](3-demo/3.2-second.md)',
+    '  - [3.3 - Third](3-demo/3.3-third.md)',
+    '    - [3.3.1 - Third deep](3-demo/3.3.1-third-deep.md)', '',
   ].join('\n'));
   commit();
   assert.strictEqual(node(REFS).status, 0, 'fixture starts consistent');
@@ -71,7 +71,7 @@ try {
   page('docs/3-demo/3.3.1-third-deep.md', 'Third deep', 'Deep.');
   write('src/quizzes/chapter-3/3.2/q.js', 'x\n');
   write('src/quizzes/chapter-3/3.3/q.js', 'x\n');
-  write('docs/_sidebar.md', '- **Chapter 3**\n\n- [3.1 - First](3-demo/3.1-first.md)\n- [3.2 - Second](3-demo/3.2-second.md)\n- [3.3 - Third](3-demo/3.3-third.md)\n  - [3.3.1 - Third deep](3-demo/3.3.1-third-deep.md)\n');
+  write('docs/_sidebar.md', '- **Chapter 3**\n  - [3.1 - First](3-demo/3.1-first.md)\n  - [3.2 - Second](3-demo/3.2-second.md)\n  - [3.3 - Third](3-demo/3.3-third.md)\n    - [3.3.1 - Third deep](3-demo/3.3.1-third-deep.md)\n');
   commit();
   let r = node(MOVE, '3.2', '3.3');
   assert.strictEqual(r.status, 0, r.stderr);
@@ -84,7 +84,7 @@ try {
   fresh();
   page('docs/3-demo/3.1-a.md', 'A', '[b](3-demo/3.2-b.md) [c](/docs/3-demo/3.2-b.md ":ignore") [d](3-demo/3.2-b.md#h ":class=btn") [e](3-demo/3.2-b.md \'t\')');
   page('docs/3-demo/3.2-b.md', 'B', '[a](3.1-a.md) [self](3-demo/3.1-a.md)');
-  write('docs/_sidebar.md', '- **Chapter 3**\n\n- [3.1 - A](3-demo/3.1-a.md)\n- [3.2 - B](3-demo/3.2-b.md)\n');
+  write('docs/_sidebar.md', '- **Chapter 3**\n  - [3.1 - A](3-demo/3.1-a.md)\n  - [3.2 - B](3-demo/3.2-b.md)\n');
   commit();
   r = node(MOVE, '3.2', '3.1');
   assert.strictEqual(r.status, 0, r.stderr);
@@ -99,7 +99,7 @@ try {
   page('docs/3-two/3.1-x.md', 'X', 'x');
   page('docs/3-two/3.2-y.md', 'Y', '![s](../2-one/img/shared.png)');
   write('docs/2-one/img/pic.png', 'p'); write('docs/2-one/img/gone.png', 'g'); write('docs/2-one/img/shared.png', 's');
-  write('docs/_sidebar.md', '- **Chapter 2**\n\n- [2.1 - A](2-one/2.1-a.md)\n- [2.2 - Keep](2-one/2.2-keep.md)\n\n- **Chapter 3**\n\n- [3.1 - X](3-two/3.1-x.md)\n- [3.2 - Y](3-two/3.2-y.md)\n');
+  write('docs/_sidebar.md', '- **Chapter 2**\n  - [2.1 - A](2-one/2.1-a.md)\n  - [2.2 - Keep](2-one/2.2-keep.md)\n\n- **Chapter 3**\n  - [3.1 - X](3-two/3.1-x.md)\n  - [3.2 - Y](3-two/3.2-y.md)\n');
   commit();
   r = node(MOVE, '2.1', '3.3');
   assert.strictEqual(r.status, 0, r.stderr);
@@ -112,7 +112,7 @@ try {
   page('docs/2-one/2.2-b.md', 'B', '![p](img/pic.png)');
   page('docs/3-two/3.1-x.md', 'X', 'x');
   write('docs/2-one/img/pic.png', 'p');
-  write('docs/_sidebar.md', '- **Chapter 2**\n\n- [2.1 - A](2-one/2.1-a.md)\n- [2.2 - B](2-one/2.2-b.md)\n\n- **Chapter 3**\n\n- [3.1 - X](3-two/3.1-x.md)\n');
+  write('docs/_sidebar.md', '- **Chapter 2**\n  - [2.1 - A](2-one/2.1-a.md)\n  - [2.2 - B](2-one/2.2-b.md)\n\n- **Chapter 3**\n  - [3.1 - X](3-two/3.1-x.md)\n');
   commit();
   r = node(MOVE, '2.1', '3.2', '--dry-run');
   assert.ok(/WARNING: .*shares .*pic\.png/.test(r.stdout), 'shared image warned:\n' + r.stdout);
@@ -125,7 +125,7 @@ try {
   page('docs/4-cc/4.1-c.md', 'C', quiz('4.1').replace('chapter-3', 'chapter-4'));
   page('docs/4-cc/4.1.1-c-deep.md', 'Cd', 'cd');
   write('src/quizzes/chapter-4/4.1/q.js', 'x\n');
-  write('docs/_sidebar.md', '- **Chapter 2**\n\n- [2.1 - A](2-aa/2.1-a.md)\n\n- **Chapter 3**\n\n- [3.1 - B](3-bb/3.1-b.md)\n  - [3.1.1 - Bd](3-bb/3.1.1-b-deep.md)\n\n- **Chapter 4**\n\n- [4.1 - C](4-cc/4.1-c.md)\n  - [4.1.1 - Cd](4-cc/4.1.1-c-deep.md)\n');
+  write('docs/_sidebar.md', '- **Chapter 2**\n  - [2.1 - A](2-aa/2.1-a.md)\n\n- **Chapter 3**\n  - [3.1 - B](3-bb/3.1-b.md)\n    - [3.1.1 - Bd](3-bb/3.1.1-b-deep.md)\n\n- **Chapter 4**\n  - [4.1 - C](4-cc/4.1-c.md)\n    - [4.1.1 - Cd](4-cc/4.1.1-c-deep.md)\n');
   commit();
   r = node(MOVE, '4', '2', '--insert');
   assert.strictEqual(r.status, 0, r.stderr);
@@ -139,7 +139,7 @@ try {
   fresh();
   write('docs/3-demo/3.1-a.md', '---\ndocs/3-demo/3.1-a.md:\n  category: Demo\n  estReadingMinutes: 5\n  exercises:\n    -\n      name: Hello EC2\n      estMinutes: 10\n      technologies:\n      - AWS\n    -\n      name: Other\n      estMinutes: 5\n---\n\n# A\n');
   page('docs/3-demo/3.2-b.md', 'B', 'b');
-  write('docs/_sidebar.md', '- **Chapter 3**\n\n- [3.1 - A](3-demo/3.1-a.md)\n- [3.2 - B](3-demo/3.2-b.md)\n');
+  write('docs/_sidebar.md', '- **Chapter 3**\n  - [3.1 - A](3-demo/3.1-a.md)\n  - [3.2 - B](3-demo/3.2-b.md)\n');
   commit();
   r = node(MOVE, '--exercise', 'Hello EC2', '3.1', '3.2');
   assert.strictEqual(r.status, 0, r.stderr + r.stdout);
@@ -150,7 +150,7 @@ try {
   page('docs/3-demo/3.1-x-extended.md', 'E', 'mentions chapter-10/ and 3-demo/3.1-x-extended.md');
   page('docs/3-demo/3.2-y.md', 'Y', 'y');
   write('docs/README.md', 'old 3-demo/3.1-x.md\n');
-  write('docs/_sidebar.md', '- **Chapter 3**\n\n- [3.1 - E](3-demo/3.1-x-extended.md)\n- [3.2 - Y](3-demo/3.2-y.md)\n');
+  write('docs/_sidebar.md', '- **Chapter 3**\n  - [3.1 - E](3-demo/3.1-x-extended.md)\n  - [3.2 - Y](3-demo/3.2-y.md)\n');
   commit();
   r = node(REFS, '--old', '3-demo/3.1-x.md', '--old', 'chapter-1/');
   assert.ok(!/stale reference/.test(r.stderr), 'no false stale hits:\n' + r.stderr);

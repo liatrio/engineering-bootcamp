@@ -361,7 +361,7 @@ function rewriteSidebar(text: string) {
     const noId = pool.filter(e => !e.id && e.block === b);
     b.entries = [...mine, ...noId].map(e => {
       if (!e.id) return e.line;
-      const want = depth(e.id) - 2;
+      const want = depth(e.id) - 1;
       return Math.round(e.indent.length / 2) === want ? e.line : '  '.repeat(want) + e.line.trimStart();
     });
     [...mine, ...noId].forEach(e => placed.add(e));

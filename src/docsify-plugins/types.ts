@@ -14,6 +14,7 @@ export interface DocsifyConfig {
   name?: string;
   repo?: string;
   loadSidebar?: boolean;
+  collapsibleSidebarGroups?: boolean;
   basePath?: string;
   maxLevel?: number;
   auto2top?: boolean;
