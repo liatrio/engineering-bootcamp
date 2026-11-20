@@ -1,13 +1,13 @@
-const path = require('path');
-const stdLibBrowser = require('node-stdlib-browser');
-const { NodeProtocolUrlPlugin } = require('node-stdlib-browser/helpers/webpack/plugin');
-const webpack = require('webpack');
+import path from 'node:path';
+import stdLibBrowser from 'node-stdlib-browser';
+import { NodeProtocolUrlPlugin } from 'node-stdlib-browser/helpers/webpack/plugin';
+import webpack, { type Configuration } from 'webpack';
 
-module.exports = {
+const config: Configuration = {
   entry: './src/index.ts',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(import.meta.dirname, 'dist'),
     clean: true,
   },
   resolve: {
@@ -50,3 +50,5 @@ module.exports = {
     }),
   ],
 };
+
+export default config;

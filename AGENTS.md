@@ -24,9 +24,9 @@ Canonical agent instructions for Liatrio's Engineering Bootcamp — a Docsify-ba
 - `.agents/skills/` — Canonical repo skills; list the directory to see what is available. `.claude/skills` and `.github/skills` are symlinks to it; add new skills here only.
 - `examples/` — Runnable code referenced from exercises (Go modules, docker-compose files, etc.).
 - `img/` — Site-wide assets shared across chapters (goal icons, favicon). Section-specific images go in the chapter's `img/` folder.
-- `.husky/pre-commit` — Regenerates the master record (`front-matter-condenser.js update`), then runs `npm run lint`, the same checks as CI.
-- `.husky/front-matter-condenser.js` — Reconciles section front-matter into `docs/README.md`.
-- `.husky/check-docsify-links.js` — Link and image checker behind `npm run lint:links`.
+- `.husky/pre-commit` — Regenerates the master record (`front-matter-condenser.ts update`), then runs `npm run lint`, the same checks as CI.
+- `.husky/front-matter-condenser.ts` — Reconciles section front-matter into `docs/README.md`.
+- `.husky/check-docsify-links.ts` — Link and image checker behind `npm run lint:links`.
 - `.github/workflows/` — CI: `markdown-linter.yml` (markdownlint, links, spelling) and `test-front-matter.yml` (`compare-front-matter`) on PRs; `static.yml` builds and deploys the site to GitHub Pages on push to `master`.
 - `STYLE.md` — Contributor style guide (front-matter template, HTML-in-markdown rules, multi-column grids).
 
@@ -38,7 +38,7 @@ Copy these verbatim; do not paraphrase.
 - `npm start` — build dev bundle + serve Docsify on `http://localhost:3000`.
 - `npm run serve:docsify` — serve only, no rebuild.
 - `npm run build:dev` / `npm run build:prod` — webpack builds.
-- `npm run typecheck` — `tsc --noEmit` over the TypeScript in `src/` and `.agents/`. Babel strips types at build time and does not check them.
+- `npm run typecheck` — `tsc --noEmit` over the TypeScript in `src/`, `.agents/`, and the tooling scripts (`webpack.*.ts`, `.husky/*.ts`). Babel strips types at build time and does not check them.
 - `npm run test:agents` — run the `node --test` suites for the skill scripts under `.agents/skills/`. CI runs it.
 - `npm run lint` — runs `lint:markdown`, `lint:links` and `lint:spelling`. CI runs the same three scripts.
 - `npm run lint:markdown` — markdownlint-cli2 over all `.md` (see `package.json` for excluded directories).

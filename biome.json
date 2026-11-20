@@ -11,8 +11,8 @@
       "src/**",
       ".agents/skills/**/scripts/**",
       "css/**",
-      "webpack*.js",
-      ".husky/*.js",
+      "webpack*.ts",
+      ".husky/*.ts",
       "*.json",
       "!package-lock.json",
       "!dist"
@@ -56,13 +56,5 @@
         "organizeImports": "on"
       }
     }
-  },
-  "overrides": [
-    {
-      "includes": [".husky/*.js"],
-      "formatter": {
-        "indentWidth": 4
-      }
-    }
-  ]
+  }
 }

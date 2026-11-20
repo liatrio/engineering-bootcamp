@@ -6,7 +6,7 @@ WORKDIR /build
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY src ./src
-COPY webpack.common.js webpack.prod.js tsconfig.json .bablerc ./
+COPY webpack.common.ts webpack.prod.ts tsconfig.json .bablerc ./
 RUN npm run build:prod
 
 # Runtime stage
