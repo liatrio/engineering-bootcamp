@@ -12,9 +12,10 @@
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",
     "lint": "npm run lint:markdown && npm run lint:links && npm run lint:spelling",
-    "lint:markdown": "markdownlint-cli2 \"**/*.md\" \"!**/node_modules/**\" \"!**/.venv/**\" \"!**/specs/**\" \"!**/.agents/evals-workspace/**\"",
+    "lint:markdown": "markdownlint-cli2 \"**/*.md\" \"!**/node_modules/**\" \"!**/.venv/**\" \"!**/specs/**\"",
     "lint:links": "node .husky/check-docsify-links.js",
     "lint:spelling": "cspell --no-progress \"**/*.md\"",
+    "typecheck:agents": "tsc -p .agents",
     "prepare": "husky",
     "compare-front-matter": "node ./.husky/front-matter-condenser",
     "refresh-front-matter": "node ./.husky/front-matter-condenser update"
@@ -51,6 +52,7 @@
     "markdownlint-cli2": "^0.24.0",
     "remark": "^15.0.0",
     "remark-cli": "^12.0.0",
+    "typescript": "^7.0.2",
     "webpack": "^5.94.0",
     "webpack-cli": "^7.0.0",
     "webpack-merge": "^6.0.0"
