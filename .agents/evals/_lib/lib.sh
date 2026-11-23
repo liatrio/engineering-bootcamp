@@ -69,12 +69,11 @@ build_move_fixture() {
 - [Welcome](/)
 
 - **Chapter 3**
-
-- [3.0 - Overview](3-demo/3.0-overview.md)
-- [3.1 - First](3-demo/3.1-first.md)
-- [3.2 - Second](3-demo/3.2-second.md)
-- [3.3 - Third](3-demo/3.3-third.md)
-  - [3.3.1 - Third deep](3-demo/3.3.1-third-deep.md)
+  - [3.0 - Overview](3-demo/3.0-overview.md)
+  - [3.1 - First](3-demo/3.1-first.md)
+  - [3.2 - Second](3-demo/3.2-second.md)
+  - [3.3 - Third](3-demo/3.3-third.md)
+    - [3.3.1 - Third deep](3-demo/3.3.1-third-deep.md)
 SB
   init_fixture_repo
 }
@@ -108,18 +107,15 @@ build_chapter_fixture() {
 - [Welcome](/)
 
 - **Chapter 2**
-
-- [2.1 - A](2-aa/2.1-a.md)
+  - [2.1 - A](2-aa/2.1-a.md)
 
 - **Chapter 3**
-
-- [3.1 - B](3-bb/3.1-b.md)
-  - [3.1.1 - B deep](3-bb/3.1.1-b-deep.md)
+  - [3.1 - B](3-bb/3.1-b.md)
+    - [3.1.1 - B deep](3-bb/3.1.1-b-deep.md)
 
 - **Chapter 4**
-
-- [4.1 - C](4-cc/4.1-c.md)
-  - [4.1.1 - C deep](4-cc/4.1.1-c-deep.md)
+  - [4.1 - C](4-cc/4.1-c.md)
+    - [4.1.1 - C deep](4-cc/4.1.1-c-deep.md)
 SB
   init_fixture_repo
 }

@@ -24,6 +24,13 @@ module.exports = {
         resolve: { fullySpecified: false }
       },
       {
+        // Docsify's theme stylesheets are linked from index.html. Emitting them next
+        // to main.js keeps them at the installed docsify version, with no CDN.
+        test: /docsify[\\/]dist[\\/]themes[\\/].*\.min\.css$/,
+        type: 'asset/resource',
+        generator: { filename: 'themes/[name][ext]' }
+      },
+      {
         test: /\.[jt]s$/,
         exclude: /node_modules/,
         use: {
