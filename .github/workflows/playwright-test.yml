@@ -1,0 +1,62 @@
+# High-level smoke test only. It loads the home page, a section page and a quiz page, and
+# toggles the sidebar and dark mode, failing on any page error, console error or failed request.
+# Passing does not prove a dependency update is safe. For an update that could change behavior
+# or appearance, click through the affected pages with `npm start` before approving.
+name: Playwright Test
+
+on:
+  pull_request:
+  push:
+    branches: ["master"]
+
+permissions:
+  contents: read
+
+jobs:
+  playwright-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version: 26
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build:prod
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests
+        run: npm run test:render
+
+      - name: Summarize coverage
+        if: ${{ !cancelled() }}
+        run: |
+          {
+            echo "### Playwright Test: high-level smoke check"
+            echo
+            echo "Covers the home page charts, one section page, one quiz, the sidebar toggle and dark mode."
+            echo "Screenshots are in the \`playwright-report\` artifact (open \`index.html\`, then a test)."
+            echo
+            echo "> [!NOTE]"
+            echo "> A green run means nothing is immediately broken. It does not check every page or plugin."
+            echo "> If an update could affect rendering, investigate with \`npm start\` before approving."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14

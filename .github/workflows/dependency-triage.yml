@@ -1,0 +1,115 @@
+name: Dependency Triage
+on:
+  # Token note: renovate branches live in this repo, so pull_request runs get
+  # the permissions declared below (only fork PRs are forced read-only, and
+  # renovate[bot] has no Dependabot-style restrictions). If Renovate ever
+  # opens PRs from a fork, `issues: write` would be downgraded and the
+  # issue step would fail.
+  pull_request:
+    types: [opened, labeled]
+  # Runs from the default branch's copy of this file, with a write-capable token.
+  workflow_run:
+    workflows: ["Playwright Test", "markdown-linter"]
+    types: [completed]
+
+permissions: {}
+
+jobs:
+  investigate:
+    name: Open investigation issue
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.user.login == 'renovate[bot]' &&
+      contains(github.event.pull_request.labels.*.name, 'needs-investigation')
+    permissions:
+      issues: write
+      pull-requests: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      PR_TITLE: ${{ github.event.pull_request.title }}
+      PR_URL: ${{ github.event.pull_request.html_url }}
+    steps:
+      - name: Open issue unless one is already open
+        run: |
+          set -euo pipefail
+          key="dependency-triage-pr-${PR_NUMBER}"
+          marker="<!-- dependency-triage: PR-${PR_NUMBER} -->"
+
+          # Search narrows candidates; the exact marker check makes it robust.
+          existing=$(gh issue list --state open --search "\"${key}\" in:body" \
+            --json number,body \
+            --jq "[.[] | select(.body | contains(\"${marker}\"))] | length")
+          if [ "${existing}" -gt 0 ]; then
+            echo "Open issue already exists for PR #${PR_NUMBER}; skipping."
+            exit 0
+          fi
+
+          gh label create dependencies --color 0366d6 \
+            --description "Dependency updates" 2>/dev/null || true
+
+          body=$(printf '%s\n' \
+            "${marker}" \
+            "Tracking key: \`${key}\`" \
+            "" \
+            "Pull request: ${PR_URL}" \
+            "" \
+            "- [ ] Read release notes and check for breaking changes" \
+            "- [ ] Run \`npm start\` and click through the affected pages" \
+            "- [ ] Check the Playwright Test result on the PR")
+
+          gh issue create \
+            --title "Investigate dependency update: ${PR_TITLE}" \
+            --label dependencies \
+            --body "${body}"
+
+  failed-checks:
+    name: Open failed-checks issue
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.conclusion == 'failure' &&
+      startsWith(github.event.workflow_run.head_branch, 'renovate/')
+    permissions:
+      issues: write
+      pull-requests: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+      RUN_URL: ${{ github.event.workflow_run.html_url }}
+      RUN_NAME: ${{ github.event.workflow_run.name }}
+    steps:
+      - name: Open issue unless one is already open
+        run: |
+          set -euo pipefail
+          # Branch names contain slashes; build a search-friendly token.
+          slug=$(printf '%s' "${HEAD_BRANCH}" | tr -c 'A-Za-z0-9\n' '-')
+          key="dependency-triage-branch-${slug}"
+          marker="<!-- dependency-triage: ${HEAD_BRANCH} -->"
+
+          existing=$(gh issue list --state open --search "\"${key}\" in:body" \
+            --json number,body \
+            --jq "[.[] | select(.body | contains(\"${marker}\"))] | length")
+          if [ "${existing}" -gt 0 ]; then
+            echo "Open issue already exists for ${HEAD_BRANCH}; skipping."
+            exit 0
+          fi
+
+          gh label create dependencies --color 0366d6 \
+            --description "Dependency updates" 2>/dev/null || true
+
+          body=$(printf '%s\n' \
+            "${marker}" \
+            "Tracking key: \`${key}\`" \
+            "" \
+            "Workflow \"${RUN_NAME}\" failed on \`${HEAD_BRANCH}\`." \
+            "" \
+            "Run: ${RUN_URL}")
+
+          gh issue create \
+            --title "Dependency update failed checks: ${HEAD_BRANCH}" \
+            --label dependencies \
+            --body "${body}"
