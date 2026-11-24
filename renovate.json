@@ -1,7 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "automerge": true,
+  "minimumReleaseAge": "14 days",
+  "internalChecksFilter": "strict",
+  "labels": ["dependencies", "needs-investigation"],
   "customManagers": [
     {
       "customType": "regex",
@@ -16,13 +18,47 @@
   ],
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true
-    },
-    {
       "description": "Keep docsify and its plugins in one update; the link checker mirrors the installed docsify version",
       "matchPackageNames": ["docsify", "docsify-copy-code", "docsify-edit-on-github", "docsify-pagination"],
       "groupName": "docsify"
+    },
+    {
+      "description": "Dev tooling: automerge minor, patch, digest and pin once checks pass",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch", "digest", "pin"],
+      "automerge": true,
+      "labels": ["dependencies", "automerge"]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch", "digest", "pin"],
+      "automerge": true,
+      "labels": ["dependencies", "automerge"]
+    },
+    {
+      "description": "Runtime site libraries: automerge patch only",
+      "matchDepTypes": ["dependencies"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "labels": ["dependencies", "automerge"]
+    },
+    {
+      "description": "CDN-loaded libraries: automerge patch only",
+      "matchManagers": ["custom.regex"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "labels": ["dependencies", "automerge"]
+    },
+    {
+      "description": "0.x minors can break; keep them out of automerge (last rule so it wins)",
+      "matchCurrentVersion": "/^0\\./",
+      "matchUpdateTypes": ["minor"],
+      "automerge": false,
+      "addLabels": ["needs-investigation"]
     }
-  ]
+  ],
+  "vulnerabilityAlerts": {
+    "automerge": false,
+    "labels": ["security", "needs-investigation"]
+  }
 }
