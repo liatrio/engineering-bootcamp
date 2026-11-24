@@ -50,11 +50,19 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 
+      - name: Stage site files
+        # Only what the browser requests at runtime. Skips node_modules, examples/
+        # and the rest of the repo, which keeps the artifact small.
+        run: |
+          mkdir _site
+          cp -R index.html .nojekyll dist css img fontawesome docs _site/
+          mkdir -p _site/src
+          cp -R src/quizzes _site/src/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
-          # Upload entire repository
-          path: '.'
+          path: _site
 
       - name: Deploy to GitHub Pages
         id: deployment
