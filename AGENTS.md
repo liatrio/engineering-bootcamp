@@ -27,7 +27,7 @@ Canonical agent instructions for Liatrio's Engineering Bootcamp — a Docsify-ba
 - `.husky/pre-commit` — Regenerates the master record (`front-matter-condenser.ts update`), then runs `npm run lint`, the same checks as CI.
 - `.husky/front-matter-condenser.ts` — Reconciles section front-matter into `docs/README.md`.
 - `.husky/check-docsify-links.ts` — Link and image checker behind `npm run lint:links`.
-- `.github/workflows/` — CI: `markdown-linter.yml` (markdownlint, links, spelling) and `test-front-matter.yml` (`compare-front-matter`) on PRs; `static.yml` builds and deploys the site to GitHub Pages on push to `master`; `actions-lock.yml` runs `gh actions-lock --verify` on PRs touching workflows.
+- `.github/workflows/` — CI: `markdown-linter.yml` (markdownlint, links, spelling) and `test-front-matter.yml` (`compare-front-matter`) on PRs; `static.yml` builds and deploys the site to GitHub Pages after `playwright-test.yml` succeeds on a push to `master` (`workflow_run`, so the deploy runs only for tested commits); `actions-lock.yml` runs `gh actions-lock --verify` on every PR (no paths filter, so `verify-actions-lock` can be a required check); `playwright-test.yml` builds the site and runs `npm run test:render` on PRs and pushes to `master`; `dependency-triage.yml` opens tracking issues for Renovate PRs labeled `needs-investigation` and for Renovate branches that fail checks.
 - `.github/workflows/actions.lock` — Machine-generated lockfile pinning every workflow `uses:` to a commit SHA. Workflows reference tag refs (`actions/checkout@v7.0.1`), not SHAs.
 - `STYLE.md` — Contributor style guide (front-matter template, HTML-in-markdown rules, multi-column grids).
 
@@ -41,6 +41,7 @@ Copy these verbatim; do not paraphrase.
 - `npm run build:dev` / `npm run build:prod` — webpack builds.
 - `npm run typecheck` — `tsc --noEmit` over the TypeScript in `src/`, `.agents/`, and the tooling scripts (`webpack.*.ts`, `.husky/*.ts`). Babel strips types at build time and does not check them.
 - `npm run test:agents` — run the `node --test` suites for the skill scripts under `.agents/skills/`. CI runs it.
+- `npm run test:render` — lightweight Playwright smoke check (home charts, one section, one quiz, sidebar toggle, dark mode), not a full-site check. CI runs `npm run build:prod` first; run it locally the same way. Set `PLAYWRIGHT_HTML_OPEN=never` to skip the report viewer.
 - `npm run lint` — runs `lint:markdown`, `lint:links` and `lint:spelling`. CI runs the same three scripts.
 - `npm run lint:markdown` — markdownlint-cli2 over all `.md` (see `package.json` for excluded directories).
 - `npm run lint:links` — check that every internal link, `#anchor`, and image in `docs/` resolves the way Docsify serves it, and that every file in an `img/` folder is used. Delete an image when you remove its last reference.
@@ -102,6 +103,7 @@ When multiple valid patterns exist, pick per this table.
 | Adding a tip, note, or warning callout | GitHub-style alert: `> [!TIP]` (or `NOTE`, `IMPORTANT`, `WARNING`, `CAUTION`) on its own line, text on following `> ` lines. Types are defined in `STYLE.md`. | Docsify v4 shorthand `?>` / `!>` | Docsify v5 deprecated the shorthand and plans to remove it; alerts also render on GitHub. `npm run lint:markdown` rejects the shorthand, unknown alert types, and lines that lazily continue a callout (rules in `.markdownlint/`). |
 | Documenting a new tool or command in an exercise | Add to that section's `technologies:` list | Freeform prose only | Feeds the tech word-cloud. |
 | Referencing another repo doc from an agent | Plain path with "read when needed" | `@path` auto-import | Auto-imports expand at every session start; only this file uses the stub pattern. |
+| Dependency updates | Let Renovate open the PR. devDependencies and GitHub Actions automerge for minor/patch/digest/pin; runtime deps and CDN libs automerge patch only; majors, 0.x minors and security fixes get an issue and a manual review. Updates wait 14 days (`minimumReleaseAge`). | Hand-merging an automerge PR, adding Dependabot version updates, or hand-editing `actions.lock` | One bot, one policy (`renovate.json`). Run `gh actions-lock` instead of editing the lock. |
 
 ## Do / Don't
 
