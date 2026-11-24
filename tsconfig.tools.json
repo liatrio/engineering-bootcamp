@@ -12,5 +12,5 @@
     "skipLibCheck": true,
     "types": ["node"]
   },
-  "include": ["webpack.*.ts", ".husky/*.ts", ".husky/*.d.ts"]
+  "include": ["webpack.*.ts", "playwright.config.ts", "tests/*.ts", ".husky/*.ts", ".husky/*.d.ts"]
 }
