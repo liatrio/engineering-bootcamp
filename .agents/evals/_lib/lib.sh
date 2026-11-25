@@ -121,10 +121,11 @@ SB
 }
 
 # install_skill_scripts SKILL: installs a skill's scripts from the checkout into the scratch
-# dir, so `node .agents/skills/<skill>/scripts/...` resolves there.
+# dir, so `node .agents/skills/<skill>/scripts/...` resolves there. The scratch dir has no
+# root package.json, so a minimal ESM one stands in for the checkout's `"type": "module"`.
 install_skill_scripts() {
   mkdir -p ".agents/skills/$1"
-  cp "$REPO_ROOT/.agents/package.json" .agents/
+  printf '{"type": "module"}\n' > .agents/package.json
   cp -R "$REPO_ROOT/.agents/skills/$1/scripts" ".agents/skills/$1/scripts"
 }
 
@@ -144,7 +145,7 @@ install_link_checker() {
     exit 1
   fi
   mkdir -p .agents/skills/dead-link-check/scripts
-  cp "$REPO_ROOT/.agents/package.json" .agents/
+  printf '{"type": "module"}\n' > .agents/package.json
   cp "$REPO_ROOT/.agents/skills/dead-link-check/scripts/check-links.ts" .agents/skills/dead-link-check/scripts/
   list="$(cd "$REPO_ROOT" && node -e '
     const fs = require("fs"), path = require("path");

@@ -34,3 +34,6 @@ jobs:
       - name: Typecheck
         if: ${{ !cancelled() }}
         run: npm run typecheck
+      - name: Test agent skill scripts
+        if: ${{ !cancelled() }}
+        run: npm run test:agents
