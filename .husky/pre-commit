@@ -7,3 +7,15 @@ node .husky/front-matter-condenser.ts update
 echo "\033[33mStarting linter precommit hook...\033[0m"
 npm run lint
 echo "\033[32mLinter passed\033[0m"
+
+## Same check CI runs (network, checks pin provenance), only when workflow files
+## or actions.lock are staged. Fix failures with `gh actions-lock` and commit the lockfile.
+if git diff --cached --name-only | grep -q '^\.github/workflows/'; then
+  echo "\033[33mStarting actions lockfile precommit hook...\033[0m"
+  if ! gh actions-lock --version >/dev/null 2>&1; then
+    echo "gh-actions-lock is not installed. Run: gh extension install github/gh-actions-lock"
+    exit 1
+  fi
+  gh actions-lock --verify
+  echo "\033[32mActions lockfile verified\033[0m"
+fi

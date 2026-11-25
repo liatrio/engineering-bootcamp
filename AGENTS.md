@@ -24,7 +24,7 @@ Canonical agent instructions for Liatrio's Engineering Bootcamp — a Docsify-ba
 - `.agents/skills/` — Canonical repo skills; list the directory to see what is available. `.claude/skills` and `.github/skills` are symlinks to it; add new skills here only.
 - `examples/` — Runnable code referenced from exercises (Go modules, docker-compose files, etc.).
 - `img/` — Site-wide assets shared across chapters (goal icons, favicon). Section-specific images go in the chapter's `img/` folder.
-- `.husky/pre-commit` — Regenerates the master record (`front-matter-condenser.ts update`), then runs `npm run lint`, the same checks as CI.
+- `.husky/pre-commit` — Regenerates the master record (`front-matter-condenser.ts update`), runs `npm run lint`, then `gh actions-lock --verify` when `.github/workflows/` has staged changes: the same checks as CI.
 - `.husky/front-matter-condenser.ts` — Reconciles section front-matter into `docs/README.md`.
 - `.husky/check-docsify-links.ts` — Link and image checker behind `npm run lint:links`.
 - `.github/workflows/` — CI: `markdown-linter.yml` (markdownlint, links, spelling) and `test-front-matter.yml` (`compare-front-matter`) on PRs; `static.yml` builds and deploys the site to GitHub Pages after `playwright-test.yml` succeeds on a push to `master` (`workflow_run`, so the deploy runs only for tested commits); `actions-lock.yml` runs `gh actions-lock --verify` on every PR (no paths filter, so `verify-actions-lock` can be a required check); `playwright-test.yml` builds the site and runs `npm run test:render` on PRs and pushes to `master`; `dependency-triage.yml` opens tracking issues for Renovate PRs labeled `needs-investigation` and for Renovate branches that fail checks.
@@ -46,7 +46,7 @@ Copy these verbatim; do not paraphrase.
 - `npm run lint:markdown` — markdownlint-cli2 over all `.md` (see `package.json` for excluded directories).
 - `npm run lint:links` — check that every internal link, `#anchor`, and image in `docs/` resolves the way Docsify serves it, and that every file in an `img/` folder is used. Delete an image when you remove its last reference.
 - `npm run lint:spelling` — cspell over all `.md`. Add legitimate new words to `.cspell.json`.
-- `gh actions-lock` — regenerate `.github/workflows/actions.lock` (`--verify` is the read-only check CI runs). Needs the `gh-actions-lock` extension: `gh extension install https://github.com/github/gh-actions-lock`.
+- `gh actions-lock` — regenerate `.github/workflows/actions.lock` (`--verify` is the read-only check CI runs, also run by the pre-commit hook when workflows are staged). Needs the `gh-actions-lock` extension: `gh extension install https://github.com/github/gh-actions-lock`.
 - `npm run refresh-front-matter` — regenerate `docs/README.md` from current section front-matter.
 - `npm run compare-front-matter` — read-only comparison; used by CI.
 
