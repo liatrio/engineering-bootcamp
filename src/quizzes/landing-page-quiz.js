@@ -23,4 +23,4 @@ const rawQuizdown = `
 	> If you answer incorrectly, you'll get some help here
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

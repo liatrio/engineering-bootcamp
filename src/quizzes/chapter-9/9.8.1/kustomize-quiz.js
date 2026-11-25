@@ -46,4 +46,4 @@ patches:
     > Not quite. The trailing "-" in the path indicates that only the last element of the list should be removed. The "ignored" name is just a placeholder, so this patch will apply to all Deployments.
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

@@ -83,4 +83,4 @@ shuffleQuestions: true
 
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

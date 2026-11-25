@@ -37,4 +37,4 @@ shuffleAnswers: true
 	> Not quite. Other than entering credentials, the AWS CLI shouldn't prompt you. This makes it very convenient for using in automated workflows
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

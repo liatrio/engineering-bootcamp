@@ -23,7 +23,10 @@ jobs:
       - run: npm ci
       # Same scripts as `npm run lint` in the pre-commit hook. Each step runs
       # even if an earlier one fails, so one CI run reports every problem.
+      - name: Code lint and format (Biome)
+        run: npm run lint:code
       - name: Markdown lint
+        if: ${{ !cancelled() }}
         run: npm run lint:markdown
       - name: Check Docsify links and images
         if: ${{ !cancelled() }}

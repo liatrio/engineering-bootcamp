@@ -1,4 +1,4 @@
-interface QuizdownExtension {}
+type QuizdownExtension = {};
 
 interface QuizdownConfig {
   locale?: string;

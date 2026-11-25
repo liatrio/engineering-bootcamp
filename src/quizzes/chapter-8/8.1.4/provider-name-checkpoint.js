@@ -9,4 +9,4 @@ shuffleAnswers: true
 - [ ] liatr.io
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };

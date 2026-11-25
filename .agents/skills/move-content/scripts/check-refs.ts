@@ -17,7 +17,10 @@ const args = process.argv.slice(2);
 const olds: string[] = [];
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--old') {
-    if (!args[i + 1]) { console.error('--old needs a value'); process.exit(2); }
+    if (!args[i + 1]) {
+      console.error('--old needs a value');
+      process.exit(2);
+    }
     olds.push(args[++i]);
   } else {
     console.error('usage: check-refs.ts [--old <path>]...');
@@ -31,11 +34,12 @@ const walk = (dir: string, out: string[] = []): string[] => {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     if (e.name === 'node_modules' || e.name === '.git') continue;
     const p = path.join(dir, e.name);
-    if (e.isDirectory()) walk(p, out); else out.push(p);
+    if (e.isDirectory()) walk(p, out);
+    else out.push(p);
   }
   return out;
 };
-const docsMd = walk('docs').filter(f => f.endsWith('.md'));
+const docsMd = walk('docs').filter((f) => f.endsWith('.md'));
 
 // (a) quizdown embeds
 for (const f of docsMd) {
@@ -51,7 +55,9 @@ for (const f of docsMd) {
 
 // (b) front-matter key == own path
 const sidebar = fs.readFileSync('docs/_sidebar.md', 'utf8');
-const links = (sidebar.match(/\([^)]+\.md\)/g) || []).map(s => s.slice(1, -1)).filter(s => !s.startsWith('addendum'));
+const links = (sidebar.match(/\([^)]+\.md\)/g) || [])
+  .map((s) => s.slice(1, -1))
+  .filter((s) => !s.startsWith('addendum'));
 for (const link of links) {
   const rel = path.posix.normalize(link.replace(/^\//, ''));
   const file = path.join('docs', rel);
@@ -60,10 +66,11 @@ for (const link of links) {
   if (lines[0] !== '---') continue; // many sections have no front-matter; nothing to check
   const end = lines.indexOf('---', 1);
   const keys: { k: string; line: number }[] = [];
-  for (let i = 1; i < end; i++) if (/^\S.*:\s*$/.test(lines[i]!)) keys.push({ k: lines[i]!.replace(/:\s*$/, ''), line: i + 1 });
+  for (let i = 1; i < end; i++)
+    if (/^\S.*:\s*$/.test(lines[i]!)) keys.push({ k: lines[i]!.replace(/:\s*$/, ''), line: i + 1 });
   const own = `docs/${rel}`;
-  if (!keys.some(x => x.k === own)) {
-    const found = keys.length ? `"${keys.map(x => x.k).join(', ')}"` : 'missing';
+  if (!keys.some((x) => x.k === own)) {
+    const found = keys.length ? `"${keys.map((x) => x.k).join(', ')}"` : 'missing';
     problems.push(`${file}:${keys.length ? keys[0].line : 1}: front-matter key is ${found}, expected "${own}"`);
   }
 }
@@ -71,16 +78,23 @@ for (const link of links) {
 // (c) stale references
 if (olds.length) {
   const skipDir = '.agents/skills/'; // skill tests and evals hold literal old paths on purpose
-  const files = walk('.').filter(f => /\.(md|js|json|html|ya?ml|css)$/.test(f) && f !== path.join('docs', 'README.md')
-    && !f.split(path.sep).join('/').replace(/^\.\//, '').startsWith(skipDir));
+  const files = walk('.').filter(
+    (f) =>
+      /\.(md|js|json|html|ya?ml|css)$/.test(f) &&
+      f !== path.join('docs', 'README.md') &&
+      !f.split(path.sep).join('/').replace(/^\.\//, '').startsWith(skipDir),
+  );
   const esc = (v: string) => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const res = olds.flatMap(old => [old, old.replace(/\.md$/, '')].filter(Boolean).map(v => ({
-    old, re: new RegExp('(?<![\\w-])' + esc(v) + (v.endsWith('/') ? '' : '(?![\\w-])')),
-  })));
+  const res = olds.flatMap((old) =>
+    [old, old.replace(/\.md$/, '')].filter(Boolean).map((v) => ({
+      old,
+      re: new RegExp('(?<![\\w-])' + esc(v) + (v.endsWith('/') ? '' : '(?![\\w-])')),
+    })),
+  );
   for (const f of files) {
     const lines = fs.readFileSync(f, 'utf8').split('\n');
     lines.forEach((l, i) => {
-      const hit = new Set(res.filter(r => r.re.test(l)).map(r => r.old));
+      const hit = new Set(res.filter((r) => r.re.test(l)).map((r) => r.old));
       for (const old of hit) problems.push(`${f}:${i + 1}: stale reference to "${old}"`);
     });
   }

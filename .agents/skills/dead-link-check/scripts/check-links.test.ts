@@ -1,13 +1,15 @@
 // Offline test: node .agents/skills/dead-link-check/scripts/check-links.test.ts
 // Serves fixtures from a local http server; needs only node and curl.
-import http from 'http';
-import type { AddressInfo } from 'net';
-import fs from 'fs';
-import os from 'os';
-import path from 'path';
+
 import assert from 'assert';
 import { execFile } from 'child_process';
+import fs from 'fs';
+import http from 'http';
+import type { AddressInfo } from 'net';
+import os from 'os';
+import path from 'path';
 import { promisify } from 'util';
+
 const execFileP = promisify(execFile);
 
 const SCRIPT = path.join(import.meta.dirname, 'check-links.ts');
@@ -16,8 +18,12 @@ const FIX = path.join(import.meta.dirname, 'fixtures');
 const server = http.createServer((req, res) => {
   const u = req.url!;
   const port = (server.address() as AddressInfo).port;
-  const send = (code: number, headers: Record<string, string> = {}) => { res.writeHead(code, headers); res.end('x'); };
-  if (['/ok', '/wiki/Foo_(bar)', '/img.png', '/ref', '/html-href', '/new', '/bare', '/q?a=1&b=2'].includes(u)) return send(200);
+  const send = (code: number, headers: Record<string, string> = {}) => {
+    res.writeHead(code, headers);
+    res.end('x');
+  };
+  if (['/ok', '/wiki/Foo_(bar)', '/img.png', '/ref', '/html-href', '/new', '/bare', '/q?a=1&b=2'].includes(u))
+    return send(200);
   if (u === '/gone') return send(404);
   if (u === '/blocked') return send(403);
   if (u === '/found') return send(302, { Location: `/ok` });
@@ -41,8 +47,14 @@ server.listen(0, '127.0.0.1', async () => {
     fs.writeFileSync(p.replace(/\.tmpl$/, ''), fs.readFileSync(p, 'utf8').replace(/__PORT__/g, String(port)));
     fs.rmSync(p);
   }
-  fs.writeFileSync(path.join(tmp, 'docs', 'slow.md'), `[slow](http://127.0.0.1:${port}/slow)\n[tls](https://127.0.0.1:${port}/x)\n`);
-  fs.writeFileSync(path.join(tmp, 'docs', 'extra.md'), `See http://127.0.0.1:${port}/bare.\n\n<a href="http://127.0.0.1:${port}/q?a=1&amp;b=2">q</a>\n`);
+  fs.writeFileSync(
+    path.join(tmp, 'docs', 'slow.md'),
+    `[slow](http://127.0.0.1:${port}/slow)\n[tls](https://127.0.0.1:${port}/x)\n`,
+  );
+  fs.writeFileSync(
+    path.join(tmp, 'docs', 'extra.md'),
+    `See http://127.0.0.1:${port}/bare.\n\n<a href="http://127.0.0.1:${port}/q?a=1&amp;b=2">q</a>\n`,
+  );
   const results = path.join(tmp, 'results.jsonl');
   try {
     const out = await run(tmp, ['docs', '--results', results, '--timeout', '1']);
@@ -69,14 +81,18 @@ server.listen(0, '127.0.0.1', async () => {
     assert.strictEqual(rows['http://no-such-host.invalid/x'].class, 'likely-dead');
     assert.strictEqual(at('/slow').status, 'timeout');
     assert.strictEqual(rows[`https://127.0.0.1:${port}/x`].status, 'tls');
-    assert.ok(/localhost -> 127\.0\.0\.1: 3 url\(s\) in 3 file\(s\)\s+\[migration-pattern\]/.test(out), 'migration pattern flagged');
+    assert.ok(
+      /localhost -> 127\.0\.0\.1: 3 url\(s\) in 3 file\(s\)\s+\[migration-pattern\]/.test(out),
+      'migration pattern flagged',
+    );
     assert.ok(!/127\.0\.0\.1 -> 127\.0\.0\.1.*migration/.test(out), 'same-host redirect is not a migration');
 
     assert.strictEqual(at('/bare').class, 'ok', 'bare URL in prose extracted, trailing period trimmed');
     assert.strictEqual(at('/q?a=1&b=2').class, 'ok', 'HTML entities decoded in href');
 
     // resume: definitive results are skipped, timeouts and TLS errors are re-checked
-    const count = (txt: string, p: string) => txt.split('\n').filter((l) => l.includes(`"url":"http://127.0.0.1:${port}${p}"`)).length;
+    const count = (txt: string, p: string) =>
+      txt.split('\n').filter((l) => l.includes(`"url":"http://127.0.0.1:${port}${p}"`)).length;
     const before = fs.readFileSync(results, 'utf8');
     const second = await run(tmp, ['docs', '--results', results]);
     const after = fs.readFileSync(results, 'utf8');
@@ -85,11 +101,26 @@ server.listen(0, '127.0.0.1', async () => {
     assert.ok(second.includes('/gone'));
 
     const m = await import('./check-links.ts');
-    for (const h of ['127.0.0.1', '10.1.2.3', '172.16.0.1', '192.168.1.1', '169.254.169.254', '[::1]', 'localhost', 'fd00::1', 'fe80::1']) assert.ok(m.isPrivateHost(h), h);
+    for (const h of [
+      '127.0.0.1',
+      '10.1.2.3',
+      '172.16.0.1',
+      '192.168.1.1',
+      '169.254.169.254',
+      '[::1]',
+      'localhost',
+      'fd00::1',
+      'fe80::1',
+    ])
+      assert.ok(m.isPrivateHost(h), h);
     for (const h of ['8.8.8.8', '172.32.0.1', 'example.com', '1.2.3.4']) assert.ok(!m.isPrivateHost(h), h);
     assert.strictEqual(m.decodeEntities('a=1&amp;b=2&#38;c&#x26;d'), 'a=1&b=2&c&d');
     assert.strictEqual(m.trimBare('https://x.io/a_(b))'), 'https://x.io/a_(b)');
-    assert.ok(!m.isDefinitive({ status: 'timeout' }) && !m.isDefinitive({ status: 'tls', class: 'needs-browser-check' }) && m.isDefinitive({ status: '404' }));
+    assert.ok(
+      !m.isDefinitive({ status: 'timeout' }) &&
+        !m.isDefinitive({ status: 'tls', class: 'needs-browser-check' }) &&
+        m.isDefinitive({ status: '404' }),
+    );
 
     // json + file arg scope
     const j = JSON.parse(await run(tmp, ['docs/mig-a.md', '--json']));
@@ -97,7 +128,10 @@ server.listen(0, '127.0.0.1', async () => {
     assert.strictEqual(j.results[0].class, 'redirect');
     // local URLs are skipped unless --include-local is passed
     const { stdout: noLocal } = await execFileP('node', [SCRIPT, 'docs', '--json'], { cwd: tmp, encoding: 'utf8' });
-    assert.ok(JSON.parse(noLocal).results.every((r: { url: string }) => !/127\.0\.0\.1|localhost/.test(r.url)), 'localhost URLs skipped by default');
+    assert.ok(
+      JSON.parse(noLocal).results.every((r: { url: string }) => !/127\.0\.0\.1|localhost/.test(r.url)),
+      'localhost URLs skipped by default',
+    );
     console.log('all check-links tests passed');
   } catch (e) {
     console.error(e);

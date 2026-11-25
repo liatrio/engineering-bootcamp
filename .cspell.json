@@ -159,14 +159,7 @@
   ],
   "flagWords": ["hte", "github:GitHub", "github's:GitHub's"],
   "files": ["*.md", "**/*.md"],
-  "ignorePaths": [
-    ".cspell.json",
-    "examples/**",
-    "fontawesome/**",
-    "img/**",
-    "node_modules/**",
-    "docs/specs/**"
-  ],
+  "ignorePaths": [".cspell.json", "examples/**", "fontawesome/**", "img/**", "node_modules/**", "docs/specs/**"],
   "ignoreRegExpList": ["\\S+[gG]ithub\\S*"],
   "features": {
     "weighted-suggestions": true

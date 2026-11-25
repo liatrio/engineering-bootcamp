@@ -37,4 +37,4 @@ shuffleAnswers: true
 	> Not quite. If it had the right permissions to create the initial runner, then it'll be fine for this one too
 `;
 
-export { rawQuizdown }
+export { rawQuizdown };
