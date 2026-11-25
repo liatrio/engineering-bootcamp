@@ -1,3 +1,0 @@
-# Changes to dependency-policy and workflow-pinning files need an admin's review.
-/.github/workflows/actions.lock @jburns24
-/renovate.json @jburns24
