@@ -54,3 +54,7 @@ examples/data-patterns/repository-exercise-starter/repository-exercise-starter
 
 # Skill eval run output
 .agents/**/evals/results/
+
+# Playwright output
+test-results/
+playwright-report/

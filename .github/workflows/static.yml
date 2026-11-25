@@ -2,8 +2,12 @@
 name: Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
-  push:
+  # Runs after Playwright Test succeeds on a push to the default branch. A workflow_run
+  # workflow always runs from the default branch's copy of this file, so the job below
+  # checks out the tested commit explicitly.
+  workflow_run:
+    workflows: ["Playwright Test"]
+    types: [completed]
     branches: ["master"]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -24,6 +28,13 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
+    # Deploy only a successful Playwright Test run of a push to this repo (not a PR run,
+    # not a fork), or a manual dispatch.
+    if: >-
+      ${{ github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_repository.full_name == github.repository) }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -34,6 +45,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7.0.1
         with:
+          # The commit Playwright Test ran against; github.sha is the branch tip for workflow_run.
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
           persist-credentials: false
 
       - name: Setup Node.js

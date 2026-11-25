@@ -2,8 +2,6 @@ name: Verify Actions Lockfile
 
 on:
   pull_request:
-    paths:
-      - '.github/workflows/**'
   workflow_dispatch:
 
 permissions:

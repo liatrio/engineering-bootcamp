@@ -12,10 +12,14 @@
       ".agents/skills/**/scripts/**",
       "css/**",
       "webpack*.ts",
+      "playwright.config.ts",
+      "tests/**",
       ".husky/*.ts",
       "*.json",
       "!package-lock.json",
-      "!dist"
+      "!dist",
+      "!test-results",
+      "!playwright-report"
     ]
   },
   "formatter": {
